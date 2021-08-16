@@ -50,7 +50,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "./node_modules/primeflex/primeflex.css",
+              "src/styles.scss",
+              "src/_overrides.scss"
             ],
             "scripts": []
           },
@@ -137,6 +142,7 @@
   },
   "defaultProject": "client",
   "cli": {
+    "analytics": "eaa14a4a-7b4c-48e8-99a8-5bbc5ebf110a",
     "defaultCollection": "@angular-eslint/schematics"
   }
 }
