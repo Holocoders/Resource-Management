@@ -7,12 +7,12 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { UserModule } from './modules/user/user.module';
 
-const env = process.env.NODE_ENV || 'prod';
+const env = process.env.NODE_ENV || 'dev';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: env === 'dev' ? '.env.dev' : '.env.prod',
+      envFilePath: `.env.${env}`,
     }),
     MongooseModule.forRoot(process.env.MONGO_URL, {
       useNewUrlParser: true,

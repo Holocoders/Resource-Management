@@ -16,12 +16,4 @@ export class CreateUserInput {
 @InputType()
 export class UpdateUserInput extends PartialType(CreateUserInput) {
   _id: string;
-
-  name?: string;
-
-  @IsNumberString()
-  phone?: string;
-
-  @IsEmail()
-  email?: string;
 }

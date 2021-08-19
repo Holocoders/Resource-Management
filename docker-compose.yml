@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  client:
+    container_name: rms-client
+    image: rms-client
+    depends_on:
+      - server
+    build:
+      context: ./client
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./client:/code
+      - /code/node_modules
+    restart: on-failure
+
+  server:
+    container_name: rms-server
+    image: rms-server
+    depends_on:
+      - mongodb
+    build:
+      context: ./server
+    ports:
+      - "3000:3000"
+    restart: on-failure
+    volumes:
+      - ./server:/code
+      - /code/node_modules
+
+  mongodb:
+    container_name: rms-mongodb
+    image: mongo
+    ports:
+      - "27017:27017"
+    restart: on-failure
+    volumes:
+      - rms-mongodb:/data/db
+
+volumes:
+  rms-mongodb:
