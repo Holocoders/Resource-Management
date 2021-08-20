@@ -16,8 +16,11 @@ export class User {
   @Prop()
   phone: string;
 
-  @Prop()
+  @Prop({ unique: true })
   email: string;
+
+  @Prop()
+  password: string;
 
   @Prop()
   address: string;
