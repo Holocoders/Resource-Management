@@ -6,7 +6,7 @@ import { UserService } from '../user/user.service';
 import { GraphQLError } from 'graphql';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './auth.guard';
-import { CurrentUser } from './auth.decorator';
+import { CurrentUser } from '../../decorators/auth.decorator';
 
 @Resolver(() => User)
 export class AuthResolver {

@@ -3,6 +3,7 @@ import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { GraphQLError } from 'graphql';
+import { CreateUserInput } from '../user/dto/create-user.input';
 
 @Injectable()
 export class AuthService {
@@ -23,5 +24,9 @@ export class AuthService {
       const errorString = `Invalid username or password`;
       return new GraphQLError(errorString);
     }
+  }
+
+  async googleLogin(createUserInput: CreateUserInput) {
+    return this.userService.create(createUserInput);
   }
 }
