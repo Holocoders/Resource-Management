@@ -31,7 +31,6 @@ export class AuthResolver {
   @Query(() => User)
   @UseGuards(JwtAuthGuard)
   currentUser(@CurrentUser() user) {
-    const { _id } = user;
-    return this.userService.findOne({ _id });
+    return user;
   }
 }

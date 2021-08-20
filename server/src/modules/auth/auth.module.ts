@@ -7,11 +7,15 @@ import { UserModule } from '../user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserModel } from '../user/entities/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
     UserModule,
     ConfigModule,
+    PassportModule.register({
+      defaultStrategy: 'jwt',
+    }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
