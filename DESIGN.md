@@ -24,7 +24,7 @@ Item is a terminal entity of the category hierarchy.
 ```json
 id: String,
 canSell: bool,
-canBorrow: bool,
+canRent: bool,
 qty: int,
 price: float,
 supplier?: ref Supplier
@@ -55,6 +55,7 @@ address: String
 ## Features
 
 - Buy, Sell, Borrow, Book, Store
+- Allow pre-ordering
 - Suggest images while adding categories or items.
 - Role planned:
     1. Super Admin Can add and remove admins.

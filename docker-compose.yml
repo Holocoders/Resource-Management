@@ -3,7 +3,6 @@ version: "3.8"
 services:
   client:
     container_name: rms-client
-    image: rms-client
     depends_on:
       - server
     build:
@@ -17,7 +16,6 @@ services:
 
   server:
     container_name: rms-server
-    image: rms-server
     depends_on:
       - mongodb
     build:
