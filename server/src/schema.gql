@@ -40,4 +40,8 @@ type User {
   name: String!
   password: String!
   phone: String!
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> f3465c32524a464441628f633ab27b065e648c67
