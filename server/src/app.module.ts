@@ -7,6 +7,8 @@ import { join } from 'path';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AppResolver } from './app.resolver';
+import { FacilityModule } from './modules/facility/facility.module';
+import { ItemModule } from './modules/item/item.module';
 
 const env = process.env.NODE_ENV || 'dev';
 
@@ -29,6 +31,8 @@ const env = process.env.NODE_ENV || 'dev';
     }),
     UserModule,
     AuthModule,
+    FacilityModule,
+    ItemModule,
   ],
   providers: [AppService, AppResolver],
 })
