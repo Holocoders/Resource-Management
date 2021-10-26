@@ -7,6 +7,10 @@ import { join } from 'path';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AppResolver } from './app.resolver';
+import { CategoryModule } from './modules/category/category.module';
+import { NodeModule } from './modules/node/node.module';
+import { InventoryHistoryModule } from './modules/inventory-history/inventory-history.module';
+import { ItemHistoryModule } from './modules/item-history/item-history.module';
 import { FacilityModule } from './modules/facility/facility.module';
 import { ItemModule } from './modules/item/item.module';
 
@@ -31,8 +35,6 @@ const env = process.env.NODE_ENV || 'dev';
     }),
     UserModule,
     AuthModule,
-    FacilityModule,
-    ItemModule,
   ],
   providers: [AppService, AppResolver],
 })

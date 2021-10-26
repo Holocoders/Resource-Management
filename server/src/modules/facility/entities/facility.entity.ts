@@ -4,7 +4,7 @@ import {Prop, SchemaFactory} from "@nestjs/mongoose";
 @ObjectType()
 export class Facility {
   @Field(() => ID)
-  _id: number;
+  _id: string;
 
   @Prop()
   name: string;

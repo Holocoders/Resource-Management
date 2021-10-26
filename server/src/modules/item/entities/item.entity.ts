@@ -6,7 +6,7 @@ import {Facility} from "../../facility/entities/facility.entity";
 @ObjectType()
 export class Item {
   @Field(() => ID)
-  _id: number;
+  _id: string;
 
   @Prop()
   name: string;

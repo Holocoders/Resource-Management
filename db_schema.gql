@@ -12,6 +12,8 @@ type User {
     name: String!
     email: String!
     phone: String!
+    address: String!
+    password: String!
 }
 
 type Permissions {
