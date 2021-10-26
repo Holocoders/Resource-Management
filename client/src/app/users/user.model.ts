@@ -1,6 +1,9 @@
 export class User {
-  constructor(private _token: string, private _id: string, private _username: string) {
-  }
+  constructor(
+    private _token: string,
+    private _id: string,
+    private _username: string
+  ) {}
 
   get token(): any {
     return this._token;
