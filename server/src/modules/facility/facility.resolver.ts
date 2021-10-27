@@ -19,7 +19,7 @@ export class FacilityResolver {
   }
 
   @Query(() => Facility, { name: 'facility' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.facilityService.findOne(id);
   }
 
@@ -29,7 +29,7 @@ export class FacilityResolver {
   }
 
   @Mutation(() => Facility)
-  removeFacility(@Args('id', { type: () => Int }) id: number) {
+  removeFacility(@Args('id', { type: () => String }) id: string) {
     return this.facilityService.remove(id);
   }
 }

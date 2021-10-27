@@ -24,7 +24,7 @@ type Mutation {
   createFacility(createFacilityInput: CreateFacilityInput!): Facility!
   createUser(createUserInput: CreateUserInput!): User!
   login(email: String!, password: String!): String!
-  removeFacility(id: Int!): Facility!
+  removeFacility(id: String!): Facility!
   removeUser(_id: String!): User!
   updateFacility(updateFacilityInput: UpdateFacilityInput!): Facility!
   updateUser(updateUserInput: UpdateUserInput!): User!
@@ -32,14 +32,14 @@ type Mutation {
 
 type Query {
   currentUser: User!
-  facility(id: Int!): Facility!
+  facility(id: String!): Facility!
   getHello: String!
   user(_id: String!): User!
   users: [User!]!
 }
 
 input UpdateFacilityInput {
-  id: Int!
+  id: String!
   name: String
 }
 

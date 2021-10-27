@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, Logger} from '@nestjs/common';
 import { CreateFacilityInput } from './dto/create-facility.input';
 import { UpdateFacilityInput } from './dto/update-facility.input';
 import {InjectModel} from "@nestjs/mongoose";
@@ -18,18 +18,18 @@ export class FacilityService {
   }
 
   findAll() {
-    return this.facilityModel.find({}).exec();
+    return this.facilityModel.find({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} facility`;
+  findOne(id: string) {
+    return this.facilityModel.findOne({_id: id});
   }
 
-  update(id: number, updateFacilityInput: UpdateFacilityInput) {
+  update(id: string, updateFacilityInput: UpdateFacilityInput) {
     return `This action updates a #${id} facility`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} facility`;
   }
 }
