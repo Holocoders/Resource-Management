@@ -2,7 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Category {
+  _id: ID!
+  name: String!
+  picture: String!
+}
+
+input CreateCategoryInput {
+  _id: String
+  name: String!
+  parent: String!
+  picture: String
+}
+
 input CreateFacilityInput {
+  _id: String
   name: String!
 }
 
@@ -21,16 +35,20 @@ type Facility {
 }
 
 type Mutation {
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
   createFacility(createFacilityInput: CreateFacilityInput!): Facility!
   createUser(createUserInput: CreateUserInput!): User!
   login(email: String!, password: String!): String!
+  removeCategory(id: String!): Category!
   removeFacility(id: String!): Facility!
   removeUser(_id: String!): User!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   updateFacility(updateFacilityInput: UpdateFacilityInput!): Facility!
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
+  category(id: String!): Category!
   currentUser: User!
   facility(id: String!): Facility!
   getHello: String!
@@ -38,8 +56,15 @@ type Query {
   users: [User!]!
 }
 
+input UpdateCategoryInput {
+  _id: String!
+  name: String
+  parent: String
+  picture: String
+}
+
 input UpdateFacilityInput {
-  id: String!
+  _id: String!
   name: String
 }
 
