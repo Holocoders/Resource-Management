@@ -1,76 +1,87 @@
 ```graphql
+scalar Date
+scalar Image
+
 type Node {
-    id: ID
-    parent: ID # [NULLABLE]
-    isItem: Boolean
+    id: ID!
+    parent: ID
+    isItem: Boolean!
 }
-```
 
-```graphql
 type User {
-    id: ID
-    name: String
-    email: String
-    phone: String
+    id: ID!
+    name: String!
+    email: String!
+    phone: String!
+    address: String!
+    password: String!
 }
-```
 
-```graphql
 type Permissions {
-    userId : User
-    nodeId: Node  
+    userId: User!
+    nodeId: Node!
 }
-```
 
-Facility
-```yaml
-id : ref Node
-picture: Image
-```
+type Facility {
+    id: Node!
+    name: String
+    picture: Image
+}
 
-Category
-```yaml
-id : ref Node
-picture: Image
-```
+type Category {
+    id: Node!
+    name: String
+    picture: Image
+}
 
-Item
-```yaml
-id : ref Node
-picture : Image
-price : float
-description : string
-created : ref user
-quantity : int
-```
+type Item {
+    id: Node!
+    name: String
+    picture: Image
+    price: Float!
+    description: String
+    created: User!
+    quantity: Int!
+}
 
-RelatedItems 
-```yaml
-itemId : ref item
-related : array of 
-  - item: ref item
-  - frequency: int
-```
+type ItemFrequency {
+    item: Item!
+    frequency: Int!
+}
 
-InventoryActivity
-```yaml
-itemId : ref Item
-userId : ref User
-quantity : int
-currentDate : Date
-status : enum {add, remove}
-```
+type RelatedItems {
+    itemId: Item!
+    related: [ItemFrequency]
+}
 
-ItemActivity
-```yaml
-itemId : ref Item
-userId : ref User
-quantity : int
-currentDate : Date
-cancelled : bool
-activity :
-  - status : enum {buy, rent}
-  - issueDate : Date
-  - issued : bool
-  - dueDate : Date [optional]
+enum InventoryActivity {
+    ADD
+    REMOVE
+}
+
+type InventoryHistory {
+    itemId: Item!
+    userId: User!
+    quantity: Int!
+    currentDate: Date!
+    status: InventoryActivity!
+}
+
+enum ItemActivity {
+    BUY
+    RENT
+}
+
+type ItemHistory {
+    itemId: Item!
+    userId: User!
+    quantity: Int!
+    currentDate: Date!
+    cancelled: Boolean! # default false
+    issued: Boolean
+    status: ItemActivity!
+    issueDate: Date
+    dueDate: Date
+}
+
 ```
