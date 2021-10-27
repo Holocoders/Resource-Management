@@ -1,22 +1,18 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
 import {Prop, Schema , SchemaFactory} from "@nestjs/mongoose";
-import { Document } from 'mongoose';
-import * as mongoose from "mongoose";
-
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 @Schema()
 @ObjectType()
 export class Facility {
   @Field(() => ID)
-  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Node'})
+  @Prop({type: MongooseSchema.Types.ObjectId, ref: 'Node'})
   _id: string;
 
-  @Field(() => String)
   @Prop()
   name: string;
 
-  @Field(() => String, { nullable: true })
-  @Prop()
+  @Prop({required: false})
   picture?: string;
 }
 

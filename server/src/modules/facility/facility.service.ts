@@ -1,6 +1,6 @@
-import {Injectable} from '@nestjs/common';
-import {CreateFacilityInput} from './dto/create-facility.input';
-import {UpdateFacilityInput} from './dto/update-facility.input';
+import { Injectable } from '@nestjs/common';
+import { CreateFacilityInput } from './dto/create-facility.input';
+import { UpdateFacilityInput } from './dto/update-facility.input';
 import {InjectModel} from "@nestjs/mongoose";
 import {Facility, FacilityDocument} from "./entities/facility.entity";
 import {Model} from "mongoose";
