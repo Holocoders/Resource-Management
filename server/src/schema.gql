@@ -2,6 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateFacilityInput {
+  name: String!
+}
+
 input CreateUserInput {
   address: String!
   email: String!
@@ -10,18 +14,33 @@ input CreateUserInput {
   phone: String!
 }
 
+type Facility {
+  _id: ID!
+  name: String!
+  picture: String
+}
+
 type Mutation {
+  createFacility(createFacilityInput: CreateFacilityInput!): Facility!
   createUser(createUserInput: CreateUserInput!): User!
   login(email: String!, password: String!): String!
+  removeFacility(id: Int!): Facility!
   removeUser(_id: String!): User!
+  updateFacility(updateFacilityInput: UpdateFacilityInput!): Facility!
   updateUser(updateUserInput: UpdateUserInput!): User!
 }
 
 type Query {
   currentUser: User!
+  facility(id: Int!): Facility!
   getHello: String!
   user(_id: String!): User!
   users: [User!]!
+}
+
+input UpdateFacilityInput {
+  id: Int!
+  name: String
 }
 
 input UpdateUserInput {
