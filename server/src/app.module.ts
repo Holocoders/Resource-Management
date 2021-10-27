@@ -28,7 +28,7 @@ const env = process.env.NODE_ENV || 'dev';
       useUnifiedTopology: true,
     }),
     GraphQLModule.forRoot({
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'src/schema.graphql'),
       playground: true,
       sortSchema: true,
       context: ({ req }) => ({ req }),
