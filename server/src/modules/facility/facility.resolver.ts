@@ -19,17 +19,17 @@ export class FacilityResolver {
   }
 
   @Query(() => Facility, { name: 'facility' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.facilityService.findOne(id);
   }
 
   @Mutation(() => Facility)
   updateFacility(@Args('updateFacilityInput') updateFacilityInput: UpdateFacilityInput) {
-    return this.facilityService.update(updateFacilityInput.id, updateFacilityInput);
+    return this.facilityService.update(updateFacilityInput._id, updateFacilityInput);
   }
 
   @Mutation(() => Facility)
-  removeFacility(@Args('id', { type: () => Int }) id: number) {
+  removeFacility(@Args('id', { type: () => String }) id: string) {
     return this.facilityService.remove(id);
   }
 }

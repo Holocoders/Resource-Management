@@ -19,17 +19,17 @@ export class CategoryResolver {
   }
 
   @Query(() => Category, { name: 'category' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.categoryService.findOne(id);
   }
 
   @Mutation(() => Category)
   updateCategory(@Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput) {
-    return this.categoryService.update(updateCategoryInput.id, updateCategoryInput);
+    return this.categoryService.update(updateCategoryInput._id, updateCategoryInput);
   }
 
   @Mutation(() => Category)
-  removeCategory(@Args('id', { type: () => Int }) id: number) {
+  removeCategory(@Args('id', { type: () => String }) id: string) {
     return this.categoryService.remove(id);
   }
 }

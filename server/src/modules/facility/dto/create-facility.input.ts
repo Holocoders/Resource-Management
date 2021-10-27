@@ -1,7 +1,7 @@
-import { InputType, Int, Field } from '@nestjs/graphql';
+import { InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateFacilityInput {
-  @Field(() => String)
+  _id?: string;
   name: string;
 }

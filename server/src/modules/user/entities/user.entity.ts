@@ -26,4 +26,4 @@ export class User {
   address: string;
 }
 
-export const UserModel = SchemaFactory.createForClass(User);
+export const UserSchema = SchemaFactory.createForClass(User);

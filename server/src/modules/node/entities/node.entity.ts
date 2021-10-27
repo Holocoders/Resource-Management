@@ -1,17 +1,20 @@
-import {ObjectType, Field, Int, ID} from '@nestjs/graphql';
-import {Prop, SchemaFactory} from "@nestjs/mongoose";
-import {User} from "../../user/entities/user.entity";
+import {ObjectType, Field, ID} from '@nestjs/graphql';
+import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
+import {Document, Schema as MongooseSchema} from "mongoose";
 
+export type NodeDocument = Node & Document;
+
+@Schema()
 @ObjectType()
 export class Node {
   @Field(() => ID)
   _id: string;
 
-  @Prop()
-  parent: Node;
+  @Prop({default: null, ref: 'Node', type: MongooseSchema.Types.ObjectId})
+  parent: string;
 
-  @Prop()
+  @Prop({default: false})
   isItem: boolean;
 }
 
-export const NodeModel = SchemaFactory.createForClass(Node);
+export const NodeSchema = SchemaFactory.createForClass(Node);

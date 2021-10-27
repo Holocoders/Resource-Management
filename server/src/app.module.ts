@@ -36,6 +36,7 @@ const env = process.env.NODE_ENV || 'dev';
     UserModule,
     AuthModule,
     FacilityModule,
+    CategoryModule
   ],
   providers: [AppService, AppResolver],
 })

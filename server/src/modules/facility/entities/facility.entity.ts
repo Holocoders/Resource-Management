@@ -8,7 +8,7 @@ import * as mongoose from "mongoose";
 @ObjectType()
 export class Facility {
   @Field(() => ID)
-  @Prop({type: mongoose.Schema.Types.ObjectId})
+  @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'Node'})
   _id: string;
 
   @Field(() => String)
