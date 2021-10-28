@@ -1,4 +1,4 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { FacilityService } from './facility.service';
 import { Facility } from './entities/facility.entity';
 import { CreateFacilityInput } from './dto/create-facility.input';
@@ -13,7 +13,7 @@ export class FacilityResolver {
     return this.facilityService.create(createFacilityInput);
   }
 
-  @Query(() => [Facility], { name: 'facility' })
+  @Query(() => [Facility], { name: 'facilities' })
   findAll() {
     return this.facilityService.findAll();
   }

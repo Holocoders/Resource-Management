@@ -50,6 +50,7 @@ type Mutation {
 type Query {
   category(id: String!): Category!
   currentUser: User!
+  facilities: [Facility!]!
   facility(id: String!): Facility!
   getHello: String!
   user(_id: String!): User!
