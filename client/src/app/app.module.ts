@@ -9,10 +9,11 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { AuthInterceptor } from './users/auth-interceptor';
 import { GraphQLModule } from './graphql.module';
 import { FacilitiesComponent } from './facilities/facilities.component';
+import {AvatarModule} from "primeng/avatar";
 
 @NgModule({
   declarations: [AppComponent, SidebarComponent, NavbarComponent, FacilitiesComponent],
-  imports: [BrowserModule, AppRoutingModule, GraphQLModule, HttpClientModule],
+  imports: [BrowserModule, AppRoutingModule, GraphQLModule, HttpClientModule, AvatarModule],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
   ],

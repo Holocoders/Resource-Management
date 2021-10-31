@@ -21,7 +21,7 @@ export class FacilitiesComponent implements OnInit {
           facilities {
             _id
             name
-          }
+          },
         }
       `,
     })
