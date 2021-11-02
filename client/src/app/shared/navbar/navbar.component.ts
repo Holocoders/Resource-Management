@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
 import { animate, state, style, transition, trigger } from "@angular/animations";
 
 @Component({
@@ -8,10 +8,13 @@ import { animate, state, style, transition, trigger } from "@angular/animations"
   animations: [
     trigger('slideInOutSidebar', [
       state('in', style({
-        transform: 'translate3d(0,0,0)'
+        transform: 'translateX(0)',
+        'visibility': 'visible'
       })),
       state('out', style({
-        transform: 'translate3d(-100%, 0, 0)'
+        transform: 'translateX(-100%)',
+        'visibility': 'hidden',
+        'position': 'absolute'
       })),
       transition('in => out', animate('400ms ease-in-out')),
       transition('out => in', animate('400ms ease-in-out'))
@@ -35,6 +38,8 @@ export class NavbarComponent implements OnInit {
   @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
     if (this.isMobileSidebarOpen) this.isMobileSidebarOpen = false;
   }
+
+  @Output() onMenuClick = new EventEmitter();
 
   constructor() {
   }

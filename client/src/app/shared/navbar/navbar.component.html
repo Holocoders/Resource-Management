@@ -1,13 +1,13 @@
 
 <div class="hidden sm:block">
   <div class="flex justify-content-start">
+    <ng-container *ngTemplateOutlet="desktopSidebar"></ng-container>
     <div class="block absolute overflow-hidden w-full">
       <div [@slideInOutNavbar]="isDesktopSidebarOpen ? 'out' : 'in'" class="flex align-items-center border-0 border-bottom-1 border-300 h-4rem">
-        <button pButton icon="pi pi-bars" class="p-button-text ml-3" (click)="isDesktopSidebarOpen = !isDesktopSidebarOpen"></button>
+        <button pButton icon="pi pi-bars" class="p-button-text ml-3" (click)="isDesktopSidebarOpen = !isDesktopSidebarOpen; onMenuClick.emit()"></button>
         <ng-container *ngTemplateOutlet="topNav"></ng-container>
       </div>
     </div>
-    <ng-container *ngTemplateOutlet="desktopSidebar"></ng-container>
   </div>
 </div>
 

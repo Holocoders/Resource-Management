@@ -1,4 +1,10 @@
-<app-navbar></app-navbar>
-<div class="mt-7">
-  <router-outlet></router-outlet>
+<div class="flex">
+  <div>
+    <app-navbar (onMenuClick)="test()"></app-navbar>
+  </div>
+  <div class="block absolute mt-7 overflow-y-auto max-h-screen">
+    <div [@slideInOutContent]="isDesktopSidebarOpen ? 'out':'in'">
+      <router-outlet ></router-outlet>
+    </div>
+  </div>
 </div>
