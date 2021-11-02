@@ -28,7 +28,7 @@ export class AppComponent {
   constructor(public navbar: NavbarComponent) {
   }
 
-  test(){
+  toggleSidebar(){
     this.isDesktopSidebarOpen = !this.isDesktopSidebarOpen;
   }
 
