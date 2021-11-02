@@ -1,0 +1,26 @@
+<div class="flex justify-content-start">
+  <div class="block absolute overflow-hidden w-full">
+<!--    <div [@slideInOutNavbar]="isSidebarOpen ? 'out' : 'in'" class="flex align-items-center border-0 border-bottom-1 border-300 h-4rem">-->
+    <div class="flex align-items-center border-0 border-bottom-1 border-300 h-4rem">
+      <button pButton icon="pi pi-bars" class="p-button-text ml-3" (click)="closeSidebar()"></button>
+      <label class="ml-auto">Electrical Lab</label>
+      <button pButton class="ml-auto p-button-text inline-flex sm:hidden" icon="pi pi-search"></button>
+      <div class="ml-auto hidden sm:inline-flex">
+        <span class="p-input-icon-right">
+          <i class="pi pi-search"></i>
+          <input type="text" class="w-12rem sm:w-15rem" pInputText placeholder="Search">
+        </span>
+      </div>
+      <button pButton class="sm:ml-3 p-button-text sm:inline-flex" icon="pi pi-bell"></button>
+      <button pButton class="p-button-text mr-3" icon="pi pi-sign-in"></button>
+    </div>
+  </div>
+
+<!--  <app-sidebar class="w-20rem" [@slideInOutSidebar]="isSidebarOpen?'in':'out'"></app-sidebar>-->
+</div>
+
+
+<p-sidebar styleClass="sidebar" [(visible)]="isSidebarOpen" [baseZIndex]="10000">
+  <app-sidebar></app-sidebar>
+</p-sidebar>
+
