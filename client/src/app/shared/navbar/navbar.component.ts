@@ -29,19 +29,16 @@ import { animate, state, style, transition, trigger } from "@angular/animations"
   ]
 })
 export class NavbarComponent implements OnInit {
-  isSidebarOpen: boolean = false;
+  isDesktopSidebarOpen: boolean = false;
+  isMobileSidebarOpen: boolean = false;
 
   @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-    if (this.isSidebarOpen) this.isSidebarOpen = false;
+    if (this.isMobileSidebarOpen) this.isMobileSidebarOpen = false;
   }
 
   constructor() {
   }
 
   ngOnInit(): void {
-  }
-
-  closeSidebar() {
-    this.isSidebarOpen = !this.isSidebarOpen;
   }
 }

@@ -11,8 +11,8 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  closeSidebar(event: Event) {
-    this.navbarComponent.isSidebarOpen = !this.navbarComponent.isSidebarOpen;
+  closeSidebar() {
+    this.navbarComponent.isMobileSidebarOpen = false;
   }
 
 }
