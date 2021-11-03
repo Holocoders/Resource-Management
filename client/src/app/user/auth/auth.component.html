@@ -1,0 +1,32 @@
+<div class="mt-8 h-full w-screen flex justify-content-center">
+  <div class="p-grid w-25rem sm:w-30rem">
+    <div class="w-full align-items-center flex justify-content-center">
+      RMS
+    </div>
+    <p class="w-full align-items-center flex justify-content-center mt-4 text-5xl">
+      Sign In
+    </p>
+    <div class="p-input-icon-right w-full mt-4">
+      <i class="pi pi-user"></i>
+      <input type="text" pInputText placeholder="Username" [(ngModel)]="user.username" class="w-full" >
+    </div>
+    <div class="p-inputgroup mt-4" >
+      <p-password placeholder="Password" [toggleMask]="true" [(ngModel)]="user.password" [feedback]="false" styleClass="w-full"></p-password>
+    </div>
+    <div class="flex justify-content-between mt-4">
+      <div class="p-field-checkbox">
+        <p-checkbox [(ngModel)]="rememberUser" name="group1" [binary]="true" inputId="binary"></p-checkbox>
+        <label class="ml-2">Remember me</label>
+      </div>
+      <div>
+        <a class="cursor-pointer">Forgot Password ?</a>
+      </div>
+    </div>
+    <div class="mt-4">
+      <button class="w-full" (click)="loginUser()" pButton label="LogIn" pRipple type="button"></button>
+    </div>
+    <div class="flex justify-content-center mt-4">
+      <a class="cursor-pointer">New User? Create account</a>
+    </div>
+  </div>
+</div>
