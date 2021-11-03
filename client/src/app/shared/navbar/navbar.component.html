@@ -25,7 +25,7 @@
 
 <ng-template #topNav>
   <label class="ml-auto">Electrical Lab</label>
-  <button pButton class="ml-auto p-button-text inline-flex sm:hidden" icon="pi pi-search"></button>
+  <button pButton (click)="isMobileSearchOpen = true" class="ml-auto p-button-text inline-flex sm:hidden" icon="pi pi-search"></button>
   <div class="ml-auto hidden sm:inline-flex">
         <span class="p-input-icon-right">
           <i class="pi pi-search"></i>
@@ -33,7 +33,12 @@
         </span>
   </div>
   <button pButton class="sm:ml-3 p-button-text sm:inline-flex" icon="pi pi-bell"></button>
-  <button pButton class="p-button-text mr-3" icon="pi pi-sign-in"></button>
+  <div *ngIf="!user?.loggedIn; else signOut">
+    <button pButton [routerLink]="'/user'" class="p-button-text mr-3" icon="pi pi-sign-in"></button>
+  </div>
+  <ng-template #signOut>
+    <button pButton class="p-button-text mr-3" icon="pi pi-sign-out" (click)="logOut()"></button>
+  </ng-template>
 </ng-template>
 
 <ng-template #mobileSidebar>
@@ -45,3 +50,15 @@
 <ng-template #desktopSidebar>
   <app-sidebar class="w-20rem" [@slideInOutSidebar]="isDesktopSidebarOpen? 'in' : 'out'"></app-sidebar>
 </ng-template>
+
+<ng-template #mobileSearch>
+  <span class="p-input-icon-right w-full">
+    <i class="pi pi-times" (click)="closeMobileSearch()"></i>
+    <input type="text" class="w-full" pInputText placeholder="Search">
+  </span>
+</ng-template>
+
+<p-dialog [dismissableMask]="true" styleClass="dialog w-screen" [showHeader]="false" [(visible)]="isMobileSearchOpen" [position]="'top'" [modal]="true"
+          [draggable]="false" [resizable]="false">
+  <ng-container *ngTemplateOutlet="mobileSearch"></ng-container>
+</p-dialog>

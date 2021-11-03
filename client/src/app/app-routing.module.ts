@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import {FacilitiesComponent} from "./facilities/facilities.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: '/facilities', pathMatch: 'full' },
+  { path: '', redirectTo: '/user', pathMatch: 'full' },
+  { path: 'user', loadChildren: () => import('src/app/user/user.module').then(m => m.UserModule) },
   { path: 'facilities',component: FacilitiesComponent }
 ];
 

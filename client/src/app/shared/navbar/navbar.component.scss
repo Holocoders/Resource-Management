@@ -6,3 +6,9 @@
     padding: 0;
   }
 }
+
+:host ::ng-deep  .dialog.p-dialog {
+  .p-dialog-content {
+    padding: 0;
+  }
+}

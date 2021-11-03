@@ -6,7 +6,10 @@ import { ImageModule } from 'primeng/image';
 import { InputTextModule } from 'primeng/inputtext';
 import { RippleModule } from "primeng/ripple";
 import { AvatarModule } from "primeng/avatar";
-
+import {DialogModule} from 'primeng/dialog';
+import { PasswordModule } from "primeng/password";
+import { DividerModule } from "primeng/divider";
+import { CheckboxModule } from "primeng/checkbox";
 const primeNgModules = [
   MenubarModule,
   SharedModule,
@@ -14,7 +17,11 @@ const primeNgModules = [
   ImageModule,
   InputTextModule,
   RippleModule,
-  AvatarModule
+  AvatarModule,
+  DialogModule,
+  PasswordModule,
+  DividerModule,
+  CheckboxModule
 ]
 
 @NgModule({

@@ -6,6 +6,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { PrimengModule } from "../primeng/primeng.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SidebarModule } from "primeng/sidebar";
+import { UserModule } from "../user/user.module";
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { SidebarModule } from "primeng/sidebar";
     BrowserAnimationsModule,
     SharedRoutingModule,
     PrimengModule,
-    SidebarModule
+    SidebarModule,
+    UserModule
   ],
   exports: [
     NavbarComponent,

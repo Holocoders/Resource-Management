@@ -1,5 +1,8 @@
-import { Component, EventEmitter, HostListener, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { animate, state, style, transition, trigger } from "@angular/animations";
+import { AuthService } from "../../user/auth/auth.service";
+import { User } from "../../user/user.model";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
@@ -34,16 +37,28 @@ import { animate, state, style, transition, trigger } from "@angular/animations"
 export class NavbarComponent implements OnInit {
   isDesktopSidebarOpen: boolean = false;
   isMobileSidebarOpen: boolean = false;
-
-  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
-    if (this.isMobileSidebarOpen) this.isMobileSidebarOpen = false;
-  }
+  isMobileSearchOpen: boolean = false;
+  user: User|null = null;
 
   @Output() onMenuClick = new EventEmitter();
 
-  constructor() {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
   }
 
   ngOnInit(): void {
+    this.authService.user.subscribe(user => this.user = user);
+  }
+
+  closeMobileSearch()
+  {
+    this.isMobileSearchOpen = false;
+  }
+
+  logOut() {
+    this.authService.logOut();
+    this.router.navigateByUrl("/user/login");
   }
 }

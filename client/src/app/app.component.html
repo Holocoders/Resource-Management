@@ -1,8 +1,8 @@
 <div class="flex">
   <div>
-    <app-navbar (onMenuClick)="toggleSidebar()"></app-navbar>
+    <app-navbar *ngIf="user.loggedIn" (onMenuClick)="toggleSidebar()"></app-navbar>
   </div>
-  <div class="block absolute mt-7 overflow-y-auto max-h-screen">
+  <div class="block absolute mt-7 overflow-y-auto h-screen">
     <div [@slideInOutContent]="isDesktopSidebarOpen ? 'out':'in'">
       <router-outlet ></router-outlet>
     </div>

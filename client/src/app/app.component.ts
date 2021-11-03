@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { animate, state, style, transition, trigger } from "@angular/animations";
 import { NavbarComponent } from "./shared/navbar/navbar.component";
+import { AuthService } from "./user/auth/auth.service";
+import { Router } from "@angular/router";
+import { User } from "./user/user.model";
 
 @Component({
   selector: 'app-root',
@@ -22,10 +25,24 @@ import { NavbarComponent } from "./shared/navbar/navbar.component";
   ]),
 ]
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'client';
   isDesktopSidebarOpen: boolean = false;
-  constructor(public navbar: NavbarComponent) {
+  user: User = new User();
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
+  }
+
+  ngOnInit() {
+    this.authService.user.subscribe(user => this.user = user);
+    const loggedIn = this.authService.autoLogin();
+    if (loggedIn) {
+      this.router.navigateByUrl("/facilities");
+    } else {
+      this.router.navigateByUrl("/user/login");
+    }
   }
 
   toggleSidebar(){
