@@ -4,8 +4,8 @@
 
 type Category {
   _id: ID!
+  image: String
   name: String!
-  picture: String!
 }
 
 input CreateCategoryInput {
@@ -31,12 +31,11 @@ input CreateUserInput {
 type Facility {
   _id: ID!
   name: String!
-  picture: String
 }
 
 type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
-  createFacility(createFacilityInput: CreateFacilityInput!): Facility!
+  createFacility(createFacilityInput: CreateFacilityInput!, file: Upload!): Facility!
   createUser(createUserInput: CreateUserInput!): User!
   login(email: String!, password: String!): String!
   removeCategory(id: String!): Category!
@@ -45,6 +44,7 @@ type Mutation {
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   updateFacility(updateFacilityInput: UpdateFacilityInput!): Facility!
   updateUser(updateUserInput: UpdateUserInput!): User!
+  uploadImage(file: Upload!, id: String!): Boolean!
 }
 
 type Query {
@@ -77,6 +77,9 @@ input UpdateUserInput {
   password: String
   phone: String
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 type User {
   _id: ID!

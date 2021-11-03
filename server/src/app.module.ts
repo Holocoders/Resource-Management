@@ -31,6 +31,7 @@ const env = process.env.NODE_ENV || 'dev';
       autoSchemaFile: join(process.cwd(), 'src/schema.graphql'),
       playground: true,
       sortSchema: true,
+      uploads: false,
       context: ({ req }) => ({ req }),
     }),
     UserModule,
