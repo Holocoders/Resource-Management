@@ -1,17 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFacilityInput } from './dto/create-facility.input';
 import { UpdateFacilityInput } from './dto/update-facility.input';
-import { InjectModel } from "@nestjs/mongoose";
-import { Facility, FacilityDocument } from "./entities/facility.entity";
-import { Model } from "mongoose";
-import { NodeService } from "../node/node.service";
+import { InjectModel } from '@nestjs/mongoose';
+import { Facility, FacilityDocument } from './entities/facility.entity';
+import { Model } from 'mongoose';
+import { NodeService } from '../node/node.service';
 
 @Injectable()
 export class FacilityService {
-
   constructor(
     @InjectModel(Facility.name) private facilityModel: Model<FacilityDocument>,
-    private nodeService: NodeService
+    private nodeService: NodeService,
   ) {}
 
   async create(createFacilityInput: CreateFacilityInput) {
@@ -21,7 +20,7 @@ export class FacilityService {
   }
 
   findAll() {
-    return this.facilityModel.find().exec();
+    return this.facilityModel.find();
   }
 
   findOne(id: string) {
@@ -29,7 +28,9 @@ export class FacilityService {
   }
 
   update(id: string, updateFacilityInput: UpdateFacilityInput) {
-    return `This action updates a #${id} facility`;
+    return this.facilityModel.findByIdAndUpdate(id, updateFacilityInput, {
+      new: true,
+    });
   }
 
   remove(id: string) {

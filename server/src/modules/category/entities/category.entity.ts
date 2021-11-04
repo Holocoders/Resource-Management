@@ -1,6 +1,6 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document, Schema as MongooseSchema } from "mongoose";
+import {ObjectType, Field, Int, ID} from '@nestjs/graphql';
+import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
+import {Document, Schema as MongooseSchema} from "mongoose";
 
 export type CategoryDocument = Category & Document;
 
@@ -8,14 +8,14 @@ export type CategoryDocument = Category & Document;
 @ObjectType()
 export class Category {
   @Field(() => ID)
-  @Prop({ref: 'Node', type: MongooseSchema.Types.ObjectId})
+  @Prop({ ref: 'Node', type: MongooseSchema.Types.ObjectId })
   _id: string;
 
   @Prop()
   name: string;
 
-  @Prop({required: false})
-  picture: string;
+  @Prop({ required: false })
+  image?: string;
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);
