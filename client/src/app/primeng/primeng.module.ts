@@ -16,6 +16,7 @@ import { MessageModule } from 'primeng/message';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuModule } from 'primeng/menu';
 import {CardModule} from "primeng/card";
+import {ChipModule} from "primeng/chip";
 
 const primeNgModules = [
   MenubarModule,
@@ -34,7 +35,8 @@ const primeNgModules = [
   MessageModule,
   BreadcrumbModule,
   MenuModule,
-  CardModule
+  CardModule,
+  ChipModule
 ];
 
 @NgModule({
