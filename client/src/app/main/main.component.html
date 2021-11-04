@@ -1,12 +1,11 @@
-<div class="flex">
+<div class="flex w-full h-4rem">
   <div>
     <app-navbar (onMenuClick)="toggleSidebar()"></app-navbar>
   </div>
-
-  <div class="block absolute ml-1 mt-8 mr-1">
-    <div [@slideInOutContent]="isDesktopSidebarOpen ? 'out':'in'">
+  <div class="block absolute content">
+    <div class="h-full w-full" [@slideInOutContent]="isDesktopSidebarOpen ? 'out':'in'">
       <app-breadcrumbs></app-breadcrumbs>
-      <div class="shadow-1 mt-1 h-screen overflow-y-auto">
+      <div class="shadow-1 overflow-hidden overflow-y-auto w-full router-outlet">
         <router-outlet></router-outlet>
       </div>
     </div>

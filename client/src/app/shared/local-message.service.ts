@@ -10,10 +10,6 @@ export class LocalMessageService {
   constructor() {}
 
   addToastMessage(message: Message) {
-    this.toastMessage.next({
-      ...message,
-      contentStyleClass: 'toast-content',
-      life: 100000,
-    });
+    this.toastMessage.next(message);
   }
 }

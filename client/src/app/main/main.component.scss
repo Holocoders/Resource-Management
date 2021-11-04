@@ -1,0 +1,7 @@
+.content {
+  height: calc(100vh - 4rem);
+  margin-top: 4rem;
+}
+.router-outlet {
+  height: calc(100vh - 4rem - 55px);
+}
