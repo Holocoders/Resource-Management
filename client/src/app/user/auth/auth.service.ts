@@ -10,8 +10,8 @@ export class AuthService {
 
   constructor(private apollo: Apollo) {}
 
-  signup(user: User) {
-    const { name, email, password } = user;
+  signup(user: User, password: string) {
+    const { name, email } = user;
     const mutation = this.apollo.mutate({
       mutation: gql`
         mutation createUser($createUserInput: CreateUserInput!) {
@@ -38,13 +38,13 @@ export class AuthService {
         user.loggedIn = true;
         this.user.next(user);
       }),
-      catchError((e) => {
+      catchError(() => {
         return throwError(void 0);
       })
     );
   }
 
-  signIn(user: User) {
+  signIn(user: User, password: string) {
     const mutation = this.apollo.mutate({
       mutation: gql`
         mutation LoginMutation($loginEmail: String!, $loginPassword: String!) {
@@ -53,7 +53,7 @@ export class AuthService {
       `,
       variables: {
         loginEmail: user.email,
-        loginPassword: user.password,
+        loginPassword: password,
       },
     });
     return mutation.pipe(
@@ -62,7 +62,7 @@ export class AuthService {
         user.loggedIn = true;
         this.user.next(user);
       }),
-      catchError((e) => {
+      catchError(() => {
         return throwError(void 0);
       })
     );

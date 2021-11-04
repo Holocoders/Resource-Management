@@ -6,14 +6,14 @@ import { PrimengModule } from "../primeng/primeng.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SignupComponent } from './signup/signup.component';
 import { MessageService } from "primeng/api";
-import { LocalSigninComponent } from './local-signin/local-signin.component';
+import { SigninComponent } from './signin/signin.component';
 
 
 @NgModule({
   declarations: [
     AuthComponent,
     SignupComponent,
-    LocalSigninComponent
+    SigninComponent
   ],
   imports: [
     CommonModule,

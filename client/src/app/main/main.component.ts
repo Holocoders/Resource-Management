@@ -45,19 +45,10 @@ export class MainComponent implements OnInit {
   isDesktopSidebarOpen = false;
   constructor(
     private authService: AuthService,
-    private router: Router,
-    private messageService: MessageService,
-    private localMessageService: LocalMessageService
+    private router: Router
   ) {}
 
-  loggedIn$: Observable<boolean> = this.authService.user.pipe(
-    map((user) => user.loggedIn)
-  );
-
   ngOnInit() {
-    this.localMessageService.toastMessage.subscribe((message) =>
-      this.messageService.add(message)
-    );
     this.authService.autoLogin();
   }
 

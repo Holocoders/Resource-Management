@@ -21,7 +21,22 @@ import { LocalMessageService } from './shared/local-message.service';
 })
 export class AppComponent implements OnInit {
   title = 'client';
-  constructor() {}
+  isDesktopSidebarOpen = false;
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private messageService: MessageService,
+    private localMessageService: LocalMessageService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.localMessageService.toastMessage.subscribe((message) =>
+      this.messageService.add(message)
+    );
+    this.authService.autoLogin();
+  }
+
+  toggleSidebar() {
+    this.isDesktopSidebarOpen = !this.isDesktopSidebarOpen;
+  }
 }

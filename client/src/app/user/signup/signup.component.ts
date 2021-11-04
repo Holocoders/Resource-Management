@@ -21,7 +21,7 @@ export class SignupComponent implements OnInit {
   @ViewChild('formPassword') formPassword: any;
   @ViewChild('formConfPassword') formConfPassword: any;
 
-  user: User;
+  user: User = new User();
   showPassword = false;
   signUpForm = this.formBuilder.group({
     name: new FormControl('', [Validators.required]),
@@ -45,8 +45,8 @@ export class SignupComponent implements OnInit {
     }
     this.user.name = this.signUpForm.value.name;
     this.user.email = this.signUpForm.value.email;
-    this.user.password = this.signUpForm.value.password;
-    this.authService.signup(this.user).subscribe(
+    const password = this.signUpForm.value.password;
+    this.authService.signup(this.user, password).subscribe(
       () => {
         if (this.signUpForm.value.rememberMe) {
           localStorage.setItem('user', JSON.stringify(this.user));
