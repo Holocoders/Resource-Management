@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, throwError } from 'rxjs';
 import { User } from '../user.model';
 import { Apollo, gql } from "apollo-angular";
 import { map } from "rxjs/operators";
@@ -11,11 +11,41 @@ export class AuthService {
 
   constructor(private apollo: Apollo) {}
 
-  // @ts-ignore
-  signup(data): Observable<any> {}
+
+  signup(user: User) {
+    const {name, email, password} = user;
+    const mutation = this.apollo.mutate({
+      mutation: gql`
+        mutation createUser ($createUserInput: CreateUserInput!) {
+          createUser (createUserInput: $createUserInput) {
+            _id
+            email
+            name
+            password
+            token
+          }
+        }
+      `,
+      variables: {
+        createUserInput: {
+          name, email, password
+        }
+      }
+    });
+    return mutation.pipe(
+      map(({data}) => {
+        const user = (data as any).createUser as User;
+        user.loggedIn = true;
+        this.user.next(user);
+      }),
+      catchError((e) => {
+        return throwError(void 0);
+      })
+    )
+  }
 
 
-  login(user: User): Observable<void> {
+  signIn(user: User) {
     const mutation = this.apollo.mutate({
       mutation: gql`
         mutation LoginMutation($loginEmail: String!, $loginPassword: String!) {
@@ -23,7 +53,7 @@ export class AuthService {
         }
       `,
       variables: {
-        loginEmail: user.username,
+        loginEmail: user.email,
         loginPassword: user.password
       }
     });
@@ -32,8 +62,11 @@ export class AuthService {
         user.token = (result.data as any).login;
         user.loggedIn = true;
         this.user.next(user);
+      }),
+      catchError((e) => {
+        return throwError(void 0);
       })
-    )
+    );
   }
 
   autoLogin() {

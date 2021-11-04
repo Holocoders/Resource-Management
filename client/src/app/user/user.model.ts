@@ -1,9 +1,10 @@
 export class User {
   _id: string;
+  email: string;
+  name: string;
+  password: string;
   loggedIn: boolean;
   token: string;
-  username: string;
-  password: string;
 
   constructor() {
     this.loggedIn = false;

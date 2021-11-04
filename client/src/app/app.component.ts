@@ -3,7 +3,10 @@ import { animate, state, style, transition, trigger } from "@angular/animations"
 import { NavbarComponent } from "./shared/navbar/navbar.component";
 import { AuthService } from "./user/auth/auth.service";
 import { Router } from "@angular/router";
-import { User } from "./user/user.model";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { MessageService } from "primeng/api";
+import { LocalMessageService } from "./shared/local-message.service";
 
 @Component({
   selector: 'app-root',
@@ -28,21 +31,19 @@ import { User } from "./user/user.model";
 export class AppComponent implements OnInit{
   title = 'client';
   isDesktopSidebarOpen: boolean = false;
-  user: User = new User();
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService,
+    private localMessageService: LocalMessageService
   ) {
   }
 
+  loggedIn$: Observable<boolean> = this.authService.user.pipe(map(user => user.loggedIn));
+
   ngOnInit() {
-    this.authService.user.subscribe(user => this.user = user);
-    const loggedIn = this.authService.autoLogin();
-    if (loggedIn) {
-      this.router.navigateByUrl("/facilities");
-    } else {
-      this.router.navigateByUrl("/user/login");
-    }
+    this.localMessageService.toastMessage.subscribe(message => this.messageService.add(message));
+    this.authService.autoLogin();
   }
 
   toggleSidebar(){

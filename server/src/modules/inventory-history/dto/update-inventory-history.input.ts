@@ -1,5 +1,5 @@
 import { CreateInventoryHistoryInput } from './create-inventory-history.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateInventoryHistoryInput extends PartialType(CreateInventoryHistoryInput) {

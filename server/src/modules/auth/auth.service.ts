@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -22,6 +22,7 @@ export class AuthService {
       return this.getToken(email, user._id);
     } else {
       const errorString = `Invalid username or password`;
+      Logger.error(errorString);
       return new GraphQLError(errorString);
     }
   }

@@ -1,1 +1,70 @@
-<p>signup works!</p>
+<p-toast position="top-right"></p-toast>
+<form [formGroup]="signUpForm" class="h-full w-screen flex justify-content-center">
+  <div class="p-grid w-25rem sm:w-30rem">
+        <div class="w-full align-items-center flex justify-content-center">
+          RMS
+        </div>
+        <p class="w-full align-items-center flex justify-content-center mt-4 text-5xl">
+          Sign Up
+        </p>
+        <div class="p-input-icon-right w-full mt-4">
+          <i class="pi pi-user"></i>
+          <input type="text" pInputText placeholder="Name" formControlName="name" class="w-full" >
+        </div>
+        <div *ngIf="signUpForm.controls['name'].invalid && signUpForm.controls['name'].dirty">
+          <small *ngIf="signUpForm.controls['name'].errors?.required" class="p-error">Name is required</small>
+        </div>
+        <div class="p-input-icon-right w-full mt-4">
+          <i class="pi pi-envelope"></i>
+          <input type="text" pInputText placeholder="Email-ID" formControlName="email" class="w-full" >
+        </div>
+        <div *ngIf="signUpForm.controls['email'].invalid && signUpForm.controls['email'].dirty">
+          <small *ngIf="signUpForm.controls['email'].errors?.required" class="p-error">Email-ID is required</small>
+          <small *ngIf="signUpForm.controls['email'].errors?.email" class="p-error">Enter a valid email-id.</small>
+        </div>
+        <div class="p-input-icon-right w-full mt-4">
+          <i [class]="showPassword ? 'pi pi-eye-slash z-5 cursor-pointer' : 'pi pi-eye z-5 cursor-pointer'" (click)="showHidePassword()"></i>
+          <p-password #formPassword class="w-full" styleClass="w-full" inputStyleClass="w-full" placeholder="Password" formControlName="password" >
+            <ng-template pTemplate="header">
+              <h6>Pick a password</h6>
+            </ng-template>
+            <ng-template pTemplate="footer">
+              <p-divider></p-divider>
+              <p class="p-mt-2">Suggestions</p>
+              <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">
+                <li>At least one lowercase</li>
+                <li>At least one uppercase</li>
+                <li>At least one numeric</li>
+                <li>Minimum 8 characters</li>
+              </ul>
+            </ng-template>
+          </p-password>
+        </div>
+        <div *ngIf="signUpForm.controls['password'].invalid && signUpForm.controls['password'].dirty">
+          <small *ngIf="signUpForm.controls['password'].errors?.required" class="p-error">Password is required.</small>
+        </div>
+        <div class="p-input-icon-right w-full mt-4">
+          <i [class]="showPassword ? 'pi pi-eye-slash z-5 cursor-pointer' : 'pi pi-eye z-5 cursor-pointer'" (click)="showHidePassword()"></i>
+          <p-password #formConfPassword class="w-full" styleClass="w-full"
+                      [feedback]="false"
+                      inputStyleClass="w-full"
+                      placeholder="Confirm Password"
+                      formControlName="confPassword">
+          </p-password>
+        </div>
+        <div *ngIf="signUpForm.controls['confPassword'].invalid && signUpForm.controls['confPassword'].dirty">
+          <small *ngIf="signUpForm.controls['confPassword'].errors?.required" class="p-error">Password is required.</small>
+          <small *ngIf="signUpForm.controls['confPassword'].errors?.mismatch" class="p-error">Passwords don't match.</small>
+        </div>
+        <div class="flex justify-content-center mt-4 p-field-checkbox">
+          <p-checkbox formControlName="rememberMe" name="group1" [binary]="true" inputId="binary"></p-checkbox>
+          <label class="ml-2">Remember me</label>
+        </div>
+        <div class="mt-4">
+          <button class="w-full p-button" pButton label="Sign Up" pRipple type="button" [disabled]="!signUpForm.valid" (click)="signUp()"></button>
+        </div>
+        <div class="flex justify-content-center mt-4">
+          <a class="cursor-pointer" [routerLink]="'/user/signin'">Existing User? Sign In</a>
+        </div>
+  </div>
+</form>

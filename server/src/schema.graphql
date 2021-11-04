@@ -21,11 +21,9 @@ input CreateFacilityInput {
 }
 
 input CreateUserInput {
-  address: String!
   email: String!
   name: String!
   password: String!
-  phone: String!
 }
 
 type Facility {
@@ -71,18 +69,15 @@ input UpdateFacilityInput {
 
 input UpdateUserInput {
   _id: String!
-  address: String
   email: String
   name: String
   password: String
-  phone: String
 }
 
 type User {
   _id: ID!
-  address: String!
   email: String!
   name: String!
   password: String!
-  phone: String!
+  token: String!
 }

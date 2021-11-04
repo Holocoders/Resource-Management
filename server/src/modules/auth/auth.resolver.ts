@@ -17,7 +17,12 @@ export class AuthResolver {
 
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
-    return await this.userService.create(createUserInput);
+    const password = createUserInput.password;
+    let result = await this.userService.create(createUserInput);
+    if (result instanceof GraphQLError) return result;
+    const token = await this.authService.login({email: result.email, password});
+    result.token = token as string;
+    return result;
   }
 
   @Mutation(() => String)

@@ -13,17 +13,13 @@ export class User {
   @Prop()
   name: string;
 
-  @Prop()
-  phone: string;
-
   @Prop({ unique: true })
   email: string;
 
   @Prop()
   password: string;
 
-  @Prop()
-  address: string;
+  token: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

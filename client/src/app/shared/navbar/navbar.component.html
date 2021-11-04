@@ -2,7 +2,7 @@
 <div class="hidden sm:block">
   <div class="flex justify-content-start">
     <ng-container *ngTemplateOutlet="desktopSidebar"></ng-container>
-    <div class="block absolute overflow-hidden w-full">
+    <div  class="block absolute overflow-hidden w-full z-5">
       <div [@slideInOutNavbar]="isDesktopSidebarOpen ? 'out' : 'in'" class="flex align-items-center border-0 border-bottom-1 border-300 h-4rem">
         <button pButton icon="pi pi-bars" class="p-button-text ml-3" (click)="isDesktopSidebarOpen = !isDesktopSidebarOpen; onMenuClick.emit()"></button>
         <ng-container *ngTemplateOutlet="topNav"></ng-container>
@@ -42,13 +42,13 @@
 </ng-template>
 
 <ng-template #mobileSidebar>
-  <p-sidebar styleClass="sidebar" [(visible)]="isMobileSidebarOpen" [baseZIndex]="10000">
+  <p-sidebar class="w-20rem z-5" styleClass="sidebar" [(visible)]="isMobileSidebarOpen" [baseZIndex]="10000">
     <app-sidebar></app-sidebar>
   </p-sidebar>
 </ng-template>
 
 <ng-template #desktopSidebar>
-  <app-sidebar class="w-20rem" [@slideInOutSidebar]="isDesktopSidebarOpen? 'in' : 'out'"></app-sidebar>
+  <app-sidebar class="w-20rem z-5" [@slideInOutSidebar]="isDesktopSidebarOpen? 'in' : 'out'"></app-sidebar>
 </ng-template>
 
 <ng-template #mobileSearch>

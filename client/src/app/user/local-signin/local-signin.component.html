@@ -1,0 +1,37 @@
+<form [formGroup]="signInForm" class="h-full w-screen flex justify-content-center">
+  <div class="p-grid w-25rem sm:w-30rem">
+    <div class="w-full align-items-center flex justify-content-center">
+      RMS
+    </div>
+    <p class="w-full align-items-center flex justify-content-center mt-4 text-5xl">
+      Sign In
+    </p>
+    <div class="p-input-icon-right w-full mt-4">
+      <i class="pi pi-envelope"></i>
+      <input type="text" pInputText placeholder="Email-ID" formControlName="email" class="w-full" >
+    </div>
+    <div *ngIf="signInForm.controls['email'].invalid && signInForm.controls['email'].dirty">
+      <small *ngIf="signInForm.controls['email'].errors?.required" class="p-error">Email-ID is required</small>
+      <small *ngIf="signInForm.controls['email'].errors?.email" class="p-error">Enter a valid email-id.</small>
+    </div>
+    <div class="p-input-icon-right w-full mt-4">
+      <i [class]="showPassword ? 'pi pi-eye-slash z-5 cursor-pointer' : 'pi pi-eye z-5 cursor-pointer'" (click)="showHidePassword()"></i>
+      <p-password #formPassword [feedback]="false" class="w-full" styleClass="w-full" inputStyleClass="w-full" placeholder="Password" formControlName="password" >
+
+      </p-password>
+    </div>
+    <div *ngIf="signInForm.controls['password'].invalid && signInForm.controls['password'].dirty">
+      <small *ngIf="signInForm.controls['password'].errors?.required" class="p-error">Password is required.</small>
+    </div>
+    <div class="flex justify-content-center mt-4 p-field-checkbox">
+      <p-checkbox formControlName="rememberMe" name="group1" [binary]="true" inputId="binary"></p-checkbox>
+      <label class="ml-2">Remember me</label>
+    </div>
+    <div class="mt-4">
+      <button class="w-full p-button" pButton label="Sign In" pRipple type="button" [disabled]="!signInForm.valid" (click)="signIn()"></button>
+    </div>
+    <div class="flex justify-content-center mt-4">
+      <a class="cursor-pointer" [routerLink]="'/user/signup'">New User? Sign Up</a>
+    </div>
+  </div>
+</form>

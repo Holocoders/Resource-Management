@@ -5,12 +5,15 @@ import { AuthComponent } from "./auth/auth.component";
 import { PrimengModule } from "../primeng/primeng.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SignupComponent } from './signup/signup.component';
+import { MessageService } from "primeng/api";
+import { LocalSigninComponent } from './local-signin/local-signin.component';
 
 
 @NgModule({
   declarations: [
     AuthComponent,
-    SignupComponent
+    SignupComponent,
+    LocalSigninComponent
   ],
   imports: [
     CommonModule,
@@ -18,10 +21,15 @@ import { SignupComponent } from './signup/signup.component';
     FormsModule,
     UserRoutingModule,
     PrimengModule,
-    FormsModule
+    FormsModule,
   ],
   exports: [
-    AuthComponent
+    AuthComponent,
+    SignupComponent
+  ],
+  providers: [
+    MessageService
   ]
 })
-export class UserModule { }
+export class UserModule {
+}
