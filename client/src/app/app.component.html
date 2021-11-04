@@ -1,11 +1,2 @@
-<p-toast position="top-right"></p-toast>
-<div class="flex">
-  <div>
-    <app-navbar *ngIf="loggedIn$ | async" (onMenuClick)="toggleSidebar()"></app-navbar>
-  </div>
-  <div class="block absolute mt-7 overflow-y-auto h-screen">
-    <div [@slideInOutContent]="isDesktopSidebarOpen ? 'out':'in'">
-      <router-outlet ></router-outlet>
-    </div>
-  </div>
-</div>
+
+<router-outlet></router-outlet>

@@ -2,22 +2,36 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './user/auth/auth-interceptor';
 import { GraphQLModule } from './graphql.module';
 import { FacilitiesComponent } from './facilities/facilities.component';
-import { SharedModule } from "./shared/shared.module";
-import { PrimengModule } from "./primeng/primeng.module";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { SharedModule } from './shared/shared.module';
+import { PrimengModule } from './primeng/primeng.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+import { MainComponent } from './main/main.component';
 
 @NgModule({
-  declarations: [AppComponent, FacilitiesComponent],
-  imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, GraphQLModule, HttpClientModule, SharedModule, PrimengModule],
+  declarations: [
+    AppComponent,
+    FacilitiesComponent,
+    MainComponent,
+    BreadcrumbsComponent,
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    GraphQLModule,
+    HttpClientModule,
+    SharedModule,
+    PrimengModule,
+  ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
-  exports: []
+  exports: [],
 })
-export class AppModule {
-}
+export class AppModule {}

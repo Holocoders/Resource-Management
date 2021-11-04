@@ -1,9 +1,15 @@
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree, } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { LocalMessageService } from "../../shared/local-message.service";
+import { LocalMessageService } from '../../shared/local-message.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
@@ -27,7 +33,10 @@ export class AuthGuard implements CanActivate {
         if (user.loggedIn) {
           return true;
         }
-        this.localMessageService.addToastMessage({detail: "Authorization Error! Sign-In again.", severity: "error"})
+        this.localMessageService.addToastMessage({
+          detail: 'Authorization Error! Sign-In again.',
+          severity: 'error',
+        });
         return this.router.createUrlTree(['/user/signin']);
       })
     );

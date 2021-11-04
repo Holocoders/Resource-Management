@@ -1,23 +1,21 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, throwError } from 'rxjs';
 import { User } from '../user.model';
-import { Apollo, gql } from "apollo-angular";
-import { map } from "rxjs/operators";
+import { Apollo, gql } from 'apollo-angular';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-
   user = new BehaviorSubject<User>(new User());
 
   constructor(private apollo: Apollo) {}
 
-
   signup(user: User) {
-    const {name, email, password} = user;
+    const { name, email, password } = user;
     const mutation = this.apollo.mutate({
       mutation: gql`
-        mutation createUser ($createUserInput: CreateUserInput!) {
-          createUser (createUserInput: $createUserInput) {
+        mutation createUser($createUserInput: CreateUserInput!) {
+          createUser(createUserInput: $createUserInput) {
             _id
             email
             name
@@ -28,12 +26,14 @@ export class AuthService {
       `,
       variables: {
         createUserInput: {
-          name, email, password
-        }
-      }
+          name,
+          email,
+          password,
+        },
+      },
     });
     return mutation.pipe(
-      map(({data}) => {
+      map(({ data }) => {
         const user = (data as any).createUser as User;
         user.loggedIn = true;
         this.user.next(user);
@@ -41,9 +41,8 @@ export class AuthService {
       catchError((e) => {
         return throwError(void 0);
       })
-    )
+    );
   }
-
 
   signIn(user: User) {
     const mutation = this.apollo.mutate({
@@ -54,8 +53,8 @@ export class AuthService {
       `,
       variables: {
         loginEmail: user.email,
-        loginPassword: user.password
-      }
+        loginPassword: user.password,
+      },
     });
     return mutation.pipe(
       map((result) => {
@@ -70,8 +69,8 @@ export class AuthService {
   }
 
   autoLogin() {
-    let stringUser = localStorage.getItem("user");
-    if (!stringUser) stringUser = sessionStorage.getItem("user");
+    let stringUser = localStorage.getItem('user');
+    if (!stringUser) stringUser = sessionStorage.getItem('user');
     if (!stringUser) {
       this.user.next(new User());
       return false;

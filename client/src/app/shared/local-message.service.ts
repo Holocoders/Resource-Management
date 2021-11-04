@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from "rxjs";
-import { Message } from "primeng/api";
+import { BehaviorSubject } from 'rxjs';
+import { Message } from 'primeng/api';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalMessageService {
-
   toastMessage = new BehaviorSubject<Message>({});
-  constructor() { }
+  constructor() {}
 
   addToastMessage(message: Message) {
-    this.toastMessage.next({...message, contentStyleClass: "toast-content", life: 100000});
+    this.toastMessage.next({
+      ...message,
+      contentStyleClass: 'toast-content',
+      life: 100000,
+    });
   }
 }

@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { MenubarModule } from 'primeng/menubar';
-import { SharedModule } from "primeng/api";
-import { ButtonModule } from "primeng/button";
+import { SharedModule } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 import { ImageModule } from 'primeng/image';
 import { InputTextModule } from 'primeng/inputtext';
-import { RippleModule } from "primeng/ripple";
-import { AvatarModule } from "primeng/avatar";
+import { RippleModule } from 'primeng/ripple';
+import { AvatarModule } from 'primeng/avatar';
 import { DialogModule } from 'primeng/dialog';
-import { PasswordModule } from "primeng/password";
-import { DividerModule } from "primeng/divider";
-import { CheckboxModule } from "primeng/checkbox";
-import { ToastModule } from "primeng/toast";
-import { PanelModule } from "primeng/panel";
-import { MessageModule } from "primeng/message";
+import { PasswordModule } from 'primeng/password';
+import { DividerModule } from 'primeng/divider';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ToastModule } from 'primeng/toast';
+import { PanelModule } from 'primeng/panel';
+import { MessageModule } from 'primeng/message';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { MenuModule } from 'primeng/menu';
 
 const primeNgModules = [
   MenubarModule,
@@ -28,12 +30,13 @@ const primeNgModules = [
   CheckboxModule,
   ToastModule,
   PanelModule,
-  MessageModule
-]
+  MessageModule,
+  BreadcrumbModule,
+  MenuModule,
+];
 
 @NgModule({
   imports: primeNgModules,
-  exports: primeNgModules
+  exports: primeNgModules,
 })
-export class PrimengModule {
-}
+export class PrimengModule {}
