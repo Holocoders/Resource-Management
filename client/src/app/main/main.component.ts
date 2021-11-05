@@ -9,10 +9,6 @@ import {
 import { NavbarComponent } from '../shared/navbar/navbar.component';
 import { AuthService } from '../user/auth/auth.service';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { MessageService } from 'primeng/api';
-import { LocalMessageService } from '../shared/local-message.service';
 
 @Component({
   selector: 'app-main',

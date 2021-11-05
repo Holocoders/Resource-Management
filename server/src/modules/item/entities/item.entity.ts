@@ -2,6 +2,9 @@ import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
 import { Prop, SchemaFactory } from '@nestjs/mongoose';
 import { User } from '../../user/entities/user.entity';
 import { Facility } from '../../facility/entities/facility.entity';
+import {Document} from "mongoose";
+
+export type ItemDocument = Item & Document;
 
 @ObjectType()
 export class Item {

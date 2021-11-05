@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { CreateItemInput } from './dto/create-item.input';
 import { UpdateItemInput } from './dto/update-item.input';
+import {InjectModel} from "@nestjs/mongoose";
+import {Category, CategoryDocument} from "../category/entities/category.entity";
+import {Model} from "mongoose";
+import {NodeService} from "../node/node.service";
+import {Item, ItemDocument} from "./entities/item.entity";
 
 @Injectable()
 export class ItemService {
-  create(createItemInput: CreateItemInput) {
-    return 'This action adds a new item';
+
+  constructor(
+    @InjectModel(Item.name) private itemModel: Model<ItemDocument>,
+    private nodeService: NodeService,
+  ) {}
+
+  async create(createItemInput: CreateItemInput) {
+    createItemInput._id = await  this.nodeService.create(
+      createItemInput.parent, true
+    );
+    return new this.itemModel(createItemInput).save();
   }
 
   findAll() {
-    return `This action returns all item`;
+    return this.itemModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} item`;
+  findOne(id: string) {
+    return this.itemModel.findById(id);
   }
 
-  update(id: number, updateItemInput: UpdateItemInput) {
-    return `This action updates a #${id} item`;
+  update(id: string, updateItemInput: UpdateItemInput) {
+    return this.itemModel.findByIdAndUpdate(id, updateItemInput, {new: true});
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} item`;
+  remove(id: string) {
+    return this.itemModel.findByIdAndRemove(id);
   }
 }

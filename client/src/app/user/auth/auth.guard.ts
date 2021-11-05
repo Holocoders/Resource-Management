@@ -9,13 +9,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { LocalMessageService } from '../../shared/local-message.service';
+import {MessageService} from "primeng/api";
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
   constructor(
     private api: AuthService,
-    private localMessageService: LocalMessageService,
+    private messageService: MessageService,
     private router: Router
   ) {}
 
@@ -33,7 +33,7 @@ export class AuthGuard implements CanActivate {
         if (user.loggedIn) {
           return true;
         }
-        this.localMessageService.addToastMessage({
+        this.messageService.add({
           detail: 'Authorization Error! Sign-In again.',
           severity: 'error',
         });

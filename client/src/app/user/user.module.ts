@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SignupComponent } from './signup/signup.component';
 import { MessageService } from "primeng/api";
 import { SigninComponent } from './signin/signin.component';
+import {LocalMessageService} from "../shared/local-message.service";
 
 
 @NgModule({

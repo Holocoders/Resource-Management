@@ -1,7 +1,15 @@
-:host ::ng-deep .also-container {
-  height: 50%
+:host ::ng-deep {
+  .p-card-body {
+    padding: 0;
+  }
+  .p-card-header {
+    display: none;
+  }
+  .p-card-content {
+    padding: 0;
+  }
+  .p-datatable-header {
+    padding: 4px;
+  }
 }
 
-:host ::ng-deep .activity-card.p-card {
-  height: 60%;
-}

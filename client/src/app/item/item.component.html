@@ -1,6 +1,6 @@
 <div class="grid h-full w-full">
-  <div class="lg:col-4 xl:col-3">
-    <p-card styleClass="h-full ml-4 shadow-4 rounded-corners">
+  <div class="lg:col-5 xl:col-4">
+    <p-card styleClass="ml-4 mt-3 p-6 shadow-4 border-round">
       <div class="grid">
         <div class="col-12 flex justify-content-center mt-4">
           <img src="https://amz.run/51xT" width="200" height="200" class="border-1 border-primary border-circle">
@@ -40,63 +40,105 @@
       </div>
     </p-card>
   </div>
-  <div class="col grid ml-3 lg:ml-1 mt-2">
+  <div class="col grid ml-3 lg:ml-1 mt-2 overflow-x-auto">
     <div class="col-12 p-0">
-      <p-card styleClass="w-full shadow-4 rounded-corners activity-card">
-        Content
+      <p-card styleClass="w-full shadow-4 border-round h-30rem">
+        <p-table [value]="activities"
+                 [scrollable]="true" responsiveLayout="scroll" scrollHeight="25rem">
+          <ng-template pTemplate="caption">
+            <div class="table-header">
+              <span class="p-input-icon-left">
+                        <i class="pi pi-search"></i>
+                        <input pInputText type="text" placeholder="Search" />
+                    </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th style="min-width:200px">User</th>
+              <th style="min-width:200px">Activity</th>
+              <th style="min-width:200px">Quantity</th>
+              <th style="min-width:200px">Dates</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-activity>
+            <tr>
+              <td style="min-width:200px">
+                <span class="p-column-title">Name</span>
+                <img [src]="activity.image" width="32" style="vertical-align: middle">&nbsp;
+                <span class="image-text">{{activity.name}}</span>
+              </td>
+              <td style="min-width:200px">
+                <span class="p-column-title">Activity</span>
+                <p-tag [value]="activity.activity" [severity]="activity.severity"></p-tag>
+              </td>
+              <td style="min-width:200px">
+                <span class="p-column-title">Quantity</span>
+                <span>{{activity.quantity}}</span>
+              </td>
+              <td style="min-width:200px">
+                <span class="p-column-title">Dates</span>
+                {{activity.activityDate}}
+                <br />
+                {{activity?.dueDate}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
       </p-card>
       <div class="col-12 grid pl-0 pr-0">
-        <div class="h-4rem col-12 flex align-items-end">
-          Also got with.
-        </div>
-        <div class="col-3 h-full shadow-4 rounded-corners">
-          <p-card>
-            Content
+        <h4 class="h-4rem col-12 flex align-items-end">
+          Also got with
+        </h4>
+        <div class="col-6 md:col-3 h-15rem">
+          <p-card styleClass="h-full shadow-4 border-round">
+            <div class="grid">
+              <div class="col-12 flex justify-content-center mt-4">
+                <img src="https://amz.run/51xT" width="100" height="100">
+              </div>
+              <div class="col-12 flex justify-content-center mt-4">
+                <h6 class="mb-0">Soldering Iron</h6>
+              </div>
+            </div>
           </p-card>
         </div>
-        <div class="col-3">
-          <p-card>
-            Content
+        <div class="col-6 md:col-3 h-15rem">
+          <p-card styleClass="h-full shadow-4 border-round">
+            <div class="grid">
+              <div class="col-12 flex justify-content-center mt-4">
+                <img src="https://amz.run/51xT" width="100" height="100">
+              </div>
+              <div class="col-12 flex justify-content-center mt-4">
+                <h6 class="mb-0">Soldering Iron</h6>
+              </div>
+            </div>
           </p-card>
         </div>
-        <div class="col-3">
-          <p-card>
-            Content
+        <div class="col-6 md:col-3 h-15rem">
+          <p-card styleClass="h-full shadow-4 border-round">
+            <div class="grid">
+              <div class="col-12 flex justify-content-center mt-4">
+                <img src="https://amz.run/51xT" width="100" height="100">
+              </div>
+              <div class="col-12 flex justify-content-center mt-4">
+                <h6 class="mb-0">Soldering Iron</h6>
+              </div>
+            </div>
           </p-card>
         </div>
-        <div class="col-3">
-          <p-card>
-            Content
+        <div class="col-6 md:col-3 h-15rem">
+          <p-card styleClass="h-full shadow-4 border-round">
+            <div class="grid">
+              <div class="col-12 flex justify-content-center mt-4">
+                <img src="https://amz.run/51xT" width="100" height="100">
+              </div>
+              <div class="col-12 flex justify-content-center mt-4">
+                <h6 class="mb-0">Soldering Iron</h6>
+              </div>
+            </div>
           </p-card>
         </div>
       </div>
     </div>
-<!--    <div class="col-12 flex flex-column">-->
-<!--      <span class="w-full flex align-items-end mt-2 mb-2">-->
-<!--        <h5>Also got with</h5>-->
-<!--      </span>-->
-<!--      <div class="flex flex-row grid h-full">-->
-<!--        <div class="col-3">-->
-<!--          <p-card styleClass="h-full w-full shadow-4 rounded-corners">-->
-
-<!--          </p-card>-->
-<!--        </div>-->
-<!--        <div class="col-3">-->
-<!--          <p-card styleClass="h-full w-full shadow-4 rounded-corners">-->
-
-<!--          </p-card>-->
-<!--        </div>-->
-<!--        <div class="col-3">-->
-<!--          <p-card styleClass="h-full w-full shadow-4 rounded-corners">-->
-
-<!--          </p-card>-->
-<!--        </div>-->
-<!--        <div class="col-3">-->
-<!--          <p-card styleClass="h-full w-full shadow-4 rounded-corners">-->
-
-<!--          </p-card>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
   </div>
 </div>

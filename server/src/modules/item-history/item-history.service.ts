@@ -1,26 +1,26 @@
-import { Injectable } from '@nestjs/common';
+import {Inject, Injectable} from '@nestjs/common';
 import { CreateItemHistoryInput } from './dto/create-item-history.input';
 import { UpdateItemHistoryInput } from './dto/update-item-history.input';
+import {ItemHistory, ItemHistoryDocument} from "./entities/item-history.entity";
+import {Model} from "mongoose";
 
 @Injectable()
 export class ItemHistoryService {
+
+  constructor(
+    @Inject(ItemHistory.name) private itemHistoryModel: Model<ItemHistoryDocument>
+  ) {
+  }
+
   create(createItemHistoryInput: CreateItemHistoryInput) {
-    return 'This action adds a new itemHistory';
+    return new this.itemHistoryModel(createItemHistoryInput).save();
   }
 
-  findAll() {
-    return `This action returns all itemHistory`;
+  findAll(query) {
+    return this.itemHistoryModel.find(query);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} itemHistory`;
-  }
-
-  update(id: number, updateItemHistoryInput: UpdateItemHistoryInput) {
-    return `This action updates a #${id} itemHistory`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} itemHistory`;
+  update(updateItemHistoryInput: UpdateItemHistoryInput) {
+    this.itemHistoryModel.findOneAndUpdate({itemId: updateItemHistoryInput.itemId, userId: updateItemHistoryInput.userId}, updateItemHistoryInput);
   }
 }

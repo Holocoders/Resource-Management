@@ -2,6 +2,10 @@ import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { User } from "../../user/entities/user.entity";
 import { Prop } from "@nestjs/mongoose";
 import { Item } from "../../item/entities/item.entity";
+import {Document} from "mongoose";
+
+
+export type ItemHistoryDocument = ItemHistory & Document;
 
 export enum ItemActivity {
   BUY,
@@ -10,10 +14,6 @@ export enum ItemActivity {
 
 @ObjectType()
 export class ItemHistory {
-
-  @Field(() => ID)
-  _id: string;
-
   @Prop()
   itemId: Item;
 

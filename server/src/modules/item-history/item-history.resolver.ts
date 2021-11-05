@@ -13,23 +13,22 @@ export class ItemHistoryResolver {
     return this.itemHistoryService.create(createItemHistoryInput);
   }
 
-  @Query(() => [ItemHistory], { name: 'itemHistory' })
-  findAll() {
-    return this.itemHistoryService.findAll();
+  @Query(() => [ItemHistory], { name: 'itemActivityHistory' })
+  findItemActivityHistory(
+    @Args('itemId', {type: () => String}) itemId: string
+  ) {
+    return this.itemHistoryService.findAll({itemId});
   }
 
-  @Query(() => ItemHistory, { name: 'itemHistory' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.itemHistoryService.findOne(id);
+  @Query(() => [ItemHistory], { name: 'userActivityHistory' })
+  findUserActivityHistory(
+    @Args('userId', {type: () => String}) userId: string
+  ) {
+    return this.itemHistoryService.findAll({userId});
   }
 
   @Mutation(() => ItemHistory)
   updateItemHistory(@Args('updateItemHistoryInput') updateItemHistoryInput: UpdateItemHistoryInput) {
-    return this.itemHistoryService.update(updateItemHistoryInput.id, updateItemHistoryInput);
-  }
-
-  @Mutation(() => ItemHistory)
-  removeItemHistory(@Args('id', { type: () => Int }) id: number) {
-    return this.itemHistoryService.remove(id);
+    return this.itemHistoryService.update(updateItemHistoryInput);
   }
 }

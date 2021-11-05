@@ -1,7 +1,16 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import {Field, ID, InputType, Int} from '@nestjs/graphql';
+import {Item} from "../../item/entities/item.entity";
+import {User} from "../../user/entities/user.entity";
 
 @InputType()
 export class CreateItemHistoryInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  itemId: Item;
+  userId: User;
+  quantity: number;
+  currentDate: Date;
+  cancelled: boolean;
+  issued: boolean;
+  status: boolean;
+  issueDate: Date;
+  dueDate: Date;
 }
