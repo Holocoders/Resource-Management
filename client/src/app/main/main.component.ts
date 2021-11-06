@@ -39,10 +39,7 @@ import { Router } from '@angular/router';
 export class MainComponent implements OnInit {
   title = 'client';
   isDesktopSidebarOpen = false;
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.authService.autoLogin();

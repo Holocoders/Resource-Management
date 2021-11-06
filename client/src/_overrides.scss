@@ -23,6 +23,15 @@
 
 a {color: blue; text-decoration: underline;}
 
+.rounded-corners {
+  border-radius: 15px !important;
+}
+
+.border-round-top {
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+}
+
 .border-round {
   border-radius: 15px !important;
 }

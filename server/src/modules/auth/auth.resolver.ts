@@ -1,12 +1,12 @@
-import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
-import {User} from '../user/entities/user.entity';
-import {CreateUserInput} from '../user/dto/create-user.input';
-import {AuthService} from './auth.service';
-import {UserService} from '../user/user.service';
-import {GraphQLError} from 'graphql';
-import {UseGuards} from '@nestjs/common';
-import {JwtAuthGuard} from './auth.guard';
-import {CurrentUser} from '../../decorators/auth.decorator';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { User } from '../user/entities/user.entity';
+import { CreateUserInput } from '../user/dto/create-user.input';
+import { AuthService } from './auth.service';
+import { UserService } from '../user/user.service';
+import { GraphQLError } from 'graphql';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from './auth.guard';
+import { CurrentUser } from '../../decorators/auth.decorator';
 
 @Resolver(() => User)
 export class AuthResolver {
@@ -18,9 +18,12 @@ export class AuthResolver {
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     const password = createUserInput.password;
-    let result = await this.userService.create(createUserInput);
+    const result = await this.userService.create(createUserInput);
     if (result instanceof GraphQLError) return result;
-    const token = await this.authService.login({email: result.email, password});
+    const token = await this.authService.login({
+      email: result.email,
+      password,
+    });
     result.token = token as string;
     return result;
   }

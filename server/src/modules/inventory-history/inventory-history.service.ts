@@ -1,6 +1,6 @@
-import {Injectable} from '@nestjs/common';
-import {CreateInventoryHistoryInput} from './dto/create-inventory-history.input';
-import {UpdateInventoryHistoryInput} from './dto/update-inventory-history.input';
+import { Injectable } from '@nestjs/common';
+import { CreateInventoryHistoryInput } from './dto/create-inventory-history.input';
+import { UpdateInventoryHistoryInput } from './dto/update-inventory-history.input';
 
 @Injectable()
 export class InventoryHistoryService {

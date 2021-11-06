@@ -1,10 +1,10 @@
-import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
-import {FacilityService} from './facility.service';
-import {Facility} from './entities/facility.entity';
-import {CreateFacilityInput} from './dto/create-facility.input';
-import {UpdateFacilityInput} from './dto/update-facility.input';
-import {FileUpload, GraphQLUpload} from 'graphql-upload';
-import {createWriteStream} from 'fs';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { FacilityService } from './facility.service';
+import { Facility } from './entities/facility.entity';
+import { CreateFacilityInput } from './dto/create-facility.input';
+import { UpdateFacilityInput } from './dto/update-facility.input';
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
+import { createWriteStream } from 'fs';
 
 @Resolver(() => Facility)
 export class FacilityResolver {
@@ -18,10 +18,9 @@ export class FacilityResolver {
   ) {
     const facility = await this.facilityService.create(createFacilityInput);
     const id = facility._id;
-    const ext = filename.split('.').pop();
     await new Promise(async (resolve, reject) =>
       createReadStream()
-        .pipe(createWriteStream(`./uploads/${id}.${ext}`))
+        .pipe(createWriteStream(`./uploads/${id}`))
         .on('finish', () => {
           resolve(true);
         })
@@ -36,10 +35,9 @@ export class FacilityResolver {
     @Args({ name: 'file', type: () => GraphQLUpload })
     { createReadStream, filename }: FileUpload,
   ): Promise<boolean> {
-    const ext = filename.split('.').pop();
     return new Promise(async (resolve, reject) =>
       createReadStream()
-        .pipe(createWriteStream(`./uploads/${id}.${ext}`))
+        .pipe(createWriteStream(`./uploads/${id}`))
         .on('finish', () => {
           resolve(true);
         })

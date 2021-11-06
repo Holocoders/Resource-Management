@@ -1,10 +1,10 @@
-import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
-import {ItemService} from './item.service';
-import {Item} from './entities/item.entity';
-import {CreateItemInput} from './dto/create-item.input';
-import {UpdateItemInput} from './dto/update-item.input';
-import {createWriteStream} from "fs";
-import {FileUpload, GraphQLUpload} from "graphql-upload";
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { ItemService } from './item.service';
+import { Item } from './entities/item.entity';
+import { CreateItemInput } from './dto/create-item.input';
+import { UpdateItemInput } from './dto/update-item.input';
+import { createWriteStream } from 'fs';
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
 
 @Resolver(() => Item)
 export class ItemResolver {
@@ -33,7 +33,7 @@ export class ItemResolver {
   async uploadItemImage(
     @Args('id', { type: () => String }) id: string,
     @Args({ name: 'file', type: () => GraphQLUpload })
-      { createReadStream, filename }: FileUpload,
+    { createReadStream, filename }: FileUpload,
   ): Promise<any> {
     const path = `./uploads/${id}`;
     await new Promise(async (resolve, reject) =>
@@ -44,7 +44,7 @@ export class ItemResolver {
         })
         .on('error', () => reject(false)),
     );
-    return {image: path};
+    return { image: path };
   }
 
   @Query(() => [Item], { name: 'item' })

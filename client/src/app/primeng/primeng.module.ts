@@ -15,10 +15,12 @@ import { PanelModule } from 'primeng/panel';
 import { MessageModule } from 'primeng/message';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { MenuModule } from 'primeng/menu';
-import {CardModule} from "primeng/card";
-import {ChipModule} from "primeng/chip";
-import {TableModule} from "primeng/table";
-import {TagModule} from "primeng/tag";
+import { CardModule } from 'primeng/card';
+import { ChipModule } from 'primeng/chip';
+import { DataViewModule } from 'primeng/dataview';
+import { RatingModule } from 'primeng/rating';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
 
 const primeNgModules = [
   MenubarModule,
@@ -40,7 +42,9 @@ const primeNgModules = [
   CardModule,
   ChipModule,
   TableModule,
-  TagModule
+  TagModule,
+  DataViewModule,
+  RatingModule,
 ];
 
 @NgModule({

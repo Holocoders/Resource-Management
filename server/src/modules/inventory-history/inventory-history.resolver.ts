@@ -1,15 +1,20 @@
-import {Args, Int, Mutation, Query, Resolver} from '@nestjs/graphql';
-import {InventoryHistoryService} from './inventory-history.service';
-import {InventoryHistory} from './entities/inventory-history.entity';
-import {CreateInventoryHistoryInput} from './dto/create-inventory-history.input';
-import {UpdateInventoryHistoryInput} from './dto/update-inventory-history.input';
+import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { InventoryHistoryService } from './inventory-history.service';
+import { InventoryHistory } from './entities/inventory-history.entity';
+import { CreateInventoryHistoryInput } from './dto/create-inventory-history.input';
+import { UpdateInventoryHistoryInput } from './dto/update-inventory-history.input';
 
 @Resolver(() => InventoryHistory)
 export class InventoryHistoryResolver {
-  constructor(private readonly inventoryHistoryService: InventoryHistoryService) {}
+  constructor(
+    private readonly inventoryHistoryService: InventoryHistoryService,
+  ) {}
 
   @Mutation(() => InventoryHistory)
-  createInventoryHistory(@Args('createInventoryHistoryInput') createInventoryHistoryInput: CreateInventoryHistoryInput) {
+  createInventoryHistory(
+    @Args('createInventoryHistoryInput')
+    createInventoryHistoryInput: CreateInventoryHistoryInput,
+  ) {
     return this.inventoryHistoryService.create(createInventoryHistoryInput);
   }
 
@@ -24,8 +29,14 @@ export class InventoryHistoryResolver {
   }
 
   @Mutation(() => InventoryHistory)
-  updateInventoryHistory(@Args('updateInventoryHistoryInput') updateInventoryHistoryInput: UpdateInventoryHistoryInput) {
-    return this.inventoryHistoryService.update(updateInventoryHistoryInput.id, updateInventoryHistoryInput);
+  updateInventoryHistory(
+    @Args('updateInventoryHistoryInput')
+    updateInventoryHistoryInput: UpdateInventoryHistoryInput,
+  ) {
+    return this.inventoryHistoryService.update(
+      updateInventoryHistoryInput.id,
+      updateInventoryHistoryInput,
+    );
   }
 
   @Mutation(() => InventoryHistory)

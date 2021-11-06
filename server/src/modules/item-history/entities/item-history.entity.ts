@@ -1,15 +1,14 @@
-import {Field, ID, ObjectType} from '@nestjs/graphql';
-import {User} from "../../user/entities/user.entity";
-import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
-import {Item} from "../../item/entities/item.entity";
-import {Document, Schema as MongooseSchema} from "mongoose";
-
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { User } from '../../user/entities/user.entity';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Item } from '../../item/entities/item.entity';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export type ItemHistoryDocument = ItemHistory & Document;
 
 export enum ItemActivity {
   BUY,
-  RENT
+  RENT,
 }
 
 @Schema()

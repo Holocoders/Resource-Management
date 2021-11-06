@@ -1,7 +1,8 @@
-import {Field, ID, ObjectType} from "@nestjs/graphql";
-import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
-import {ItemFrequency} from "./itemFrequency.entity";
-import {Schema as MongooseSchema} from "mongoose";
+import { Schema as MongooseSchema } from 'mongoose';
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ItemFrequency } from './itemFrequency.entity';
+import { Facility } from '../../facility/entities/facility.entity';
 
 @Schema()
 @ObjectType()

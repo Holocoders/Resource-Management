@@ -11,6 +11,7 @@ import { PrimengModule } from './primeng/primeng.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { MainComponent } from './main/main.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { MainComponent } from './main/main.component';
     GraphQLModule,
     HttpClientModule,
     SharedModule,
+    FormsModule,
     PrimengModule,
   ],
   providers: [

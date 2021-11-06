@@ -1,6 +1,6 @@
-import {Field, ID, ObjectType} from '@nestjs/graphql';
-import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
-import {Document, Schema as MongooseSchema} from "mongoose";
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export type NodeDocument = Node & Document;
 
@@ -10,10 +10,10 @@ export class Node {
   @Field(() => ID)
   _id: string;
 
-  @Prop({default: null, ref: 'Node', type: MongooseSchema.Types.ObjectId})
+  @Prop({ default: null, ref: 'Node', type: MongooseSchema.Types.ObjectId })
   parent: string;
 
-  @Prop({default: false})
+  @Prop({ default: false })
   isItem: boolean;
 }
 

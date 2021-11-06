@@ -1,6 +1,6 @@
-import {InputType} from '@nestjs/graphql';
-import {Item} from "../../item/entities/item.entity";
-import {User} from "../../user/entities/user.entity";
+import { InputType } from '@nestjs/graphql';
+import { Item } from '../../item/entities/item.entity';
+import { User } from '../../user/entities/user.entity';
 
 @InputType()
 export class CreateItemHistoryInput {

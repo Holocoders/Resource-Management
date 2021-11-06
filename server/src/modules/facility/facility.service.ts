@@ -1,10 +1,10 @@
-import {Injectable} from '@nestjs/common';
-import {CreateFacilityInput} from './dto/create-facility.input';
-import {UpdateFacilityInput} from './dto/update-facility.input';
-import {InjectModel} from '@nestjs/mongoose';
-import {Facility, FacilityDocument} from './entities/facility.entity';
-import {Model} from 'mongoose';
-import {NodeService} from '../node/node.service';
+import { Injectable } from '@nestjs/common';
+import { CreateFacilityInput } from './dto/create-facility.input';
+import { UpdateFacilityInput } from './dto/update-facility.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { Facility, FacilityDocument } from './entities/facility.entity';
+import { Model } from 'mongoose';
+import { NodeService } from '../node/node.service';
 
 @Injectable()
 export class FacilityService {
@@ -34,6 +34,7 @@ export class FacilityService {
   }
 
   remove(id: string) {
-    return `This action removes a #${id} facility`;
+    this.nodeService.remove(id);
+    return this.facilityModel.findByIdAndRemove(id);
   }
 }

@@ -3,17 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { ItemRoutingModule } from './item-routing.module';
 import { ItemComponent } from './item.component';
-import {PrimengModule} from "../primeng/primeng.module";
-
+import { PrimengModule } from '../primeng/primeng.module';
 
 @NgModule({
-  declarations: [
-    ItemComponent
-  ],
-  imports: [
-    CommonModule,
-    ItemRoutingModule,
-    PrimengModule
-  ]
+  declarations: [ItemComponent],
+  imports: [CommonModule, ItemRoutingModule, PrimengModule],
 })
-export class ItemModule { }
+export class ItemModule {}

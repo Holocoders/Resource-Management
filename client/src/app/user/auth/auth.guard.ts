@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import {MessageService} from "primeng/api";
+import { MessageService } from 'primeng/api';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
