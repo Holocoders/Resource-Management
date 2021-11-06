@@ -40,7 +40,7 @@ type Item {
     picture: Image
     price: Float!
     description: String
-    created: User!
+    createdBy: User!
     quantity: Int!
 }
 

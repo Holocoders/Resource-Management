@@ -1,7 +1,7 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { User } from "../../user/entities/user.entity";
-import { Prop } from "@nestjs/mongoose";
-import { Item } from "../../item/entities/item.entity";
+import {Field, ID, ObjectType} from '@nestjs/graphql';
+import {User} from "../../user/entities/user.entity";
+import {Prop} from "@nestjs/mongoose";
+import {Item} from "../../item/entities/item.entity";
 
 export enum InventoryActivity {
   ADD,

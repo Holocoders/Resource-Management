@@ -1,10 +1,10 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ItemService } from './item.service';
-import { Item } from './entities/item.entity';
-import { CreateItemInput } from './dto/create-item.input';
-import { UpdateItemInput } from './dto/update-item.input';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {ItemService} from './item.service';
+import {Item} from './entities/item.entity';
+import {CreateItemInput} from './dto/create-item.input';
+import {UpdateItemInput} from './dto/update-item.input';
 import {createWriteStream} from "fs";
-import {GraphQLUpload, FileUpload} from "graphql-upload";
+import {FileUpload, GraphQLUpload} from "graphql-upload";
 
 @Resolver(() => Item)
 export class ItemResolver {

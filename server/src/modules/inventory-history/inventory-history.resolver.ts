@@ -1,8 +1,8 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { InventoryHistoryService } from './inventory-history.service';
-import { InventoryHistory } from './entities/inventory-history.entity';
-import { CreateInventoryHistoryInput } from './dto/create-inventory-history.input';
-import { UpdateInventoryHistoryInput } from './dto/update-inventory-history.input';
+import {Args, Int, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {InventoryHistoryService} from './inventory-history.service';
+import {InventoryHistory} from './entities/inventory-history.entity';
+import {CreateInventoryHistoryInput} from './dto/create-inventory-history.input';
+import {UpdateInventoryHistoryInput} from './dto/update-inventory-history.input';
 
 @Resolver(() => InventoryHistory)
 export class InventoryHistoryResolver {

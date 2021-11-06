@@ -1,8 +1,8 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ItemHistoryService } from './item-history.service';
-import { ItemHistory } from './entities/item-history.entity';
-import { CreateItemHistoryInput } from './dto/create-item-history.input';
-import { UpdateItemHistoryInput } from './dto/update-item-history.input';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {ItemHistoryService} from './item-history.service';
+import {ItemHistory} from './entities/item-history.entity';
+import {CreateItemHistoryInput} from './dto/create-item-history.input';
+import {UpdateItemHistoryInput} from './dto/update-item-history.input';
 
 @Resolver(() => ItemHistory)
 export class ItemHistoryResolver {

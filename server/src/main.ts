@@ -1,9 +1,9 @@
-import { NestFactory } from '@nestjs/core';
-import { graphqlUploadExpress } from 'graphql-upload';
-import { AppModule } from './app.module';
-import { Logger, ValidationPipe } from '@nestjs/common';
-import { join } from 'path';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import {NestFactory} from '@nestjs/core';
+import {graphqlUploadExpress} from 'graphql-upload';
+import {AppModule} from './app.module';
+import {Logger, ValidationPipe} from '@nestjs/common';
+import {join} from 'path';
+import {NestExpressApplication} from '@nestjs/platform-express';
 
 declare const module: any;
 

@@ -1,13 +1,13 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { CreateUserInput } from './dto/create-user.input';
-import { User, UserDocument } from './entities/user.entity';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import {Injectable, Logger} from '@nestjs/common';
+import {CreateUserInput} from './dto/create-user.input';
+import {User, UserDocument} from './entities/user.entity';
+import {InjectModel} from '@nestjs/mongoose';
+import {Model} from 'mongoose';
 import * as bcrypt from 'bcrypt';
-import { GraphQLError } from 'graphql';
-import { GetUserInput } from './dto/get-user.input';
-import { UpdatePasswordInput } from './dto/update-password.input';
-import { UpdateUserInput } from './dto/update-user.input';
+import {GraphQLError} from 'graphql';
+import {GetUserInput} from './dto/get-user.input';
+import {UpdatePasswordInput} from './dto/update-password.input';
+import {UpdateUserInput} from './dto/update-user.input';
 
 @Injectable()
 export class UserService {

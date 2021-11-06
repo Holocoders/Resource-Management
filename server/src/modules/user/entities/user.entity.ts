@@ -1,6 +1,6 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Document } from 'mongoose';
+import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
+import {Field, ID, ObjectType} from '@nestjs/graphql';
+import {Document, Schema as MongooseSchema} from 'mongoose';
 
 export type UserDocument = User & Document;
 
@@ -8,6 +8,7 @@ export type UserDocument = User & Document;
 @ObjectType()
 export class User {
   @Field(() => ID)
+  @Prop({ type: MongooseSchema.Types.ObjectId })
   _id: string;
 
   @Prop()

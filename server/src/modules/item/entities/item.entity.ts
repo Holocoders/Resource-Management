@@ -1,14 +1,15 @@
-import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
-import { Prop, SchemaFactory } from '@nestjs/mongoose';
-import { User } from '../../user/entities/user.entity';
-import { Facility } from '../../facility/entities/facility.entity';
-import {Document} from "mongoose";
+import {Field, ID, ObjectType} from '@nestjs/graphql';
+import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
+import {User} from '../../user/entities/user.entity';
+import {Document, Schema as MongooseSchema} from "mongoose";
 
 export type ItemDocument = Item & Document;
 
+@Schema()
 @ObjectType()
 export class Item {
   @Field(() => ID)
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Node' })
   _id: string;
 
   @Prop()
@@ -24,10 +25,10 @@ export class Item {
   description: string;
 
   @Prop()
-  created: User;
+  createdBy: User;
 
   @Prop()
   quantity: number;
 }
 
-export const ItemModel = SchemaFactory.createForClass(Facility);
+export const ItemSchema = SchemaFactory.createForClass(Item);

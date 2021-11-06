@@ -1,8 +1,7 @@
-import { Injectable } from '@nestjs/common';
-import { CreateItemInput } from './dto/create-item.input';
-import { UpdateItemInput } from './dto/update-item.input';
+import {Injectable} from '@nestjs/common';
+import {CreateItemInput} from './dto/create-item.input';
+import {UpdateItemInput} from './dto/update-item.input';
 import {InjectModel} from "@nestjs/mongoose";
-import {Category, CategoryDocument} from "../category/entities/category.entity";
 import {Model} from "mongoose";
 import {NodeService} from "../node/node.service";
 import {Item, ItemDocument} from "./entities/item.entity";

@@ -1,10 +1,10 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FacilityService } from './facility.service';
-import { Facility } from './entities/facility.entity';
-import { CreateFacilityInput } from './dto/create-facility.input';
-import { UpdateFacilityInput } from './dto/update-facility.input';
-import { GraphQLUpload, FileUpload } from 'graphql-upload';
-import { createWriteStream } from 'fs';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {FacilityService} from './facility.service';
+import {Facility} from './entities/facility.entity';
+import {CreateFacilityInput} from './dto/create-facility.input';
+import {UpdateFacilityInput} from './dto/update-facility.input';
+import {FileUpload, GraphQLUpload} from 'graphql-upload';
+import {createWriteStream} from 'fs';
 
 @Resolver(() => Facility)
 export class FacilityResolver {

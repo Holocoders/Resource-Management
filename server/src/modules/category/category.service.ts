@@ -1,10 +1,10 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCategoryInput } from './dto/create-category.input';
-import { UpdateCategoryInput } from './dto/update-category.input';
-import { NodeService } from '../node/node.service';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Category, CategoryDocument } from './entities/category.entity';
+import {Injectable} from '@nestjs/common';
+import {CreateCategoryInput} from './dto/create-category.input';
+import {UpdateCategoryInput} from './dto/update-category.input';
+import {NodeService} from '../node/node.service';
+import {InjectModel} from '@nestjs/mongoose';
+import {Model} from 'mongoose';
+import {Category, CategoryDocument} from './entities/category.entity';
 
 @Injectable()
 export class CategoryService {
