@@ -19,4 +19,22 @@ export class FacilitiesService {
       `,
     }).valueChanges;
   }
+
+  removeFacility(id: string) {
+    const REMOVE = gql`
+      mutation removeFacility($id: String!) {
+        removeFacility(id: $id) {
+          _id
+          name
+        }
+      }
+    `;
+
+    return this.apollo.mutate({
+      mutation: REMOVE,
+      variables: {
+        id,
+      },
+    });
+  }
 }

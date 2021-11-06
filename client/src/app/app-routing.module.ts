@@ -5,7 +5,7 @@ import { AuthGuard } from './user/auth/auth.guard';
 import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/item', pathMatch: 'full' },
+  { path: '', redirectTo: '/facilities', pathMatch: 'full' },
   {
     path: 'user',
     loadChildren: () =>

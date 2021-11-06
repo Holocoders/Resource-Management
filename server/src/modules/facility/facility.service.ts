@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Facility, FacilityDocument } from './entities/facility.entity';
 import { Model } from 'mongoose';
 import { NodeService } from '../node/node.service';
+import * as fs from 'fs';
 
 @Injectable()
 export class FacilityService {
@@ -34,7 +35,10 @@ export class FacilityService {
   }
 
   remove(id: string) {
-    this.nodeService.remove(id);
+    const path = './uploads/' + id;
+    fs.unlink(path, () => {
+      this.nodeService.remove(id);
+    });
     return this.facilityModel.findByIdAndRemove(id);
   }
 }
