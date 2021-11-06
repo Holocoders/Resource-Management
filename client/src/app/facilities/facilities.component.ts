@@ -54,7 +54,6 @@ export class FacilitiesComponent implements OnInit {
         this.error = result.error;
         this.facilities.push(facility);
         this.facilities = [...this.facilities];
-        // this.facilities.push(data);
         this.display = false;
       });
   }
