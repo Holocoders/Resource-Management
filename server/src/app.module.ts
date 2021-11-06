@@ -31,6 +31,10 @@ const env = process.env.NODE_ENV || 'dev';
       sortSchema: true,
       uploads: false,
       context: ({ req }) => ({ req }),
+      cors: {
+        origin: 'http://localhost:4200',
+        credentials: true,
+      },
     }),
     UserModule,
     AuthModule,
