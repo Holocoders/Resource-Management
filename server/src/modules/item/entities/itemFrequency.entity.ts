@@ -1,12 +1,11 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Schema as MongooseSchema } from 'mongoose';
+import {Field, ID, InputType, ObjectType} from "@nestjs/graphql";
+import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 
 @Schema()
 @ObjectType()
+@InputType('ItemFrequencyType')
 export class ItemFrequency {
   @Field(() => ID)
-  @Prop({ type: MongooseSchema.Types.ObjectId })
   _id: string;
 
   @Prop()

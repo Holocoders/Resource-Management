@@ -1,22 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { CreateItemInput } from './dto/create-item.input';
-import { UpdateItemInput } from './dto/update-item.input';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { NodeService } from '../node/node.service';
-import { Item, ItemDocument } from './entities/item.entity';
+import {Injectable} from '@nestjs/common';
+import {CreateItemInput} from './dto/create-item.input';
+import {UpdateItemInput} from './dto/update-item.input';
+import {InjectModel} from "@nestjs/mongoose";
+import {Model} from "mongoose";
+import {NodeService} from "../node/node.service";
+import {Item, ItemDocument} from "./entities/item.entity";
+import * as fs from "fs";
 
 @Injectable()
 export class ItemService {
+
   constructor(
     @InjectModel(Item.name) private itemModel: Model<ItemDocument>,
     private nodeService: NodeService,
   ) {}
 
   async create(createItemInput: CreateItemInput) {
-    createItemInput._id = await this.nodeService.create(
-      createItemInput.parent,
-      true,
+    createItemInput._id = await  this.nodeService.create(
+      createItemInput.parent, true
     );
     return new this.itemModel(createItemInput).save();
   }
@@ -26,14 +27,18 @@ export class ItemService {
   }
 
   findOne(id: string) {
-    return this.itemModel.findById(id);
+    return this.itemModel.findById(id).populate('createdBy');
   }
 
   update(id: string, updateItemInput: UpdateItemInput) {
-    return this.itemModel.findByIdAndUpdate(id, updateItemInput, { new: true });
+    return this.itemModel.findByIdAndUpdate(id, updateItemInput, {new: true});
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    const path = `./uploads/${id}`
+    if (fs.existsSync(path))
+      fs.rmSync(path)
+    await this.nodeService.remove(id);
     return this.itemModel.findByIdAndRemove(id);
   }
 }

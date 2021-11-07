@@ -1,69 +1,82 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ItemService } from './item.service';
-import { Item } from './entities/item.entity';
-import { CreateItemInput } from './dto/create-item.input';
-import { UpdateItemInput } from './dto/update-item.input';
-import { createWriteStream } from 'fs';
-import { FileUpload, GraphQLUpload } from 'graphql-upload';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {ItemService} from './item.service';
+import {Item} from './entities/item.entity';
+import {CreateItemInput} from './dto/create-item.input';
+import {UpdateItemInput} from './dto/update-item.input';
+import {FileUpload, GraphQLUpload} from "graphql-upload";
+import {CurrentUser} from "../../decorators/auth.decorator";
+import {UseGuards} from "@nestjs/common";
+import {JwtAuthGuard} from "../auth/auth.guard";
+import {GraphQLError} from "graphql";
+import {SharedService} from "../shared/shared.service";
+import {join} from "path";
 
 @Resolver(() => Item)
+@UseGuards(JwtAuthGuard)
 export class ItemResolver {
-  constructor(private readonly itemService: ItemService) {}
+  constructor(
+    private readonly itemService: ItemService,
+    private readonly sharedService: SharedService
+  ) {}
 
   @Mutation(() => Item)
   async createItem(
+    @CurrentUser() user,
     @Args('createItemInput') createItemInput: CreateItemInput,
     @Args({ name: 'file', type: () => GraphQLUpload })
-    { createReadStream, filename }: FileUpload,
+    { createReadStream }: FileUpload,
   ) {
+    if (!user) return new GraphQLError("Unauthorized");
+    createItemInput.createdBy = user;
     const item = await this.itemService.create(createItemInput);
-    const id = item._id;
-    await new Promise(async (resolve, reject) =>
-      createReadStream()
-        .pipe(createWriteStream(`./uploads/${id}`))
-        .on('finish', () => {
-          resolve(true);
-        })
-        .on('error', () => reject(false)),
-    );
+    const path = `./uploads/${item._id}`;
+    await this.sharedService.uploadImage(createReadStream, path);
     return item;
   }
 
   @Mutation(() => String)
   async uploadItemImage(
+    @CurrentUser() user,
     @Args('id', { type: () => String }) id: string,
     @Args({ name: 'file', type: () => GraphQLUpload })
-    { createReadStream, filename }: FileUpload,
+      { createReadStream }: FileUpload,
   ): Promise<any> {
+    if (!user) return new GraphQLError("Unauthorized");
     const path = `./uploads/${id}`;
-    await new Promise(async (resolve, reject) =>
-      createReadStream()
-        .pipe(createWriteStream(path))
-        .on('finish', () => {
-          resolve(true);
-        })
-        .on('error', () => reject(false)),
-    );
-    return { image: path };
+    await this.sharedService.uploadImage(createReadStream, path);
+    return join(__dirname, path);
   }
 
   @Query(() => [Item], { name: 'item' })
-  findAll() {
+  findAll(@CurrentUser() user) {
+    if (!user) return new GraphQLError("Unauthorized");
     return this.itemService.findAll();
   }
 
   @Query(() => Item, { name: 'item' })
-  findOne(@Args('id', { type: () => String }) id: string) {
+  findOne(
+    @CurrentUser() user,
+    @Args('id', { type: () => String }) id: string
+  ) {
+    if (!user) return new GraphQLError("Unauthorized");
     return this.itemService.findOne(id);
   }
 
   @Mutation(() => Item)
-  updateItem(@Args('updateItemInput') updateItemInput: UpdateItemInput) {
-    return this.itemService.update(updateItemInput.id, updateItemInput);
+  updateItem(
+    @CurrentUser() user,
+    @Args('updateItemInput') updateItemInput: UpdateItemInput
+  ) {
+    if (!user) return new GraphQLError("Unauthorized");
+    return this.itemService.update(updateItemInput._id, updateItemInput);
   }
 
   @Mutation(() => Item)
-  removeItem(@Args('id', { type: () => String }) id: string) {
+  removeItem(
+    @CurrentUser() user,
+    @Args('id', { type: () => String }) id: string
+  ) {
+    if (!user) return new GraphQLError("Unauthorized");
     return this.itemService.remove(id);
   }
 }

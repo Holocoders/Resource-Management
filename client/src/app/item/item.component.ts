@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import {Item} from "./item.model";
+import {ItemService} from "./item.service";
+import {ActivatedRoute} from "@angular/router";
+import {filter, map, mergeMap} from "rxjs/operators";
+import {subscribe} from "graphql";
 
 @Component({
   selector: 'app-item',
@@ -7,7 +12,10 @@ import { MessageService } from 'primeng/api';
   styleUrls: ['./item.component.scss'],
 })
 export class ItemComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private readonly itemService: ItemService,
+    private readonly route: ActivatedRoute
+  ) {}
 
   activities: any[] = [
     {
@@ -83,8 +91,19 @@ export class ItemComponent implements OnInit {
       dueDate: '4 Oct 2021',
     },
   ];
-
-  ngOnInit(): void {}
+  item: Item;
+  isLoading: boolean;
+  ngOnInit(): void {
+    this.route.queryParams
+      .pipe(
+        map(params => params.id),
+        mergeMap(id => this.itemService.getItemDetails(id))
+      )
+      .subscribe((result: any) => {
+        this.isLoading = result.loading;
+        this.item = result?.data?.item;
+    })
+  }
 
   search(dt: any, event: any) {
     dt.filterGlobal(event.target.value, 'contains');

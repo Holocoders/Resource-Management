@@ -2,10 +2,6 @@ export class User {
   _id: string;
   email: string;
   name: string;
-  loggedIn: boolean;
+  loggedIn: boolean = false;
   token: string;
-
-  constructor() {
-    this.loggedIn = false;
-  }
 }

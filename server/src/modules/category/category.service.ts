@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
-import { CreateCategoryInput } from './dto/create-category.input';
-import { UpdateCategoryInput } from './dto/update-category.input';
-import { NodeService } from '../node/node.service';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { Category, CategoryDocument } from './entities/category.entity';
+import {Injectable} from '@nestjs/common';
+import {CreateCategoryInput} from './dto/create-category.input';
+import {UpdateCategoryInput} from './dto/update-category.input';
+import {NodeService} from '../node/node.service';
+import {InjectModel} from '@nestjs/mongoose';
+import {Model} from 'mongoose';
+import {Category, CategoryDocument} from './entities/category.entity';
+import fs from "fs";
 
 @Injectable()
 export class CategoryService {
@@ -21,18 +22,22 @@ export class CategoryService {
   }
 
   findAll() {
-    return `This action returns all category`;
+    return this.categoryModel.find();
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} category`;
+    return this.categoryModel.findById(id);
   }
 
   update(id: string, updateCategoryInput: UpdateCategoryInput) {
-    return `This action updates a #${id} category`;
+    return this.categoryModel.findByIdAndUpdate(id, updateCategoryInput);
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} category`;
+  async remove(id: string) {
+    const path = `./uploads/${id}`
+    if (fs.existsSync(path))
+      fs.rmSync(path)
+    await this.nodeService.remove(id);
+    return this.categoryModel.findByIdAndRemove(id);
   }
 }

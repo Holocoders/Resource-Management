@@ -1,11 +1,13 @@
-import { InputType } from '@nestjs/graphql';
+import {Field, InputType} from '@nestjs/graphql';
+import {Schema as MongooseSchema} from "mongoose";
 
 @InputType()
 export class CreateNodeInput {
-  parent: string;
+  @Field(() => String)
+  parent: MongooseSchema.Types.ObjectId;
   isItem: boolean;
 
-  constructor(parent: string, isItem = false) {
+  constructor(parent: MongooseSchema.Types.ObjectId, isItem = false) {
     this.parent = parent;
     this.isItem = isItem;
   }

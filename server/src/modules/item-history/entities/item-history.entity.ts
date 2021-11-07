@@ -1,30 +1,34 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { User } from '../../user/entities/user.entity';
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Item } from '../../item/entities/item.entity';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import {Field, InputType, ObjectType} from '@nestjs/graphql';
+import {User} from "../../user/entities/user.entity";
+import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
+import {Item} from "../../item/entities/item.entity";
+import {Document, Schema as MongooseSchema} from "mongoose";
+
 
 export type ItemHistoryDocument = ItemHistory & Document;
 
 export enum ItemActivity {
   BUY,
-  RENT,
+  RENT
 }
 
 @Schema()
 @ObjectType()
+@InputType('ItemHistoryType')
 export class ItemHistory {
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Item' })
-  itemId: string;
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: Item.name })
+  @Field(() => Item)
+  itemId: MongooseSchema.Types.ObjectId | Item;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
-  userId: string;
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: User.name })
+  @Field(() => User)
+  userId: MongooseSchema.Types.ObjectId | User;
 
-  @Prop()
+  @Prop({default: 1})
   quantity: number;
 
-  @Prop()
-  currentDate: Date;
+  @Prop({default: new Date()})
+  currentDate?: Date;
 
   @Prop()
   cancelled: boolean;
@@ -35,11 +39,11 @@ export class ItemHistory {
   @Prop()
   status: boolean;
 
-  @Prop()
-  issueDate: Date;
+  @Prop({default: new Date()})
+  issueDate?: Date;
 
-  @Prop()
-  dueDate: Date;
+  @Prop({default: new Date()})
+  dueDate?: Date;
 }
 
 export const ItemHistorySchema = SchemaFactory.createForClass(ItemHistory);

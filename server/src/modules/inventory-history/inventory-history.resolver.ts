@@ -1,8 +1,8 @@
-import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { InventoryHistoryService } from './inventory-history.service';
-import { InventoryHistory } from './entities/inventory-history.entity';
-import { CreateInventoryHistoryInput } from './dto/create-inventory-history.input';
-import { UpdateInventoryHistoryInput } from './dto/update-inventory-history.input';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {InventoryHistoryService} from './inventory-history.service';
+import {InventoryHistory} from './entities/inventory-history.entity';
+import {CreateInventoryHistoryInput} from './dto/create-inventory-history.input';
+import {UpdateInventoryHistoryInput} from './dto/update-inventory-history.input';
 
 @Resolver(() => InventoryHistory)
 export class InventoryHistoryResolver {
@@ -24,7 +24,7 @@ export class InventoryHistoryResolver {
   }
 
   @Query(() => InventoryHistory, { name: 'inventoryHistory' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.inventoryHistoryService.findOne(id);
   }
 
@@ -34,13 +34,13 @@ export class InventoryHistoryResolver {
     updateInventoryHistoryInput: UpdateInventoryHistoryInput,
   ) {
     return this.inventoryHistoryService.update(
-      updateInventoryHistoryInput.id,
+      updateInventoryHistoryInput._id,
       updateInventoryHistoryInput,
     );
   }
 
   @Mutation(() => InventoryHistory)
-  removeInventoryHistory(@Args('id', { type: () => Int }) id: number) {
+  removeInventoryHistory(@Args('id', { type: () => String }) id: string) {
     return this.inventoryHistoryService.remove(id);
   }
 }

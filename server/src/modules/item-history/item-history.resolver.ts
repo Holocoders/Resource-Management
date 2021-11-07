@@ -1,18 +1,23 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ItemHistoryService } from './item-history.service';
-import { ItemHistory } from './entities/item-history.entity';
-import { CreateItemHistoryInput } from './dto/create-item-history.input';
-import { UpdateItemHistoryInput } from './dto/update-item-history.input';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {ItemHistoryService} from './item-history.service';
+import {ItemHistory} from './entities/item-history.entity';
+import {CreateItemHistoryInput} from './dto/create-item-history.input';
+import {UpdateItemHistoryInput} from './dto/update-item-history.input';
+import {CurrentUser} from "../../decorators/auth.decorator";
+import {UseGuards} from "@nestjs/common";
+import {JwtAuthGuard} from "../auth/auth.guard";
 
 @Resolver(() => ItemHistory)
+@UseGuards(JwtAuthGuard)
 export class ItemHistoryResolver {
   constructor(private readonly itemHistoryService: ItemHistoryService) {}
 
   @Mutation(() => ItemHistory)
   createItemHistory(
-    @Args('createItemHistoryInput')
-    createItemHistoryInput: CreateItemHistoryInput,
+    @CurrentUser() user,
+    @Args('createItemHistoryInput') createItemHistoryInput: CreateItemHistoryInput,
   ) {
+    createItemHistoryInput.userId = createItemHistoryInput.userId || user._id;
     return this.itemHistoryService.create(createItemHistoryInput);
   }
 

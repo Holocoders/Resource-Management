@@ -1,6 +1,6 @@
-import { Injectable } from '@nestjs/common';
-import { CreateInventoryHistoryInput } from './dto/create-inventory-history.input';
-import { UpdateInventoryHistoryInput } from './dto/update-inventory-history.input';
+import {Injectable} from '@nestjs/common';
+import {CreateInventoryHistoryInput} from './dto/create-inventory-history.input';
+import {UpdateInventoryHistoryInput} from './dto/update-inventory-history.input';
 
 @Injectable()
 export class InventoryHistoryService {
@@ -12,15 +12,15 @@ export class InventoryHistoryService {
     return `This action returns all inventoryHistory`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} inventoryHistory`;
   }
 
-  update(id: number, updateInventoryHistoryInput: UpdateInventoryHistoryInput) {
+  update(id: string, updateInventoryHistoryInput: UpdateInventoryHistoryInput) {
     return `This action updates a #${id} inventoryHistory`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} inventoryHistory`;
   }
 }

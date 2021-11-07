@@ -1,31 +1,27 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { FacilityService } from './facility.service';
-import { Facility } from './entities/facility.entity';
-import { CreateFacilityInput } from './dto/create-facility.input';
-import { UpdateFacilityInput } from './dto/update-facility.input';
-import { FileUpload, GraphQLUpload } from 'graphql-upload';
-import { createWriteStream } from 'fs';
+import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {FacilityService} from './facility.service';
+import {Facility} from './entities/facility.entity';
+import {CreateFacilityInput} from './dto/create-facility.input';
+import {UpdateFacilityInput} from './dto/update-facility.input';
+import {FileUpload, GraphQLUpload} from 'graphql-upload';
+import {SharedService} from "../shared/shared.service";
 
 @Resolver(() => Facility)
 export class FacilityResolver {
-  constructor(private readonly facilityService: FacilityService) {}
+  constructor(
+    private readonly facilityService: FacilityService,
+    private readonly sharedService: SharedService
+  ) {}
 
   @Mutation(() => Facility)
   async createFacility(
     @Args('createFacilityInput') createFacilityInput: CreateFacilityInput,
     @Args({ name: 'file', type: () => GraphQLUpload })
-    { createReadStream, filename }: FileUpload,
+    { createReadStream }: FileUpload,
   ) {
     const facility = await this.facilityService.create(createFacilityInput);
-    const id = facility._id;
-    await new Promise(async (resolve, reject) =>
-      createReadStream()
-        .pipe(createWriteStream(`./uploads/${id}`))
-        .on('finish', () => {
-          resolve(true);
-        })
-        .on('error', () => reject(false)),
-    );
+    const path = `./uploads/${facility._id}`;
+    await this.sharedService.uploadImage(createReadStream, path);
     return facility;
   }
 
@@ -33,16 +29,10 @@ export class FacilityResolver {
   async uploadImage(
     @Args('id', { type: () => String }) id: string,
     @Args({ name: 'file', type: () => GraphQLUpload })
-    { createReadStream, filename }: FileUpload,
+    { createReadStream }: FileUpload,
   ): Promise<boolean> {
-    return new Promise(async (resolve, reject) =>
-      createReadStream()
-        .pipe(createWriteStream(`./uploads/${id}`))
-        .on('finish', () => {
-          resolve(true);
-        })
-        .on('error', () => reject(false)),
-    );
+    const path = `./uploads/${id}`;
+    return this.sharedService.uploadImage(createReadStream, path);
   }
 
   @Query(() => [Facility], { name: 'facilities' })

@@ -1,15 +1,15 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Field, ID, ObjectType } from '@nestjs/graphql';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
+import {Field, ID, InputType, ObjectType} from '@nestjs/graphql';
+import {Document, Schema as MongooseSchema} from 'mongoose';
 
 export type UserDocument = User & Document;
 
 @Schema()
 @ObjectType()
+@InputType('UserInput')
 export class User {
   @Field(() => ID)
-  @Prop({ type: MongooseSchema.Types.ObjectId })
-  _id: string;
+  _id: MongooseSchema.Types.ObjectId;
 
   @Prop()
   name: string;
@@ -20,7 +20,7 @@ export class User {
   @Prop()
   password: string;
 
-  token: string;
+  token?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -1,15 +1,15 @@
 <div class="grid h-full w-full">
-  <div class="lg:col-5 xl:col-4">
-    <p-card styleClass="ml-4 mt-3 p-6 shadow-4 border-round">
+  <div class="lg:col-5 xl:col-4 ml-3 lg:m-2">
+    <p-card styleClass="p-6 shadow-4 border-round h-full">
       <div class="grid">
         <div class="col-12 flex justify-content-center mt-4">
-          <img src="https://amz.run/51xT" width="200" height="200" class="border-1 border-primary border-circle">
+          <img [src]="'http://localhost:3000/' + item?._id" [alt]="item?.name" width="200" height="200" class="border-1 border-primary border-circle">
         </div>
         <div class="col-12 flex justify-content-center mt-4">
           <h4 class="mb-0">Soldering Iron</h4>
         </div>
         <div class="col-12 flex justify-content-center pt-0">
-          <h6>Created by: Mario</h6>
+          <h6>Created by: {{item?.createdBy?.name}}</h6>
         </div>
         <div class="col-6 flex justify-content-center">
           <p-chip label="Available : 4" styleClass="bg-primary"></p-chip>
@@ -18,10 +18,10 @@
           <p-chip label="Rented : 11" styleClass="bg-yellow-300"></p-chip>
         </div>
         <div class="col-12 flex justify-content-center mt-4">
-          Rs. 200
+          <h6>Rs. {{item?.price}}</h6>
         </div>
         <div class="col-12 flex justify-content-center mt-4 p-6 text-center">
-          An electrical tool used for melting solder and applying it to metals that are to be joined.
+          {{item?.description}}
         </div>
         <div class="col-6 flex justify-content-center">
           <p-button styleClass="border-round p-button-warning">
@@ -40,7 +40,7 @@
       </div>
     </p-card>
   </div>
-  <div class="col grid ml-3 lg:ml-1 mt-2 overflow-x-auto">
+  <div class="col grid ml-3 m-2 overflow-x-auto">
     <div class="col-12 p-0">
       <p-card styleClass="w-full shadow-4 border-round h-30rem">
         <p-table [value]="activities"

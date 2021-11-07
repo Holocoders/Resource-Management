@@ -4,15 +4,24 @@
 
 type Category {
   _id: ID!
-  image: String
+  createdBy: User!
+  description: String
+  name: String!
+}
+
+input CategoryType {
+  _id: ID!
+  createdBy: UserInput!
+  description: String
   name: String!
 }
 
 input CreateCategoryInput {
   _id: String
+  createdBy: UserInput
+  description: String
   name: String!
   parent: String!
-  picture: String
 }
 
 input CreateFacilityInput {
@@ -22,21 +31,24 @@ input CreateFacilityInput {
 
 input CreateItemHistoryInput {
   cancelled: Boolean!
-  currentDate: DateTime!
-  dueDate: DateTime!
-  issueDate: DateTime!
+  currentDate: DateTime
+  dueDate: DateTime
+  issueDate: DateTime
   issued: Boolean!
   itemId: String!
   quantity: Float!
   status: Boolean!
-  userId: String!
+  userId: String
 }
 
 input CreateItemInput {
   _id: String
+  createdBy: String
+  description: String
   name: String!
   parent: String!
-  picture: String
+  price: Float!
+  quantity: Float
 }
 
 input CreateUserInput {
@@ -58,27 +70,47 @@ type Facility {
 type Item {
   _id: ID!
   createdBy: User!
-  description: String!
-  image: String!
+  description: String
   name: String!
   price: Float!
-  quantity: Float!
+  quantity: Float
 }
 
 type ItemHistory {
   cancelled: Boolean!
-  currentDate: DateTime!
-  dueDate: DateTime!
-  issueDate: DateTime!
+  currentDate: DateTime
+  dueDate: DateTime
+  issueDate: DateTime
   issued: Boolean!
-  itemId: String!
+  itemId: Item!
   quantity: Float!
   status: Boolean!
-  userId: String!
+  userId: User!
+}
+
+input ItemHistoryType {
+  cancelled: Boolean!
+  currentDate: DateTime
+  dueDate: DateTime
+  issueDate: DateTime
+  issued: Boolean!
+  itemId: ItemType!
+  quantity: Float!
+  status: Boolean!
+  userId: UserInput!
+}
+
+input ItemType {
+  _id: ID!
+  createdBy: UserInput!
+  description: String
+  name: String!
+  price: Float!
+  quantity: Float
 }
 
 type Mutation {
-  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  createCategory(createCategoryInput: CreateCategoryInput!, file: Upload!): Category!
   createFacility(createFacilityInput: CreateFacilityInput!, file: Upload!): Facility!
   createItem(createItemInput: CreateItemInput!, file: Upload!): Item!
   createItemHistory(createItemHistoryInput: CreateItemHistoryInput!): ItemHistory!
@@ -93,6 +125,7 @@ type Mutation {
   updateItem(updateItemInput: UpdateItemInput!): Item!
   updateItemHistory(updateItemHistoryInput: UpdateItemHistoryInput!): ItemHistory!
   updateUser(updateUserInput: UpdateUserInput!): User!
+  uploadCategoryImage(file: Upload!, id: String!): String!
   uploadImage(file: Upload!, id: String!): Boolean!
   uploadItemImage(file: Upload!, id: String!): String!
 }
@@ -112,9 +145,10 @@ type Query {
 
 input UpdateCategoryInput {
   _id: String!
+  createdBy: UserInput
+  description: String
   name: String
   parent: String
-  picture: String
 }
 
 input UpdateFacilityInput {
@@ -136,10 +170,12 @@ input UpdateItemHistoryInput {
 
 input UpdateItemInput {
   _id: String
-  id: String!
+  createdBy: String
+  description: String
   name: String
   parent: String
-  picture: String
+  price: Float
+  quantity: Float
 }
 
 input UpdateUserInput {
@@ -157,5 +193,13 @@ type User {
   email: String!
   name: String!
   password: String!
-  token: String!
+  token: String
+}
+
+input UserInput {
+  _id: ID!
+  email: String!
+  name: String!
+  password: String!
+  token: String
 }
