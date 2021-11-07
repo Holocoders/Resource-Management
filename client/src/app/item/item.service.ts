@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
-import {Apollo, gql} from "apollo-angular";
-import {query} from "@angular/animations";
+import { Apollo, gql } from 'apollo-angular';
+import { query } from '@angular/animations';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ItemService {
-
-  constructor(private apollo: Apollo) { }
+  constructor(private apollo: Apollo) {}
 
   getItemDetails(id: string) {
     return this.apollo.watchQuery({
       query: gql`
-        query item ($id: String!) {
-          item (id: $id) {
+        query item($id: String!) {
+          item(id: $id) {
             _id
             createdBy {
               _id
@@ -27,9 +26,8 @@ export class ItemService {
         }
       `,
       variables: {
-        id
-      }
+        id,
+      },
     }).valueChanges;
   }
-
 }

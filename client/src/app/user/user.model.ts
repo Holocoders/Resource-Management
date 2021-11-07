@@ -2,6 +2,6 @@ export class User {
   _id: string;
   email: string;
   name: string;
-  loggedIn: boolean = false;
+  loggedIn = false;
   token: string;
 }

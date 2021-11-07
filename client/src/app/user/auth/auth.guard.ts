@@ -6,7 +6,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Injectable } from '@angular/core';
-import {Observable, skip} from 'rxjs';
+import { Observable, skip } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { MessageService } from 'primeng/api';

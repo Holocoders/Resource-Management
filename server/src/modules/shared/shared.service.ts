@@ -1,5 +1,5 @@
-import {Injectable} from '@nestjs/common';
-import {createWriteStream} from "fs";
+import { Injectable } from '@nestjs/common';
+import { createWriteStream } from 'fs';
 
 @Injectable()
 export class SharedService {

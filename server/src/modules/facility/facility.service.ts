@@ -1,11 +1,14 @@
-import {Injectable} from '@nestjs/common';
-import {CreateFacilityInput} from './dto/create-facility.input';
-import {UpdateFacilityInput} from './dto/update-facility.input';
-import {InjectModel} from '@nestjs/mongoose';
-import {Facility, FacilityDocument} from './entities/facility.entity';
-import {Model} from 'mongoose';
-import {NodeService} from '../node/node.service';
+import { Injectable } from '@nestjs/common';
+import { CreateFacilityInput } from './dto/create-facility.input';
+import { UpdateFacilityInput } from './dto/update-facility.input';
+import { InjectModel } from '@nestjs/mongoose';
+import { Facility, FacilityDocument } from './entities/facility.entity';
+import { Model } from 'mongoose';
+import { NodeService } from '../node/node.service';
 import * as fs from 'fs';
+import { Item } from '../item/entities/item.entity';
+import { Node } from '../node/entities/node.entity';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class FacilityService {
@@ -17,11 +20,25 @@ export class FacilityService {
   async create(createFacilityInput: CreateFacilityInput, createdBy: string) {
     createFacilityInput._id = await this.nodeService.create(null, createdBy);
     const createdFacility = new this.facilityModel(createFacilityInput);
-    return createdFacility.save();
+    createdFacility.save();
+    await this.facilityModel.populate(createdFacility, {
+      path: '_id',
+      populate: {
+        path: 'createdBy',
+        model: User.name,
+      },
+    });
+    await this.facilityModel.populate(createdFacility, 'userId');
+    return createdFacility;
   }
 
   findAll() {
-    return this.facilityModel.find();
+    return this.facilityModel.find().populate({
+      path: '_id',
+      populate: {
+        path: 'createdBy',
+      },
+    });
   }
 
   findOne(id: string) {

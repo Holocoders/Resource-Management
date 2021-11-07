@@ -31,7 +31,10 @@ export class FacilitiesComponent implements OnInit {
 
   removeFacility(id: string): void {
     this.service.removeFacility(id).subscribe(() => {
-      this.facilities = this.facilities.filter((item: any) => item._id != id);
+      this.facilities = this.facilities.filter(
+        (item: any) => item._id._id != id
+      );
+      console.log(this.facilities);
     });
   }
 
@@ -52,6 +55,7 @@ export class FacilitiesComponent implements OnInit {
         const facility = result?.data?.createFacility;
         this.loading = result.loading;
         this.error = result.error;
+        this.facilities = Object.assign([], this.facilities);
         this.facilities.push(facility);
         this.facilities = [...this.facilities];
         this.display = false;
