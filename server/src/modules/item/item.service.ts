@@ -32,10 +32,8 @@ export class ItemService {
   findOne(id: string) {
     return this.itemModel.findById(id).populate({
       path: '_id',
-      model: Node.name,
       populate: {
-        path: 'createdBy',
-        model: User.name
+        path: 'createdBy'
       }
     });
   }

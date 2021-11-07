@@ -17,12 +17,17 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    let token = sessionStorage.getItem("token");
-    if (!token) token = localStorage.getItem("token");
-    if (!token) return next.handle(req);
-    const modReq = req.clone({
-      headers: req.headers.append('Authorization', 'Bearer ' + token),
-    });
-    return next.handle(modReq);
+    return this.auth.user.pipe(
+      take(1),
+      exhaustMap((user) => {
+        if (!user) {
+          return next.handle(req);
+        }
+        const modReq = req.clone({
+          headers: req.headers.append('Authorization', 'Bearer ' + user.token),
+        });
+        return next.handle(modReq);
+      })
+    );
   }
 }

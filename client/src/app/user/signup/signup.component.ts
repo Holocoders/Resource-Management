@@ -49,9 +49,9 @@ export class SignupComponent implements OnInit {
     this.authService.signup(this.user, password).subscribe(
       () => {
         if (this.signUpForm.value.rememberMe) {
-          localStorage.setItem('token', this.user.token);
+          localStorage.setItem('user', JSON.stringify(this.user));
         } else {
-          sessionStorage.setItem('token', this.user.token);
+          sessionStorage.setItem('user', JSON.stringify(this.user));
         }
         this.router.navigateByUrl('/facilities');
         this.messageService.addToastMessage({

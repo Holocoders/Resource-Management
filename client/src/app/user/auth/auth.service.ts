@@ -69,32 +69,45 @@ export class AuthService {
   }
 
   autoLogin() {
-    const query = gql`
-      query currentUser {
-        currentUser {
-          _id
-          email
-          name
-          token
-        }
-      }
-    `;
-    const user = new User();
-    return this.apollo.watchQuery({query}).valueChanges
-      .subscribe((result: { data: any; }) => {
-        let currentUser = (result.data as any).currentUser;
-        user._id = currentUser._id;
-        user.name = currentUser.name;
-        user.email = currentUser.email;
-        user.token = currentUser.token;
-        user.loggedIn = true;
-        this.user.next(user);
-        return user;
-    }, () => {
-        this.user.next(user);
-        return user;
-      })
+    let stringUser = localStorage.getItem('user');
+    if (!stringUser) stringUser = sessionStorage.getItem('user');
+    if (!stringUser) {
+      this.user.next(new User());
+      return false;
+    }
+    const user: User = JSON.parse(stringUser);
+    this.user.next(user);
+    return user.loggedIn;
   }
+
+  // autoLogin() {
+  //   const query = gql`
+  //     query currentUser {
+  //       currentUser {
+  //         _id
+  //         email
+  //         name
+  //         token
+  //       }
+  //     }
+  //   `;
+  //   const user = new User();
+  //   return this.apollo.watchQuery({query}).valueChanges
+  //     .subscribe((result: { data: any; }) => {
+  //       console.log(result)
+  //       let currentUser = (result.data as any).currentUser;
+  //       user._id = currentUser._id;
+  //       user.name = currentUser.name;
+  //       user.email = currentUser.email;
+  //       user.token = currentUser.token;
+  //       user.loggedIn = true;
+  //       this.user.next(user);
+  //       return user;
+  //   }, () => {
+  //       this.user.next(user);
+  //       return user;
+  //     })
+  // }
 
   logOut(): void {
     sessionStorage.clear();

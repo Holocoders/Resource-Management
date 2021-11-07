@@ -28,8 +28,8 @@ export class AuthGuard implements CanActivate {
     | boolean
     | UrlTree {
     return this.api.user.pipe(
+      take(1),
       map((user) => {
-        return true;
         if (user.loggedIn) {
           return true;
         }

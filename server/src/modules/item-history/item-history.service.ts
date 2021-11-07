@@ -13,38 +13,41 @@ import {Node} from "../node/entities/node.entity";
 export class ItemHistoryService {
   constructor(
     @InjectModel(ItemHistory.name)
-    private itemHistoryModel: Model<ItemHistoryDocument>,
-    @InjectModel(Item.name)
-    private itemModel: Model<ItemDocument>
+    private itemHistoryModel: Model<ItemHistoryDocument>
   ) {}
+
+  populateItemObject = {
+    path: 'itemId',
+    populate: {
+      path: '_id',
+      populate: {
+        path: 'createdBy'
+      }
+    }
+  }
+
+  populateUserObject = {
+    path: 'userId'
+  }
 
   async create(createItemHistoryInput: CreateItemHistoryInput) {
     const itemHistory = await new this.itemHistoryModel(createItemHistoryInput).save();
-    await this.itemHistoryModel.populate(itemHistory, {
-      path: 'itemId',
-      model: Item.name,
-      populate: {
-        path: '_id',
-        model: Node.name,
-        populate: {
-          path: 'createdBy',
-          model: User.name
-        }
-      }
-    });
-    await this.itemHistoryModel.populate(itemHistory, 'userId');
+    await this.itemHistoryModel.populate(itemHistory, this.populateItemObject)
+    await this.itemHistoryModel.populate(itemHistory, this.populateUserObject);
     return itemHistory;
   }
 
   findAll(query) {
-    return this.itemHistoryModel.find(query);
+    return this.itemHistoryModel.find(query)
+      .populate(this.populateItemObject)
+      .populate(this.populateUserObject);
   }
 
   update(updateItemHistoryInput: UpdateItemHistoryInput) {
     const {itemId, userId} = updateItemHistoryInput;
-    this.itemHistoryModel.findOneAndUpdate(
-      {itemId, userId} as Mongoose.FilterQuery<ItemHistoryDocument>,
+    return this.itemHistoryModel.findOneAndUpdate(
+      {itemId, userId} as any,
       updateItemHistoryInput as any,
-    );
+    ).populate(this.populateItemObject).populate(this.populateUserObject);
   }
 }

@@ -75,7 +75,7 @@ enum InventoryActivity {
 }
 
 type InventoryHistory {
-  activityDate: DateTime!
+  activityDate: DateTime
   activityType: InventoryActivity!
   itemId: Item!
   quantity: Float!
@@ -83,7 +83,7 @@ type InventoryHistory {
 }
 
 input InventoryHistoryType {
-  activityDate: DateTime!
+  activityDate: DateTime
   activityType: InventoryActivity!
   itemId: ItemType!
   quantity: Float!
@@ -146,7 +146,6 @@ type Mutation {
   reduceQuantity(id: String!, reduceBy: Int!): Item!
   removeCategory(id: String!): Category!
   removeFacility(id: String!): Facility!
-  removeInventoryHistory(id: String!): InventoryHistory!
   removeItem(id: String!): Item!
   removeUser(_id: String!): User!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!

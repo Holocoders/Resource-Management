@@ -8,9 +8,7 @@ import {ItemModule} from "../item/item.module";
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: ItemHistory.name, schema: ItemHistorySchema }]),
-    MongooseModule.forFeature([{ name: Item.name, schema: ItemSchema }]),
-    ItemModule
+    MongooseModule.forFeature([{ name: ItemHistory.name, schema: ItemHistorySchema }])
   ],
   providers: [
     ItemHistoryResolver,

@@ -3,8 +3,12 @@ import {InventoryHistoryService} from './inventory-history.service';
 import {InventoryHistory} from './entities/inventory-history.entity';
 import {CreateInventoryHistoryInput} from './dto/create-inventory-history.input';
 import {UpdateInventoryHistoryInput} from './dto/update-inventory-history.input';
+import {UseGuards} from "@nestjs/common";
+import {JwtAuthGuard} from "../auth/auth.guard";
+import {CurrentUser} from "../../decorators/auth.decorator";
 
 @Resolver(() => InventoryHistory)
+@UseGuards(JwtAuthGuard)
 export class InventoryHistoryResolver {
   constructor(
     private readonly inventoryHistoryService: InventoryHistoryService,
@@ -12,9 +16,11 @@ export class InventoryHistoryResolver {
 
   @Mutation(() => InventoryHistory)
   createInventoryHistory(
+    @CurrentUser() user,
     @Args('createInventoryHistoryInput')
     createInventoryHistoryInput: CreateInventoryHistoryInput,
   ) {
+    createInventoryHistoryInput.userId = createInventoryHistoryInput.userId || user._id;
     return this.inventoryHistoryService.create(createInventoryHistoryInput);
   }
 
@@ -34,10 +40,5 @@ export class InventoryHistoryResolver {
     updateInventoryHistoryInput: UpdateInventoryHistoryInput,
   ) {
     return this.inventoryHistoryService.update(updateInventoryHistoryInput);
-  }
-
-  @Mutation(() => InventoryHistory)
-  removeInventoryHistory(@Args('id', { type: () => String }) id: string) {
-    return this.inventoryHistoryService.remove(id);
   }
 }

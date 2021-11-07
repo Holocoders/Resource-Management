@@ -5,8 +5,6 @@ import {Item} from "../../item/entities/item.entity";
 import {Document, Schema as MongooseSchema} from "mongoose";
 
 
-export type ItemHistoryDocument = ItemHistory & Document;
-
 export enum ItemActivity {
   BUY,
   RENT
@@ -49,4 +47,5 @@ export class ItemHistory {
   dueDate?: Date;
 }
 
+export type ItemHistoryDocument = ItemHistory & Document;
 export const ItemHistorySchema = SchemaFactory.createForClass(ItemHistory);
