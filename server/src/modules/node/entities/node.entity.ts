@@ -1,6 +1,7 @@
 import {Field, ID, InputType, ObjectType} from '@nestjs/graphql';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {Document, Schema as MongooseSchema} from 'mongoose';
+import {User} from "../../user/entities/user.entity";
 
 export type NodeDocument = Node & Document;
 
@@ -12,7 +13,12 @@ export class Node {
   _id: string;
 
   @Prop({ default: null, ref: Node.name, type: MongooseSchema.Types.ObjectId })
-  parent: MongooseSchema.Types.ObjectId | Node;
+  @Field(() => Node, {nullable: true})
+  parent?: MongooseSchema.Types.ObjectId | Node;
+
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: User.name })
+  @Field(() => User)
+  createdBy: MongooseSchema.Types.ObjectId | User;
 
   @Prop({ default: false })
   isItem: boolean;

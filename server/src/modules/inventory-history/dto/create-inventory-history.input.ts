@@ -5,14 +5,12 @@ import {InventoryActivity} from "../entities/inventory-history.entity";
 @InputType()
 export class CreateInventoryHistoryInput {
   @Field(() => String)
-  itemId: MongooseSchema.Types.ObjectId;
+  itemId: string;
 
   @Field(() => String)
-  userId: MongooseSchema.Types.ObjectId;
+  userId?: string;
 
   quantity: number;
 
-  currentDate: Date;
-
-  status: InventoryActivity;
+  activityType: InventoryActivity;
 }

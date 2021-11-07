@@ -8,8 +8,8 @@ import {Node, NodeDocument} from './entities/node.entity';
 export class NodeService {
   constructor(@InjectModel(Node.name) private nodeModel: Model<NodeDocument>) {}
 
-  async create(parent: any, isItem = false) {
-    const createNodeInput = new CreateNodeInput(parent, isItem);
+  async create(parent: any, createdBy: string, isItem = false) {
+    const createNodeInput = new CreateNodeInput(parent, createdBy, isItem);
     const nodeDocument = new this.nodeModel(createNodeInput);
     const node = await nodeDocument.save();
     return node._id;

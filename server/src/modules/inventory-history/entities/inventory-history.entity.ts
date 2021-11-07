@@ -1,4 +1,4 @@
-import {Field, ID, InputType, ObjectType} from '@nestjs/graphql';
+import {Field, InputType, ObjectType, registerEnumType} from '@nestjs/graphql';
 import {User} from '../../user/entities/user.entity';
 import {Prop} from '@nestjs/mongoose';
 import {Item} from '../../item/entities/item.entity';
@@ -9,24 +9,26 @@ export enum InventoryActivity {
   REMOVE,
 }
 
+registerEnumType(InventoryActivity, {name: 'InventoryActivity'})
+
 @ObjectType()
 @InputType('InventoryHistoryType')
 export class InventoryHistory {
-  @Field(() => ID)
-  _id: string;
-
-  @Prop({type: MongooseSchema.Types.ObjectId, ref: Item.name})
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: Item.name})
+  @Field(() => Item)
   itemId: MongooseSchema.Types.ObjectId | Item;
 
-  @Prop({type: MongooseSchema.Types.ObjectId, ref: User.name})
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: User.name })
+  @Field(() => User)
   userId: MongooseSchema.Types.ObjectId | User;
 
   @Prop()
   quantity: number;
 
   @Prop()
-  currentDate: Date;
+  activityDate: Date;
 
   @Prop()
-  status: InventoryActivity;
+  @Field(() => InventoryActivity)
+  activityType: InventoryActivity;
 }

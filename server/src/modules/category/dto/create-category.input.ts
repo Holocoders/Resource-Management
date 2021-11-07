@@ -1,5 +1,5 @@
 import {Field, InputType} from '@nestjs/graphql';
-import {User} from "../../user/entities/user.entity";
+import {Schema as MongooseSchema} from "mongoose";
 
 @InputType()
 export class CreateCategoryInput {
@@ -7,6 +7,4 @@ export class CreateCategoryInput {
   name: string;
   parent: string;
   description?: string;
-  @Field()
-  createdBy?: User;
 }

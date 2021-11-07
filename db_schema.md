@@ -63,8 +63,8 @@ type InventoryHistory {
     itemId: Item!
     userId: User!
     quantity: Int!
-    currentDate: Date!
-    status: InventoryActivity!
+    activityDate: Date!
+    activityType: InventoryActivity!
 }
 
 enum ItemActivity {
@@ -76,10 +76,10 @@ type ItemHistory {
     itemId: Item!
     userId: User!
     quantity: Int!
-    currentDate: Date!
+    activityDate: Date!
     cancelled: Boolean! # default false
     issued: Boolean
-    status: ItemActivity!
+    activityType: ItemActivity!
     issueDate: Date
     dueDate: Date
 }

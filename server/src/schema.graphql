@@ -3,22 +3,19 @@
 # ------------------------------------------------------
 
 type Category {
-  _id: ID!
-  createdBy: User!
+  _id: Node!
   description: String
   name: String!
 }
 
 input CategoryType {
-  _id: ID!
-  createdBy: UserInput!
+  _id: NodeType!
   description: String
   name: String!
 }
 
 input CreateCategoryInput {
   _id: String
-  createdBy: UserInput
   description: String
   name: String!
   parent: String!
@@ -29,21 +26,26 @@ input CreateFacilityInput {
   name: String!
 }
 
+input CreateInventoryHistoryInput {
+  activityType: InventoryActivity!
+  itemId: String!
+  quantity: Float!
+  userId: String
+}
+
 input CreateItemHistoryInput {
+  activityType: ItemActivity!
   cancelled: Boolean!
-  currentDate: DateTime
   dueDate: DateTime
   issueDate: DateTime
   issued: Boolean!
   itemId: String!
   quantity: Float!
-  status: Boolean!
   userId: String
 }
 
 input CreateItemInput {
   _id: String
-  createdBy: String
   description: String
   name: String!
   parent: String!
@@ -63,46 +65,70 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Facility {
-  _id: ID!
+  _id: Node!
   name: String!
 }
 
+enum InventoryActivity {
+  ADD
+  REMOVE
+}
+
+type InventoryHistory {
+  activityDate: DateTime!
+  activityType: InventoryActivity!
+  itemId: Item!
+  quantity: Float!
+  userId: User!
+}
+
+input InventoryHistoryType {
+  activityDate: DateTime!
+  activityType: InventoryActivity!
+  itemId: ItemType!
+  quantity: Float!
+  userId: UserInput!
+}
+
 type Item {
-  _id: ID!
-  createdBy: User!
+  _id: Node!
   description: String
   name: String!
   price: Float!
   quantity: Float
 }
 
+enum ItemActivity {
+  BUY
+  RENT
+}
+
 type ItemHistory {
+  activityDate: DateTime
+  activityType: ItemActivity!
   cancelled: Boolean!
-  currentDate: DateTime
   dueDate: DateTime
   issueDate: DateTime
   issued: Boolean!
   itemId: Item!
   quantity: Float!
-  status: Boolean!
   userId: User!
 }
 
 input ItemHistoryType {
+  activityDate: DateTime
+  activityType: ItemActivity!
   cancelled: Boolean!
-  currentDate: DateTime
   dueDate: DateTime
   issueDate: DateTime
   issued: Boolean!
   itemId: ItemType!
   quantity: Float!
-  status: Boolean!
   userId: UserInput!
 }
 
 input ItemType {
-  _id: ID!
-  createdBy: UserInput!
+  _id: NodeType!
   description: String
   name: String!
   price: Float!
@@ -112,22 +138,40 @@ input ItemType {
 type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!, file: Upload!): Category!
   createFacility(createFacilityInput: CreateFacilityInput!, file: Upload!): Facility!
+  createInventoryHistory(createInventoryHistoryInput: CreateInventoryHistoryInput!): InventoryHistory!
   createItem(createItemInput: CreateItemInput!, file: Upload!): Item!
   createItemHistory(createItemHistoryInput: CreateItemHistoryInput!): ItemHistory!
   createUser(createUserInput: CreateUserInput!): User!
   login(email: String!, password: String!): String!
+  reduceQuantity(id: String!, reduceBy: Int!): Item!
   removeCategory(id: String!): Category!
   removeFacility(id: String!): Facility!
+  removeInventoryHistory(id: String!): InventoryHistory!
   removeItem(id: String!): Item!
   removeUser(_id: String!): User!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   updateFacility(updateFacilityInput: UpdateFacilityInput!): Facility!
+  updateInventoryHistory(updateInventoryHistoryInput: UpdateInventoryHistoryInput!): InventoryHistory!
   updateItem(updateItemInput: UpdateItemInput!): Item!
   updateItemHistory(updateItemHistoryInput: UpdateItemHistoryInput!): ItemHistory!
   updateUser(updateUserInput: UpdateUserInput!): User!
   uploadCategoryImage(file: Upload!, id: String!): String!
-  uploadImage(file: Upload!, id: String!): Boolean!
+  uploadFacilityImage(file: Upload!, id: String!): Boolean!
   uploadItemImage(file: Upload!, id: String!): String!
+}
+
+type Node {
+  _id: ID!
+  createdBy: User!
+  isItem: Boolean!
+  parent: Node
+}
+
+input NodeType {
+  _id: ID!
+  createdBy: UserInput!
+  isItem: Boolean!
+  parent: NodeType
 }
 
 type Query {
@@ -136,6 +180,7 @@ type Query {
   facilities: [Facility!]!
   facility(id: String!): Facility!
   getHello: String!
+  inventoryHistory(id: String!): InventoryHistory!
   item(id: String!): Item!
   itemActivityHistory(itemId: String!): [ItemHistory!]!
   user(_id: String!): User!
@@ -145,7 +190,6 @@ type Query {
 
 input UpdateCategoryInput {
   _id: String!
-  createdBy: UserInput
   description: String
   name: String
   parent: String
@@ -156,21 +200,26 @@ input UpdateFacilityInput {
   name: String
 }
 
+input UpdateInventoryHistoryInput {
+  activityType: InventoryActivity
+  itemId: String
+  quantity: Float
+  userId: String
+}
+
 input UpdateItemHistoryInput {
+  activityType: ItemActivity
   cancelled: Boolean
-  currentDate: DateTime
   dueDate: DateTime
   issueDate: DateTime
   issued: Boolean
   itemId: String
   quantity: Float
-  status: Boolean
   userId: String
 }
 
 input UpdateItemInput {
   _id: String
-  createdBy: String
   description: String
   name: String
   parent: String

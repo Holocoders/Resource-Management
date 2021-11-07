@@ -1,4 +1,4 @@
-import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
+import {Args, Int, Mutation, Query, Resolver} from '@nestjs/graphql';
 import {ItemService} from './item.service';
 import {Item} from './entities/item.entity';
 import {CreateItemInput} from './dto/create-item.input';
@@ -27,8 +27,7 @@ export class ItemResolver {
     { createReadStream }: FileUpload,
   ) {
     if (!user) return new GraphQLError("Unauthorized");
-    createItemInput.createdBy = user;
-    const item = await this.itemService.create(createItemInput);
+    const item = await this.itemService.create(createItemInput, user._id);
     const path = `./uploads/${item._id}`;
     await this.sharedService.uploadImage(createReadStream, path);
     return item;
@@ -79,4 +78,15 @@ export class ItemResolver {
     if (!user) return new GraphQLError("Unauthorized");
     return this.itemService.remove(id);
   }
+
+  @Mutation(() => Item)
+  reduceQuantity(
+    @CurrentUser() user,
+    @Args('id', { type: () => String }) id: string,
+    @Args('reduceBy', { type: () => Int }) reduceBy: number
+  ) {
+    if (!user) return new GraphQLError("Unauthorized");
+    return this.itemService.reduceQuantity(id, reduceBy);
+  }
+
 }

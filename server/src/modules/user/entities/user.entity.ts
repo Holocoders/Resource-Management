@@ -9,7 +9,7 @@ export type UserDocument = User & Document;
 @InputType('UserInput')
 export class User {
   @Field(() => ID)
-  _id: MongooseSchema.Types.ObjectId;
+  _id: string;
 
   @Prop()
   name: string;

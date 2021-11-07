@@ -4,7 +4,4 @@ import {Field, InputType, PartialType} from '@nestjs/graphql';
 @InputType()
 export class UpdateInventoryHistoryInput extends PartialType(
   CreateInventoryHistoryInput,
-) {
-  @Field(() => String)
-  _id: string;
-}
+) {}

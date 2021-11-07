@@ -6,6 +6,9 @@ import {Model} from "mongoose";
 import {NodeService} from "../node/node.service";
 import {Item, ItemDocument} from "./entities/item.entity";
 import * as fs from "fs";
+import Mongoose from "mongoose";
+import {Node} from "../node/entities/node.entity";
+import {User} from "../user/entities/user.entity";
 
 @Injectable()
 export class ItemService {
@@ -15,9 +18,9 @@ export class ItemService {
     private nodeService: NodeService,
   ) {}
 
-  async create(createItemInput: CreateItemInput) {
+  async create(createItemInput: CreateItemInput, createdBy: string) {
     createItemInput._id = await  this.nodeService.create(
-      createItemInput.parent, true
+      createItemInput.parent, createdBy, true
     );
     return new this.itemModel(createItemInput).save();
   }
@@ -27,11 +30,22 @@ export class ItemService {
   }
 
   findOne(id: string) {
-    return this.itemModel.findById(id).populate('createdBy');
+    return this.itemModel.findById(id).populate({
+      path: '_id',
+      model: Node.name,
+      populate: {
+        path: 'createdBy',
+        model: User.name
+      }
+    });
   }
 
   update(id: string, updateItemInput: UpdateItemInput) {
-    return this.itemModel.findByIdAndUpdate(id, updateItemInput, {new: true});
+    return this.itemModel.findByIdAndUpdate(
+      id,
+      updateItemInput as unknown as Mongoose.UpdateQuery<ItemDocument>,
+      {new: true}
+    );
   }
 
   async remove(id: string) {
@@ -40,5 +54,9 @@ export class ItemService {
       fs.rmSync(path)
     await this.nodeService.remove(id);
     return this.itemModel.findByIdAndRemove(id);
+  }
+
+  reduceQuantity(id: string, reduceBy: number) {
+    return this.itemModel.findByIdAndUpdate(id, {$inc: {quantity: -reduceBy}});
   }
 }

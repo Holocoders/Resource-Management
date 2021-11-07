@@ -26,8 +26,7 @@ export class CategoryResolver {
       { createReadStream, filename }: FileUpload,
   ) {
     if (!user) return new GraphQLError("Unauthorized");
-    createCategoryInput.createdBy = user._id;
-    const category = await this.categoryService.create(createCategoryInput);
+    const category = await this.categoryService.create(createCategoryInput, user._id);
     const path = `./uploads/${category._id}`;
     await this.sharedService.uploadImage(createReadStream, path);
     return category;

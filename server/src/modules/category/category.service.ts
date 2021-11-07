@@ -14,9 +14,9 @@ export class CategoryService {
     private nodeService: NodeService,
   ) {}
 
-  async create(createCategoryInput: CreateCategoryInput) {
+  async create(createCategoryInput: CreateCategoryInput, createdBy: string) {
     createCategoryInput._id = await this.nodeService.create(
-      createCategoryInput.parent,
+      createCategoryInput.parent, createdBy
     );
     return new this.categoryModel(createCategoryInput).save();
   }
@@ -30,7 +30,10 @@ export class CategoryService {
   }
 
   update(id: string, updateCategoryInput: UpdateCategoryInput) {
-    return this.categoryModel.findByIdAndUpdate(id, updateCategoryInput);
+    return this.categoryModel.findByIdAndUpdate(
+      id,
+      updateCategoryInput as any
+    );
   }
 
   async remove(id: string) {

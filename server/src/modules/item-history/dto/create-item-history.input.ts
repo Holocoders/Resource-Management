@@ -1,17 +1,16 @@
 import {Field, InputType} from '@nestjs/graphql';
-import {Schema as MongooseSchema} from "mongoose";
+import {ItemActivity} from "../entities/item-history.entity";
 
 @InputType()
 export class CreateItemHistoryInput {
   @Field(() => String)
-  itemId: MongooseSchema.Types.ObjectId;
+  itemId: string;
   @Field(() => String)
-  userId?: MongooseSchema.Types.ObjectId;
+  userId?: string;
   quantity: number;
-  currentDate?: Date;
   cancelled: boolean;
   issued: boolean;
-  status: boolean;
+  activityType: ItemActivity;
   issueDate?: Date;
   dueDate?: Date;
 }

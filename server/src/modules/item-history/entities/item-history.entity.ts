@@ -1,4 +1,4 @@
-import {Field, InputType, ObjectType} from '@nestjs/graphql';
+import {Field, InputType, ObjectType, registerEnumType} from '@nestjs/graphql';
 import {User} from "../../user/entities/user.entity";
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import {Item} from "../../item/entities/item.entity";
@@ -11,6 +11,8 @@ export enum ItemActivity {
   BUY,
   RENT
 }
+
+registerEnumType(ItemActivity, {name: 'ItemActivity'})
 
 @Schema()
 @ObjectType()
@@ -28,7 +30,7 @@ export class ItemHistory {
   quantity: number;
 
   @Prop({default: new Date()})
-  currentDate?: Date;
+  activityDate?: Date;
 
   @Prop()
   cancelled: boolean;
@@ -37,7 +39,8 @@ export class ItemHistory {
   issued: boolean;
 
   @Prop()
-  status: boolean;
+  @Field(() => ItemActivity)
+  activityType: ItemActivity;
 
   @Prop({default: new Date()})
   issueDate?: Date;

@@ -16,8 +16,8 @@ export class InventoryHistoryService {
     return `This action returns a #${id} inventoryHistory`;
   }
 
-  update(id: string, updateInventoryHistoryInput: UpdateInventoryHistoryInput) {
-    return `This action updates a #${id} inventoryHistory`;
+  update(updateInventoryHistoryInput: UpdateInventoryHistoryInput) {
+    return `This action updates a inventoryHistory`;
   }
 
   remove(id: string) {

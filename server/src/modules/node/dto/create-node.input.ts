@@ -4,11 +4,14 @@ import {Schema as MongooseSchema} from "mongoose";
 @InputType()
 export class CreateNodeInput {
   @Field(() => String)
-  parent: MongooseSchema.Types.ObjectId;
+  parent: string;
   isItem: boolean;
+  @Field(() => String)
+  createdBy?: string;
 
-  constructor(parent: MongooseSchema.Types.ObjectId, isItem = false) {
+  constructor(parent: string, createdBy: string, isItem = false) {
     this.parent = parent;
     this.isItem = isItem;
+    this.createdBy = createdBy;
   }
 }

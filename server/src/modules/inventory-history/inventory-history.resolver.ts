@@ -33,10 +33,7 @@ export class InventoryHistoryResolver {
     @Args('updateInventoryHistoryInput')
     updateInventoryHistoryInput: UpdateInventoryHistoryInput,
   ) {
-    return this.inventoryHistoryService.update(
-      updateInventoryHistoryInput._id,
-      updateInventoryHistoryInput,
-    );
+    return this.inventoryHistoryService.update(updateInventoryHistoryInput);
   }
 
   @Mutation(() => InventoryHistory)
