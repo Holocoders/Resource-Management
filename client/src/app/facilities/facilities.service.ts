@@ -13,7 +13,9 @@ export class FacilitiesService {
       query: gql`
         {
           facilities {
-            _id
+            _id {
+              _id
+            }
             name
           }
         }
@@ -25,7 +27,7 @@ export class FacilitiesService {
     const formData = new FormData();
     formData.append(
       'operations',
-      `{ "query": "mutation ($createFacilityInput: CreateFacilityInput!, $file: Upload!) { createFacility(file: $file, createFacilityInput: $createFacilityInput) { _id name } }", "variables": { "file": null, "createFacilityInput": {"name": "${name}"} } }`
+      `{ "query": "mutation ($createFacilityInput: CreateFacilityInput!, $file: Upload!) { createFacility(file: $file, createFacilityInput: $createFacilityInput) { _id { _id } name } }", "variables": { "file": null, "createFacilityInput": {"name": "${name}"} } }`
     );
     formData.append('map', '{ "nfile": ["variables.file"] }');
     formData.append('nfile', file);
@@ -36,7 +38,6 @@ export class FacilitiesService {
     const REMOVE = gql`
       mutation removeFacility($id: String!) {
         removeFacility(id: $id) {
-          _id
           name
         }
       }
