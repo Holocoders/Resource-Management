@@ -23,6 +23,7 @@
     "@angular/router": "~12.2.11",
     "@apollo/client": "^3.0.0",
     "apollo-angular": "^2.6.0",
+    "bing-image-scraper": "0.0.1",
     "graphql": "^15.0.0",
     "npm-check": "^5.9.2",
     "primeflex": "^3.1.0",

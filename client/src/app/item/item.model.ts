@@ -1,11 +1,9 @@
-import {User} from "../user/user.model";
+import {Node} from "../shared/node.model"
 
 export class Item {
-  _id: string;
+  _id: Node;
   name: string;
-  parent: string;
-  createdBy: User;
   price: number;
-  description: string = "";
+  description: string;
   quantity: number;
 }

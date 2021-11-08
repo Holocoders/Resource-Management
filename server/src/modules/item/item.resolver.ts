@@ -28,7 +28,7 @@ export class ItemResolver {
   ) {
     if (!user) return new GraphQLError("Unauthorized");
     const item = await this.itemService.create(createItemInput, user._id);
-    const path = `./uploads/${item._id}`;
+    const path = `./uploads/${item._id._id}`;
     await this.sharedService.uploadImage(createReadStream, path);
     return item;
   }

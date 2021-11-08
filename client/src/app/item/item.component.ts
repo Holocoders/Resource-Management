@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import {Item} from "./item.model";
 import {ItemService} from "./item.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {filter, map, mergeMap} from "rxjs/operators";
 import {subscribe} from "graphql";
 
@@ -14,6 +14,7 @@ import {subscribe} from "graphql";
 export class ItemComponent implements OnInit {
   constructor(
     private readonly itemService: ItemService,
+    private readonly router: Router,
     private readonly route: ActivatedRoute
   ) {}
 
@@ -93,6 +94,7 @@ export class ItemComponent implements OnInit {
   ];
   item: Item;
   isLoading: boolean;
+  displayPosition: boolean = false;
   ngOnInit(): void {
     this.route.queryParams
       .pipe(
@@ -107,5 +109,18 @@ export class ItemComponent implements OnInit {
 
   search(dt: any, event: any) {
     dt.filterGlobal(event.target.value, 'contains');
+  }
+
+  closeDialog(event: any) {
+    if (!event.submit) {
+      this.displayPosition = false;
+      return;
+    }
+    this.itemService.addItem(event.data, event.file)
+      .subscribe((res: any) => {
+        console.log(res.data);
+        this.router.navigate(["/item"], {queryParams: {id: res.data.createItem._id._id}});
+        this.displayPosition = false;
+    })
   }
 }

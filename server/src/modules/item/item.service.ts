@@ -18,11 +18,25 @@ export class ItemService {
     private nodeService: NodeService,
   ) {}
 
+  populateItemObject = {
+    path: '_id',
+    populate: [
+      {
+        path: 'createdBy'
+      },
+      {
+        path: 'parent'
+      }
+    ]
+  }
+
   async create(createItemInput: CreateItemInput, createdBy: string) {
     createItemInput._id = await  this.nodeService.create(
       createItemInput.parent, createdBy, true
     );
-    return new this.itemModel(createItemInput).save();
+    const itemDoc = await new this.itemModel(createItemInput).save();
+    await this.itemModel.populate(itemDoc, this.populateItemObject);
+    return itemDoc;
   }
 
   findAll() {

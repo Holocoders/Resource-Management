@@ -1,0 +1,58 @@
+<form [formGroup]="addItemForm" (ngSubmit)="saveItem()">
+  <div class="w-full grid">
+    <div class="col-12 lg:col-6 p-4">
+      <div class="flex flex-column w-full">
+        <div class="p-field">
+          <label for="item-name">
+            <h6 class="mb-1">Item name</h6>
+          </label>
+          <input
+            [class]="addItemForm.controls['name'].invalid &&
+                      (addItemForm.controls['name'].dirty || addItemForm.controls['name'].touched)
+                      ? 'ng-invalid ng-dirty w-full' : 'w-full'" type="text" id="item-name"
+            formControlName="name" pInputText placeholder="Soldering iron">
+        </div>
+        <div *ngIf="addItemForm.controls['name'].invalid && (addItemForm.controls['name'].dirty || addItemForm.controls['name'].touched)">
+          <small *ngIf="addItemForm.controls['name'].errors?.required" class="p-error">Name is required</small>
+        </div>
+        <div class="p-field mt-4">
+          <label for="item-desc">
+            <h6 class="mb-1">Description</h6>
+          </label>
+          <textarea class="w-full" pInputTextarea formControlName="description" placeholder="A hand tool used in soldering" id="item-desc"></textarea>
+        </div>
+        <div class="p-field flex flex-column mt-4">
+          <label for="item-quantity">
+            <h6 class="mb-1">Quantity</h6>
+          </label>
+          <p-inputNumber styleClass="w-full" formControlName="quantity" [showButtons]="true" id="item-quantity" mode="decimal"></p-inputNumber>
+        </div>
+        <div *ngIf="addItemForm.controls['quantity'].invalid && (addItemForm.controls['quantity'].dirty || addItemForm.controls['quantity'].touched)">
+          <small *ngIf="addItemForm.controls['quantity'].errors?.required" class="p-error">Quantity is required</small>
+        </div>
+        <div class="p-field flex flex-column mt-4">
+          <label for="item-price">
+            <h6 class="mb-1">Price</h6>
+          </label>
+          <p-inputNumber
+            [class]="addItemForm.controls['price'].invalid &&
+                      (addItemForm.controls['price'].dirty || addItemForm.controls['price'].touched)
+                      ? 'ng-invalid ng-dirty w-full' : 'w-full'"
+            styleClass="w-full" mode="currency" formControlName="price" inputId="item-price" id="item-price" currency="INR" currencyDisplay="code" locale="en-IN">
+          </p-inputNumber>
+        </div>
+        <div *ngIf="addItemForm.controls['price'].invalid && (addItemForm.controls['price'].dirty || addItemForm.controls['price'].touched)">
+          <small *ngIf="addItemForm.controls['price'].errors?.required" class="p-error">Price is required</small>
+        </div>
+        <div class="w-full mt-4 flex justify-content-evenly">
+          <button pButton pRipple type="button" label="Cancel" (click)="closeDialog()" class="p-button-warning"></button>
+          <button pButton pRipple type="submit" label="Create Item"></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 p-4">
+      <app-suggest-images (onFileUpload)="file = $event"></app-suggest-images>
+    </div>
+  </div>
+
+</form>

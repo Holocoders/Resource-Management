@@ -22,6 +22,10 @@ import { RatingModule } from 'primeng/rating';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { FileUploadModule } from 'primeng/fileupload';
+import {TabViewModule} from 'primeng/tabview';
+import {InputNumberModule} from "primeng/inputnumber";
+import {CarouselModule} from "primeng/carousel";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 const primeNgModules = [
   MenubarModule,
@@ -47,6 +51,10 @@ const primeNgModules = [
   DataViewModule,
   RatingModule,
   FileUploadModule,
+  TabViewModule,
+  InputNumberModule,
+  CarouselModule,
+  InputTextareaModule
 ];
 
 @NgModule({
