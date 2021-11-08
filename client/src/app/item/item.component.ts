@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import {Item} from "./item.model";
-import {ItemService} from "./item.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {filter, map, mergeMap} from "rxjs/operators";
-import {subscribe} from "graphql";
+import { Item } from './item.model';
+import { ItemService } from './item.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { filter, map, mergeMap } from 'rxjs/operators';
+import { subscribe } from 'graphql';
 
 @Component({
   selector: 'app-item',
@@ -94,17 +94,17 @@ export class ItemComponent implements OnInit {
   ];
   item: Item;
   isLoading: boolean;
-  displayPosition: boolean = false;
+  displayPosition = false;
   ngOnInit(): void {
     this.route.queryParams
       .pipe(
-        map(params => params.id),
-        mergeMap(id => this.itemService.getItemDetails(id))
+        map((params) => params.id),
+        mergeMap((id) => this.itemService.getItemDetails(id))
       )
       .subscribe((result: any) => {
         this.isLoading = result.loading;
         this.item = result?.data?.item;
-    })
+      });
   }
 
   search(dt: any, event: any) {
@@ -116,11 +116,11 @@ export class ItemComponent implements OnInit {
       this.displayPosition = false;
       return;
     }
-    this.itemService.addItem(event.data, event.file)
-      .subscribe((res: any) => {
-        console.log(res.data);
-        this.router.navigate(["/item"], {queryParams: {id: res.data.createItem._id._id}});
-        this.displayPosition = false;
-    })
+    this.itemService.addItem(event.data, event.file).subscribe((res: any) => {
+      this.router.navigate(['/item'], {
+        queryParams: { id: res.data.createItem._id._id },
+      });
+      this.displayPosition = false;
+    });
   }
 }

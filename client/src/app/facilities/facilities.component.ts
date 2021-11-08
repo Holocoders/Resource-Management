@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FacilitiesService } from './facilities.service';
 
 @Component({
@@ -14,12 +14,13 @@ export class FacilitiesComponent implements OnInit {
 
   fileAdded = false;
   newFacilityName = '';
+  newFacilityDesc = '';
   newFacilityImage: any;
 
-  constructor(
-    private service: FacilitiesService,
-    private ref: ChangeDetectorRef
-  ) {}
+  selectedFacility = { name: '', description: '' };
+  infoDisplay = false;
+
+  constructor(private service: FacilitiesService) {}
 
   ngOnInit(): void {
     this.service.getFacilities().subscribe((result: any) => {
@@ -38,11 +39,6 @@ export class FacilitiesComponent implements OnInit {
     });
   }
 
-  uploadImage(event: any) {
-    this.newFacilityImage = event.files[0];
-    this.fileAdded = true;
-  }
-
   removeImage() {
     this.fileAdded = false;
     this.newFacilityImage = undefined;
@@ -50,7 +46,11 @@ export class FacilitiesComponent implements OnInit {
 
   addFacility() {
     this.service
-      .addFacility(this.newFacilityName, this.newFacilityImage)
+      .addFacility(
+        this.newFacilityName,
+        this.newFacilityDesc,
+        this.newFacilityImage
+      )
       .subscribe((result: any) => {
         const facility = result?.data?.createFacility;
         this.loading = result.loading;
@@ -60,5 +60,10 @@ export class FacilitiesComponent implements OnInit {
         this.facilities = [...this.facilities];
         this.display = false;
       });
+  }
+
+  openInfo(facility: any) {
+    this.selectedFacility = facility;
+    this.infoDisplay = true;
   }
 }

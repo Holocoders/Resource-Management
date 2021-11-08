@@ -53,9 +53,8 @@ export class FacilityService {
 
   remove(id: string) {
     const path = './uploads/' + id;
-    fs.unlink(path, () => {
-      this.nodeService.remove(id);
-    });
+    if (fs.existsSync(path)) fs.rmSync(path);
+    this.nodeService.remove(id);
     return this.facilityModel.findByIdAndRemove(id);
   }
 }

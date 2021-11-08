@@ -22,39 +22,41 @@ import { RatingModule } from 'primeng/rating';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { FileUploadModule } from 'primeng/fileupload';
-import {TabViewModule} from 'primeng/tabview';
-import {InputNumberModule} from "primeng/inputnumber";
-import {CarouselModule} from "primeng/carousel";
-import {InputTextareaModule} from "primeng/inputtextarea";
+import { TabViewModule } from 'primeng/tabview';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CarouselModule } from 'primeng/carousel';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TooltipModule } from 'primeng/tooltip';
 
 const primeNgModules = [
-  MenubarModule,
-  SharedModule,
-  ButtonModule,
-  ImageModule,
-  InputTextModule,
-  RippleModule,
   AvatarModule,
-  DialogModule,
-  PasswordModule,
-  DividerModule,
-  CheckboxModule,
-  ToastModule,
-  PanelModule,
-  MessageModule,
   BreadcrumbModule,
-  MenuModule,
+  ButtonModule,
   CardModule,
-  ChipModule,
-  TableModule,
-  TagModule,
-  DataViewModule,
-  RatingModule,
-  FileUploadModule,
-  TabViewModule,
-  InputNumberModule,
   CarouselModule,
-  InputTextareaModule
+  CheckboxModule,
+  ChipModule,
+  DataViewModule,
+  DialogModule,
+  DividerModule,
+  FileUploadModule,
+  ImageModule,
+  InputNumberModule,
+  InputTextareaModule,
+  InputTextModule,
+  MenubarModule,
+  MenuModule,
+  MessageModule,
+  PanelModule,
+  PasswordModule,
+  RatingModule,
+  RippleModule,
+  SharedModule,
+  TableModule,
+  TabViewModule,
+  TagModule,
+  ToastModule,
+  TooltipModule,
 ];
 
 @NgModule({
