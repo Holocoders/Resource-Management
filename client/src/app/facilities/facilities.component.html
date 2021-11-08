@@ -10,49 +10,9 @@
     </div>
   </ng-template>
   <ng-template let-facility pTemplate="gridItem">
-    <div class="mt-2 mr-2 border-1 border-top-0 rounded-corners border-400">
-      <div class="grid w-24rem ">
-      <div class="col-12">
-        <div class="bg-primary flex flex-wrap justify-content-between border-round-top">
-          <div class="flex align-items-center justify-content-center
-      flex-none font-bold border-round m-2" style="visibility: hidden">
-            <i class="pi pi-pencil"></i> &nbsp;&nbsp;
-            <i class="pi pi-info-circle"></i>
-          </div>
-          <div class="flex align-items-center justify-content-center
-      flex-grow-1 font-bold border-round">
-            {{facility.name}}
-          </div>
-          <div class="flex align-items-center justify-content-center
-      flex-none font-bold border-round m-2">
-            <i class="pi pi-pencil"></i> &nbsp;&nbsp;
-            <i class="pi pi-info-circle"></i>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 flex flex-wrap justify-content-center">
-        <img width="100" height="100"
-             [src]="'http://localhost:3000/' + facility._id._id" [alt]="facility.name"/>
-      </div>
-      <div class="col-12">
-        <div class="flex justify-content-around flex-wrap card-container indigo-container">
-          <div class="flex align-items-center justify-content-center
-          w-8rem border-round m-2">
-            <p-chip label="Category : 4" styleClass="bg-primary"></p-chip></div>
-          <div class="flex align-items-center justify-content-center
-           w-8rem border-round m-2">
-            <p-chip label="Items : 40" styleClass="bg-blue-100"></p-chip></div>
-        </div>
-      </div>
-      <div class="col-12">
-        <p-divider></p-divider>
-      </div>
-      <div class="col-12 flex flex-wrap justify-content-center">
-        <button pButton pRipple type="button" icon="pi pi-trash" (click)="removeFacility(facility._id._id)"
-                class="p-button-raised p-button-danger p-button-text"></button>
-      </div>
-    </div>
-    </div>
+    <app-node-grid-item class="cursor-pointer"
+                                     (click)="goToNode(facility?._id?._id, facility?._id?.isItem)"
+                                     (onDeleteClick)="$event.stopPropagation(); removeFacility($event)" [obj]="facility"></app-node-grid-item>
   </ng-template>
 </p-dataView>
 

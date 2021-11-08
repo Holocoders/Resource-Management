@@ -1,10 +1,11 @@
-import {Module} from '@nestjs/common';
+import {forwardRef, Module} from '@nestjs/common';
 import {ItemService} from './item.service';
 import {ItemResolver} from './item.resolver';
 import {NodeModule} from "../node/node.module";
 import {Item, ItemSchema} from "./entities/item.entity";
 import {MongooseModule} from "@nestjs/mongoose";
 import {SharedModule} from "../shared/shared.module";
+import {InventoryHistoryModule} from "../inventory-history/inventory-history.module";
 
 @Module({
   providers: [
@@ -13,8 +14,12 @@ import {SharedModule} from "../shared/shared.module";
   ],
   imports: [
     MongooseModule.forFeature([{ name: Item.name, schema: ItemSchema }]),
-    NodeModule,
-    SharedModule
+    forwardRef(() => NodeModule),
+    SharedModule,
+    InventoryHistoryModule
+  ],
+  exports: [
+    ItemService
   ]
 })
 export class ItemModule {}

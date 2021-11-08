@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import {Item} from "./item.model";
+import {Item} from "../models/item.model";
 import {ItemService} from "./item.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {filter, map, mergeMap} from "rxjs/operators";
@@ -109,18 +109,5 @@ export class ItemComponent implements OnInit {
 
   search(dt: any, event: any) {
     dt.filterGlobal(event.target.value, 'contains');
-  }
-
-  closeDialog(event: any) {
-    if (!event.submit) {
-      this.displayPosition = false;
-      return;
-    }
-    this.itemService.addItem(event.data, event.file)
-      .subscribe((res: any) => {
-        console.log(res.data);
-        this.router.navigate(["/item"], {queryParams: {id: res.data.createItem._id._id}});
-        this.displayPosition = false;
-    })
   }
 }

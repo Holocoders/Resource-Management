@@ -45,10 +45,13 @@ export class CategoryResolver {
     return path;
   }
 
-  @Query(() => [Category], { name: 'category' })
-  findAll(@CurrentUser() user) {
+  @Query(() => [Category], { name: 'childCategories' })
+  getAllChildren(
+    @CurrentUser() user,
+    @Args('id', { type: () => String }) id: string
+  ) {
     if (!user) return new GraphQLError("Unauthorized");
-    return this.categoryService.findAll();
+    return this.categoryService.getAllChildren(id);
   }
 
   @Query(() => Category, { name: 'category' })
@@ -70,14 +73,5 @@ export class CategoryResolver {
       updateCategoryInput._id,
       updateCategoryInput,
     );
-  }
-
-  @Mutation(() => Category)
-  removeCategory(
-    @CurrentUser() user,
-    @Args('id', { type: () => String }) id: string
-  ) {
-    if (!user) return new GraphQLError("Unauthorized");
-    return this.categoryService.remove(id);
   }
 }

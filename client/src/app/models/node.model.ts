@@ -5,4 +5,5 @@ export class Node {
   isItem: boolean;
   parent: Node;
   createdBy: User;
+
 }

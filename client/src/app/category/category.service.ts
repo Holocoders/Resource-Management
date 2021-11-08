@@ -1,48 +1,22 @@
 import { Injectable } from '@angular/core';
 import {Apollo, gql} from "apollo-angular";
-import {query} from "@angular/animations";
 import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ItemService {
+export class CategoryService {
 
   constructor(
-    private apollo: Apollo,
-    private http: HttpClient
+    private readonly apollo: Apollo,
+    private readonly http: HttpClient
   ) { }
 
-  getItemDetails(id: string) {
-    return this.apollo.watchQuery({
-      query: gql`
-        query item ($id: String!) {
-          item (id: $id) {
-            _id {
-              _id
-              createdBy {
-                _id
-                name
-              }
-            }
-            description
-            name
-            price
-            quantity
-          }
-        }
-      `,
-      variables: {
-        id
-      }
-    }).valueChanges;
-  }
-
-  addItem(createItemInput: any, file: any) {
+  addCategory(createCategoryInput: any, file: any) {
     const operations = {
       query: `
-        mutation createItem ($createItemInput: CreateItemInput!, $file: Upload!) {
-          createItem (createItemInput: $createItemInput, file: $file) {
+        mutation createCategory ($createCategoryInput: CreateCategoryInput!, $file: Upload!) {
+          createCategory (createCategoryInput: $createCategoryInput, file: $file) {
               _id {
                   _id
               }
@@ -50,7 +24,7 @@ export class ItemService {
       }`,
       variables: {
         file: file,
-        createItemInput
+        createCategoryInput
       }
     };
     const _map = {
@@ -66,8 +40,8 @@ export class ItemService {
   getAllChildren(id: string) {
     return this.apollo.watchQuery({
       query: gql`
-        query childItems ($id: String!) {
-          childItems (id: $id) {
+        query childCategories ($id: String!) {
+          childCategories (id: $id) {
             _id {
               _id
               createdBy {
@@ -79,13 +53,10 @@ export class ItemService {
             }
             description
             name
-            price
-            quantity
           }
         }
       `,
       variables: {id}
     }).valueChanges;
   }
-
 }

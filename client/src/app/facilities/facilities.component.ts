@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FacilitiesService } from './facilities.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-facilities',
@@ -18,7 +19,7 @@ export class FacilitiesComponent implements OnInit {
 
   constructor(
     private service: FacilitiesService,
-    private ref: ChangeDetectorRef
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -60,5 +61,13 @@ export class FacilitiesComponent implements OnInit {
         this.facilities = [...this.facilities];
         this.display = false;
       });
+  }
+
+  goToNode(id: string, isItem: boolean) {
+    if (isItem) {
+      this.router.navigate(["/item"], {queryParams: {id}})
+      return
+    }
+    this.router.navigate(["/node"], {queryParams: {id}})
   }
 }

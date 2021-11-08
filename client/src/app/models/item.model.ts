@@ -1,4 +1,4 @@
-import {Node} from "../shared/node.model"
+import {Node} from "./node.model"
 
 export class Item {
   _id: Node;

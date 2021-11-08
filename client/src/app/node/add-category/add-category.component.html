@@ -1,0 +1,35 @@
+<form [formGroup]="addCategoryForm" (ngSubmit)="saveCategory()">
+  <div class="w-full grid">
+    <div class="col-12 lg:col-6 p-4">
+      <div class="flex flex-column w-full">
+        <div class="p-field">
+          <label for="item-name">
+            <h6 class="mb-1">Category name</h6>
+          </label>
+          <input
+            [class]="addCategoryForm.controls['name'].invalid &&
+                      (addCategoryForm.controls['name'].dirty || addCategoryForm.controls['name'].touched)
+                      ? 'ng-invalid ng-dirty w-full' : 'w-full'" type="text" id="item-name"
+            formControlName="name" pInputText placeholder="Battery">
+        </div>
+        <div *ngIf="addCategoryForm.controls['name'].invalid && (addCategoryForm.controls['name'].dirty || addCategoryForm.controls['name'].touched)">
+          <small *ngIf="addCategoryForm.controls['name'].errors?.required" class="p-error">Name is required</small>
+        </div>
+        <div class="p-field mt-4">
+          <label for="item-desc">
+            <h6 class="mb-1">Description</h6>
+          </label>
+          <textarea class="w-full" pInputTextarea formControlName="description" placeholder="A device that stores chemical energy" id="item-desc"></textarea>
+        </div>
+        <div class="w-full mt-4 flex justify-content-evenly flex-column sm:flex-row">
+          <button pButton pRipple type="submit" label="Create Category"></button>
+          <button pButton pRipple type="button" label="Cancel" (click)="closeDialog()" class="p-button-warning mt-2 sm:mt-0"></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 p-4">
+      <app-suggest-images (onFileUpload)="file = $event"></app-suggest-images>
+    </div>
+  </div>
+
+</form>

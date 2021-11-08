@@ -9,5 +9,8 @@ import {InventoryHistory, InventoryHistorySchema} from "./entities/inventory-his
     MongooseModule.forFeature([{ name: InventoryHistory.name, schema: InventoryHistorySchema }])
   ],
   providers: [InventoryHistoryResolver, InventoryHistoryService],
+  exports: [
+    InventoryHistoryService
+  ]
 })
 export class InventoryHistoryModule {}

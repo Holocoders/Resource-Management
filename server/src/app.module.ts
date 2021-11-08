@@ -13,6 +13,7 @@ import {ItemModule} from "./modules/item/item.module";
 import {ItemHistoryModule} from "./modules/item-history/item-history.module";
 import {SharedModule} from './modules/shared/shared.module';
 import {InventoryHistoryModule} from "./modules/inventory-history/inventory-history.module";
+import {NodeModule} from "./modules/node/node.module";
 
 const env = process.env.NODE_ENV || 'dev';
 
@@ -43,6 +44,7 @@ const env = process.env.NODE_ENV || 'dev';
     FacilityModule,
     CategoryModule,
     ItemModule,
+    NodeModule,
     ItemHistoryModule,
     InventoryHistoryModule,
     SharedModule

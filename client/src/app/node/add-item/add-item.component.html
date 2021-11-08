@@ -44,9 +44,9 @@
         <div *ngIf="addItemForm.controls['price'].invalid && (addItemForm.controls['price'].dirty || addItemForm.controls['price'].touched)">
           <small *ngIf="addItemForm.controls['price'].errors?.required" class="p-error">Price is required</small>
         </div>
-        <div class="w-full mt-4 flex justify-content-evenly">
-          <button pButton pRipple type="button" label="Cancel" (click)="closeDialog()" class="p-button-warning"></button>
+        <div class="w-full mt-4 flex justify-content-evenly flex-column sm:flex-row">
           <button pButton pRipple type="submit" label="Create Item"></button>
+          <button pButton pRipple type="button" label="Cancel" (click)="closeDialog()" class="p-button-warning mt-2 sm:mt-0"></button>
         </div>
       </div>
     </div>

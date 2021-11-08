@@ -46,10 +46,13 @@ export class ItemResolver {
     return join(__dirname, path);
   }
 
-  @Query(() => [Item], { name: 'item' })
-  findAll(@CurrentUser() user) {
+  @Query(() => [Item], { name: 'childItems' })
+  getAllChildren(
+    @CurrentUser() user,
+    @Args('id', { type: () => String }) id: string
+  ) {
     if (!user) return new GraphQLError("Unauthorized");
-    return this.itemService.findAll();
+    return this.itemService.getAllChildren(id);
   }
 
   @Query(() => Item, { name: 'item' })
@@ -68,15 +71,6 @@ export class ItemResolver {
   ) {
     if (!user) return new GraphQLError("Unauthorized");
     return this.itemService.update(updateItemInput._id, updateItemInput);
-  }
-
-  @Mutation(() => Item)
-  removeItem(
-    @CurrentUser() user,
-    @Args('id', { type: () => String }) id: string
-  ) {
-    if (!user) return new GraphQLError("Unauthorized");
-    return this.itemService.remove(id);
   }
 
   @Mutation(() => Item)

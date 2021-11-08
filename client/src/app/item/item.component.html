@@ -1,23 +1,3 @@
-<!--The below code is the  dialog to add item and category-->
-
-<p-dialog [showHeader]="false" [(visible)]="displayPosition" [position]="'top'" [modal]="true"
-          styleClass="w-full" [draggable]="false" [resizable]="false">
-  <div class="card mt-4">
-    <p-tabView>
-      <p-tabPanel header="Category" leftIcon="pi pi-th-large" tooltip="Add New Category">
-        <app-add-category (onDialogClose)="closeDialog($event)"></app-add-category>
-      </p-tabPanel>
-      <p-tabPanel header="Item" leftIcon="pi pi-briefcase" tooltip="Add New Item">
-        <app-add-item (onDialogClose)="closeDialog($event)"></app-add-item>
-      </p-tabPanel>
-    </p-tabView>
-  </div>
-</p-dialog>
-
-
-<!--Ends here-->
-
-
 <div class="grid h-full w-full">
   <div class="lg:col-5 xl:col-4 ml-3 lg:m-2">
     <p-card styleClass="p-6 shadow-4 border-round h-full">
@@ -26,7 +6,7 @@
           <img [src]="'http://localhost:3000/' + item?._id?._id" [alt]="item?.name" width="200" height="200" class="border-1 border-primary border-circle">
         </div>
         <div class="col-12 flex justify-content-center mt-4">
-          <h4 class="mb-0">Soldering Iron</h4>
+          <h4 class="mb-0">{{item?.name}}</h4>
         </div>
         <div class="col-12 flex justify-content-center pt-0">
           <h6>Created by: {{item?._id?.createdBy?.name}}</h6>

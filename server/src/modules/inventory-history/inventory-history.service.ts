@@ -24,11 +24,8 @@ export class InventoryHistoryService {
     }
   };
 
-  async create(createInventoryHistoryInput: CreateInventoryHistoryInput) {
-    const inventoryHistory = await new this.inventoryHistoryModel(createInventoryHistoryInput).save();
-    await this.inventoryHistoryModel.populate(inventoryHistory, this.populateObject);
-    await this.inventoryHistoryModel.populate(inventoryHistory, 'userId');
-    return inventoryHistory;
+  create(createInventoryHistoryInput: CreateInventoryHistoryInput) {
+    return new this.inventoryHistoryModel(createInventoryHistoryInput).save();
   }
 
   findAll() {

@@ -1,21 +1,23 @@
-import {Injectable} from '@nestjs/common';
+import {forwardRef, Inject, Injectable} from '@nestjs/common';
 import {CreateItemInput} from './dto/create-item.input';
 import {UpdateItemInput} from './dto/update-item.input';
 import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
+import Mongoose, {Model} from "mongoose";
 import {NodeService} from "../node/node.service";
 import {Item, ItemDocument} from "./entities/item.entity";
 import * as fs from "fs";
-import Mongoose from "mongoose";
-import {Node} from "../node/entities/node.entity";
-import {User} from "../user/entities/user.entity";
+import {InventoryHistoryService} from "../inventory-history/inventory-history.service";
+import {CreateInventoryHistoryInput} from "../inventory-history/dto/create-inventory-history.input";
+import {InventoryActivity} from "../inventory-history/entities/inventory-history.entity";
 
 @Injectable()
 export class ItemService {
 
   constructor(
     @InjectModel(Item.name) private itemModel: Model<ItemDocument>,
+    @Inject(forwardRef(() => NodeService))
     private nodeService: NodeService,
+    private inventoryHistoryService: InventoryHistoryService
   ) {}
 
   populateItemObject = {
@@ -36,11 +38,20 @@ export class ItemService {
     );
     const itemDoc = await new this.itemModel(createItemInput).save();
     await this.itemModel.populate(itemDoc, this.populateItemObject);
+    const createInventoryHistoryInput = new CreateInventoryHistoryInput();
+    createInventoryHistoryInput.itemId = createItemInput._id;
+    createInventoryHistoryInput.userId = createdBy;
+    createInventoryHistoryInput.quantity = createItemInput.quantity;
+    createInventoryHistoryInput.activityType = InventoryActivity.ADD;
+    await this.inventoryHistoryService.create(createInventoryHistoryInput);
     return itemDoc;
   }
 
-  findAll() {
-    return this.itemModel.find();
+  async getAllChildren(id) {
+    const nodes = await this.nodeService.findAllChildren(id);
+    const items = await this.itemModel.find({_id: {$in: nodes}});
+    await this.itemModel.populate(items, this.populateItemObject);
+    return items;
   }
 
   findOne(id: string) {
@@ -55,17 +66,15 @@ export class ItemService {
   update(id: string, updateItemInput: UpdateItemInput) {
     return this.itemModel.findByIdAndUpdate(
       id,
-      updateItemInput as unknown as Mongoose.UpdateQuery<ItemDocument>,
+      updateItemInput as any,
       {new: true}
     );
   }
 
-  async remove(id: string) {
-    const path = `./uploads/${id}`
-    if (fs.existsSync(path))
-      fs.rmSync(path)
-    await this.nodeService.remove(id);
-    return this.itemModel.findByIdAndRemove(id);
+  async deleteMany(ids: any[]) {
+    for (const id of ids)
+      fs.rmSync(`./uploads/${id}`, {force: true});
+    return this.itemModel.deleteMany({_id: {$in: ids}});
   }
 
   reduceQuantity(id: string, reduceBy: number) {

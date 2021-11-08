@@ -1,26 +1,28 @@
-<div class="p-field">
-  <label for="item-image">
-    <h6 class="mb-1">Image</h6>
-  </label>
-  <p-fileUpload [showUploadButton]="false" [showCancelButton]="false" id="item-image" (onSelect)="onFileSelected($event)"
-                accept="image/*" [maxFileSize]="2000000" [customUpload]="true"
-  >
-  </p-fileUpload>
-</div>
-<h6>Pick an image</h6>
-<p-carousel class="flex justify-content-center"
-            styleClass="mt-2 suggestion-carousel"
-            [circular]="true"
-            [value]="products" orientation="horizontal"
-            verticalViewPortHeight="300px" [numVisible]="1" [numScroll]="1">
-  <ng-template let-product pTemplate="item">
-    <div class="product-item">
-      <div class="product-item-content">
-        <div class="p-mb-3">
-          <p-image [src]="product.image" alt="product.name" width="250" height="250">
-          </p-image>
+<div class="w-full">
+  <div class="p-field">
+    <label for="item-image">
+      <h6 class="mb-1">Image</h6>
+    </label>
+    <p-fileUpload [showUploadButton]="false" [showCancelButton]="false" id="item-image" (onSelect)="onFileSelected($event)"
+                  accept="image/*" [maxFileSize]="2000000" [customUpload]="true"
+    >
+    </p-fileUpload>
+  </div>
+  <h6>Pick an image</h6>
+  <p-carousel class="flex justify-content-center"
+              styleClass="mt-2 suggestion-carousel"
+              [circular]="true"
+              [value]="products" orientation="horizontal"
+              verticalViewPortHeight="300px" [numVisible]="1" [numScroll]="1">
+    <ng-template let-product pTemplate="item">
+      <div class="product-item">
+        <div class="product-item-content">
+          <div class="p-mb-3">
+            <p-image [src]="product.image" alt="product.name" width="250" height="250">
+            </p-image>
+          </div>
         </div>
       </div>
-    </div>
-  </ng-template>
-</p-carousel>
+    </ng-template>
+  </p-carousel>
+</div>

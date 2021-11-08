@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 
 @Component({
@@ -13,14 +13,14 @@ export class AddItemComponent implements OnInit {
   ) { }
 
   @Output() onDialogClose = new EventEmitter();
+  @Input() parent: string;
   file: any;
 
   addItemForm = this.formBuilder.group({
     name: new FormControl('', [Validators.required]),
     description: new FormControl(''),
     quantity: new FormControl(0, [Validators.required]),
-    price: new FormControl( null, [Validators.required]),
-    parent: new FormControl("6188e9003c7fe446189a1aba")
+    price: new FormControl( null, [Validators.required])
   })
 
   ngOnInit(): void {
@@ -28,9 +28,11 @@ export class AddItemComponent implements OnInit {
   }
 
   saveItem() {
+    const itemObj = this.addItemForm.value;
+    itemObj.parent = this.parent;
     this.onDialogClose.emit({
       submit: true,
-      data: this.addItemForm.value,
+      data: itemObj,
       file: this.file
     })
   }
