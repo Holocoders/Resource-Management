@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {forwardRef, Inject, Injectable} from '@nestjs/common';
 import { CreateFacilityInput } from './dto/create-facility.input';
 import { UpdateFacilityInput } from './dto/update-facility.input';
 import { InjectModel } from '@nestjs/mongoose';
@@ -14,6 +14,7 @@ import { User } from '../user/entities/user.entity';
 export class FacilityService {
   constructor(
     @InjectModel(Facility.name) private facilityModel: Model<FacilityDocument>,
+    @Inject(forwardRef(() => NodeService))
     private nodeService: NodeService,
   ) {}
 
@@ -56,5 +57,11 @@ export class FacilityService {
     if (fs.existsSync(path)) fs.rmSync(path);
     this.nodeService.remove(id);
     return this.facilityModel.findByIdAndRemove(id);
+  }
+
+  async deleteMany(ids: any[]) {
+    for (const id of ids)
+      fs.rmSync(`./uploads/${id}`, {force: true});
+    return this.facilityModel.deleteMany({_id: {$in: ids}});
   }
 }

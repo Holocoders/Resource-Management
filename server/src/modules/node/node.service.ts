@@ -7,6 +7,7 @@ import * as Mongoose from "mongoose";
 import * as fs from "fs";
 import {ItemService} from "../item/item.service";
 import {CategoryService} from "../category/category.service";
+import {FacilityService} from "../facility/facility.service";
 
 @Injectable()
 export class NodeService {
@@ -17,6 +18,8 @@ export class NodeService {
     private itemService: ItemService,
     @Inject(forwardRef(() => CategoryService))
     private categoryService: CategoryService,
+    @Inject(forwardRef(() => FacilityService))
+    private facilityService: FacilityService,
   ) {}
 
   async create(parent: any, createdBy: string, isItem = false) {
@@ -59,6 +62,7 @@ export class NodeService {
       nodeIds.push(node._id);
       fs.rmSync(`./uploads/${node._id}`, {force: true});
     }
+    await this.facilityService.deleteMany(nodeIds);
     await this.itemService.deleteMany(nodeIds);
     await this.categoryService.deleteMany(nodeIds);
     await this.nodeModel.deleteMany({_id: {$in: nodeIds}});

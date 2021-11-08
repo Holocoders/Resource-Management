@@ -11,25 +11,38 @@
   </ng-template>
   <ng-template let-facility pTemplate="gridItem">
     <app-node-grid-item class="cursor-pointer"
-                                     (click)="goToNode(facility?._id?._id, facility?._id?.isItem)"
-                                     (onDeleteClick)="$event.stopPropagation(); removeFacility($event)" [obj]="facility"></app-node-grid-item>
+                                       (click)="goToNode(facility?._id?._id, facility?._id?.isItem)"
+                                       (onDeleteClick)="removeFacility($event)" [obj]="facility">
+    </app-node-grid-item>
   </ng-template>
 </p-dataView>
 
-<p-dialog header="Add Facility" [(visible)]="display" [style]="{width: '50vw'}">
-  <span class="p-float-label">
-    <input id="float-input" type="text" pInputText [(ngModel)]="newFacilityName">
-    <label for="float-input">Name</label>
-  </span>
-  <br>
-  <span>
-    <label>Picture</label>
-    <span *ngIf="fileAdded"><br>{{newFacilityImage.name}} &nbsp;
-      <p-button icon="pi pi-times" styleClass="p-button-sm p-button-danger" (onClick)="removeImage()"></p-button>
-    </span>
-    <p-fileUpload *ngIf="!fileAdded" mode="basic" (onSelect)="uploadImage($event)"></p-fileUpload>
-  </span>
-
+<p-dialog [header]="selectedFacility.name" [(visible)]="infoDisplay">
+  {{selectedFacility.description}}
+</p-dialog>
+<p-dialog header="Add Facility" [(visible)]="display" [position]="'top'" [modal]="true"
+          styleClass="w-full" [draggable]="false" [resizable]="false">
+  <div class="w-full grid">
+    <div class="col-12 lg:col-6 p-4">
+      <div class="flex flex-column w-full">
+        <div class="p-field">
+          <label for="facility-name">
+            <h6 class="mb-1">Facility Name</h6>
+          </label>
+          <input id="facility-name" pInputText [(ngModel)]="newFacilityName">
+        </div>
+        <div class="p-field mt-4">
+          <label for="facility-desc">
+            <h6 class="mb-1">Description</h6>
+          </label>
+          <textarea class="w-full" pInputTextarea id="facility-desc" [(ngModel)]="newFacilityDesc"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 p-4">
+      <app-suggest-images (onFileUpload)="newFacilityImage = $event"></app-suggest-images>
+    </div>
+  </div>
   <ng-template pTemplate="footer">
     <p-button icon="pi pi-check" (click)="addFacility()" label="Add" styleClass="p-button-text"></p-button>
   </ng-template>
