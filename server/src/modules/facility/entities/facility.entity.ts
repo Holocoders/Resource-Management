@@ -1,7 +1,7 @@
-import {Field, ID, ObjectType} from '@nestjs/graphql';
-import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {Document, Schema as MongooseSchema} from 'mongoose';
-import {Node} from "../../node/entities/node.entity";
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
+import { Node } from '../../node/entities/node.entity';
 
 @Schema()
 @ObjectType()
@@ -12,6 +12,9 @@ export class Facility {
 
   @Prop()
   name: string;
+
+  @Prop({ default: '' })
+  description?: string;
 }
 
 export type FacilityDocument = Facility & Document;

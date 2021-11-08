@@ -23,6 +23,7 @@ input CreateCategoryInput {
 
 input CreateFacilityInput {
   _id: String
+  description: String
   name: String!
 }
 
@@ -66,6 +67,7 @@ scalar DateTime
 
 type Facility {
   _id: Node!
+  description: String
   name: String!
 }
 
@@ -200,6 +202,7 @@ input UpdateCategoryInput {
 
 input UpdateFacilityInput {
   _id: String!
+  description: String
   name: String
 }
 

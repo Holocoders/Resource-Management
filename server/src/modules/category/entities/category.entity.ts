@@ -1,8 +1,8 @@
-import {Field, ID, InputType, ObjectType} from '@nestjs/graphql';
-import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {Document, Schema as MongooseSchema} from 'mongoose';
-import {User} from "../../user/entities/user.entity";
-import {Node} from "../../node/entities/node.entity";
+import { Field, ID, InputType, ObjectType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
+import { User } from '../../user/entities/user.entity';
+import { Node } from '../../node/entities/node.entity';
 
 export type CategoryDocument = Category & Document;
 
@@ -17,7 +17,7 @@ export class Category {
   @Prop()
   name: string;
 
-  @Prop({default: ""})
+  @Prop({ default: '' })
   description?: string;
 }
 
