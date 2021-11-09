@@ -9,10 +9,10 @@
       <p-button label="Add" icon="pi pi-plus" class="mr-2 cursor-pointer" (onClick)="displayAddDialog=true"></p-button>
     </div>
   </ng-template>
-  <ng-template let-node pTemplate="gridItem">
+  <ng-template let-object pTemplate="gridItem">
     <app-node-grid-item
-                      class="cursor-pointer" (click)="goToNode(node?._id?._id, node?._id?.isItem)"
-                     (onDeleteClick)="removeNode($event, node?._id?._id)" [obj]="node">
+      class="cursor-pointer" (click)="goToNode(object?.node?._id, object?.node?.isItem)"
+      (onDeleteClick)="removeNode($event, object?.node?._id)" [obj]="object">
     </app-node-grid-item>
   </ng-template>
 </p-dataView>

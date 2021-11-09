@@ -13,6 +13,9 @@ import {ItemModule} from "../item/item.module";
   providers: [
     ItemHistoryResolver,
     ItemHistoryService
+  ],
+  exports: [
+    ItemHistoryService
   ]
 })
 export class ItemHistoryModule {}

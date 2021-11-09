@@ -4,9 +4,9 @@ import {InventoryActivity} from "../entities/inventory-history.entity";
 @InputType()
 export class CreateInventoryHistoryInput {
   @Field(() => String)
-  itemId: string;
+  item: string;
   @Field(() => String)
-  userId?: string;
+  user?: string;
   quantity: number;
   activityType: InventoryActivity;
 }

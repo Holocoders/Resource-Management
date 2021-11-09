@@ -3,13 +3,13 @@
     <p-card styleClass="p-6 shadow-4 border-round h-full">
       <div class="grid">
         <div class="col-12 flex justify-content-center mt-4">
-          <img [src]="'http://localhost:3000/' + item?._id?._id" [alt]="item?.name" width="200" height="200" class="border-1 border-primary border-circle">
+          <img [src]="'http://localhost:3000/' + item?.node?._id" [alt]="item?.name" width="200" height="200" class="border-1 border-primary border-circle">
         </div>
         <div class="col-12 flex justify-content-center mt-4">
           <h4 class="mb-0">{{item?.name}}</h4>
         </div>
         <div class="col-12 flex justify-content-center pt-0">
-          <h6>Created by: {{item?._id?.createdBy?.name}}</h6>
+          <h6>Created by: {{item?.node?.createdBy?.name}}</h6>
         </div>
         <div class="col-6 flex justify-content-center">
           <p-chip label="Available : 4" styleClass="bg-primary"></p-chip>
@@ -43,34 +43,60 @@
   <div class="col grid ml-3 m-2 overflow-x-auto">
     <div class="col-12 p-0">
       <p-card styleClass="w-full shadow-4 border-round h-30rem">
-        <p-table [value]="activities"
-                 [scrollable]="true" responsiveLayout="scroll" scrollHeight="25rem">
+        <p-table #dt [value]="inventoryHistory"
+                 [scrollable]="true" responsiveLayout="scroll" scrollHeight="25rem"
+                 [globalFilterFields]="['user.name','activityType','activityDate']">
           <ng-template pTemplate="caption">
             <div class="table-header">
               <span class="p-input-icon-left">
-                        <i class="pi pi-search"></i>
-                        <input pInputText type="text" placeholder="Search" />
-                    </span>
+                  <i class="pi pi-search"></i>
+                  <input (input)="search(dt, $event)" pInputText type="text" placeholder="Search" />
+              </span>
             </div>
           </ng-template>
           <ng-template pTemplate="header">
             <tr>
-              <th style="min-width:200px">User</th>
-              <th style="min-width:200px">Activity</th>
-              <th style="min-width:200px">Quantity</th>
-              <th style="min-width:200px">Dates</th>
+              <th style="min-width:200px" class="pt-2 pb-2" pSortableColumn="user.name">
+                <div class="flex align-items-center justify-content-between w-full">
+                  User
+                  <p-sortIcon field="user.name"></p-sortIcon>
+                  <p-columnFilter type="text" field="user.name" display="menu" class="ml-auto"></p-columnFilter>
+                </div>
+              </th>
+              <th style="min-width:200px;" class="pt-2 pb-2" pSortableColumn="activityType">
+                <div class="flex align-items-center justify-content-between w-full">
+                  Activity
+                  <p-sortIcon field="activityType"></p-sortIcon>
+                  <p-columnFilter type="text" field="activityType" display="menu" class="ml-auto"></p-columnFilter>
+                </div>
+              </th>
+              <th style="min-width:200px;" class="pt-2 pb-2" pSortableColumn="quantity">
+                <div class="flex align-items-center justify-content-between w-full">
+                  Quantity
+                  <p-sortIcon field="quantity"></p-sortIcon>
+                  <p-columnFilter type="numeric" field="quantity" display="menu" class="ml-auto"></p-columnFilter>
+                </div>
+              </th>
+              <th style="min-width:200px;" class="pt-2 pb-2" pSortableColumn="activityDate">
+                <div class="flex align-items-center justify-content-between w-full">
+                  Dates
+                  <p-sortIcon field="activityDate"></p-sortIcon>
+                  <p-columnFilter type="date" field="activityDate" display="menu" class="ml-auto"></p-columnFilter>
+                </div>
+              </th>
             </tr>
           </ng-template>
           <ng-template pTemplate="body" let-activity>
             <tr>
               <td style="min-width:200px">
                 <span class="p-column-title">Name</span>
-                <img [src]="activity.image" width="32" style="vertical-align: middle">&nbsp;
-                <span class="image-text">{{activity.name}}</span>
+                <p-avatar shape="circle" icon="pi pi-user" styleClass="p-mr-2"></p-avatar>
+                <span class="image-text ml-2">{{activity.user.name}}</span>
               </td>
               <td style="min-width:200px">
                 <span class="p-column-title">Activity</span>
-                <p-tag [value]="activity.activity" [severity]="activity.severity"></p-tag>
+                <p-tag [value]="activity.activityType">
+                </p-tag>
               </td>
               <td style="min-width:200px">
                 <span class="p-column-title">Quantity</span>
@@ -78,7 +104,7 @@
               </td>
               <td style="min-width:200px">
                 <span class="p-column-title">Dates</span>
-                {{activity.activityDate}}
+                {{activity.activityDate | date}}
                 <br />
                 {{activity?.dueDate}}
               </td>

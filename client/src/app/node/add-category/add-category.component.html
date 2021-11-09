@@ -10,7 +10,7 @@
             [class]="addCategoryForm.controls['name'].invalid &&
                       (addCategoryForm.controls['name'].dirty || addCategoryForm.controls['name'].touched)
                       ? 'ng-invalid ng-dirty w-full' : 'w-full'" type="text" id="item-name"
-            formControlName="name" pInputText placeholder="Battery">
+            formControlName="name" pInputText>
         </div>
         <div *ngIf="addCategoryForm.controls['name'].invalid && (addCategoryForm.controls['name'].dirty || addCategoryForm.controls['name'].touched)">
           <small *ngIf="addCategoryForm.controls['name'].errors?.required" class="p-error">Name is required</small>
@@ -19,7 +19,7 @@
           <label for="item-desc">
             <h6 class="mb-1">Description</h6>
           </label>
-          <textarea class="w-full" pInputTextarea formControlName="description" placeholder="A device that stores chemical energy" id="item-desc"></textarea>
+          <textarea class="w-full" pInputTextarea formControlName="description" id="item-desc"></textarea>
         </div>
         <div class="w-full mt-4 flex justify-content-evenly flex-column sm:flex-row">
           <button pButton pRipple type="submit" label="Create Category"></button>

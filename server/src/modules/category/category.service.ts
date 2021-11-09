@@ -31,14 +31,16 @@ export class CategoryService {
     createCategoryInput._id = await this.nodeService.create(
       createCategoryInput.parent, createdBy
     );
-    return new this.categoryModel(createCategoryInput).save();
+    const categoryDoc = await new this.categoryModel(createCategoryInput).save();
+    await this.categoryModel.populate(categoryDoc, this.populateCategoryObject);
+    return categoryDoc;
   }
 
   async getAllChildren(id) {
     const nodes = await this.nodeService.findAllChildren(id, false);
-    const items = await this.categoryModel.find({_id: {$in: nodes}});
-    await this.categoryModel.populate(items, this.populateCategoryObject);
-    return items;
+    const categories = await this.categoryModel.find({_id: {$in: nodes}});
+    await this.categoryModel.populate(categories, this.populateCategoryObject);
+    return categories;
   }
 
   findOne(id: string) {

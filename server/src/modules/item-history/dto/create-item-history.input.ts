@@ -4,9 +4,9 @@ import {ItemActivity} from "../entities/item-history.entity";
 @InputType()
 export class CreateItemHistoryInput {
   @Field(() => String)
-  itemId: string;
+  item: string;
   @Field(() => String)
-  userId?: string;
+  user?: string;
   quantity: number;
   cancelled: boolean;
   issued: boolean;

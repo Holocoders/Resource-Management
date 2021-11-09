@@ -10,15 +10,15 @@
   </div>
   <h6>Pick an image</h6>
   <p-carousel class="flex justify-content-center"
-              styleClass="mt-2 suggestion-carousel"
+              styleClass="mt-2 suggestion-carousel w-20rem"
               [circular]="true"
               [value]="products" orientation="horizontal"
               verticalViewPortHeight="300px" [numVisible]="1" [numScroll]="1">
     <ng-template let-product pTemplate="item">
       <div class="product-item">
         <div class="product-item-content">
-          <div class="p-mb-3">
-            <p-image [src]="product.image" alt="product.name" width="250" height="250">
+          <div class="border-1">
+            <p-image [src]="product.image" alt="product.name" width="200" height="200">
             </p-image>
           </div>
         </div>

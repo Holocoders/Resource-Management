@@ -17,9 +17,17 @@ export class CategoryService {
       query: `
         mutation createCategory ($createCategoryInput: CreateCategoryInput!, $file: Upload!) {
           createCategory (createCategoryInput: $createCategoryInput, file: $file) {
-              _id {
+              node {
+                _id
+                createdBy {
                   _id
+                  email
+                  name
+                }
+                isItem
               }
+              description
+              name
           }
       }`,
       variables: {
@@ -42,7 +50,7 @@ export class CategoryService {
       query: gql`
         query childCategories ($id: String!) {
           childCategories (id: $id) {
-            _id {
+            node {
               _id
               createdBy {
                 _id

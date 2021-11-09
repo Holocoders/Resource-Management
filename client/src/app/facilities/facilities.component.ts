@@ -114,7 +114,7 @@ export class FacilitiesComponent implements OnInit {
     this.nodeService.removeNode(id)
       .subscribe((res) => {
         this.facilities = this.facilities.filter(
-          (item: any) => item._id._id != id
+          (item: any) => item.node._id != id
         );
       });
   }

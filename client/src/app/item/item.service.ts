@@ -18,7 +18,7 @@ export class ItemService {
       query: gql`
         query item ($id: String!) {
           item (id: $id) {
-            _id {
+            node {
               _id
               createdBy {
                 _id
@@ -43,9 +43,19 @@ export class ItemService {
       query: `
         mutation createItem ($createItemInput: CreateItemInput!, $file: Upload!) {
           createItem (createItemInput: $createItemInput, file: $file) {
-              _id {
-                  _id
+             node {
+              _id
+              createdBy {
+                _id
+                email
+                name
               }
+              isItem
+            }
+            description
+            name
+            price
+            quantity
           }
       }`,
       variables: {
@@ -68,7 +78,7 @@ export class ItemService {
       query: gql`
         query childItems ($id: String!) {
           childItems (id: $id) {
-            _id {
+            node {
               _id
               createdBy {
                 _id
@@ -86,6 +96,39 @@ export class ItemService {
       `,
       variables: {id}
     }).valueChanges;
+  }
+
+  inventoryHistoryByItem(item: string) {
+    const query = gql`
+      query inventoryHistoryByItem ($item: String!) {
+        inventoryHistoryByItem (item: $item) {
+          activityDate
+          activityType
+          item {
+            node {
+              _id
+              createdBy {
+                _id
+                email
+                name
+              }
+            }
+            description
+            name
+            price
+            quantity
+          }
+          quantity
+          user {
+            _id
+            email
+            name
+          }
+        }
+      }
+    `;
+    const variables = { item };
+    return this.apollo.watchQuery({query, variables}).valueChanges;
   }
 
 }

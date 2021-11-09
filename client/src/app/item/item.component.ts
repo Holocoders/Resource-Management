@@ -93,17 +93,22 @@ export class ItemComponent implements OnInit {
     },
   ];
   item: Item;
+  inventoryHistory: any[] = [];
   isLoading: boolean;
-  displayPosition: boolean = false;
   ngOnInit(): void {
     this.route.queryParams
       .pipe(
         map(params => params.id),
-        mergeMap(id => this.itemService.getItemDetails(id))
+        mergeMap(id => this.itemService.getItemDetails(id)),
+        mergeMap((result: any) => {
+          this.item = result?.data?.item;
+          return this.itemService.inventoryHistoryByItem(this.item.node._id);
+        })
       )
       .subscribe((result: any) => {
         this.isLoading = result.loading;
-        this.item = result?.data?.item;
+        this.inventoryHistory = result?.data?.inventoryHistoryByItem;
+        this.inventoryHistory = [...this.inventoryHistory];
     })
   }
 

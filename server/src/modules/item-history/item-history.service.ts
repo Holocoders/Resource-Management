@@ -16,38 +16,41 @@ export class ItemHistoryService {
     private itemHistoryModel: Model<ItemHistoryDocument>
   ) {}
 
-  populateItemObject = {
-    path: 'itemId',
-    populate: {
-      path: '_id',
+  populateObject = [
+    {
+      path: 'item',
       populate: {
-        path: 'createdBy'
+        path: '_id',
+        populate: {
+          path: 'createdBy'
+        }
       }
+    },
+    {
+      path: 'user'
     }
-  }
-
-  populateUserObject = {
-    path: 'userId'
-  }
+  ]
 
   async create(createItemHistoryInput: CreateItemHistoryInput) {
     const itemHistory = await new this.itemHistoryModel(createItemHistoryInput).save();
-    await this.itemHistoryModel.populate(itemHistory, this.populateItemObject)
-    await this.itemHistoryModel.populate(itemHistory, this.populateUserObject);
+    await this.itemHistoryModel.populate(itemHistory, this.populateObject);
     return itemHistory;
   }
 
   findAll(query) {
     return this.itemHistoryModel.find(query)
-      .populate(this.populateItemObject)
-      .populate(this.populateUserObject);
+      .populate(this.populateObject)
+  }
+
+  deleteItemRelatedHistory(ids: string[]) {
+    return this.itemHistoryModel.deleteMany({item: {$in: ids}} as any);
   }
 
   update(updateItemHistoryInput: UpdateItemHistoryInput) {
-    const {itemId, userId} = updateItemHistoryInput;
+    const {item, user} = updateItemHistoryInput;
     return this.itemHistoryModel.findOneAndUpdate(
-      {itemId, userId} as any,
+      {item, user} as any,
       updateItemHistoryInput as any,
-    ).populate(this.populateItemObject).populate(this.populateUserObject);
+    ).populate(this.populateObject);
   }
 }

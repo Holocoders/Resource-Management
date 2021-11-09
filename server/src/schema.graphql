@@ -6,12 +6,14 @@ type Category {
   _id: Node!
   description: String
   name: String!
+  node: Node
 }
 
 input CategoryType {
   _id: NodeType!
   description: String
   name: String!
+  node: NodeType
 }
 
 input CreateCategoryInput {
@@ -29,9 +31,9 @@ input CreateFacilityInput {
 
 input CreateInventoryHistoryInput {
   activityType: InventoryActivity!
-  itemId: String!
+  item: String!
   quantity: Float!
-  userId: String
+  user: String
 }
 
 input CreateItemHistoryInput {
@@ -40,9 +42,9 @@ input CreateItemHistoryInput {
   dueDate: DateTime
   issueDate: DateTime
   issued: Boolean!
-  itemId: String!
+  item: String!
   quantity: Float!
-  userId: String
+  user: String
 }
 
 input CreateItemInput {
@@ -69,6 +71,7 @@ type Facility {
   _id: Node!
   description: String
   name: String!
+  node: Node
 }
 
 enum InventoryActivity {
@@ -79,23 +82,24 @@ enum InventoryActivity {
 type InventoryHistory {
   activityDate: DateTime
   activityType: InventoryActivity!
-  itemId: Item!
+  item: Item!
   quantity: Float!
-  userId: User!
+  user: User!
 }
 
 input InventoryHistoryType {
   activityDate: DateTime
   activityType: InventoryActivity!
-  itemId: ItemType!
+  item: ItemType!
   quantity: Float!
-  userId: UserInput!
+  user: UserInput!
 }
 
 type Item {
   _id: Node!
   description: String
   name: String!
+  node: Node
   price: Float!
   quantity: Float
 }
@@ -112,9 +116,9 @@ type ItemHistory {
   dueDate: DateTime
   issueDate: DateTime
   issued: Boolean!
-  itemId: Item!
+  item: Item!
   quantity: Float!
-  userId: User!
+  user: User!
 }
 
 input ItemHistoryType {
@@ -124,15 +128,16 @@ input ItemHistoryType {
   dueDate: DateTime
   issueDate: DateTime
   issued: Boolean!
-  itemId: ItemType!
+  item: ItemType!
   quantity: Float!
-  userId: UserInput!
+  user: UserInput!
 }
 
 input ItemType {
   _id: NodeType!
   description: String
   name: String!
+  node: NodeType
   price: Float!
   quantity: Float
 }
@@ -185,11 +190,12 @@ type Query {
   facilities: [Facility!]!
   facility(id: String!): Facility!
   getHello: String!
-  inventoryHistory(id: String!): InventoryHistory!
+  inventoryHistoryByItem(item: String!): [InventoryHistory!]!
+  inventoryHistoryByUser(user: String!): [InventoryHistory!]!
   item(id: String!): Item!
-  itemActivityHistory(itemId: String!): [ItemHistory!]!
+  itemHistoryByItem(item: String!): [ItemHistory!]!
+  itemHistoryByUser(user: String!): [ItemHistory!]!
   user(_id: String!): User!
-  userActivityHistory(userId: String!): [ItemHistory!]!
   users: [User!]!
 }
 
@@ -208,9 +214,9 @@ input UpdateFacilityInput {
 
 input UpdateInventoryHistoryInput {
   activityType: InventoryActivity
-  itemId: String
+  item: String
   quantity: Float
-  userId: String
+  user: String
 }
 
 input UpdateItemHistoryInput {
@@ -219,9 +225,9 @@ input UpdateItemHistoryInput {
   dueDate: DateTime
   issueDate: DateTime
   issued: Boolean
-  itemId: String
+  item: String
   quantity: Float
-  userId: String
+  user: String
 }
 
 input UpdateItemInput {

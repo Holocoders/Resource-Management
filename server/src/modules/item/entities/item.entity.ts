@@ -3,6 +3,7 @@ import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {User} from '../../user/entities/user.entity';
 import {Document, Schema as MongooseSchema} from 'mongoose';
 import {Node} from "../../node/entities/node.entity";
+import {Exclude} from "class-transformer";
 
 export type ItemDocument = Item & Document;
 
@@ -11,9 +12,13 @@ export type ItemDocument = Item & Document;
 @InputType('ItemType')
 export class Item {
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: Node.name })
   @Field(() => Node)
+  @Exclude()
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: Node.name })
   _id: MongooseSchema.Types.ObjectId | Node;
+
+  @Field(() => Node)
+  node?: MongooseSchema.Types.ObjectId | Node;
 
   @Prop()
   name: string;
@@ -29,3 +34,32 @@ export class Item {
 }
 
 export const ItemSchema = SchemaFactory.createForClass(Item);
+
+ItemSchema.virtual('node').get(function () {
+  return this._id;
+})
+
+ItemSchema.set('toJSON', {
+  virtuals: true,
+  versionKey: false,
+  transform: ((doc, ret) => {
+    delete ret._id;
+    delete ret.id;
+  })
+})
+
+ItemSchema.set('toObject', {
+  virtuals: true,
+  versionKey: false,
+  transform: ((doc, ret) => {
+    delete ret._id;
+    delete ret.id;
+  })
+})
+
+ItemSchema.virtual('node', {
+  ref: 'Node',
+  localField: '_id',
+  foreignField: '_id',
+  justOne: true
+})

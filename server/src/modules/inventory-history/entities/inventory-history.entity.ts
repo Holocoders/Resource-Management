@@ -17,11 +17,11 @@ registerEnumType(InventoryActivity, {name: 'InventoryActivity'})
 export class InventoryHistory {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Item.name})
   @Field(() => Item)
-  itemId: MongooseSchema.Types.ObjectId | Item;
+  item: MongooseSchema.Types.ObjectId | Item;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: User.name })
   @Field(() => User)
-  userId: MongooseSchema.Types.ObjectId | User;
+  user: MongooseSchema.Types.ObjectId | User;
 
   @Prop()
   quantity: number;

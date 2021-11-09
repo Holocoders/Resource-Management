@@ -17,22 +17,22 @@ export class ItemHistoryResolver {
     @CurrentUser() user,
     @Args('createItemHistoryInput') createItemHistoryInput: CreateItemHistoryInput,
   ) {
-    createItemHistoryInput.userId = createItemHistoryInput.userId || user._id;
+    createItemHistoryInput.user = createItemHistoryInput.user || user._id;
     return this.itemHistoryService.create(createItemHistoryInput);
   }
 
-  @Query(() => [ItemHistory], { name: 'itemActivityHistory' })
-  findItemActivityHistory(
-    @Args('itemId', { type: () => String }) itemId: string,
+  @Query(() => [ItemHistory], { name: 'itemHistoryByItem' })
+  findItemHistoryByItem(
+    @Args('item', { type: () => String }) item: string,
   ) {
-    return this.itemHistoryService.findAll({ itemId });
+    return this.itemHistoryService.findAll({ item });
   }
 
-  @Query(() => [ItemHistory], { name: 'userActivityHistory' })
-  findUserActivityHistory(
-    @Args('userId', { type: () => String }) userId: string,
+  @Query(() => [ItemHistory], { name: 'itemHistoryByUser' })
+  findItemHistoryByUser(
+    @Args('user', { type: () => String }) user: string,
   ) {
-    return this.itemHistoryService.findAll({ userId });
+    return this.itemHistoryService.findAll({ user });
   }
 
   @Mutation(() => ItemHistory)

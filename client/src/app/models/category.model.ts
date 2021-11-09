@@ -2,7 +2,7 @@ import {Node} from "./node.model";
 
 
 export class Category {
-  _id: Node;
+  node: Node;
   name: string;
   description?: string;
 }

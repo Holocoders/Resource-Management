@@ -6,6 +6,7 @@ import {UpdateInventoryHistoryInput} from './dto/update-inventory-history.input'
 import {UseGuards} from "@nestjs/common";
 import {JwtAuthGuard} from "../auth/auth.guard";
 import {CurrentUser} from "../../decorators/auth.decorator";
+import {Item} from "../item/entities/item.entity";
 
 @Resolver(() => InventoryHistory)
 @UseGuards(JwtAuthGuard)
@@ -20,18 +21,18 @@ export class InventoryHistoryResolver {
     @Args('createInventoryHistoryInput')
     createInventoryHistoryInput: CreateInventoryHistoryInput,
   ) {
-    createInventoryHistoryInput.userId = createInventoryHistoryInput.userId || user._id;
+    createInventoryHistoryInput.user = createInventoryHistoryInput.user || user._id;
     return this.inventoryHistoryService.create(createInventoryHistoryInput);
   }
 
-  @Query(() => [InventoryHistory], { name: 'inventoryHistory' })
-  findAll() {
-    return this.inventoryHistoryService.findAll();
+  @Query(() => [InventoryHistory], { name: 'inventoryHistoryByItem' })
+  findInventoryHistoryByItem(@Args('item', { type: () => String }) item: string) {
+    return this.inventoryHistoryService.findAll({item});
   }
 
-  @Query(() => InventoryHistory, { name: 'inventoryHistory' })
-  findOne(@Args('id', { type: () => String }) id: string) {
-    return this.inventoryHistoryService.findOne(id);
+  @Query(() => [InventoryHistory], { name: 'inventoryHistoryByUser' })
+  findInventoryHistoryByUser(@Args('user', { type: () => String }) user: string) {
+    return this.inventoryHistoryService.findAll({user});
   }
 
   @Mutation(() => InventoryHistory)

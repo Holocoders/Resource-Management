@@ -61,7 +61,8 @@ export class NodeComponent implements OnInit {
     this.categoryService.addCategory(event.data, event.file)
       .subscribe((res: any) => {
         this.displayAddDialog = false;
-        this.router.navigate(["/node"], {queryParams: {id: res.data.createItem._id._id}});
+        this.nodes.unshift(res.data.createCategory);
+        this.nodes = [...this.nodes];
       })
   }
 
@@ -73,7 +74,8 @@ export class NodeComponent implements OnInit {
     this.itemService.addItem(event.data, event.file)
       .subscribe((res: any) => {
         this.displayAddDialog = false;
-        this.router.navigate(["/item"], {queryParams: {id: res.data.createItem._id._id}});
+        this.nodes.push(res.data.createItem);
+        this.nodes = [...this.nodes];
       })
   }
 
@@ -88,7 +90,7 @@ export class NodeComponent implements OnInit {
   removeNode(event: any, id: string) {
     this.nodeService.removeNode(id)
       .subscribe((res) => {
-        console.log(res)
+        this.nodes = this.nodes.filter(val => val.node._id != id);
       })
   }
 

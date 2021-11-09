@@ -4,6 +4,7 @@ import {UpdateInventoryHistoryInput} from './dto/update-inventory-history.input'
 import {InjectModel} from "@nestjs/mongoose";
 import {InventoryHistory, InventoryHistoryDocument} from "./entities/inventory-history.entity";
 import {Model} from "mongoose";
+import {Item} from "../item/entities/item.entity";
 
 @Injectable()
 export class InventoryHistoryService {
@@ -14,33 +15,38 @@ export class InventoryHistoryService {
   ) {
   }
 
-  populateObject: any = {
-    path: 'itemId',
-    populate: {
-      path: '_id',
+  populateObject: any = [
+    {
+      path: 'item',
       populate: {
-        path: 'createdBy'
+        path: '_id',
+        populate: {
+          path: 'createdBy'
+        }
       }
+    },
+    {
+      path: 'user'
     }
-  };
+  ];
 
   create(createInventoryHistoryInput: CreateInventoryHistoryInput) {
     return new this.inventoryHistoryModel(createInventoryHistoryInput).save();
   }
 
-  findAll() {
-    return this.inventoryHistoryModel.find().populate(this.populateObject);
-  }
-
-  findOne(id: string) {
-    return this.inventoryHistoryModel.findById(id).populate(this.populateObject);
+  findAll(query: any) {
+    return this.inventoryHistoryModel.find(query).populate(this.populateObject);
   }
 
   update(updateInventoryHistoryInput: UpdateInventoryHistoryInput) {
-    const {itemId, userId} = updateInventoryHistoryInput;
+    const {item, user} = updateInventoryHistoryInput;
     return this.inventoryHistoryModel.findByIdAndUpdate(
-      {itemId, userId},
+      {item, user},
       updateInventoryHistoryInput as any
     ).populate(this.populateObject);
+  }
+
+  deleteItemRelatedHistory(ids: string[]) {
+    return this.inventoryHistoryModel.deleteMany({item: {$in: ids}} as any);
   }
 }

@@ -10,7 +10,7 @@
             [class]="addItemForm.controls['name'].invalid &&
                       (addItemForm.controls['name'].dirty || addItemForm.controls['name'].touched)
                       ? 'ng-invalid ng-dirty w-full' : 'w-full'" type="text" id="item-name"
-            formControlName="name" pInputText placeholder="Soldering iron">
+            formControlName="name" pInputText>
         </div>
         <div *ngIf="addItemForm.controls['name'].invalid && (addItemForm.controls['name'].dirty || addItemForm.controls['name'].touched)">
           <small *ngIf="addItemForm.controls['name'].errors?.required" class="p-error">Name is required</small>
@@ -19,7 +19,7 @@
           <label for="item-desc">
             <h6 class="mb-1">Description</h6>
           </label>
-          <textarea class="w-full" pInputTextarea formControlName="description" placeholder="A hand tool used in soldering" id="item-desc"></textarea>
+          <textarea class="w-full" pInputTextarea formControlName="description" id="item-desc"></textarea>
         </div>
         <div class="p-field flex flex-column mt-4">
           <label for="item-quantity">

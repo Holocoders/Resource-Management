@@ -9,6 +9,8 @@ import * as fs from "fs";
 import {InventoryHistoryService} from "../inventory-history/inventory-history.service";
 import {CreateInventoryHistoryInput} from "../inventory-history/dto/create-inventory-history.input";
 import {InventoryActivity} from "../inventory-history/entities/inventory-history.entity";
+import {Node} from "../node/entities/node.entity";
+import {ItemHistoryService} from "../item-history/item-history.service";
 
 @Injectable()
 export class ItemService {
@@ -17,7 +19,8 @@ export class ItemService {
     @InjectModel(Item.name) private itemModel: Model<ItemDocument>,
     @Inject(forwardRef(() => NodeService))
     private nodeService: NodeService,
-    private inventoryHistoryService: InventoryHistoryService
+    private inventoryHistoryService: InventoryHistoryService,
+    private itemHistoryService: ItemHistoryService
   ) {}
 
   populateItemObject = {
@@ -39,8 +42,8 @@ export class ItemService {
     const itemDoc = await new this.itemModel(createItemInput).save();
     await this.itemModel.populate(itemDoc, this.populateItemObject);
     const createInventoryHistoryInput = new CreateInventoryHistoryInput();
-    createInventoryHistoryInput.itemId = createItemInput._id;
-    createInventoryHistoryInput.userId = createdBy;
+    createInventoryHistoryInput.item = createItemInput._id;
+    createInventoryHistoryInput.user = createdBy;
     createInventoryHistoryInput.quantity = createItemInput.quantity;
     createInventoryHistoryInput.activityType = InventoryActivity.ADD;
     await this.inventoryHistoryService.create(createInventoryHistoryInput);
@@ -57,6 +60,7 @@ export class ItemService {
   findOne(id: string) {
     return this.itemModel.findById(id).populate({
       path: '_id',
+      model: Node.name,
       populate: {
         path: 'createdBy'
       }
@@ -74,6 +78,8 @@ export class ItemService {
   async deleteMany(ids: any[]) {
     for (const id of ids)
       fs.rmSync(`./uploads/${id}`, {force: true});
+    await this.itemHistoryService.deleteItemRelatedHistory(ids);
+    await this.inventoryHistoryService.deleteItemRelatedHistory(ids);
     return this.itemModel.deleteMany({_id: {$in: ids}});
   }
 
