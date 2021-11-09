@@ -1,9 +1,7 @@
-import {Field, ID, InputType, ObjectType} from '@nestjs/graphql';
+import {Field, InputType, ObjectType} from '@nestjs/graphql';
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {User} from '../../user/entities/user.entity';
 import {Document, Schema as MongooseSchema} from 'mongoose';
 import {Node} from "../../node/entities/node.entity";
-import {Exclude} from "class-transformer";
 
 export type ItemDocument = Item & Document;
 
@@ -13,7 +11,6 @@ export type ItemDocument = Item & Document;
 export class Item {
 
   @Field(() => Node)
-  @Exclude()
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Node.name })
   _id: MongooseSchema.Types.ObjectId | Node;
 
