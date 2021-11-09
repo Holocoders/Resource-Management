@@ -1,0 +1,266 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Category {
+  _id: Node!
+  description: String
+  name: String!
+  node: Node
+}
+
+input CategoryType {
+  _id: NodeType!
+  description: String
+  name: String!
+  node: NodeType
+}
+
+input CreateCategoryInput {
+  _id: String
+  description: String
+  name: String!
+  parent: String!
+}
+
+input CreateFacilityInput {
+  _id: String
+  description: String
+  name: String!
+}
+
+input CreateInventoryHistoryInput {
+  activityType: InventoryActivity!
+  item: String!
+  quantity: Float!
+  user: String
+}
+
+input CreateItemHistoryInput {
+  activityType: ItemActivity!
+  cancelled: Boolean!
+  dueDate: DateTime
+  issueDate: DateTime
+  issued: Boolean!
+  item: String!
+  quantity: Float!
+  user: String
+}
+
+input CreateItemInput {
+  _id: String
+  description: String
+  name: String!
+  parent: String!
+  price: Float!
+  quantity: Float
+}
+
+input CreateUserInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Facility {
+  _id: Node!
+  description: String
+  name: String!
+  node: Node
+}
+
+enum InventoryActivity {
+  ADD
+  REMOVE
+}
+
+type InventoryHistory {
+  activityDate: DateTime
+  activityType: InventoryActivity!
+  item: Item!
+  quantity: Float!
+  user: User!
+}
+
+input InventoryHistoryType {
+  activityDate: DateTime
+  activityType: InventoryActivity!
+  item: ItemType!
+  quantity: Float!
+  user: UserInput!
+}
+
+type Item {
+  _id: Node!
+  description: String
+  name: String!
+  node: Node
+  price: Float!
+  quantity: Float
+}
+
+enum ItemActivity {
+  BUY
+  RENT
+}
+
+type ItemHistory {
+  activityDate: DateTime
+  activityType: ItemActivity!
+  cancelled: Boolean!
+  dueDate: DateTime
+  issueDate: DateTime
+  issued: Boolean!
+  item: Item!
+  quantity: Float!
+  user: User!
+}
+
+input ItemHistoryType {
+  activityDate: DateTime
+  activityType: ItemActivity!
+  cancelled: Boolean!
+  dueDate: DateTime
+  issueDate: DateTime
+  issued: Boolean!
+  item: ItemType!
+  quantity: Float!
+  user: UserInput!
+}
+
+input ItemType {
+  _id: NodeType!
+  description: String
+  name: String!
+  node: NodeType
+  price: Float!
+  quantity: Float
+}
+
+type Mutation {
+  createCategory(createCategoryInput: CreateCategoryInput!, file: Upload!): Category!
+  createFacility(createFacilityInput: CreateFacilityInput!, file: Upload!): Facility!
+  createInventoryHistory(createInventoryHistoryInput: CreateInventoryHistoryInput!): InventoryHistory!
+  createItem(createItemInput: CreateItemInput!, file: Upload!): Item!
+  createItemHistory(createItemHistoryInput: CreateItemHistoryInput!): ItemHistory!
+  createUser(createUserInput: CreateUserInput!): User!
+  login(email: String!, password: String!): String!
+  reduceQuantity(id: String!, reduceBy: Int!): Item!
+  removeFacility(id: String!): Facility!
+  removeNode(id: String!): Boolean!
+  removeUser(_id: String!): User!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  updateFacility(updateFacilityInput: UpdateFacilityInput!): Facility!
+  updateInventoryHistory(updateInventoryHistoryInput: UpdateInventoryHistoryInput!): InventoryHistory!
+  updateItem(updateItemInput: UpdateItemInput!): Item!
+  updateItemHistory(updateItemHistoryInput: UpdateItemHistoryInput!): ItemHistory!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  uploadCategoryImage(file: Upload!, id: String!): String!
+  uploadFacilityImage(file: Upload!, id: String!): Boolean!
+  uploadItemImage(file: Upload!, id: String!): String!
+}
+
+type Node {
+  _id: ID!
+  createdBy: User!
+  isItem: Boolean!
+  parent: Node
+}
+
+union NodeResult = Category | Item
+
+input NodeType {
+  _id: ID!
+  createdBy: UserInput!
+  isItem: Boolean!
+  parent: NodeType
+}
+
+type Query {
+  category(id: String!): Category!
+  childCategories(id: String!): [Category!]!
+  childItems(id: String!): [Item!]!
+  children(id: String!): [NodeResult!]!
+  currentUser: User!
+  facilities: [Facility!]!
+  facility(id: String!): Facility!
+  getHello: String!
+  inventoryHistoryByItem(item: String!): [InventoryHistory!]!
+  inventoryHistoryByUser(user: String!): [InventoryHistory!]!
+  item(id: String!): Item!
+  itemHistoryByItem(item: String!): [ItemHistory!]!
+  itemHistoryByUser(user: String!): [ItemHistory!]!
+  user(_id: String!): User!
+  users: [User!]!
+}
+
+input UpdateCategoryInput {
+  _id: String!
+  description: String
+  name: String
+  parent: String
+}
+
+input UpdateFacilityInput {
+  _id: String!
+  description: String
+  name: String
+}
+
+input UpdateInventoryHistoryInput {
+  activityType: InventoryActivity
+  item: String
+  quantity: Float
+  user: String
+}
+
+input UpdateItemHistoryInput {
+  activityType: ItemActivity
+  cancelled: Boolean
+  dueDate: DateTime
+  issueDate: DateTime
+  issued: Boolean
+  item: String
+  quantity: Float
+  user: String
+}
+
+input UpdateItemInput {
+  _id: String
+  description: String
+  name: String
+  parent: String
+  price: Float
+  quantity: Float
+}
+
+input UpdateUserInput {
+  _id: String!
+  email: String
+  name: String
+  password: String
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type User {
+  _id: ID!
+  email: String!
+  name: String!
+  password: String!
+  token: String
+}
+
+input UserInput {
+  _id: ID!
+  email: String!
+  name: String!
+  password: String!
+  token: String
+}
