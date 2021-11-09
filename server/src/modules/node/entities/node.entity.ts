@@ -7,7 +7,6 @@ export type NodeDocument = Node & Document;
 
 @Schema()
 @ObjectType()
-@InputType('NodeType')
 export class Node {
   @Field(() => ID)
   _id: string;

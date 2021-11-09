@@ -23,8 +23,9 @@ export class ItemService {
     private itemHistoryService: ItemHistoryService
   ) {}
 
-  populateItemObject = {
+  populateObject = {
     path: '_id',
+    model: Node.name,
     populate: [
       {
         path: 'createdBy'
@@ -40,7 +41,7 @@ export class ItemService {
       createItemInput.parent, createdBy, true
     );
     const itemDoc = await new this.itemModel(createItemInput).save();
-    await this.itemModel.populate(itemDoc, this.populateItemObject);
+    await this.itemModel.populate(itemDoc, this.populateObject);
     const createInventoryHistoryInput = new CreateInventoryHistoryInput();
     createInventoryHistoryInput.item = createItemInput._id;
     createInventoryHistoryInput.user = createdBy;
@@ -53,7 +54,7 @@ export class ItemService {
   async getAllChildren(id) {
     const nodes = await this.nodeService.findAllChildren(id);
     const items = await this.itemModel.find({_id: {$in: nodes}});
-    await this.itemModel.populate(items, this.populateItemObject);
+    await this.itemModel.populate(items, this.populateObject);
     return items;
   }
 

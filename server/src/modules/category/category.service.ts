@@ -6,6 +6,7 @@ import {InjectModel} from '@nestjs/mongoose';
 import {Model} from 'mongoose';
 import {Category, CategoryDocument} from './entities/category.entity';
 import * as fs from "fs";
+import {Node} from "../node/entities/node.entity";
 
 @Injectable()
 export class CategoryService {
@@ -17,6 +18,7 @@ export class CategoryService {
 
   populateCategoryObject = {
     path: '_id',
+    model: Node.name,
     populate: [
       {
         path: 'createdBy'

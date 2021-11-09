@@ -21,6 +21,7 @@ export class ItemHistoryService {
       path: 'item',
       populate: {
         path: '_id',
+        model: Node.name,
         populate: {
           path: 'createdBy'
         }

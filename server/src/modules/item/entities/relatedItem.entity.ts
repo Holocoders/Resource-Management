@@ -5,7 +5,6 @@ import {Schema as MongooseSchema} from "mongoose";
 
 @Schema()
 @ObjectType()
-@InputType('RelatedItemType')
 export class RelatedItem {
   @Field(() => ID)
   _id: string;

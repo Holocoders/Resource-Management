@@ -3,7 +3,6 @@ import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 
 @Schema()
 @ObjectType()
-@InputType('ItemFrequencyType')
 export class ItemFrequency {
   @Field(() => ID)
   _id: string;

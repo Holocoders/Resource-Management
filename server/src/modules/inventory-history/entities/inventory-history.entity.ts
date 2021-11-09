@@ -13,7 +13,6 @@ registerEnumType(InventoryActivity, {name: 'InventoryActivity'})
 
 @ObjectType()
 @Schema()
-@InputType('InventoryHistoryType')
 export class InventoryHistory {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Item.name})
   @Field(() => Item)

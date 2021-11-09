@@ -5,6 +5,7 @@ import {InjectModel} from "@nestjs/mongoose";
 import {InventoryHistory, InventoryHistoryDocument} from "./entities/inventory-history.entity";
 import {Model} from "mongoose";
 import {Item} from "../item/entities/item.entity";
+import {Node} from "../node/entities/node.entity";
 
 @Injectable()
 export class InventoryHistoryService {
@@ -20,6 +21,7 @@ export class InventoryHistoryService {
       path: 'item',
       populate: {
         path: '_id',
+        model: Node.name,
         populate: {
           path: 'createdBy'
         }

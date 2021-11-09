@@ -14,7 +14,6 @@ registerEnumType(ItemActivity, {name: 'ItemActivity'})
 
 @Schema()
 @ObjectType()
-@InputType('ItemHistoryType')
 export class ItemHistory {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: Item.name })
   @Field(() => Item)

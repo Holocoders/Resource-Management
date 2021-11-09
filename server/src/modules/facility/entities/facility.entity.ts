@@ -7,11 +7,9 @@ import {ItemSchema} from "../../item/entities/item.entity";
 @Schema()
 @ObjectType()
 export class Facility {
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: Node.name })
-  @Field(() => Node)
-  _id: MongooseSchema.Types.ObjectId | Node;
-
-  @Field(() => Node)
+  @Field(() => Node, {
+    description: "This field is the _id field in the DB. Virtuals have been defined for readability."
+  })
   node?: MongooseSchema.Types.ObjectId | Node;
 
   @Prop()

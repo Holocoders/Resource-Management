@@ -3,17 +3,13 @@
 # ------------------------------------------------------
 
 type Category {
-  _id: Node!
   description: String
   name: String!
-  node: Node
-}
 
-input CategoryType {
-  _id: NodeType!
-  description: String
-  name: String!
-  node: NodeType
+  """
+  This field is the _id field in the DB. Virtuals have been defined for readability.
+  """
+  node: Node
 }
 
 input CreateCategoryInput {
@@ -68,9 +64,12 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Facility {
-  _id: Node!
   description: String
   name: String!
+
+  """
+  This field is the _id field in the DB. Virtuals have been defined for readability.
+  """
   node: Node
 }
 
@@ -87,18 +86,13 @@ type InventoryHistory {
   user: User!
 }
 
-input InventoryHistoryType {
-  activityDate: DateTime
-  activityType: InventoryActivity!
-  item: ItemType!
-  quantity: Float!
-  user: UserInput!
-}
-
 type Item {
-  _id: Node!
   description: String
   name: String!
+
+  """
+  This field is the _id field in the DB. Virtuals have been defined for readability.
+  """
   node: Node
   price: Float!
   quantity: Float
@@ -119,27 +113,6 @@ type ItemHistory {
   item: Item!
   quantity: Float!
   user: User!
-}
-
-input ItemHistoryType {
-  activityDate: DateTime
-  activityType: ItemActivity!
-  cancelled: Boolean!
-  dueDate: DateTime
-  issueDate: DateTime
-  issued: Boolean!
-  item: ItemType!
-  quantity: Float!
-  user: UserInput!
-}
-
-input ItemType {
-  _id: NodeType!
-  description: String
-  name: String!
-  node: NodeType
-  price: Float!
-  quantity: Float
 }
 
 type Mutation {
@@ -173,13 +146,6 @@ type Node {
 }
 
 union NodeResult = Category | Item
-
-input NodeType {
-  _id: ID!
-  createdBy: UserInput!
-  isItem: Boolean!
-  parent: NodeType
-}
 
 type Query {
   category(id: String!): Category!
@@ -250,14 +216,6 @@ input UpdateUserInput {
 scalar Upload
 
 type User {
-  _id: ID!
-  email: String!
-  name: String!
-  password: String!
-  token: String
-}
-
-input UserInput {
   _id: ID!
   email: String!
   name: String!

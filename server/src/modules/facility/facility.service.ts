@@ -18,28 +18,27 @@ export class FacilityService {
     private nodeService: NodeService,
   ) {}
 
-  async create(createFacilityInput: CreateFacilityInput, createdBy: string) {
-    createFacilityInput._id = await this.nodeService.create(null, createdBy);
-    const createdFacility = new this.facilityModel(createFacilityInput);
-    createdFacility.save();
-    await this.facilityModel.populate(createdFacility, {
+  populateObject = [
+    {
       path: '_id',
+      model: Node.name,
       populate: {
         path: 'createdBy',
         model: User.name,
       },
-    });
-    await this.facilityModel.populate(createdFacility, 'userId');
+    }
+  ]
+
+  async create(createFacilityInput: CreateFacilityInput, createdBy: string) {
+    createFacilityInput._id = await this.nodeService.create(null, createdBy);
+    const createdFacility = new this.facilityModel(createFacilityInput);
+    createdFacility.save();
+    await this.facilityModel.populate(createdFacility, this.populateObject);
     return createdFacility;
   }
 
   findAll() {
-    return this.facilityModel.find().populate({
-      path: '_id',
-      populate: {
-        path: 'createdBy',
-      },
-    });
+    return this.facilityModel.find().populate(this.populateObject);
   }
 
   findOne(id: string) {
@@ -49,7 +48,7 @@ export class FacilityService {
   update(id: string, updateFacilityInput: UpdateFacilityInput) {
     return this.facilityModel.findByIdAndUpdate(id, updateFacilityInput, {
       new: true,
-    });
+    }).populate(this.populateObject);
   }
 
   remove(id: string) {

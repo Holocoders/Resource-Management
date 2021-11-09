@@ -6,7 +6,6 @@ export type UserDocument = User & Document;
 
 @Schema()
 @ObjectType()
-@InputType('UserInput')
 export class User {
   @Field(() => ID)
   _id: string;
