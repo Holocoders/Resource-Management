@@ -11,7 +11,8 @@
   </ng-template>
   <ng-template let-facility pTemplate="gridItem">
     <app-node-grid-item class="cursor-pointer"
-                                       (click)="goToNode(facility?.node?._id, facility?.node?.isItem)"
+                                       (click)="goToNode(facility)"
+                                       (click)="goToNode(facility)"
                                        (onDeleteClick)="removeFacility($event)" [obj]="facility">
     </app-node-grid-item>
   </ng-template>
