@@ -1,0 +1,800 @@
+{
+    "info": {
+        "_postman_id": "28e56505-a9ea-41d2-a818-f251fe6472c5",
+        "name": "Postman Collection (from GraphQL)",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "mutations",
+            "item": [
+                {
+                    "name": "createCategory",
+                    "id": "2879b492-6c43-4174-afeb-6e83fac186e6",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation createCategory ($createCategoryInput: CreateCategoryInput!, $file: Upload!) {\n    createCategory (createCategoryInput: $createCategoryInput, file: $file) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n    }\n}",
+                                "variables": "{\n  \"createCategoryInput\": {\n    \"_id\": \"\",\n    \"description\": \"\",\n    \"name\": \"\",\n    \"parent\": \"\"\n  },\n  \"file\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "createFacility",
+                    "id": "4d11ef85-a02d-4aa8-8053-7875d273dff8",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation createFacility ($createFacilityInput: CreateFacilityInput!, $file: Upload!) {\n    createFacility (createFacilityInput: $createFacilityInput, file: $file) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n    }\n}",
+                                "variables": "{\n  \"createFacilityInput\": {\n    \"_id\": \"\",\n    \"description\": \"\",\n    \"name\": \"\"\n  },\n  \"file\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "createInventoryHistory",
+                    "id": "295dacd9-0d7a-4bf2-9a58-42ea84a86787",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation createInventoryHistory ($createInventoryHistoryInput: CreateInventoryHistoryInput!) {\n    createInventoryHistory (createInventoryHistoryInput: $createInventoryHistoryInput) {\n        activityDate\n        activityType\n        item {\n            _id {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            description\n            name\n            node {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            price\n            quantity\n        }\n        quantity\n        user {\n            _id\n            email\n            name\n            password\n            token\n        }\n    }\n}",
+                                "variables": "{\n  \"createInventoryHistoryInput\": {\n    \"activityType\": \"\",\n    \"item\": \"\",\n    \"quantity\": \"\",\n    \"user\": \"\"\n  }\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "createItem",
+                    "id": "7ef6657c-1b87-488e-b399-496145a79ea4",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation createItem ($createItemInput: CreateItemInput!, $file: Upload!) {\n    createItem (createItemInput: $createItemInput, file: $file) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        price\n        quantity\n    }\n}",
+                                "variables": "{\n  \"createItemInput\": {\n    \"_id\": \"\",\n    \"description\": \"\",\n    \"name\": \"\",\n    \"parent\": \"\",\n    \"price\": \"\",\n    \"quantity\": \"\"\n  },\n  \"file\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "createItemHistory",
+                    "id": "3981cd90-2dc5-40ad-b659-a980f35ec229",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation createItemHistory ($createItemHistoryInput: CreateItemHistoryInput!) {\n    createItemHistory (createItemHistoryInput: $createItemHistoryInput) {\n        activityDate\n        activityType\n        cancelled\n        dueDate\n        issueDate\n        issued\n        item {\n            _id {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            description\n            name\n            node {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            price\n            quantity\n        }\n        quantity\n        user {\n            _id\n            email\n            name\n            password\n            token\n        }\n    }\n}",
+                                "variables": "{\n  \"createItemHistoryInput\": {\n    \"activityType\": \"\",\n    \"cancelled\": true,\n    \"dueDate\": \"\",\n    \"issueDate\": \"\",\n    \"issued\": true,\n    \"item\": \"\",\n    \"quantity\": \"\",\n    \"user\": \"\"\n  }\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "createUser",
+                    "id": "ae996604-f13f-461f-818b-f78b7efd402d",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation createUser ($createUserInput: CreateUserInput!) {\n    createUser (createUserInput: $createUserInput) {\n        _id\n        email\n        name\n        password\n        token\n    }\n}",
+                                "variables": "{\n  \"createUserInput\": {\n    \"email\": \"\",\n    \"name\": \"\",\n    \"password\": \"\"\n  }\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "login",
+                    "id": "42736035-b3ff-4220-8c4e-24f8bc7cced7",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation login ($email: String!, $password: String!) {\n    login (email: $email, password: $password)\n}",
+                                "variables": "{\n  \"email\": \"\",\n  \"password\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "reduceQuantity",
+                    "id": "6382a08a-cbb6-4d9c-a368-9c95032bbfd3",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation reduceQuantity ($id: String!, $reduceBy: Int!) {\n    reduceQuantity (id: $id, reduceBy: $reduceBy) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        price\n        quantity\n    }\n}",
+                                "variables": "{\n  \"id\": \"\",\n  \"reduceBy\": 0\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "removeFacility",
+                    "id": "069e8232-00e8-4205-b063-a29ccaa1a6be",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation removeFacility ($id: String!) {\n    removeFacility (id: $id) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "removeNode",
+                    "id": "24e3cbf8-99d6-4edf-bbe4-ec7406a90103",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation removeNode ($id: String!) {\n    removeNode (id: $id)\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "removeUser",
+                    "id": "27fd9129-535a-4739-80fb-53e4ba22ca0d",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation removeUser ($_id: String!) {\n    removeUser (_id: $_id) {\n        _id\n        email\n        name\n        password\n        token\n    }\n}",
+                                "variables": "{\n  \"_id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "updateCategory",
+                    "id": "6dae7524-9ee5-412c-8032-dcda6d299407",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation updateCategory ($updateCategoryInput: UpdateCategoryInput!) {\n    updateCategory (updateCategoryInput: $updateCategoryInput) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n    }\n}",
+                                "variables": "{\n  \"updateCategoryInput\": {\n    \"_id\": \"\",\n    \"description\": \"\",\n    \"name\": \"\",\n    \"parent\": \"\"\n  }\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "updateFacility",
+                    "id": "f045f909-7454-420f-9b15-c02e349eac73",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation updateFacility ($updateFacilityInput: UpdateFacilityInput!) {\n    updateFacility (updateFacilityInput: $updateFacilityInput) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n    }\n}",
+                                "variables": "{\n  \"updateFacilityInput\": {\n    \"_id\": \"\",\n    \"description\": \"\",\n    \"name\": \"\"\n  }\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "updateInventoryHistory",
+                    "id": "2059af6a-af53-475b-86a6-80f6c846d776",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation updateInventoryHistory ($updateInventoryHistoryInput: UpdateInventoryHistoryInput!) {\n    updateInventoryHistory (updateInventoryHistoryInput: $updateInventoryHistoryInput) {\n        activityDate\n        activityType\n        item {\n            _id {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            description\n            name\n            node {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            price\n            quantity\n        }\n        quantity\n        user {\n            _id\n            email\n            name\n            password\n            token\n        }\n    }\n}",
+                                "variables": "{\n  \"updateInventoryHistoryInput\": {\n    \"activityType\": \"\",\n    \"item\": \"\",\n    \"quantity\": \"\",\n    \"user\": \"\"\n  }\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "updateItem",
+                    "id": "dd6055cf-5432-40a2-b82e-dfcac8aad6f6",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation updateItem ($updateItemInput: UpdateItemInput!) {\n    updateItem (updateItemInput: $updateItemInput) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        price\n        quantity\n    }\n}",
+                                "variables": "{\n  \"updateItemInput\": {\n    \"_id\": \"\",\n    \"description\": \"\",\n    \"name\": \"\",\n    \"parent\": \"\",\n    \"price\": \"\",\n    \"quantity\": \"\"\n  }\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "updateItemHistory",
+                    "id": "ffdb1f61-d2a5-4b3a-a462-d372efabbcac",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation updateItemHistory ($updateItemHistoryInput: UpdateItemHistoryInput!) {\n    updateItemHistory (updateItemHistoryInput: $updateItemHistoryInput) {\n        activityDate\n        activityType\n        cancelled\n        dueDate\n        issueDate\n        issued\n        item {\n            _id {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            description\n            name\n            node {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            price\n            quantity\n        }\n        quantity\n        user {\n            _id\n            email\n            name\n            password\n            token\n        }\n    }\n}",
+                                "variables": "{\n  \"updateItemHistoryInput\": {\n    \"activityType\": \"\",\n    \"cancelled\": true,\n    \"dueDate\": \"\",\n    \"issueDate\": \"\",\n    \"issued\": true,\n    \"item\": \"\",\n    \"quantity\": \"\",\n    \"user\": \"\"\n  }\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "updateUser",
+                    "id": "f5765ee3-9c21-400a-8dce-217928cd3c3a",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation updateUser ($updateUserInput: UpdateUserInput!) {\n    updateUser (updateUserInput: $updateUserInput) {\n        _id\n        email\n        name\n        password\n        token\n    }\n}",
+                                "variables": "{\n  \"updateUserInput\": {\n    \"_id\": \"\",\n    \"email\": \"\",\n    \"name\": \"\",\n    \"password\": \"\"\n  }\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "uploadCategoryImage",
+                    "id": "f418f1c3-7fa7-41e0-97b7-16bdf9fb81d3",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation uploadCategoryImage ($file: Upload!, $id: String!) {\n    uploadCategoryImage (file: $file, id: $id)\n}",
+                                "variables": "{\n  \"file\": \"\",\n  \"id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "uploadFacilityImage",
+                    "id": "751ef1be-e158-4f0f-be6f-d427695b5080",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation uploadFacilityImage ($file: Upload!, $id: String!) {\n    uploadFacilityImage (file: $file, id: $id)\n}",
+                                "variables": "{\n  \"file\": \"\",\n  \"id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "uploadItemImage",
+                    "id": "e465e3e1-5901-4ce7-a71d-bfc484b085ca",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "mutation uploadItemImage ($file: Upload!, $id: String!) {\n    uploadItemImage (file: $file, id: $id)\n}",
+                                "variables": "{\n  \"file\": \"\",\n  \"id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "id": "b252ee11-a30b-44c0-962a-fb0b81d48f4f"
+        },
+        {
+            "name": "queries",
+            "item": [
+                {
+                    "name": "category",
+                    "id": "359a4a2a-7e57-4087-8a20-af6ed02f35d0",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query category ($id: String!) {\n    category (id: $id) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "childCategories",
+                    "id": "58c2c291-03c8-4afe-a690-9bdcb9b5e660",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query childCategories ($id: String!) {\n    childCategories (id: $id) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "childItems",
+                    "id": "39770bc6-7755-4403-980d-5af0fabefc87",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query childItems ($id: String!) {\n    childItems (id: $id) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        price\n        quantity\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "children",
+                    "id": "8128cec9-e4b7-4670-8614-2a12aa49f312",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query children ($id: String!) {\n    children (id: $id) {\n        ... on Category {\n            _id {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            description\n            name\n            node {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n        }\n        ... on Item {\n            _id {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            description\n            name\n            node {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            price\n            quantity\n        }\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "currentUser",
+                    "id": "2eb0b6e8-bd78-4495-9b1e-a50c10fe34ea",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query currentUser {\n    currentUser {\n        _id\n        email\n        name\n        password\n        token\n    }\n}",
+                                "variables": "{}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "facilities",
+                    "id": "bece7694-58b1-4952-806a-2a11e8bbcac7",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query facilities {\n    facilities {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n    }\n}",
+                                "variables": "{}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "facility",
+                    "id": "6690d70f-3837-4c12-b9b3-bd6874cec855",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query facility ($id: String!) {\n    facility (id: $id) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "getHello",
+                    "id": "f58cb7e4-4fe5-4ee5-bde9-eb7130273107",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query getHello {\n    getHello\n}",
+                                "variables": "{}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "inventoryHistoryByItem",
+                    "id": "b1eac12f-a852-4f6b-a341-970b49ba1323",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query inventoryHistoryByItem ($item: String!) {\n    inventoryHistoryByItem (item: $item) {\n        activityDate\n        activityType\n        item {\n            _id {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            description\n            name\n            node {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            price\n            quantity\n        }\n        quantity\n        user {\n            _id\n            email\n            name\n            password\n            token\n        }\n    }\n}",
+                                "variables": "{\n  \"item\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "inventoryHistoryByUser",
+                    "id": "fa394961-e0b0-45e6-a0a6-17f7b56ca02b",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query inventoryHistoryByUser ($user: String!) {\n    inventoryHistoryByUser (user: $user) {\n        activityDate\n        activityType\n        item {\n            _id {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            description\n            name\n            node {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            price\n            quantity\n        }\n        quantity\n        user {\n            _id\n            email\n            name\n            password\n            token\n        }\n    }\n}",
+                                "variables": "{\n  \"user\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "item",
+                    "id": "244acb55-17af-4242-b1b3-34b79d0ccdba",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query item ($id: String!) {\n    item (id: $id) {\n        _id {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        description\n        name\n        node {\n            _id\n            createdBy {\n                _id\n                email\n                name\n                password\n                token\n            }\n            isItem\n            parent {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                }\n            }\n        }\n        price\n        quantity\n    }\n}",
+                                "variables": "{\n  \"id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "itemHistoryByItem",
+                    "id": "659ef6bb-3e4c-4f3e-b73a-54fea513429f",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query itemHistoryByItem ($item: String!) {\n    itemHistoryByItem (item: $item) {\n        activityDate\n        activityType\n        cancelled\n        dueDate\n        issueDate\n        issued\n        item {\n            _id {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            description\n            name\n            node {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            price\n            quantity\n        }\n        quantity\n        user {\n            _id\n            email\n            name\n            password\n            token\n        }\n    }\n}",
+                                "variables": "{\n  \"item\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "itemHistoryByUser",
+                    "id": "157c0348-0a66-40a8-9ba7-54670e45b7b1",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query itemHistoryByUser ($user: String!) {\n    itemHistoryByUser (user: $user) {\n        activityDate\n        activityType\n        cancelled\n        dueDate\n        issueDate\n        issued\n        item {\n            _id {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            description\n            name\n            node {\n                _id\n                createdBy {\n                    _id\n                    email\n                    name\n                    password\n                    token\n                }\n                isItem\n                parent {\n                    _id\n                    createdBy {\n                        _id\n                        email\n                        name\n                        password\n                        token\n                    }\n                    isItem\n                    parent {\n                        _id\n                        isItem\n                    }\n                }\n            }\n            price\n            quantity\n        }\n        quantity\n        user {\n            _id\n            email\n            name\n            password\n            token\n        }\n    }\n}",
+                                "variables": "{\n  \"user\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "user",
+                    "id": "ab6f8f8d-7460-43b0-bca4-3e82d026abb1",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query user ($_id: String!) {\n    user (_id: $_id) {\n        _id\n        email\n        name\n        password\n        token\n    }\n}",
+                                "variables": "{\n  \"_id\": \"\"\n}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "users",
+                    "id": "368a4aae-8465-4cc1-9fe4-65c19da789e8",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "graphql",
+                            "graphql": {
+                                "query": "query users {\n    users {\n        _id\n        email\n        name\n        password\n        token\n    }\n}",
+                                "variables": "{}"
+                            }
+                        },
+                        "url": {
+                            "raw": "{{url}}",
+                            "host": [
+                                "{{url}}"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ],
+            "id": "6c48875e-01a1-4bab-8ead-ec70bd7c725f"
+        }
+    ],
+    "variable": [
+        {
+            "id": "url",
+            "key": "url",
+            "value": "",
+            "type": "any",
+            "description": "URL for the request."
+        }
+    ]
+}
