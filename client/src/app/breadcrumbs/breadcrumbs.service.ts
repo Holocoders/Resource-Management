@@ -22,7 +22,6 @@ export class BreadcrumbsService {
     const arr = this.items.getValue();
     const ind = arr.findIndex((obj) => obj.queryParams?.id == id);
     if (ind != -1) {
-      console.log("removing prev");
       arr.splice(ind, arr.length - ind);
     }
     return arr;

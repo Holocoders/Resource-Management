@@ -23,6 +23,8 @@ export class BreadcrumbsComponent implements OnInit {
 
   operation(event: any) {
     const item = event.item;
-    this.service.push(item);
+    if (item.routerLink != '/') {
+      this.service.push(item);
+    }
   }
 }

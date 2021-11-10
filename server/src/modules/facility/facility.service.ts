@@ -32,12 +32,11 @@ export class FacilityService {
     createFacilityInput._id = await this.nodeService.create(null, createdBy);
     const createdFacility = new this.facilityModel(createFacilityInput);
     createdFacility.save();
-    await this.facilityModel.populate(createdFacility, this.populateObject);
     return createdFacility;
   }
 
   findAll() {
-    return this.facilityModel.find().populate(this.populateObject);
+    return this.facilityModel.find();
   }
 
   findOne(id: string) {
