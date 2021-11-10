@@ -1,1 +1,3 @@
-<p-breadcrumb [home]="home" [model]="items" styleClass="border-none mr-4"></p-breadcrumb>
+<p-breadcrumb [home]="home" [model]="items"
+              (onItemClick)="operation($event)"
+              styleClass="border-none mr-4"></p-breadcrumb>

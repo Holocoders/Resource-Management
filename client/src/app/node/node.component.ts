@@ -95,14 +95,16 @@ export class NodeComponent implements OnInit {
     if (isItem) {
       this.breadCrumbService.push({
         label: node.name,
-        url: '/item' + `?id=${id}`,
+        routerLink: '/item',
+        queryParams: {id}
       });
       this.router.navigate(['/item'], { queryParams: { id } });
       return;
     }
     this.breadCrumbService.push({
       label: node.name,
-      url: '/node' + `?id=${id}`,
+      routerLink: '/node',
+      queryParams: {id}
     });
     this.router.navigate(['/node'], { queryParams: { id } });
   }

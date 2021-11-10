@@ -16,7 +16,14 @@ export class BreadcrumbsComponent implements OnInit {
   ngOnInit(): void {
     this.service.items.subscribe((arr: MenuItem[]) => {
       this.items = arr;
-      console.log(this.items);
+      this.items = [...this.items];
     });
+  }
+
+  operation(event: any) {
+    const item = event.item;
+    if (item.routerLink != '/') {
+      this.service.push(item);
+    }
   }
 }
