@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from './user/auth/auth.service';
-import {Router} from '@angular/router';
-import {MessageService} from 'primeng/api';
-import {LocalMessageService} from './shared/local-message.service';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './user/auth/auth.service';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { LocalMessageService } from './shared/local-message.service';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +18,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private messageService: MessageService,
     private localMessageService: LocalMessageService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.localMessageService.toastMessage.subscribe((message) =>

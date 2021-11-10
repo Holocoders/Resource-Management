@@ -1,18 +1,17 @@
-import {Injectable} from '@angular/core';
-import {BehaviorSubject, catchError, throwError} from 'rxjs';
-import {User} from '../user.model';
-import {Apollo, gql} from 'apollo-angular';
-import {map} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, catchError, throwError } from 'rxjs';
+import { User } from '../user.model';
+import { Apollo, gql } from 'apollo-angular';
+import { map } from 'rxjs/operators';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   user = new BehaviorSubject<User>(new User());
 
-  constructor(private apollo: Apollo) {
-  }
+  constructor(private apollo: Apollo) {}
 
   signup(user: User, password: string) {
-    const {name, email} = user;
+    const { name, email } = user;
     const mutation = this.apollo.mutate({
       mutation: gql`
         mutation createUser($createUserInput: CreateUserInput!) {
@@ -34,7 +33,7 @@ export class AuthService {
       },
     });
     return mutation.pipe(
-      map(({data}) => {
+      map(({ data }) => {
         const user = (data as any).createUser as User;
         user.loggedIn = true;
         this.user.next(user);

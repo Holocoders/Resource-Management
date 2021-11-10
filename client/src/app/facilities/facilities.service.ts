@@ -1,13 +1,12 @@
-import {Injectable} from '@angular/core';
-import {Apollo, gql} from 'apollo-angular';
-import {HttpClient} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Apollo, gql } from 'apollo-angular';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FacilitiesService {
-  constructor(private apollo: Apollo, private http: HttpClient) {
-  }
+  constructor(private apollo: Apollo, private http: HttpClient) {}
 
   getFacilities() {
     return this.apollo.watchQuery({

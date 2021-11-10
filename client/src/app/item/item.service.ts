@@ -1,13 +1,12 @@
-import {Injectable} from '@angular/core';
-import {Apollo, gql} from 'apollo-angular';
-import {HttpClient} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Apollo, gql } from 'apollo-angular';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemService {
-  constructor(private apollo: Apollo, private http: HttpClient) {
-  }
+  constructor(private apollo: Apollo, private http: HttpClient) {}
 
   getItemDetails(id: string) {
     return this.apollo.watchQuery({
@@ -99,7 +98,7 @@ export class ItemService {
           }
         }
       `,
-      variables: {id},
+      variables: { id },
     }).valueChanges;
   }
 
@@ -136,7 +135,7 @@ export class ItemService {
         }
       }
     `;
-    const variables = {item};
-    return this.apollo.watchQuery({query, variables}).valueChanges;
+    const variables = { item };
+    return this.apollo.watchQuery({ query, variables }).valueChanges;
   }
 }

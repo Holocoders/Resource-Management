@@ -1,18 +1,23 @@
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree,} from '@angular/router';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map, take} from 'rxjs/operators';
-import {AuthService} from './auth.service';
-import {MessageService} from 'primeng/api';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map, take } from 'rxjs/operators';
+import { AuthService } from './auth.service';
+import { MessageService } from 'primeng/api';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
   constructor(
     private api: AuthService,
     private messageService: MessageService,
     private router: Router
-  ) {
-  }
+  ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

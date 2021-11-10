@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {Apollo, gql} from 'apollo-angular';
-import {HttpClient} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Apollo, gql } from 'apollo-angular';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +9,7 @@ export class CategoryService {
   constructor(
     private readonly apollo: Apollo,
     private readonly http: HttpClient
-  ) {
-  }
+  ) {}
 
   addCategory(createCategoryInput: any, file: any) {
     const operations = {
@@ -64,7 +63,7 @@ export class CategoryService {
           }
         }
       `,
-      variables: {id},
+      variables: { id },
     }).valueChanges;
   }
 }

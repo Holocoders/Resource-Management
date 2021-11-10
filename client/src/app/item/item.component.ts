@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Item} from '../models/item.model';
-import {ItemService} from './item.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {map, mergeMap} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Item } from '../models/item.model';
+import { ItemService } from './item.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-item',
@@ -92,8 +92,7 @@ export class ItemComponent implements OnInit {
     private readonly itemService: ItemService,
     private readonly router: Router,
     private readonly route: ActivatedRoute
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams

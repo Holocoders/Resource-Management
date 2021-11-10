@@ -1,12 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Apollo, gql} from 'apollo-angular';
+import { Injectable } from '@angular/core';
+import { Apollo, gql } from 'apollo-angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NodeService {
-  constructor(private apollo: Apollo) {
-  }
+  constructor(private apollo: Apollo) {}
 
   removeNode(id: string) {
     return this.apollo.mutate({
@@ -15,7 +14,7 @@ export class NodeService {
           removeNode(id: $id)
         }
       `,
-      variables: {id},
+      variables: { id },
     });
   }
 }

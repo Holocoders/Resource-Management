@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {MenuItem} from 'primeng/api';
-import {BreadcrumbsService} from './breadcrumbs.service';
+import { Component, OnInit } from '@angular/core';
+import { MenuItem } from 'primeng/api';
+import { BreadcrumbsService } from './breadcrumbs.service';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -8,11 +8,10 @@ import {BreadcrumbsService} from './breadcrumbs.service';
   styleUrls: ['./breadcrumbs.component.scss'],
 })
 export class BreadcrumbsComponent implements OnInit {
-  home: MenuItem = {icon: 'pi pi-home', routerLink: '/'};
+  home: MenuItem = { icon: 'pi pi-home', routerLink: '/' };
   items: MenuItem[] = [];
 
-  constructor(private service: BreadcrumbsService) {
-  }
+  constructor(private service: BreadcrumbsService) {}
 
   ngOnInit(): void {
     this.service.items.subscribe((arr: MenuItem[]) => {

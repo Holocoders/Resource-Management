@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-category',
@@ -15,11 +15,9 @@ export class AddCategoryComponent implements OnInit {
     description: new FormControl(''),
   });
 
-  constructor(private formBuilder: FormBuilder) {
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   saveCategory() {
     const obj = this.addCategoryForm.value;

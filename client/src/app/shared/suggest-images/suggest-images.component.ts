@@ -1,5 +1,5 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-suggest-images',
@@ -26,11 +26,9 @@ export class SuggestImagesComponent implements OnInit {
 
   @Output() onFileUpload = new EventEmitter();
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onFileSelected(event: any) {
     for (const file of event.files) {

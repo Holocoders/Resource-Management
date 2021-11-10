@@ -1,11 +1,11 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {FacilitiesComponent} from './facilities/facilities.component';
-import {AuthGuard} from './user/auth/auth.guard';
-import {MainComponent} from './main/main.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { FacilitiesComponent } from './facilities/facilities.component';
+import { AuthGuard } from './user/auth/auth.guard';
+import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/facilities', pathMatch: 'full'},
+  { path: '', redirectTo: '/facilities', pathMatch: 'full' },
   {
     path: 'user',
     loadChildren: () =>
@@ -16,7 +16,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     component: MainComponent,
     children: [
-      {path: 'facilities', component: FacilitiesComponent},
+      { path: 'facilities', component: FacilitiesComponent },
       {
         path: 'item',
         loadChildren: () =>
@@ -35,5 +35,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

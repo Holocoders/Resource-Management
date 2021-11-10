@@ -8,6 +8,7 @@
       "files": [
         "*.ts"
       ],
+      "parser": "@typescript-eslint/parser",
       "parserOptions": {
         "project": [
           "tsconfig.json"
@@ -15,32 +16,15 @@
         "createDefaultProgram": true
       },
       "plugins": [
-        "html"
+        "html",
+        "@typescript-eslint/eslint-plugin"
       ],
       "extends": [
-        "plugin:@angular-eslint/recommended",
-        "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:prettier/recommended"
       ],
       "rules": {
-        "@angular-eslint/directive-selector": [
-          "error",
-          {
-            "type": "attribute",
-            "prefix": "app",
-            "style": "camelCase"
-          }
-        ],
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "app",
-            "style": "kebab-case"
-          }
-        ],
+        "@typescript-eslint/interface-name-prefix": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-explicit-any": "off"

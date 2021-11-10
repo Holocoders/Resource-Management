@@ -1,8 +1,14 @@
-import {Component, OnInit} from '@angular/core';
-import {animate, state, style, transition, trigger,} from '@angular/animations';
-import {NavbarComponent} from '../shared/navbar/navbar.component';
-import {AuthService} from '../user/auth/auth.service';
-import {Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { NavbarComponent } from '../shared/navbar/navbar.component';
+import { AuthService } from '../user/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -34,11 +40,9 @@ export class MainComponent implements OnInit {
   title = 'client';
   isDesktopSidebarOpen = false;
 
-  constructor(private authService: AuthService, private router: Router) {
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   toggleSidebar() {
     this.isDesktopSidebarOpen = !this.isDesktopSidebarOpen;

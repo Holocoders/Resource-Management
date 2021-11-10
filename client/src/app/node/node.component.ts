@@ -1,13 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-import {Category} from '../models/category.model';
-import {Item} from '../models/item.model';
-import {ItemService} from '../item/item.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {mergeMap, switchMap,} from 'rxjs/operators';
-import {combineLatest} from 'rxjs';
-import {CategoryService} from '../category/category.service';
-import {NodeService} from './node.service';
-import {BreadcrumbsService} from '../breadcrumbs/breadcrumbs.service';
+import { Component, OnInit } from '@angular/core';
+import { Category } from '../models/category.model';
+import { Item } from '../models/item.model';
+import { ItemService } from '../item/item.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { mergeMap, switchMap } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { CategoryService } from '../category/category.service';
+import { NodeService } from './node.service';
+import { BreadcrumbsService } from '../breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'app-node',
@@ -26,8 +26,7 @@ export class NodeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private breadCrumbService: BreadcrumbsService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams
@@ -45,7 +44,7 @@ export class NodeComponent implements OnInit {
         )
       )
       .subscribe((result) => {
-        const {items, categories} = result as any;
+        const { items, categories } = result as any;
         for (const category of categories.data.childCategories) {
           const temp = new Category();
           this.nodes.push(Object.assign(temp, category));
@@ -98,13 +97,13 @@ export class NodeComponent implements OnInit {
         label: node.name,
         url: '/item' + `?id=${id}`,
       });
-      this.router.navigate(['/item'], {queryParams: {id}});
+      this.router.navigate(['/item'], { queryParams: { id } });
       return;
     }
     this.breadCrumbService.push({
       label: node.name,
       url: '/node' + `?id=${id}`,
     });
-    this.router.navigate(['/node'], {queryParams: {id}});
+    this.router.navigate(['/node'], { queryParams: { id } });
   }
 }

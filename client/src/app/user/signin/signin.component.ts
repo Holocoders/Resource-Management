@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {User} from '../user.model';
-import {AuthService} from '../auth/auth.service';
-import {Router} from '@angular/router';
-import {FormBuilder, FormControl, Validators} from '@angular/forms';
-import {LocalMessageService} from '../../shared/local-message.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { User } from '../user.model';
+import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { LocalMessageService } from '../../shared/local-message.service';
 
 @Component({
   selector: 'app-signin',
@@ -25,8 +25,7 @@ export class SigninComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private messageService: LocalMessageService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.authService.user.subscribe((user) => {

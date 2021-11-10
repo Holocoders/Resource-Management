@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-item',
@@ -17,11 +17,9 @@ export class AddItemComponent implements OnInit {
     price: new FormControl(null, [Validators.required]),
   });
 
-  constructor(private formBuilder: FormBuilder) {
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   saveItem() {
     const itemObj = this.addItemForm.value;
