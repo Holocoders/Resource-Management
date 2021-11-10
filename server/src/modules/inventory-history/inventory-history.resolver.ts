@@ -1,11 +1,11 @@
-import {Args, Mutation, Query, Resolver} from '@nestjs/graphql';
-import {InventoryHistoryService} from './inventory-history.service';
-import {InventoryHistory} from './entities/inventory-history.entity';
-import {CreateInventoryHistoryInput} from './dto/create-inventory-history.input';
-import {UpdateInventoryHistoryInput} from './dto/update-inventory-history.input';
-import {UseGuards} from '@nestjs/common';
-import {JwtAuthGuard} from '../auth/auth.guard';
-import {CurrentUser} from '../../decorators/auth.decorator';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { InventoryHistoryService } from './inventory-history.service';
+import { InventoryHistory } from './entities/inventory-history.entity';
+import { CreateInventoryHistoryInput } from './dto/create-inventory-history.input';
+import { UpdateInventoryHistoryInput } from './dto/update-inventory-history.input';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/auth.guard';
+import { CurrentUser } from '../../decorators/auth.decorator';
 
 @Resolver(() => InventoryHistory)
 @UseGuards(JwtAuthGuard)
@@ -29,14 +29,14 @@ export class InventoryHistoryResolver {
   findInventoryHistoryByItem(
     @Args('item', { type: () => String }) item: string,
   ) {
-    return this.inventoryHistoryService.findAll({item});
+    return this.inventoryHistoryService.findAll({ item });
   }
 
   @Query(() => [InventoryHistory], { name: 'inventoryHistoryByUser' })
   findInventoryHistoryByUser(
     @Args('user', { type: () => String }) user: string,
   ) {
-    return this.inventoryHistoryService.findAll({user});
+    return this.inventoryHistoryService.findAll({ user });
   }
 
   @Mutation(() => InventoryHistory)

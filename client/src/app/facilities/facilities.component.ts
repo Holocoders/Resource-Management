@@ -75,7 +75,7 @@ export class FacilitiesComponent implements OnInit {
     this.breadCrumbService.push({
       label: facility.name,
       routerLink: '/node',
-      queryParams: {id}
+      queryParams: { id },
     });
     this.router.navigate(['/node'], { queryParams: { id } });
   }

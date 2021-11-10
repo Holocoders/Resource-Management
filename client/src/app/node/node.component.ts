@@ -96,7 +96,7 @@ export class NodeComponent implements OnInit {
       this.breadCrumbService.push({
         label: node.name,
         routerLink: '/item',
-        queryParams: {id}
+        queryParams: { id },
       });
       this.router.navigate(['/item'], { queryParams: { id } });
       return;
@@ -104,7 +104,7 @@ export class NodeComponent implements OnInit {
     this.breadCrumbService.push({
       label: node.name,
       routerLink: '/node',
-      queryParams: {id}
+      queryParams: { id },
     });
     this.router.navigate(['/node'], { queryParams: { id } });
   }
