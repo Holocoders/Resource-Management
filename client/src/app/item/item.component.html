@@ -3,7 +3,8 @@
     <p-card styleClass="p-6 shadow-4 border-round h-full">
       <div class="grid">
         <div class="col-12 flex justify-content-center mt-4">
-          <img [src]="'http://localhost:3000/' + item?.node?._id" [alt]="item?.name" width="200" height="200" class="border-1 border-primary border-circle">
+          <img [alt]="item?.name" [src]="'http://localhost:3000/' + item?.node?._id" class="border-1 border-primary border-circle" height="200"
+               width="200">
         </div>
         <div class="col-12 flex justify-content-center mt-4">
           <h4 class="mb-0">{{item?.name}}</h4>
@@ -43,54 +44,54 @@
   <div class="col grid ml-3 m-2 overflow-x-auto">
     <div class="col-12 p-0">
       <p-card styleClass="w-full shadow-4 border-round h-30rem">
-        <p-table #dt [value]="inventoryHistory"
-                 [scrollable]="true" responsiveLayout="scroll" scrollHeight="25rem"
-                 [globalFilterFields]="['user.name','activityType','activityDate']">
+        <p-table #dt [globalFilterFields]="['user.name','activityType','activityDate']"
+                 [scrollable]="true" [value]="inventoryHistory" responsiveLayout="scroll"
+                 scrollHeight="25rem">
           <ng-template pTemplate="caption">
             <div class="table-header">
               <span class="p-input-icon-left">
                   <i class="pi pi-search"></i>
-                  <input (input)="search(dt, $event)" pInputText type="text" placeholder="Search" />
+                  <input (input)="search(dt, $event)" pInputText placeholder="Search" type="text"/>
               </span>
             </div>
           </ng-template>
           <ng-template pTemplate="header">
             <tr>
-              <th style="min-width:200px" class="pt-2 pb-2" pSortableColumn="user.name">
+              <th class="pt-2 pb-2" pSortableColumn="user.name" style="min-width:200px">
                 <div class="flex align-items-center justify-content-between w-full">
                   User
                   <p-sortIcon field="user.name"></p-sortIcon>
-                  <p-columnFilter type="text" field="user.name" display="menu" class="ml-auto"></p-columnFilter>
+                  <p-columnFilter class="ml-auto" display="menu" field="user.name" type="text"></p-columnFilter>
                 </div>
               </th>
-              <th style="min-width:200px;" class="pt-2 pb-2" pSortableColumn="activityType">
+              <th class="pt-2 pb-2" pSortableColumn="activityType" style="min-width:200px;">
                 <div class="flex align-items-center justify-content-between w-full">
                   Activity
                   <p-sortIcon field="activityType"></p-sortIcon>
-                  <p-columnFilter type="text" field="activityType" display="menu" class="ml-auto"></p-columnFilter>
+                  <p-columnFilter class="ml-auto" display="menu" field="activityType" type="text"></p-columnFilter>
                 </div>
               </th>
-              <th style="min-width:200px;" class="pt-2 pb-2" pSortableColumn="quantity">
+              <th class="pt-2 pb-2" pSortableColumn="quantity" style="min-width:200px;">
                 <div class="flex align-items-center justify-content-between w-full">
                   Quantity
                   <p-sortIcon field="quantity"></p-sortIcon>
-                  <p-columnFilter type="numeric" field="quantity" display="menu" class="ml-auto"></p-columnFilter>
+                  <p-columnFilter class="ml-auto" display="menu" field="quantity" type="numeric"></p-columnFilter>
                 </div>
               </th>
-              <th style="min-width:200px;" class="pt-2 pb-2" pSortableColumn="activityDate">
+              <th class="pt-2 pb-2" pSortableColumn="activityDate" style="min-width:200px;">
                 <div class="flex align-items-center justify-content-between w-full">
                   Dates
                   <p-sortIcon field="activityDate"></p-sortIcon>
-                  <p-columnFilter type="date" field="activityDate" display="menu" class="ml-auto"></p-columnFilter>
+                  <p-columnFilter class="ml-auto" display="menu" field="activityDate" type="date"></p-columnFilter>
                 </div>
               </th>
             </tr>
           </ng-template>
-          <ng-template pTemplate="body" let-activity>
+          <ng-template let-activity pTemplate="body">
             <tr>
               <td style="min-width:200px">
                 <span class="p-column-title">Name</span>
-                <p-avatar shape="circle" icon="pi pi-user" styleClass="p-mr-2"></p-avatar>
+                <p-avatar icon="pi pi-user" shape="circle" styleClass="p-mr-2"></p-avatar>
                 <span class="image-text ml-2">{{activity.user.name}}</span>
               </td>
               <td style="min-width:200px">
@@ -105,7 +106,7 @@
               <td style="min-width:200px">
                 <span class="p-column-title">Dates</span>
                 {{activity.activityDate | date}}
-                <br />
+                <br/>
                 {{activity?.dueDate}}
               </td>
             </tr>
@@ -120,7 +121,7 @@
           <p-card styleClass="h-full shadow-4 border-round">
             <div class="grid">
               <div class="col-12 flex justify-content-center mt-4">
-                <img src="https://amz.run/51xT" width="100" height="100">
+                <img height="100" src="https://amz.run/51xT" width="100">
               </div>
               <div class="col-12 flex justify-content-center mt-4">
                 <h6 class="mb-0">Soldering Iron</h6>
@@ -132,7 +133,7 @@
           <p-card styleClass="h-full shadow-4 border-round">
             <div class="grid">
               <div class="col-12 flex justify-content-center mt-4">
-                <img src="https://amz.run/51xT" width="100" height="100">
+                <img height="100" src="https://amz.run/51xT" width="100">
               </div>
               <div class="col-12 flex justify-content-center mt-4">
                 <h6 class="mb-0">Soldering Iron</h6>
@@ -144,7 +145,7 @@
           <p-card styleClass="h-full shadow-4 border-round">
             <div class="grid">
               <div class="col-12 flex justify-content-center mt-4">
-                <img src="https://amz.run/51xT" width="100" height="100">
+                <img height="100" src="https://amz.run/51xT" width="100">
               </div>
               <div class="col-12 flex justify-content-center mt-4">
                 <h6 class="mb-0">Soldering Iron</h6>
@@ -156,7 +157,7 @@
           <p-card styleClass="h-full shadow-4 border-round">
             <div class="grid">
               <div class="col-12 flex justify-content-center mt-4">
-                <img src="https://amz.run/51xT" width="100" height="100">
+                <img height="100" src="https://amz.run/51xT" width="100">
               </div>
               <div class="col-12 flex justify-content-center mt-4">
                 <h6 class="mb-0">Soldering Iron</h6>

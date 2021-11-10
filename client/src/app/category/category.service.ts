@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
-import {Apollo, gql} from "apollo-angular";
-import {HttpClient} from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {Apollo, gql} from 'apollo-angular';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoryService {
-
   constructor(
     private readonly apollo: Apollo,
     private readonly http: HttpClient
-  ) { }
+  ) {
+  }
 
   addCategory(createCategoryInput: any, file: any) {
     const operations = {
@@ -32,11 +32,11 @@ export class CategoryService {
       }`,
       variables: {
         file: file,
-        createCategoryInput
-      }
+        createCategoryInput,
+      },
     };
     const _map = {
-      file: ["variables.file"]
+      file: ['variables.file'],
     };
     const formData = new FormData();
     formData.append('operations', JSON.stringify(operations));
@@ -48,8 +48,8 @@ export class CategoryService {
   getAllChildren(id: string) {
     return this.apollo.watchQuery({
       query: gql`
-        query childCategories ($id: String!) {
-          childCategories (id: $id) {
+        query childCategories($id: String!) {
+          childCategories(id: $id) {
             node {
               _id
               createdBy {
@@ -64,7 +64,7 @@ export class CategoryService {
           }
         }
       `,
-      variables: {id}
+      variables: {id},
     }).valueChanges;
   }
 }

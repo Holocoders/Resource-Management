@@ -1,5 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
-import { Schema as MongooseSchema } from 'mongoose';
+import { InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateCategoryInput {

@@ -1,12 +1,12 @@
-import {Args, Context, Mutation, Query, Resolver} from '@nestjs/graphql';
-import {User} from '../user/entities/user.entity';
-import {CreateUserInput} from '../user/dto/create-user.input';
-import {AuthService} from './auth.service';
-import {UserService} from '../user/user.service';
-import {GraphQLError} from 'graphql';
-import {UseGuards} from '@nestjs/common';
-import {JwtAuthGuard} from './auth.guard';
-import {CurrentUser} from '../../decorators/auth.decorator';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { User } from '../user/entities/user.entity';
+import { CreateUserInput } from '../user/dto/create-user.input';
+import { AuthService } from './auth.service';
+import { UserService } from '../user/user.service';
+import { GraphQLError } from 'graphql';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from './auth.guard';
+import { CurrentUser } from '../../decorators/auth.decorator';
 
 @Resolver(() => User)
 export class AuthResolver {
@@ -40,7 +40,7 @@ export class AuthResolver {
   @UseGuards(JwtAuthGuard)
   currentUser(@CurrentUser() user, @Context() context) {
     const authHeader = context.req.headers.authorization;
-    user.token = authHeader.split(" ")[1];
+    user.token = authHeader.split(' ')[1];
     return user;
   }
 }

@@ -1,7 +1,7 @@
-import {Field, ID, InputType, ObjectType} from "@nestjs/graphql";
-import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
-import {ItemFrequency} from "./itemFrequency.entity";
-import {Schema as MongooseSchema} from "mongoose";
+import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { ItemFrequency } from './itemFrequency.entity';
+import { Schema as MongooseSchema } from 'mongoose';
 
 @Schema()
 @ObjectType()
@@ -9,7 +9,7 @@ export class RelatedItem {
   @Field(() => ID)
   _id: string;
 
-  @Prop({ type: [MongooseSchema.Types.ObjectId], ref: ItemFrequency.name})
+  @Prop({ type: [MongooseSchema.Types.ObjectId], ref: ItemFrequency.name })
   related: MongooseSchema.Types.ObjectId[] | ItemFrequency[];
 }
 

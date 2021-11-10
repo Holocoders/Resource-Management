@@ -1,10 +1,11 @@
-
 <div class="hidden sm:block">
   <div class="flex justify-content-start">
     <ng-container *ngTemplateOutlet="desktopSidebar"></ng-container>
-    <div  class="block absolute overflow-hidden w-full z-5">
-      <div [@slideInOutNavbar]="isDesktopSidebarOpen ? 'out' : 'in'" class="flex align-items-center border-0 border-bottom-1 border-300 h-4rem">
-        <button pButton icon="pi pi-bars" class="p-button-text ml-3" (click)="isDesktopSidebarOpen = !isDesktopSidebarOpen; onMenuClick.emit()"></button>
+    <div class="block absolute overflow-hidden w-full z-5">
+      <div [@slideInOutNavbar]="isDesktopSidebarOpen ? 'out' : 'in'"
+           class="flex align-items-center border-0 border-bottom-1 border-300 h-4rem">
+        <button (click)="isDesktopSidebarOpen = !isDesktopSidebarOpen; onMenuClick.emit()" class="p-button-text ml-3" icon="pi pi-bars"
+                pButton></button>
         <ng-container *ngTemplateOutlet="topNav"></ng-container>
       </div>
     </div>
@@ -15,7 +16,8 @@
   <div class="flex justify-content-start">
     <div class="block absolute overflow-hidden w-full">
       <div class="flex align-items-center border-0 border-bottom-1 border-300 h-4rem">
-        <button pButton icon="pi pi-bars" class="p-button-text ml-3" (click)="isMobileSidebarOpen = !isMobileSidebarOpen"></button>
+        <button (click)="isMobileSidebarOpen = !isMobileSidebarOpen" class="p-button-text ml-3" icon="pi pi-bars"
+                pButton></button>
         <ng-container *ngTemplateOutlet="topNav"></ng-container>
       </div>
     </div>
@@ -25,40 +27,42 @@
 
 <ng-template #topNav>
   <label class="ml-auto">Electrical Lab</label>
-  <button pButton (click)="isMobileSearchOpen = true" class="ml-auto p-button-text inline-flex sm:hidden" icon="pi pi-search"></button>
+  <button (click)="isMobileSearchOpen = true" class="ml-auto p-button-text inline-flex sm:hidden" icon="pi pi-search"
+          pButton></button>
   <div class="ml-auto hidden sm:inline-flex">
         <span class="p-input-icon-right">
           <i class="pi pi-search"></i>
-          <input type="text" class="w-12rem sm:w-15rem" pInputText placeholder="Search">
+          <input class="w-12rem sm:w-15rem" pInputText placeholder="Search" type="text">
         </span>
   </div>
-  <button pButton class="sm:ml-3 p-button-text sm:inline-flex" icon="pi pi-bell"></button>
+  <button class="sm:ml-3 p-button-text sm:inline-flex" icon="pi pi-bell" pButton></button>
   <div *ngIf="!user?.loggedIn; else signOut">
-    <button pButton [routerLink]="'/user'" class="p-button-text mr-3" icon="pi pi-sign-in"></button>
+    <button [routerLink]="'/user'" class="p-button-text mr-3" icon="pi pi-sign-in" pButton></button>
   </div>
   <ng-template #signOut>
-    <button pButton class="p-button-text mr-3" icon="pi pi-sign-out" (click)="logOut()"></button>
+    <button (click)="logOut()" class="p-button-text mr-3" icon="pi pi-sign-out" pButton></button>
   </ng-template>
 </ng-template>
 
 <ng-template #mobileSidebar>
-  <p-sidebar class="w-20rem z-5" styleClass="sidebar" [(visible)]="isMobileSidebarOpen" [baseZIndex]="10000">
+  <p-sidebar [(visible)]="isMobileSidebarOpen" [baseZIndex]="10000" class="w-20rem z-5" styleClass="sidebar">
     <app-sidebar></app-sidebar>
   </p-sidebar>
 </ng-template>
 
 <ng-template #desktopSidebar>
-  <app-sidebar class="w-20rem z-5" [@slideInOutSidebar]="isDesktopSidebarOpen? 'in' : 'out'"></app-sidebar>
+  <app-sidebar [@slideInOutSidebar]="isDesktopSidebarOpen? 'in' : 'out'" class="w-20rem z-5"></app-sidebar>
 </ng-template>
 
 <ng-template #mobileSearch>
   <span class="p-input-icon-right w-full">
-    <i class="pi pi-times" (click)="closeMobileSearch()"></i>
-    <input type="text" class="w-full" pInputText placeholder="Search">
+    <i (click)="closeMobileSearch()" class="pi pi-times"></i>
+    <input class="w-full" pInputText placeholder="Search" type="text">
   </span>
 </ng-template>
 
-<p-dialog [dismissableMask]="true" styleClass="dialog w-screen" [showHeader]="false" [(visible)]="isMobileSearchOpen" [position]="'top'" [modal]="true"
-          [draggable]="false" [resizable]="false">
+<p-dialog [(visible)]="isMobileSearchOpen" [dismissableMask]="true" [draggable]="false" [modal]="true"
+          [position]="'top'" [resizable]="false"
+          [showHeader]="false" styleClass="dialog w-screen">
   <ng-container *ngTemplateOutlet="mobileSearch"></ng-container>
 </p-dialog>

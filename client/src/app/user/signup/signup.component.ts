@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { User } from '../user.model';
-import { AuthService } from '../auth/auth.service';
-import { Router } from '@angular/router';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { LocalMessageService } from '../../shared/local-message.service';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {User} from '../user.model';
+import {AuthService} from '../auth/auth.service';
+import {Router} from '@angular/router';
+import {FormBuilder, FormControl, Validators} from '@angular/forms';
+import {LocalMessageService} from '../../shared/local-message.service';
 
 @Component({
   selector: 'app-signup',
@@ -11,16 +11,8 @@ import { LocalMessageService } from '../../shared/local-message.service';
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit {
-  constructor(
-    private authService: AuthService,
-    private formBuilder: FormBuilder,
-    private router: Router,
-    private messageService: LocalMessageService
-  ) {}
-
   @ViewChild('formPassword') formPassword: any;
   @ViewChild('formConfPassword') formConfPassword: any;
-
   user: User = new User();
   showPassword = false;
   signUpForm = this.formBuilder.group({
@@ -30,6 +22,14 @@ export class SignupComponent implements OnInit {
     confPassword: new FormControl('', [Validators.required]),
     rememberMe: new FormControl(false),
   });
+
+  constructor(
+    private authService: AuthService,
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private messageService: LocalMessageService
+  ) {
+  }
 
   ngOnInit(): void {
     this.authService.user.subscribe((user) => (this.user = user));

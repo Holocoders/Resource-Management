@@ -134,6 +134,10 @@
             "lintFilePatterns": [
               "src/**/*.ts",
               "src/**/*.html"
+            ],
+            "eslintConfig": ".eslintrc.json",
+            "exclude": [
+              "**/node_modules/**"
             ]
           }
         }

@@ -3,22 +3,23 @@
     <label for="item-image">
       <h6 class="mb-1">Image</h6>
     </label>
-    <p-fileUpload [showUploadButton]="false" [showCancelButton]="false" id="item-image" (onSelect)="onFileSelected($event)"
-                  accept="image/*" [maxFileSize]="2000000" [customUpload]="true"
+    <p-fileUpload (onSelect)="onFileSelected($event)" [customUpload]="true" [maxFileSize]="2000000"
+                  [showCancelButton]="false"
+                  [showUploadButton]="false" accept="image/*" id="item-image"
     >
     </p-fileUpload>
   </div>
   <h6>Pick an image</h6>
-  <p-carousel class="flex justify-content-center"
-              styleClass="mt-2 suggestion-carousel w-20rem"
-              [circular]="true"
-              [value]="products" orientation="horizontal"
-              verticalViewPortHeight="300px" [numVisible]="1" [numScroll]="1">
+  <p-carousel [circular]="true"
+              [numScroll]="1"
+              [numVisible]="1"
+              [value]="products" class="flex justify-content-center"
+              orientation="horizontal" styleClass="mt-2 suggestion-carousel w-20rem" verticalViewPortHeight="300px">
     <ng-template let-product pTemplate="item">
       <div class="product-item">
         <div class="product-item-content">
           <div class="border-1">
-            <p-image [src]="product.image" alt="product.name" width="200" height="200">
+            <p-image [src]="product.image" alt="product.name" height="200" width="200">
             </p-image>
           </div>
         </div>

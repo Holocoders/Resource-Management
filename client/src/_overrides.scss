@@ -2,6 +2,7 @@
   width: 12px;
   height: 12px;
 }
+
 ::-webkit-scrollbar-thumb {
   background-clip: content-box;
   border: 4px solid transparent;
@@ -12,16 +13,21 @@
     background-color: var(--primary-color);
   }
 }
+
 ::-webkit-scrollbar-button {
   width: 0;
   height: 0;
   display: none;
 }
+
 ::-webkit-scrollbar-corner {
   background-color: transparent;
 }
 
-a {color: blue; text-decoration: underline;}
+a {
+  color: blue;
+  text-decoration: underline;
+}
 
 .rounded-corners {
   border-radius: 15px !important;

@@ -2,19 +2,25 @@
   .p-card-body {
     padding: 0;
   }
+
   .p-card-header {
     display: none;
   }
+
   .p-card-content {
     padding: 0;
   }
+
   .p-datatable-header {
     padding: 4px;
   }
+
   .p-tabview-nav {
     justify-content: center;
+
     li {
       width: 100%;
+
       a {
         display: flex;
         justify-content: center;

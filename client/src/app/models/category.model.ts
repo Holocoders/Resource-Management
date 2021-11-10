@@ -1,5 +1,4 @@
-import {Node} from "./node.model";
-
+import {Node} from './node.model';
 
 export class Category {
   node: Node;

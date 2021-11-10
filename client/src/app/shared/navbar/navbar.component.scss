@@ -1,13 +1,14 @@
-:host ::ng-deep  .sidebar.p-sidebar {
+:host ::ng-deep .sidebar.p-sidebar {
   .p-sidebar-header {
     display: none;
   }
+
   .p-sidebar-content {
     padding: 0;
   }
 }
 
-:host ::ng-deep  .dialog.p-dialog {
+:host ::ng-deep .dialog.p-dialog {
   .p-dialog-content {
     padding: 0;
   }

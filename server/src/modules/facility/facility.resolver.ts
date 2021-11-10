@@ -8,7 +8,7 @@ import { SharedService } from '../shared/shared.service';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { CurrentUser } from '../../decorators/auth.decorator';
-import {GraphQLError} from "graphql";
+import { GraphQLError } from 'graphql';
 
 @Resolver(() => Facility)
 @UseGuards(JwtAuthGuard)
@@ -25,7 +25,7 @@ export class FacilityResolver {
     @Args({ name: 'file', type: () => GraphQLUpload })
     { createReadStream }: FileUpload,
   ) {
-    if (!user) return  new GraphQLError("Unauthorized");
+    if (!user) return new GraphQLError('Unauthorized');
     const facility = await this.facilityService.create(
       createFacilityInput,
       user._id,

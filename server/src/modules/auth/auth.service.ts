@@ -1,9 +1,9 @@
-import {Injectable, Logger} from '@nestjs/common';
-import {UserService} from '../user/user.service';
+import { Injectable, Logger } from '@nestjs/common';
+import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
-import {JwtService} from '@nestjs/jwt';
-import {GraphQLError} from 'graphql';
-import {CreateUserInput} from '../user/dto/create-user.input';
+import { JwtService } from '@nestjs/jwt';
+import { GraphQLError } from 'graphql';
+import { CreateUserInput } from '../user/dto/create-user.input';
 
 @Injectable()
 export class AuthService {

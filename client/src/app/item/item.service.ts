@@ -1,28 +1,27 @@
-import { Injectable } from '@angular/core';
-import {Apollo, gql} from "apollo-angular";
-import {query} from "@angular/animations";
-import {HttpClient} from "@angular/common/http";
+import {Injectable} from '@angular/core';
+import {Apollo, gql} from 'apollo-angular';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ItemService {
-
-  constructor(
-    private apollo: Apollo,
-    private http: HttpClient
-  ) { }
+  constructor(private apollo: Apollo, private http: HttpClient) {
+  }
 
   getItemDetails(id: string) {
     return this.apollo.watchQuery({
       query: gql`
-        query item ($id: String!) {
-          item (id: $id) {
+        query item($id: String!) {
+          item(id: $id) {
             node {
               _id
               createdBy {
                 _id
                 name
+              }
+              parent {
+                _id
               }
             }
             description
@@ -33,8 +32,8 @@ export class ItemService {
         }
       `,
       variables: {
-        id
-      }
+        id,
+      },
     }).valueChanges;
   }
 
@@ -50,6 +49,9 @@ export class ItemService {
                 email
                 name
               }
+              parent {
+                _id
+              }
               isItem
             }
             description
@@ -60,11 +62,11 @@ export class ItemService {
       }`,
       variables: {
         file: file,
-        createItemInput
-      }
+        createItemInput,
+      },
     };
     const _map = {
-      file: ["variables.file"]
+      file: ['variables.file'],
     };
     const formData = new FormData();
     formData.append('operations', JSON.stringify(operations));
@@ -76,14 +78,17 @@ export class ItemService {
   getAllChildren(id: string) {
     return this.apollo.watchQuery({
       query: gql`
-        query childItems ($id: String!) {
-          childItems (id: $id) {
+        query childItems($id: String!) {
+          childItems(id: $id) {
             node {
               _id
               createdBy {
                 _id
                 email
                 name
+              }
+              parent {
+                _id
               }
               isItem
             }
@@ -94,14 +99,14 @@ export class ItemService {
           }
         }
       `,
-      variables: {id}
+      variables: {id},
     }).valueChanges;
   }
 
   inventoryHistoryByItem(item: string) {
     const query = gql`
-      query inventoryHistoryByItem ($item: String!) {
-        inventoryHistoryByItem (item: $item) {
+      query inventoryHistoryByItem($item: String!) {
+        inventoryHistoryByItem(item: $item) {
           activityDate
           activityType
           item {
@@ -112,6 +117,10 @@ export class ItemService {
                 email
                 name
               }
+              parent {
+                _id
+              }
+              isItem
             }
             description
             name
@@ -127,8 +136,7 @@ export class ItemService {
         }
       }
     `;
-    const variables = { item };
+    const variables = {item};
     return this.apollo.watchQuery({query, variables}).valueChanges;
   }
-
 }

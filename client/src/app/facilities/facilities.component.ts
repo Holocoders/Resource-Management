@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FacilitiesService } from './facilities.service';
-import { Router } from '@angular/router';
-import { NodeService } from '../node/node.service';
-import { BreadcrumbsService } from '../breadcrumbs/breadcrumbs.service';
+import {Component, OnInit} from '@angular/core';
+import {FacilitiesService} from './facilities.service';
+import {Router} from '@angular/router';
+import {NodeService} from '../node/node.service';
+import {BreadcrumbsService} from '../breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'app-facilities',
@@ -20,7 +20,7 @@ export class FacilitiesComponent implements OnInit {
   newFacilityDesc = '';
   newFacilityImage: any;
 
-  selectedFacility = { name: '', description: '' };
+  selectedFacility = {name: '', description: ''};
   infoDisplay = false;
 
   constructor(
@@ -28,7 +28,8 @@ export class FacilitiesComponent implements OnInit {
     private nodeService: NodeService,
     private router: Router,
     private breadCrumbService: BreadcrumbsService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.breadCrumbService.popAll();
@@ -42,7 +43,7 @@ export class FacilitiesComponent implements OnInit {
   removeFacility(id: string): void {
     this.nodeService.removeNode(id).subscribe((res) => {
       this.facilities = this.facilities.filter(
-        (item: any) => item._id._id != id
+        (item: any) => item.node._id != id
       );
     });
   }
@@ -71,12 +72,11 @@ export class FacilitiesComponent implements OnInit {
   }
 
   goToNode(facility: any) {
-    console.log();
     const id = facility?.node?._id;
     this.breadCrumbService.push({
       label: facility.name,
       url: '/node' + `?id=${id}`,
     });
-    this.router.navigate(['/node'], { queryParams: { id } });
+    this.router.navigate(['/node'], {queryParams: {id}});
   }
 }

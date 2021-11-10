@@ -1,5 +1,5 @@
-import {Field, InputType} from '@nestjs/graphql';
-import {InventoryActivity} from "../entities/inventory-history.entity";
+import { Field, InputType } from '@nestjs/graphql';
+import { InventoryActivity } from '../entities/inventory-history.entity';
 
 @InputType()
 export class CreateInventoryHistoryInput {

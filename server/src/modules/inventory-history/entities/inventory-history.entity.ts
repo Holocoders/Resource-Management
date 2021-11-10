@@ -1,24 +1,32 @@
-import {Field, InputType, ObjectType, registerEnumType} from '@nestjs/graphql';
-import {User} from '../../user/entities/user.entity';
-import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {Item} from '../../item/entities/item.entity';
-import {Document, Schema as MongooseSchema} from "mongoose";
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { User } from '../../user/entities/user.entity';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Item } from '../../item/entities/item.entity';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export enum InventoryActivity {
   ADD,
   REMOVE,
 }
 
-registerEnumType(InventoryActivity, {name: 'InventoryActivity'})
+registerEnumType(InventoryActivity, { name: 'InventoryActivity' });
 
 @ObjectType()
 @Schema()
 export class InventoryHistory {
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: Item.name})
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    ref: Item.name,
+    autopopulate: true,
+  })
   @Field(() => Item)
   item: MongooseSchema.Types.ObjectId | Item;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: User.name })
+  @Prop({
+    type: MongooseSchema.Types.ObjectId,
+    ref: User.name,
+    autopopulate: true,
+  })
   @Field(() => User)
   user: MongooseSchema.Types.ObjectId | User;
 
@@ -29,9 +37,10 @@ export class InventoryHistory {
   @Field(() => InventoryActivity)
   activityType: InventoryActivity;
 
-  @Prop({default: new Date()})
+  @Prop({ default: new Date() })
   activityDate?: Date;
 }
 
 export type InventoryHistoryDocument = InventoryHistory & Document;
-export const InventoryHistorySchema = SchemaFactory.createForClass(InventoryHistory);
+export const InventoryHistorySchema =
+  SchemaFactory.createForClass(InventoryHistory);

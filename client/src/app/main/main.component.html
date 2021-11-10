@@ -3,7 +3,7 @@
     <app-navbar (onMenuClick)="toggleSidebar()"></app-navbar>
   </div>
   <div class="block absolute content w-full">
-    <div class="h-full" [@slideInOutContent]="isDesktopSidebarOpen ? 'out':'in'">
+    <div [@slideInOutContent]="isDesktopSidebarOpen ? 'out':'in'" class="h-full">
       <app-breadcrumbs></app-breadcrumbs>
       <div class="ml-2 overflow-hidden overflow-y-auto w-full router-outlet">
         <router-outlet></router-outlet>

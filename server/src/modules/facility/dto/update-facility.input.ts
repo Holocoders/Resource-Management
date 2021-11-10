@@ -1,5 +1,5 @@
-import {CreateFacilityInput} from './create-facility.input';
-import {Field, InputType, PartialType} from '@nestjs/graphql';
+import { CreateFacilityInput } from './create-facility.input';
+import { Field, InputType, PartialType } from '@nestjs/graphql';
 
 @InputType()
 export class UpdateFacilityInput extends PartialType(CreateFacilityInput) {

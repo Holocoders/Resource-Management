@@ -1,19 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Category } from '../models/category.model';
-import { Item } from '../models/item.model';
-import { ItemService } from '../item/item.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import {
-  combineAll,
-  exhaustMap,
-  map,
-  mergeMap,
-  switchMap,
-} from 'rxjs/operators';
-import { combineLatest, forkJoin, merge, of } from 'rxjs';
-import { CategoryService } from '../category/category.service';
-import { NodeService } from './node.service';
-import { BreadcrumbsService } from '../breadcrumbs/breadcrumbs.service';
+import {Component, OnInit} from '@angular/core';
+import {Category} from '../models/category.model';
+import {Item} from '../models/item.model';
+import {ItemService} from '../item/item.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {mergeMap, switchMap,} from 'rxjs/operators';
+import {combineLatest} from 'rxjs';
+import {CategoryService} from '../category/category.service';
+import {NodeService} from './node.service';
+import {BreadcrumbsService} from '../breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'app-node',
@@ -21,6 +15,10 @@ import { BreadcrumbsService } from '../breadcrumbs/breadcrumbs.service';
   styleUrls: ['./node.component.scss'],
 })
 export class NodeComponent implements OnInit {
+  nodes: (Category | Item)[] = [];
+  id = '';
+  displayAddDialog = false;
+
   constructor(
     private itemService: ItemService,
     private categoryService: CategoryService,
@@ -28,11 +26,8 @@ export class NodeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private breadCrumbService: BreadcrumbsService
-  ) {}
-
-  nodes: (Category | Item)[] = [];
-  id = '';
-  displayAddDialog = false;
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.queryParams
@@ -50,7 +45,7 @@ export class NodeComponent implements OnInit {
         )
       )
       .subscribe((result) => {
-        const { items, categories } = result as any;
+        const {items, categories} = result as any;
         for (const category of categories.data.childCategories) {
           const temp = new Category();
           this.nodes.push(Object.assign(temp, category));
@@ -72,9 +67,8 @@ export class NodeComponent implements OnInit {
       .addCategory(event.data, event.file)
       .subscribe((res: any) => {
         this.displayAddDialog = false;
-        this.router.navigate(['/node'], {
-          queryParams: { id: res.data.createItem._id._id },
-        });
+        this.nodes.unshift(res.data.createCategory);
+        this.nodes = [...this.nodes];
       });
   }
 
@@ -85,15 +79,15 @@ export class NodeComponent implements OnInit {
     }
     this.itemService.addItem(event.data, event.file).subscribe((res: any) => {
       this.displayAddDialog = false;
-      this.router.navigate(['/item'], {
-        queryParams: { id: res.data.createItem._id._id },
-      });
+      this.nodes.push(res.data.createItem);
+      this.nodes = [...this.nodes];
     });
   }
 
   removeNode(event: any, id: string) {
     this.nodeService.removeNode(id).subscribe((res) => {
-      console.log(res);
+      this.nodes = this.nodes.filter((val) => val.node._id != id);
+      this.nodes = [...this.nodes];
     });
   }
 
@@ -104,13 +98,13 @@ export class NodeComponent implements OnInit {
         label: node.name,
         url: '/item' + `?id=${id}`,
       });
-      this.router.navigate(['/item'], { queryParams: { id } });
+      this.router.navigate(['/item'], {queryParams: {id}});
       return;
     }
     this.breadCrumbService.push({
       label: node.name,
       url: '/node' + `?id=${id}`,
     });
-    this.router.navigate(['/node'], { queryParams: { id } });
+    this.router.navigate(['/node'], {queryParams: {id}});
   }
 }
