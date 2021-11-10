@@ -1,7 +1,7 @@
-import {Injectable} from '@angular/core';
-import {MenuItem} from 'primeng/api';
-import {BehaviorSubject} from 'rxjs';
-import {NavbarService} from "../shared/navbar/navbar.service";
+import { Injectable } from '@angular/core';
+import { MenuItem } from 'primeng/api';
+import { BehaviorSubject } from 'rxjs';
+import { NavbarService } from '../shared/navbar/navbar.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,8 +9,7 @@ import {NavbarService} from "../shared/navbar/navbar.service";
 export class BreadcrumbsService {
   items = new BehaviorSubject<MenuItem[]>([]);
 
-  constructor(private navBarService: NavbarService) {
-  }
+  constructor(private navBarService: NavbarService) {}
 
   push(obj: MenuItem) {
     if (obj.label != null) {

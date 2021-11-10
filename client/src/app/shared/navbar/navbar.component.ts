@@ -1,9 +1,15 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {animate, state, style, transition, trigger,} from '@angular/animations';
-import {AuthService} from '../../user/auth/auth.service';
-import {User} from '../../user/user.model';
-import {Router} from '@angular/router';
-import {NavbarService} from "./navbar.service";
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { AuthService } from '../../user/auth/auth.service';
+import { User } from '../../user/user.model';
+import { Router } from '@angular/router';
+import { NavbarService } from './navbar.service';
 
 @Component({
   selector: 'app-navbar',
@@ -53,12 +59,15 @@ export class NavbarComponent implements OnInit {
   isMobileSearchOpen = false;
   user: User | null = null;
 
-  header: string = "Facilities";
+  header = 'Facilities';
 
   @Output() onMenuClick = new EventEmitter();
 
-  constructor(private authService: AuthService, private router: Router, private service: NavbarService) {
-  }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private service: NavbarService
+  ) {}
 
   ngOnInit(): void {
     this.authService.user.subscribe((user) => (this.user = user));

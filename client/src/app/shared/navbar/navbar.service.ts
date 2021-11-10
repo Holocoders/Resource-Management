@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import {BehaviorSubject} from "rxjs";
-import {MenuItem} from "primeng/api";
+import { BehaviorSubject } from 'rxjs';
+import { MenuItem } from 'primeng/api';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NavbarService {
-  header = new BehaviorSubject<string>("Facilities");
+  header = new BehaviorSubject<string>('Facilities');
 
-  constructor() { }
+  constructor() {}
 }
