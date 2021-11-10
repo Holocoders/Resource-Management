@@ -26,7 +26,7 @@
 </div>
 
 <ng-template #topNav>
-  <label class="ml-auto">Electrical Lab</label>
+  <label class="ml-auto">{{header|titlecase}}</label>
   <button (click)="isMobileSearchOpen = true" class="ml-auto p-button-text inline-flex sm:hidden" icon="pi pi-search"
           pButton></button>
   <div class="ml-auto hidden sm:inline-flex">

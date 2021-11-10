@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FacilitiesService } from './facilities.service';
-import { Router } from '@angular/router';
-import { NodeService } from '../node/node.service';
-import { BreadcrumbsService } from '../breadcrumbs/breadcrumbs.service';
+import {Component, OnInit} from '@angular/core';
+import {FacilitiesService} from './facilities.service';
+import {Router} from '@angular/router';
+import {NodeService} from '../node/node.service';
+import {BreadcrumbsService} from '../breadcrumbs/breadcrumbs.service';
+import {NavbarService} from "../shared/navbar/navbar.service";
 
 @Component({
   selector: 'app-facilities',
@@ -20,18 +21,21 @@ export class FacilitiesComponent implements OnInit {
   newFacilityDesc = '';
   newFacilityImage: any;
 
-  selectedFacility = { name: '', description: '' };
+  selectedFacility = {name: '', description: ''};
   infoDisplay = false;
 
   constructor(
     private service: FacilitiesService,
     private nodeService: NodeService,
     private router: Router,
-    private breadCrumbService: BreadcrumbsService
-  ) {}
+    private breadCrumbService: BreadcrumbsService,
+    private navbarService: NavbarService
+  ) {
+  }
 
   ngOnInit(): void {
     this.breadCrumbService.popAll();
+    this.navbarService.header.next("Facilities");
     this.service.getFacilities().subscribe((result: any) => {
       this.facilities = result?.data?.facilities;
       this.loading = result.loading;
@@ -75,8 +79,8 @@ export class FacilitiesComponent implements OnInit {
     this.breadCrumbService.push({
       label: facility.name,
       routerLink: '/node',
-      queryParams: { id },
+      queryParams: {id}
     });
-    this.router.navigate(['/node'], { queryParams: { id } });
+    this.router.navigate(['/node'], {queryParams: {id}});
   }
 }
