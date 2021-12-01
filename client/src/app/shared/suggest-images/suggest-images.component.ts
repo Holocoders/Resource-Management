@@ -1,37 +1,30 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { SuggestImagesService } from './suggest-images.service';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {SuggestImagesService} from './suggest-images.service';
 
 @Component({
   selector: 'app-suggest-images',
   templateUrl: './suggest-images.component.html',
   styleUrls: ['./suggest-images.component.scss'],
 })
-export class SuggestImagesComponent implements OnInit {
+export class SuggestImagesComponent {
   uploadedFiles: any[] = [];
 
-  products: any[] = [
-    {
-      image: 'https://www.bls.gov/ooh/images/15279.jpg',
-    },
-    {
-      image: 'https://bityl.co/9Txp',
-    },
-    {
-      image: 'https://bityl.co/9Txv',
-    },
-    {
-      image: 'https://bityl.co/9Txy',
-    },
-  ];
+  products: any[] = [];
 
   @Output() onFileUpload = new EventEmitter();
+  @Input() query: string;
 
-  constructor(private service: SuggestImagesService) {}
+  constructor(private service: SuggestImagesService) {
+  }
 
-  ngOnInit(): void {
-    this.service.get_images('Library').subscribe((res) => {
-      console.log(res);
+  suggestImages() {
+    this.service.get_images(this.query).subscribe((res) => {
+      for (const image of res) {
+        this.products.push({
+          image: image.link,
+        });
+      }
+      this.products = [...this.products];
     });
   }
 

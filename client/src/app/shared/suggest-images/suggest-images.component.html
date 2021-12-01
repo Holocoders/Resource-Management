@@ -9,6 +9,7 @@
     >
     </p-fileUpload>
   </div>
+  <p-button (onClick)="suggestImages()">Suggest</p-button>
   <h6>Pick an image</h6>
   <p-carousel [circular]="true"
               [numScroll]="1"
@@ -19,8 +20,8 @@
       <div class="product-item">
         <div class="product-item-content">
           <div class="border-1">
-            <p-image [src]="product.image" alt="product.name" height="200" width="200">
-            </p-image>
+            <img [src]="product.image" alt="product.name"
+                 style="max-height: 200px; max-width: 200px; object-fit: contain">
           </div>
         </div>
       </div>

@@ -57,7 +57,8 @@
       </div>
     </div>
     <div class="col-12 lg:col-6 p-4">
-      <app-suggest-images (onFileUpload)="file = $event"></app-suggest-images>
+      <app-suggest-images (onFileUpload)="file = $event"
+                          [query]="addItemForm.controls['name'].value"></app-suggest-images>
     </div>
   </div>
 </form>
