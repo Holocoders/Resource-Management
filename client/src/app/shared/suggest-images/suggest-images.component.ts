@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { SuggestImagesService } from './suggest-images.service';
 
 @Component({
   selector: 'app-suggest-images',
@@ -11,7 +12,7 @@ export class SuggestImagesComponent implements OnInit {
 
   products: any[] = [
     {
-      image: 'https://amz.run/52RL',
+      image: 'https://www.bls.gov/ooh/images/15279.jpg',
     },
     {
       image: 'https://bityl.co/9Txp',
@@ -26,9 +27,13 @@ export class SuggestImagesComponent implements OnInit {
 
   @Output() onFileUpload = new EventEmitter();
 
-  constructor(private http: HttpClient) {}
+  constructor(private service: SuggestImagesService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.service.get_images('Library').subscribe((res) => {
+      console.log(res);
+    });
+  }
 
   onFileSelected(event: any) {
     for (const file of event.files) {

@@ -28,7 +28,9 @@ const env = process.env.NODE_ENV || 'dev';
       useCreateIndex: true,
       useUnifiedTopology: true,
       connectionFactory: (connection) => {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         connection.plugin(require('mongoose-lean-virtuals'));
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
         connection.plugin(require('mongoose-autopopulate'));
         return connection;
       },

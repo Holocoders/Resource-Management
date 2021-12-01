@@ -17,6 +17,9 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
+    if (req.url.indexOf('googleapis') == -1) {
+      return next.handle(req);
+    }
     return this.auth.user.pipe(
       take(1),
       exhaustMap((user) => {
