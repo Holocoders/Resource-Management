@@ -18,7 +18,7 @@ export class Item {
 
   @Field(() => Node, {
     description:
-      'This field is the _id field in the DB. Virtuals have been defined for readability.',
+      'This field is the _id field in the DB. Virtual have been defined for readability.',
   })
   node?: MongooseSchema.Types.ObjectId | Node;
 
