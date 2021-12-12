@@ -8,6 +8,7 @@ import { SidebarModule } from 'primeng/sidebar';
 import { UserModule } from '../user/user.module';
 import { SuggestImagesComponent } from './suggest-images/suggest-images.component';
 import { NodeGridItemComponent } from './node-grid-item/node-grid-item.component';
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { NodeGridItemComponent } from './node-grid-item/node-grid-item.component
     SidebarComponent,
     SuggestImagesComponent,
     NodeGridItemComponent,
+    LoaderComponent,
   ],
   imports: [
     CommonModule,

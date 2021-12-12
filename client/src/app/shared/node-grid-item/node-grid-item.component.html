@@ -41,7 +41,8 @@
       <p-divider></p-divider>
     </div>
     <div class="col-12 flex flex-wrap justify-content-center">
-      <button (click)="$event.stopPropagation(); onDeleteClick.emit(obj?.node._id)" class="p-button-raised p-button-danger p-button-text" icon="pi pi-trash" pButton
+      <button (click)="$event.stopPropagation(); onDeleteClick.emit(obj?.node?._id)"
+              class="p-button-raised p-button-danger p-button-text" icon="pi pi-trash" pButton
               pRipple
               type="button"></button>
     </div>

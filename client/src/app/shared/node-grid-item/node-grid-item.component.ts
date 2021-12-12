@@ -1,4 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Category } from '../../models/category.model';
+import { Item } from '../../models/item.model';
+import { Facility } from '../../models/facility.model';
 
 @Component({
   selector: 'app-node-grid-item',
@@ -7,9 +10,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class NodeGridItemComponent implements OnInit {
   @Output() onDeleteClick = new EventEmitter();
-  @Input() obj: any;
+  @Input() obj: Facility | Category | Item;
 
-  constructor() {}
+  constructor() {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 }

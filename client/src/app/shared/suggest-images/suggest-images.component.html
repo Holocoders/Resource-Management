@@ -9,22 +9,34 @@
     >
     </p-fileUpload>
   </div>
-  <p-button (onClick)="suggestImages()">Suggest</p-button>
-  <h6>Pick an image</h6>
-  <p-carousel [circular]="true"
-              [numScroll]="1"
-              [numVisible]="1"
-              [value]="products" class="flex justify-content-center"
-              orientation="horizontal" styleClass="mt-2 suggestion-carousel w-20rem" verticalViewPortHeight="300px">
+  <p-button (onClick)="suggestImages()" *ngIf="!showSuggestions; else imageSuggestions"
+            class="w-full flex justify-content-center align-items-center mt-4">Suggest me some images!
+  </p-button>
+</div>
+
+<ng-template #imageSuggestions>
+  <p-carousel [circular]="true" [numScroll]="1" [numVisible]="1" [style]="{'max-width':'400px', 'margin-top':'2em'}"
+              [value]="products"
+              class="flex justify-content-center" orientation="horizontal"
+              verticalViewPortHeight="352px">
+    <ng-template pTemplate="header">
+      <h5 class="flex justify-content-center">
+        Pick an image <i (click)="suggestImages()"
+                         class="ml-2 flex align-items-center pi pi-refresh cursor-pointer"></i>
+      </h5>
+    </ng-template>
     <ng-template let-product pTemplate="item">
-      <div class="product-item">
+      <div *ngIf="!loading; else loader" class="product-item">
         <div class="product-item-content">
-          <div class="border-1">
-            <img [src]="product.image" alt="product.name"
-                 style="max-height: 200px; max-width: 200px; object-fit: contain">
+          <div>
+            <img [alt]="product.name" [src]="product.image"
+                 class="product-image"/>
           </div>
         </div>
       </div>
     </ng-template>
   </p-carousel>
-</div>
+</ng-template>
+<ng-template #loader>
+  <app-loader class="flex justify-content-center align-items-center"></app-loader>
+</ng-template>

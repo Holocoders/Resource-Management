@@ -1,0 +1,21 @@
+.product-item {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  .product-item-content {
+    margin: .3rem;
+    padding: 2rem 0;
+    resize: both;
+  }
+
+  .product-image {
+    width: 100%;
+    border: 1px solid var(--primary-color);
+    border-radius: 3px;
+    object-fit: contain;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
+  }
+}

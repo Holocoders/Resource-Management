@@ -27,6 +27,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CarouselModule } from 'primeng/carousel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TooltipModule } from 'primeng/tooltip';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 const primeNgModules = [
   AvatarModule,
@@ -57,10 +58,12 @@ const primeNgModules = [
   TagModule,
   ToastModule,
   TooltipModule,
+  ProgressSpinnerModule,
 ];
 
 @NgModule({
   imports: primeNgModules,
   exports: primeNgModules,
 })
-export class PrimengModule {}
+export class PrimengModule {
+}

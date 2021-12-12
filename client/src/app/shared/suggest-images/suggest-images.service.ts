@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {map} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ export class SuggestImagesService {
   constructor(private http: HttpClient) {
   }
 
-  get_images(query: string) {
+  get_images(query: string, offset = 1, limit = 5) {
     return this.http
       .get('https://www.googleapis.com/customsearch/v1', {
         params: {
@@ -17,15 +17,13 @@ export class SuggestImagesService {
           key: 'AIzaSyDF-BdL1tyC66wHpJ1vIRpNsFWVISLlPJ0',
           searchType: 'image',
           imgSize: 'medium',
-          start: '1',
-          num: '4',
+          start: offset,
+          num: limit,
           q: query,
         },
       })
       .pipe(
-        map((data) => {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
+        map((data: any) => {
           return data.items;
         })
       );
