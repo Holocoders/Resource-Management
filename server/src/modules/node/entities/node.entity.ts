@@ -11,8 +11,8 @@ export class Node {
   @Field(() => ID)
   _id: string;
 
-  @Prop({default: null, ref: Node.name, type: MongooseSchema.Types.ObjectId})
-  @Field(() => Node, {nullable: true})
+  @Prop({ default: null, ref: Node.name, type: MongooseSchema.Types.ObjectId })
+  @Field(() => Node, { nullable: true })
   parent?: MongooseSchema.Types.ObjectId | Node;
 
   @Prop({
@@ -23,13 +23,13 @@ export class Node {
   @Field(() => User)
   createdBy: MongooseSchema.Types.ObjectId | User;
 
-  @Prop({default: 0})
+  @Prop({ default: 0 })
   categoryCount: number;
 
-  @Prop({default: 0})
+  @Prop({ default: 0 })
   itemCount: number;
 
-  @Prop({default: false})
+  @Prop({ default: false })
   isItem: boolean;
 }
 

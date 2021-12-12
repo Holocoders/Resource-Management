@@ -4,17 +4,16 @@ import { User } from '../user.model';
 import { Apollo, gql } from 'apollo-angular';
 import { map } from 'rxjs/operators';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   user = new BehaviorSubject<User>(null);
 
-  constructor(private apollo: Apollo) {
-  }
+  constructor(private apollo: Apollo) {}
 
   signup(user: User, password: string, rememberMe = false) {
-    const {name, email} = user;
+    const { name, email } = user;
     const mutation = this.apollo.mutate({
       mutation: gql`
         mutation createUser($createUserInput: CreateUserInput!) {
@@ -36,7 +35,7 @@ export class AuthService {
       },
     });
     return mutation.pipe(
-      map(({data}) => {
+      map(({ data }) => {
         const user = (data as any).createUser as User;
         if (rememberMe) {
           localStorage.setItem('user', JSON.stringify(user));

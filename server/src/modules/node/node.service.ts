@@ -19,8 +19,7 @@ export class NodeService {
     private categoryService: CategoryService,
     @Inject(forwardRef(() => FacilityService))
     private facilityService: FacilityService,
-  ) {
-  }
+  ) {}
 
   async create(parent: any, createdBy: string, isItem = false) {
     const createNodeInput = new CreateNodeInput(parent, createdBy, isItem);
@@ -38,7 +37,7 @@ export class NodeService {
               itemCount: 1,
             },
           },
-          {new: true},
+          { new: true },
         );
         if (!parent) break;
         parent = parent.parent;
@@ -84,7 +83,7 @@ export class NodeService {
               itemCount: -1,
             },
           },
-          {new: true},
+          { new: true },
         );
         if (!node.parent) break;
         node.parent = node.parent.parent;
@@ -107,15 +106,15 @@ export class NodeService {
       },
     ]);
     const nodeIds = [id];
-    fs.rmSync(`./uploads/${id}`, {force: true});
+    fs.rmSync(`./uploads/${id}`, { force: true });
     for (const node of nodesToRemove[0].nodesToRemove) {
       nodeIds.push(node._id);
-      fs.rmSync(`./uploads/${node._id}`, {force: true});
+      fs.rmSync(`./uploads/${node._id}`, { force: true });
     }
     await this.facilityService.deleteMany(nodeIds);
     await this.itemService.deleteMany(nodeIds);
     await this.categoryService.deleteMany(nodeIds);
-    await this.nodeModel.deleteMany({_id: {$in: nodeIds}});
+    await this.nodeModel.deleteMany({ _id: { $in: nodeIds } });
     return true;
   }
 }

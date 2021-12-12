@@ -34,5 +34,4 @@ import { FormsModule } from '@angular/forms';
     NodeGridItemComponent,
   ],
 })
-export class SharedModule {
-}
+export class SharedModule {}

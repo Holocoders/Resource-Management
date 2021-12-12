@@ -27,8 +27,7 @@ export class CategoryService {
     @InjectModel(Category.name) private categoryModel: Model<CategoryDocument>,
     @Inject(forwardRef(() => NodeService))
     private nodeService: NodeService,
-  ) {
-  }
+  ) {}
 
   async create(createCategoryInput: CreateCategoryInput, createdBy: string) {
     createCategoryInput._id = await this.nodeService.create(
@@ -44,7 +43,7 @@ export class CategoryService {
 
   async getAllChildren(id) {
     const nodes = await this.nodeService.findAllChildren(id, false);
-    const categories = await this.categoryModel.find({_id: {$in: nodes}});
+    const categories = await this.categoryModel.find({ _id: { $in: nodes } });
     await this.categoryModel.populate(categories, this.populateCategoryObject);
     return categories;
   }
@@ -58,7 +57,7 @@ export class CategoryService {
   }
 
   async deleteMany(ids: any[]) {
-    for (const id of ids) fs.rmSync(`./uploads/${id}`, {force: true});
-    return this.categoryModel.deleteMany({_id: {$in: ids}});
+    for (const id of ids) fs.rmSync(`./uploads/${id}`, { force: true });
+    return this.categoryModel.deleteMany({ _id: { $in: ids } });
   }
 }

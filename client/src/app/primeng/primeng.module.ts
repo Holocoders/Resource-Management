@@ -65,5 +65,4 @@ const primeNgModules = [
   imports: primeNgModules,
   exports: primeNgModules,
 })
-export class PrimengModule {
-}
+export class PrimengModule {}

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.scss'],
 })
-export class AddItemComponent implements OnInit {
+export class AddItemComponent {
   @Output() onDialogClose = new EventEmitter();
   @Input() parent: string;
   file: any;
@@ -17,11 +17,7 @@ export class AddItemComponent implements OnInit {
     price: new FormControl(null, [Validators.required]),
   });
 
-  constructor(private formBuilder: FormBuilder) {
-  }
-
-  ngOnInit(): void {
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   saveItem() {
     const itemObj = this.addItemForm.value;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -6,7 +6,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
   templateUrl: './add-category.component.html',
   styleUrls: ['./add-category.component.scss'],
 })
-export class AddCategoryComponent implements OnInit {
+export class AddCategoryComponent {
   @Output() onDialogClose = new EventEmitter();
   @Input() parent: string;
   file: any;
@@ -15,11 +15,7 @@ export class AddCategoryComponent implements OnInit {
     description: new FormControl(''),
   });
 
-  constructor(private formBuilder: FormBuilder) {
-  }
-
-  ngOnInit(): void {
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   saveCategory() {
     const obj = this.addCategoryForm.value;

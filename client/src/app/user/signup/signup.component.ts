@@ -28,8 +28,7 @@ export class SignupComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private messageService: LocalMessageService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.authService.user.subscribe((user) => (this.user = user));

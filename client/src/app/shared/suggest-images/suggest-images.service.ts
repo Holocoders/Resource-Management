@@ -6,19 +6,18 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class SuggestImagesService {
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   convertImageToFile(url: string) {
     return this.http
       .get('https://cors-anywhere.herokuapp.com/' + url, {
         responseType: 'blob',
-        headers: {skip: 'true'},
+        headers: { skip: 'true' },
       })
       .pipe(
         map((data) => {
-          const blob = new Blob([data], {type: 'image/jpeg'});
-          return new File([blob], 'image.jpg', {type: 'image/jpeg'});
+          const blob = new Blob([data], { type: 'image/jpeg' });
+          return new File([blob], 'image.jpg', { type: 'image/jpeg' });
         })
       );
   }

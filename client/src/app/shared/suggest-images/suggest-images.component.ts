@@ -21,8 +21,7 @@ export class SuggestImagesComponent {
   constructor(
     private service: SuggestImagesService,
     private localMessageService: LocalMessageService
-  ) {
-  }
+  ) {}
 
   suggestImages() {
     if (this.query === '') {

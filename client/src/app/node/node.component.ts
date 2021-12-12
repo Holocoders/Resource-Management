@@ -26,8 +26,7 @@ export class NodeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private breadCrumbService: BreadcrumbsService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams
@@ -45,7 +44,7 @@ export class NodeComponent implements OnInit {
         )
       )
       .subscribe((result) => {
-        const {items, categories} = result as any;
+        const { items, categories } = result as any;
         console.log(items);
         for (const category of categories.data.childCategories) {
           const temp = new Category();
@@ -86,7 +85,7 @@ export class NodeComponent implements OnInit {
   }
 
   removeNode(event: any, id: string) {
-    this.nodeService.removeNode(id).subscribe((res) => {
+    this.nodeService.removeNode(id).subscribe(() => {
       this.nodes = this.nodes.filter((val) => val.node._id != id);
       this.nodes = [...this.nodes];
     });
@@ -98,16 +97,16 @@ export class NodeComponent implements OnInit {
       this.breadCrumbService.push({
         label: node.name,
         routerLink: '/item',
-        queryParams: {id},
+        queryParams: { id },
       });
-      this.router.navigate(['/item'], {queryParams: {id}});
+      this.router.navigate(['/item'], { queryParams: { id } });
       return;
     }
     this.breadCrumbService.push({
       label: node.name,
       routerLink: '/node',
-      queryParams: {id},
+      queryParams: { id },
     });
-    this.router.navigate(['/node'], {queryParams: {id}});
+    this.router.navigate(['/node'], { queryParams: { id } });
   }
 }
