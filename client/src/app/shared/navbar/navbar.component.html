@@ -36,7 +36,7 @@
         </span>
   </div>
   <button class="sm:ml-3 p-button-text sm:inline-flex" icon="pi pi-bell" pButton></button>
-  <div *ngIf="!user?.loggedIn; else signOut">
+  <div *ngIf="!user; else signOut">
     <button [routerLink]="'/user'" class="p-button-text mr-3" icon="pi pi-sign-in" pButton></button>
   </div>
   <ng-template #signOut>

@@ -28,12 +28,15 @@ export class AuthResolver {
     return result;
   }
 
-  @Mutation(() => String)
+  @Mutation(() => User)
   async login(
     @Args('email') email: string,
     @Args('password') password: string,
-  ): Promise<string | GraphQLError> {
-    return await this.authService.login({ email, password });
+  ): Promise<User | GraphQLError> {
+    const token = await this.authService.login({ email, password });
+    const user = await this.userService.findOne({ email });
+    user.token = token as string;
+    return user;
   }
 
   @Query(() => User)

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
-import { UserService } from '../../user/user.service';
-import { User } from '../../user/user.model';
-import { mergeMap, Observable, of } from 'rxjs';
+import { AuthService } from '../../user/auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,18 +8,16 @@ import { mergeMap, Observable, of } from 'rxjs';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  user$: Observable<User>;
+  user: any;
 
   constructor(
     private navbarComponent: NavbarComponent,
-    private userService: UserService
-  ) {
-  }
-
+    private auth: AuthService
+  ) {}
   ngOnInit(): void {
-    this.user$ = this.userService
-      .currentUser()
-      .pipe(mergeMap((result) => of((result.data as any).currentUser as User)));
+    this.auth.user.subscribe((user) => {
+      this.user = user;
+    });
   }
 
   closeSidebar() {
