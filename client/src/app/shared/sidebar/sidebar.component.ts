@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { AuthService } from '../../user/auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -7,9 +8,17 @@ import { NavbarComponent } from '../navbar/navbar.component';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
-  constructor(private navbarComponent: NavbarComponent) {}
+  user: any;
 
-  ngOnInit(): void {}
+  constructor(
+    private navbarComponent: NavbarComponent,
+    private auth: AuthService
+  ) {}
+  ngOnInit(): void {
+    this.auth.user.subscribe((user) => {
+      this.user = user;
+    });
+  }
 
   closeSidebar() {
     this.navbarComponent.isMobileSidebarOpen = false;

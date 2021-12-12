@@ -94,7 +94,7 @@ type Item {
   name: String!
 
   """
-  This field is the _id field in the DB. Virtuals have been defined for readability.
+  This field is the _id field in the DB. Virtual have been defined for readability.
   """
   node: Node
   price: Float!
@@ -125,7 +125,7 @@ type Mutation {
   createItem(createItemInput: CreateItemInput!, file: Upload!): Item!
   createItemHistory(createItemHistoryInput: CreateItemHistoryInput!): ItemHistory!
   createUser(createUserInput: CreateUserInput!): User!
-  login(email: String!, password: String!): String!
+  login(email: String!, password: String!): User!
   reduceQuantity(id: String!, reduceBy: Int!): Item!
   removeFacility(id: String!): Facility!
   removeNode(id: String!): Boolean!

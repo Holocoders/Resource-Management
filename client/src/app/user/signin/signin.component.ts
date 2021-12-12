@@ -41,28 +41,22 @@ export class SigninComponent implements OnInit {
       });
       return;
     }
-    this.user.email = this.signInForm.value.email;
-    const password = this.signInForm.value.password;
-    this.authService.signIn(this.user, password).subscribe(
-      () => {
-        if (this.signInForm.value.rememberMe) {
-          localStorage.setItem('user', JSON.stringify(this.user));
-        } else {
-          sessionStorage.setItem('user', JSON.stringify(this.user));
-        }
+    const { email, password, rememberMe } = this.signInForm.value;
+    this.authService.signIn(email, password, rememberMe).subscribe({
+      next: () => {
         this.router.navigateByUrl('/facilities');
         this.messageService.addToastMessage({
           detail: 'Welcome back!',
           severity: 'success',
         });
       },
-      () => {
+      error: () => {
         this.messageService.addToastMessage({
           detail: 'Invalid username or password!',
           severity: 'error',
         });
-      }
-    );
+      },
+    });
   }
 
   showHidePassword() {

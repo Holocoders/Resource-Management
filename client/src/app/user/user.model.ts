@@ -1,7 +1,11 @@
 export class User {
-  _id: string;
-  email: string;
-  name: string;
-  loggedIn = false;
-  token: string;
+  constructor(
+    public email: string,
+    public name: string,
+    private _token: string
+  ) {}
+
+  get token() {
+    return this._token;
+  }
 }

@@ -6,7 +6,9 @@ import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  user = new BehaviorSubject<User>(new User());
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  user = new BehaviorSubject<User>(null);
 
   constructor(private apollo: Apollo) {}
 
@@ -35,7 +37,6 @@ export class AuthService {
     return mutation.pipe(
       map(({ data }) => {
         const user = (data as any).createUser as User;
-        user.loggedIn = true;
         this.user.next(user);
       }),
       catchError(() => {
@@ -44,23 +45,32 @@ export class AuthService {
     );
   }
 
-  signIn(user: User, password: string) {
+  signIn(email: string, password: string, rememberMe = false) {
     const mutation = this.apollo.mutate({
       mutation: gql`
-        mutation LoginMutation($loginEmail: String!, $loginPassword: String!) {
-          login(email: $loginEmail, password: $loginPassword)
+        mutation login($email: String!, $password: String!) {
+          login(email: $email, password: $password) {
+            name
+            token
+          }
         }
       `,
       variables: {
-        loginEmail: user.email,
-        loginPassword: password,
+        email,
+        password,
       },
     });
     return mutation.pipe(
       map((result) => {
-        user.token = (result.data as any).login;
-        user.loggedIn = true;
+        const data = (result.data as any).login;
+        const user = new User(email, data.name, data.token);
         this.user.next(user);
+        if (rememberMe) {
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+        // else {
+        //   sessionStorage.setItem('user', JSON.stringify(this.user));
+        // }
       }),
       catchError(() => {
         return throwError(void 0);
@@ -72,17 +82,21 @@ export class AuthService {
     let stringUser = localStorage.getItem('user');
     if (!stringUser) stringUser = sessionStorage.getItem('user');
     if (!stringUser) {
-      this.user.next(new User());
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this.user.next(null);
       return false;
     }
     const user: User = JSON.parse(stringUser);
     this.user.next(user);
-    return user.loggedIn;
+    return !!user;
   }
 
   logOut(): void {
     sessionStorage.clear();
     localStorage.clear();
-    this.user.next(new User());
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    this.user.next(null);
   }
 }

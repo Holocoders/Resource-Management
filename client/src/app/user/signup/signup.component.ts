@@ -13,7 +13,7 @@ import { LocalMessageService } from '../../shared/local-message.service';
 export class SignupComponent implements OnInit {
   @ViewChild('formPassword') formPassword: any;
   @ViewChild('formConfPassword') formConfPassword: any;
-  user: User = new User();
+  user: User;
   showPassword = false;
   signUpForm = this.formBuilder.group({
     name: new FormControl('', [Validators.required]),
