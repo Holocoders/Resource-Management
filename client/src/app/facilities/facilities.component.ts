@@ -21,7 +21,7 @@ export class FacilitiesComponent implements OnInit {
   newFacilityDesc = '';
   newFacilityImage: any;
 
-  selectedFacility = { name: '', description: '' };
+  selectedFacility = {name: '', description: ''};
   infoDisplay = false;
 
   constructor(
@@ -30,7 +30,8 @@ export class FacilitiesComponent implements OnInit {
     private router: Router,
     private breadCrumbService: BreadcrumbsService,
     private navbarService: NavbarService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.breadCrumbService.popAll();
@@ -65,6 +66,7 @@ export class FacilitiesComponent implements OnInit {
         this.facilities.push(facility);
         this.facilities = [...this.facilities];
         this.display = false;
+        this.selectedFacility = {name: '', description: ''};
       });
   }
 
@@ -78,8 +80,8 @@ export class FacilitiesComponent implements OnInit {
     this.breadCrumbService.push({
       label: facility.name,
       routerLink: '/node',
-      queryParams: { id },
+      queryParams: {id},
     });
-    this.router.navigate(['/node'], { queryParams: { id } });
+    this.router.navigate(['/node'], {queryParams: {id}});
   }
 }

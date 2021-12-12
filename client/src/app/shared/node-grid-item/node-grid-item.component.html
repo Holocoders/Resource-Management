@@ -27,18 +27,18 @@
     </div>
     <div *ngIf="obj?.node?.isItem; else category" class="col-12 flex align-items-center justify-content-center
            border-round m-2">
-      <p-chip label="Available : 1" styleClass="bg-primary"></p-chip>
+      <p-chip label="Available : {{obj?.quantity}}" styleClass="bg-primary"></p-chip>
     </div>
     <ng-template #category>
       <div class="col-12">
         <div class="flex justify-content-around flex-wrap card-container indigo-container">
           <div class="flex align-items-center justify-content-center
           w-8rem border-round m-2">
-            <p-chip label="Category : 4" styleClass="bg-primary"></p-chip>
+            <p-chip label="Category : {{obj?.node?.categoryCount}}" styleClass="bg-primary"></p-chip>
           </div>
           <div class="flex align-items-center justify-content-center
            w-8rem border-round m-2">
-            <p-chip label="Items : 40" styleClass="bg-blue-100"></p-chip>
+            <p-chip label="Items : {{obj?.node?.itemCount}}" styleClass="bg-blue-100"></p-chip>
           </div>
         </div>
       </div>

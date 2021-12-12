@@ -9,7 +9,8 @@ export class CategoryService {
   constructor(
     private readonly apollo: Apollo,
     private readonly http: HttpClient
-  ) {}
+  ) {
+  }
 
   addCategory(createCategoryInput: any, file: any) {
     const operations = {
@@ -56,6 +57,8 @@ export class CategoryService {
                 email
                 name
               }
+              categoryCount
+              itemCount
               isItem
             }
             description
@@ -63,7 +66,7 @@ export class CategoryService {
           }
         }
       `,
-      variables: { id },
+      variables: {id},
     }).valueChanges;
   }
 }

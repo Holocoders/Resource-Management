@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SuggestImagesService } from './suggest-images.service';
+import { LocalMessageService } from '../local-message.service';
 
 @Component({
   selector: 'app-suggest-images',
@@ -17,13 +18,22 @@ export class SuggestImagesComponent {
 
   offset = 1;
 
-  constructor(private service: SuggestImagesService) {
+  constructor(
+    private service: SuggestImagesService,
+    private localMessageService: LocalMessageService
+  ) {
   }
 
   suggestImages() {
+    if (this.query === '') {
+      this.localMessageService.addToastMessage({
+        detail: 'Search term cannot be empty!',
+        severity: 'error',
+      });
+    }
     this.showSuggestions = true;
     this.loading = true;
-    this.service.get_images(this.query, this.offset).subscribe((res) => {
+    this.service.getImages(this.query, this.offset).subscribe((res) => {
       this.products = [];
       for (const image of res) {
         this.products.push({
@@ -36,10 +46,25 @@ export class SuggestImagesComponent {
     });
   }
 
+  acceptImage(url: string) {
+    this.service.convertImageToFile(url).subscribe((file) => {
+      this.uploadedFiles.push(file);
+      this.uploadedFiles = [...this.uploadedFiles];
+      this.onFileUpload.emit(this.uploadedFiles[0]);
+    });
+  }
+
+  clear() {
+    this.uploadedFiles = [];
+    this.uploadedFiles = [...this.uploadedFiles];
+    this.onFileUpload.emit(null);
+  }
+
   onFileSelected(event: any) {
     for (const file of event.files) {
       this.uploadedFiles.push(file);
     }
+    this.uploadedFiles = [...this.uploadedFiles];
     this.onFileUpload.emit(this.uploadedFiles[0]);
   }
 }

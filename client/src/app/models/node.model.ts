@@ -5,4 +5,6 @@ export class Node {
   isItem: boolean;
   parent: Node;
   createdBy: User;
+  categoryCount: number;
+  itemCount: number;
 }

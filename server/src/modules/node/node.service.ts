@@ -19,11 +19,37 @@ export class NodeService {
     private categoryService: CategoryService,
     @Inject(forwardRef(() => FacilityService))
     private facilityService: FacilityService,
-  ) {}
+  ) {
+  }
 
   async create(parent: any, createdBy: string, isItem = false) {
     const createNodeInput = new CreateNodeInput(parent, createdBy, isItem);
     const nodeDocument = new this.nodeModel(createNodeInput);
+    if (!parent) {
+      const node = await nodeDocument.save();
+      return node._id;
+    }
+    if (isItem) {
+      while (true) {
+        parent = await this.nodeModel.findByIdAndUpdate(
+          parent,
+          {
+            $inc: {
+              itemCount: 1,
+            },
+          },
+          {new: true},
+        );
+        if (!parent) break;
+        parent = parent.parent;
+      }
+    } else {
+      await this.nodeModel.findByIdAndUpdate(parent, {
+        $inc: {
+          categoryCount: 1,
+        },
+      });
+    }
     const node = await nodeDocument.save();
     return node._id;
   }
@@ -42,6 +68,28 @@ export class NodeService {
   }
 
   async remove(id: string) {
+    const node = await this.nodeModel.findById(id);
+    if (!node.isItem) {
+      await this.nodeModel.findByIdAndUpdate(node.parent, {
+        $inc: {
+          categoryCount: -1,
+        },
+      });
+    } else {
+      while (true) {
+        node.parent = await this.nodeModel.findByIdAndUpdate(
+          node.parent,
+          {
+            $inc: {
+              itemCount: -1,
+            },
+          },
+          {new: true},
+        );
+        if (!node.parent) break;
+        node.parent = node.parent.parent;
+      }
+    }
     const nodesToRemove = await this.nodeModel.aggregate([
       {
         $graphLookup: {
@@ -59,15 +107,15 @@ export class NodeService {
       },
     ]);
     const nodeIds = [id];
-    fs.rmSync(`./uploads/${id}`, { force: true });
+    fs.rmSync(`./uploads/${id}`, {force: true});
     for (const node of nodesToRemove[0].nodesToRemove) {
       nodeIds.push(node._id);
-      fs.rmSync(`./uploads/${node._id}`, { force: true });
+      fs.rmSync(`./uploads/${node._id}`, {force: true});
     }
     await this.facilityService.deleteMany(nodeIds);
     await this.itemService.deleteMany(nodeIds);
     await this.categoryService.deleteMany(nodeIds);
-    await this.nodeModel.deleteMany({ _id: { $in: nodeIds } });
+    await this.nodeModel.deleteMany({_id: {$in: nodeIds}});
     return true;
   }
 }

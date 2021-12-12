@@ -143,8 +143,10 @@ type Mutation {
 
 type Node {
   _id: ID!
+  categoryCount: Float!
   createdBy: User!
   isItem: Boolean!
+  itemCount: Float!
   parent: Node
 }
 

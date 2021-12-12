@@ -6,7 +6,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class ItemService {
-  constructor(private apollo: Apollo, private http: HttpClient) {}
+  constructor(private apollo: Apollo, private http: HttpClient) {
+  }
 
   getItemDetails(id: string) {
     return this.apollo.watchQuery({
@@ -81,14 +82,11 @@ export class ItemService {
           childItems(id: $id) {
             node {
               _id
-              createdBy {
-                _id
-                email
-                name
-              }
               parent {
                 _id
               }
+              categoryCount
+              itemCount
               isItem
             }
             description
@@ -98,7 +96,7 @@ export class ItemService {
           }
         }
       `,
-      variables: { id },
+      variables: {id},
     }).valueChanges;
   }
 
@@ -135,7 +133,7 @@ export class ItemService {
         }
       }
     `;
-    const variables = { item };
-    return this.apollo.watchQuery({ query, variables }).valueChanges;
+    const variables = {item};
+    return this.apollo.watchQuery({query, variables}).valueChanges;
   }
 }

@@ -28,7 +28,8 @@ export class SignupComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private messageService: LocalMessageService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.authService.user.subscribe((user) => (this.user = user));
@@ -42,6 +43,10 @@ export class SignupComponent implements OnInit {
       });
       return;
     }
+    this.user = new User(
+      this.signUpForm.value.email,
+      this.signUpForm.value.name
+    );
     this.user.name = this.signUpForm.value.name;
     this.user.email = this.signUpForm.value.email;
     const password = this.signUpForm.value.password;

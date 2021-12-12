@@ -17,13 +17,17 @@ export class AddItemComponent implements OnInit {
     price: new FormControl(null, [Validators.required]),
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   saveItem() {
     const itemObj = this.addItemForm.value;
     itemObj.parent = this.parent;
+    this.addItemForm.reset();
+    this.addItemForm.clearValidators();
     this.onDialogClose.emit({
       submit: true,
       data: itemObj,

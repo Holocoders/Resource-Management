@@ -9,6 +9,7 @@ import { UserModule } from '../user/user.module';
 import { SuggestImagesComponent } from './suggest-images/suggest-images.component';
 import { NodeGridItemComponent } from './node-grid-item/node-grid-item.component';
 import { LoaderComponent } from './loader/loader.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { LoaderComponent } from './loader/loader.component';
     PrimengModule,
     SidebarModule,
     UserModule,
+    FormsModule,
   ],
   exports: [
     NavbarComponent,
@@ -32,4 +34,5 @@ import { LoaderComponent } from './loader/loader.component';
     NodeGridItemComponent,
   ],
 })
-export class SharedModule {}
+export class SharedModule {
+}

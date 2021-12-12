@@ -6,7 +6,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class FacilitiesService {
-  constructor(private apollo: Apollo, private http: HttpClient) {}
+  constructor(private apollo: Apollo, private http: HttpClient) {
+  }
 
   getFacilities() {
     return this.apollo.watchQuery({
@@ -15,6 +16,8 @@ export class FacilitiesService {
           facilities {
             node {
               _id
+              categoryCount
+              itemCount
             }
             name
             description

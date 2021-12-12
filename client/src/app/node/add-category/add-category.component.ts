@@ -15,13 +15,17 @@ export class AddCategoryComponent implements OnInit {
     description: new FormControl(''),
   });
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: FormBuilder) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   saveCategory() {
     const obj = this.addCategoryForm.value;
     obj.parent = this.parent;
+    this.addCategoryForm.reset();
+    this.addCategoryForm.clearValidators();
     this.onDialogClose.emit({
       submit: true,
       data: obj,
