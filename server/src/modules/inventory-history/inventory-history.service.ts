@@ -1,31 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { CreateInventoryHistoryInput } from './dto/create-inventory-history.input';
-import { UpdateInventoryHistoryInput } from './dto/update-inventory-history.input';
+import {
+  CreateInventoryHistoryInput
+} from './dto/create-inventory-history.input';
+import {
+  UpdateInventoryHistoryInput
+} from './dto/update-inventory-history.input';
 import { InjectModel } from '@nestjs/mongoose';
 import {
   InventoryHistory,
   InventoryHistoryDocument,
 } from './entities/inventory-history.entity';
 import { Model } from 'mongoose';
-import { Node } from '../node/entities/node.entity';
 
 @Injectable()
 export class InventoryHistoryService {
-  populateObject: any = [
-    {
-      path: 'item',
-      populate: {
-        path: '_id',
-        model: Node.name,
-        populate: {
-          path: 'createdBy',
-        },
-      },
-    },
-    {
-      path: 'user',
-    },
-  ];
 
   constructor(
     @InjectModel(InventoryHistory.name)
@@ -36,7 +24,8 @@ export class InventoryHistoryService {
     return new this.inventoryHistoryModel(createInventoryHistoryInput).save();
   }
 
-  findAll(query: any) {
+  findAll(query?: any) {
+    if (!query) return this.inventoryHistoryModel.find();
     return this.inventoryHistoryModel.find(query);
   }
 

@@ -158,9 +158,11 @@ type Query {
   facilities: [Facility!]!
   facility(id: String!): Facility!
   getHello: String!
+  inventoryHistory: [InventoryHistory!]!
   inventoryHistoryByItem(item: String!): [InventoryHistory!]!
   inventoryHistoryByUser(user: String!): [InventoryHistory!]!
   item(id: String!): Item!
+  itemHistory: [ItemHistory!]!
   itemHistoryByItem(item: String!): [ItemHistory!]!
   itemHistoryByUser(user: String!): [ItemHistory!]!
   user(_id: String!): User!

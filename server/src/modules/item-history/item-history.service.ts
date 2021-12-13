@@ -7,41 +7,21 @@ import {
 } from './entities/item-history.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { Node } from '../node/entities/node.entity';
 
 @Injectable()
 export class ItemHistoryService {
-  populateObject = [
-    {
-      path: 'item',
-      populate: {
-        path: '_id',
-        model: Node.name,
-        populate: {
-          path: 'createdBy',
-        },
-      },
-    },
-    {
-      path: 'user',
-    },
-  ];
-
   constructor(
     @InjectModel(ItemHistory.name)
     private itemHistoryModel: Model<ItemHistoryDocument>,
   ) {}
 
   async create(createItemHistoryInput: CreateItemHistoryInput) {
-    const itemHistory = await new this.itemHistoryModel(
-      createItemHistoryInput,
-    ).save();
-    await this.itemHistoryModel.populate(itemHistory, this.populateObject);
-    return itemHistory;
+    return await new this.itemHistoryModel(createItemHistoryInput).save();
   }
 
-  findAll(query) {
-    return this.itemHistoryModel.find(query).populate(this.populateObject);
+  findAll(query?: any) {
+    if (!query) return this.itemHistoryModel.find();
+    return this.itemHistoryModel.find(query);
   }
 
   deleteItemRelatedHistory(ids: string[]) {
@@ -51,7 +31,6 @@ export class ItemHistoryService {
   update(updateItemHistoryInput: UpdateItemHistoryInput) {
     const { item, user } = updateItemHistoryInput;
     return this.itemHistoryModel
-      .findOneAndUpdate({ item, user } as any, updateItemHistoryInput as any)
-      .populate(this.populateObject);
+      .findOneAndUpdate({ item, user } as any, updateItemHistoryInput as any);
   }
 }

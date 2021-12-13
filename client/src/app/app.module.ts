@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { MainComponent } from './main/main.component';
 import { FormsModule } from '@angular/forms';
+import { ActivityComponent } from './activity/activity.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     FacilitiesComponent,
     MainComponent,
     BreadcrumbsComponent,
+    ActivityComponent,
   ],
   imports: [
     BrowserModule,

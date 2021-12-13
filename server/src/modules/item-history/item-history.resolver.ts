@@ -16,10 +16,15 @@ export class ItemHistoryResolver {
   createItemHistory(
     @CurrentUser() user,
     @Args('createItemHistoryInput')
-    createItemHistoryInput: CreateItemHistoryInput,
+      createItemHistoryInput: CreateItemHistoryInput,
   ) {
     createItemHistoryInput.user = createItemHistoryInput.user || user._id;
     return this.itemHistoryService.create(createItemHistoryInput);
+  }
+
+  @Query(() => [ItemHistory], { name: 'itemHistory' })
+  findItemHistory() {
+    return this.itemHistoryService.findAll();
   }
 
   @Query(() => [ItemHistory], { name: 'itemHistoryByItem' })
@@ -35,7 +40,7 @@ export class ItemHistoryResolver {
   @Mutation(() => ItemHistory)
   updateItemHistory(
     @Args('updateItemHistoryInput')
-    updateItemHistoryInput: UpdateItemHistoryInput,
+      updateItemHistoryInput: UpdateItemHistoryInput,
   ) {
     return this.itemHistoryService.update(updateItemHistoryInput);
   }
