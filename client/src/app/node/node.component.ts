@@ -3,11 +3,10 @@ import { Category } from '../models/category.model';
 import { Item } from '../models/item.model';
 import { ItemService } from '../item/item.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { mergeMap, switchMap } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
 import { CategoryService } from '../category/category.service';
 import { NodeService } from './node.service';
 import { BreadcrumbsService } from '../breadcrumbs/breadcrumbs.service';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-node',
@@ -28,24 +27,21 @@ export class NodeComponent implements OnInit {
     private breadCrumbService: BreadcrumbsService
   ) {}
 
-  ngOnInit(): void {
-    this.route.queryParams
-      .pipe(
-        mergeMap((params) => {
-          this.id = params.id;
-          this.nodes = [];
-          return this.id;
-        }),
-        switchMap(() =>
-          combineLatest({
-            items: this.itemService.getAllChildren(this.id),
-            categories: this.categoryService.getAllChildren(this.id),
-          })
-        )
-      )
-      .subscribe((result) => {
-        const { items, categories } = result as any;
-        console.log(items);
+  getNodes(id: string) {
+    const items = this.itemService.getAllChildren(id);
+    const categories = this.categoryService.getAllChildren(id);
+    items.refetch();
+    categories.refetch();
+    return combineLatest(items.valueChanges, categories.valueChanges);
+  }
+
+  ngOnInit() {
+    this.route.queryParams.subscribe((params) => {
+      this.id = params.id;
+      const observable = this.getNodes(this.id);
+      observable.subscribe((result) => {
+        const [items, categories] = result as any;
+        this.nodes = [];
         for (const category of categories.data.childCategories) {
           const temp = new Category();
           this.nodes.push(Object.assign(temp, category));
@@ -56,6 +52,7 @@ export class NodeComponent implements OnInit {
         }
         this.nodes = [...this.nodes];
       });
+    });
   }
 
   closeDialogCategory(event: any) {

@@ -11,7 +11,9 @@ export class NodeService {
     return this.apollo.mutate({
       mutation: gql`
         mutation removeNode($id: String!) {
-          removeNode(id: $id)
+          removeNode(id: $id) {
+            _id
+          }
         }
       `,
       variables: { id },

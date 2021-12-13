@@ -35,7 +35,9 @@ export class FacilitiesComponent implements OnInit {
   ngOnInit(): void {
     this.breadCrumbService.popAll();
     this.navbarService.header.next('Facilities');
-    this.service.getFacilities().subscribe((result: any) => {
+    const facilityQuery = this.service.getFacilities();
+    facilityQuery.refetch();
+    facilityQuery.valueChanges.subscribe((result: any) => {
       this.facilities = result?.data?.facilities;
       this.loading = result.loading;
       this.error = result.error;

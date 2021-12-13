@@ -6,7 +6,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { exhaustMap, take } from 'rxjs/operators';
+import { exhaustMap } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 
 @Injectable()
@@ -21,7 +21,6 @@ export class AuthInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
     return this.auth.user.pipe(
-      take(1),
       exhaustMap((user) => {
         if (!user) {
           return next.handle(req);

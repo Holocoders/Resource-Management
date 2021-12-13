@@ -21,40 +21,45 @@ export class NodeService {
     private facilityService: FacilityService,
   ) {}
 
+  async updateCounts(node: Node, isItem: boolean, inc: boolean) {
+    if (!isItem) {
+      await this.nodeModel.findByIdAndUpdate(node.parent, {
+        $inc: {
+          categoryCount: inc ? 1 : -1,
+          itemCount: inc ? node.itemCount : -node.itemCount,
+        },
+      });
+      return;
+    }
+    const nodesToUpdate = await this.nodeModel.aggregate([
+      {
+        $graphLookup: {
+          from: 'nodes',
+          startWith: '$parent',
+          connectFromField: 'parent',
+          connectToField: '_id',
+          as: 'nodesToUpdate',
+        },
+      },
+      {
+        $match: { _id: new Mongoose.Types.ObjectId(node._id) },
+      },
+    ]);
+    await this.nodeModel.updateMany(
+      { _id: { $in: nodesToUpdate[0].nodesToUpdate.map((node) => node._id) } },
+      { $inc: { itemCount: inc ? 1 : -1 } },
+    );
+  }
+
   async create(parent: any, createdBy: string, isItem = false) {
     const createNodeInput = new CreateNodeInput(parent, createdBy, isItem);
     const nodeDocument = new this.nodeModel(createNodeInput);
+    const node = await nodeDocument.save();
     if (!parent) {
-      const node = await nodeDocument.save();
       return node._id;
     }
-    if (isItem) {
-      while (true) {
-        parent = await this.nodeModel.findByIdAndUpdate(
-          parent,
-          {
-            $inc: {
-              itemCount: 1,
-            },
-          },
-          { new: true },
-        );
-        if (!parent) break;
-        parent = parent.parent;
-      }
-    } else {
-      await this.nodeModel.findByIdAndUpdate(parent, {
-        $inc: {
-          categoryCount: 1,
-        },
-      });
-    }
-    const node = await nodeDocument.save();
+    await this.updateCounts(node, isItem, true);
     return node._id;
-  }
-
-  findOne(id: string) {
-    return this.nodeModel.findById(id);
   }
 
   async findAllChildren(id: string, returnItems = true) {
@@ -68,27 +73,7 @@ export class NodeService {
 
   async remove(id: string) {
     const node = await this.nodeModel.findById(id);
-    if (!node.isItem) {
-      await this.nodeModel.findByIdAndUpdate(node.parent, {
-        $inc: {
-          categoryCount: -1,
-        },
-      });
-    } else {
-      while (true) {
-        node.parent = await this.nodeModel.findByIdAndUpdate(
-          node.parent,
-          {
-            $inc: {
-              itemCount: -1,
-            },
-          },
-          { new: true },
-        );
-        if (!node.parent) break;
-        node.parent = node.parent.parent;
-      }
-    }
+    await this.updateCounts(node, node.isItem, false);
     const nodesToRemove = await this.nodeModel.aggregate([
       {
         $graphLookup: {
@@ -115,6 +100,6 @@ export class NodeService {
     await this.itemService.deleteMany(nodeIds);
     await this.categoryService.deleteMany(nodeIds);
     await this.nodeModel.deleteMany({ _id: { $in: nodeIds } });
-    return true;
+    return this.nodeModel.findById(node.parent);
   }
 }

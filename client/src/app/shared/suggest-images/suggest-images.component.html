@@ -3,7 +3,9 @@
     <label for="item-image">
       <h6 class="mb-1">Image</h6>
     </label>
-    <p-fileUpload (onSelect)="onFileSelected($event)" [customUpload]="true" [files]="uploadedFiles"
+    <p-fileUpload (onRemove)="onFileRemoved()" (onSelect)="onFileSelected($event)" [customUpload]="true"
+                  [fileLimit]="1"
+                  [files]="uploadedFiles"
                   [maxFileSize]="2000000"
                   [showCancelButton]="false"
                   [showUploadButton]="false" accept="image/*" id="item-image"

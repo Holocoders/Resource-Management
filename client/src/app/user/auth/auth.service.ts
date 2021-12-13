@@ -73,7 +73,7 @@ export class AuthService {
         if (rememberMe) {
           localStorage.setItem('user', JSON.stringify(user));
         } else {
-          sessionStorage.setItem('user', JSON.stringify(this.user));
+          sessionStorage.setItem('user', JSON.stringify(user));
         }
       }),
       catchError(() => {

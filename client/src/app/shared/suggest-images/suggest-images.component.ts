@@ -45,8 +45,14 @@ export class SuggestImagesComponent {
     });
   }
 
+  onFileRemoved() {
+    this.uploadedFiles = [];
+    this.uploadedFiles = [...this.uploadedFiles];
+  }
+
   acceptImage(url: string) {
     this.service.convertImageToFile(url).subscribe((file) => {
+      this.uploadedFiles = [];
       this.uploadedFiles.push(file);
       this.uploadedFiles = [...this.uploadedFiles];
       this.onFileUpload.emit(this.uploadedFiles[0]);

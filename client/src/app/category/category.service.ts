@@ -24,6 +24,8 @@ export class CategoryService {
                   name
                 }
                 isItem
+                itemCount
+                categoryCount
               }
               description
               name
@@ -66,6 +68,6 @@ export class CategoryService {
         }
       `,
       variables: { id },
-    }).valueChanges;
+    });
   }
 }

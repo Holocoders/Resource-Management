@@ -96,7 +96,7 @@ export class ItemService {
         }
       `,
       variables: { id },
-    }).valueChanges;
+    });
   }
 
   inventoryHistoryByItem(item: string) {

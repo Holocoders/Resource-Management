@@ -23,7 +23,7 @@ export class FacilitiesService {
           }
         }
       `,
-    }).valueChanges;
+    });
   }
 
   addFacility(name: string, desc: string, file: any) {

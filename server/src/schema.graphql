@@ -128,7 +128,7 @@ type Mutation {
   login(email: String!, password: String!): User!
   reduceQuantity(id: String!, reduceBy: Int!): Item!
   removeFacility(id: String!): Facility!
-  removeNode(id: String!): Boolean!
+  removeNode(id: String!): Node
   removeUser(_id: String!): User!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   updateFacility(updateFacilityInput: UpdateFacilityInput!): Facility!
@@ -150,13 +150,10 @@ type Node {
   parent: Node
 }
 
-union NodeResult = Category | Item
-
 type Query {
   category(id: String!): Category!
   childCategories(id: String!): [Category!]!
   childItems(id: String!): [Item!]!
-  children(id: String!): [NodeResult!]!
   currentUser: User!
   facilities: [Facility!]!
   facility(id: String!): Facility!
