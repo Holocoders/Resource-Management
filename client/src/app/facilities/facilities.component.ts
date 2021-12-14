@@ -36,7 +36,6 @@ export class FacilitiesComponent implements OnInit {
     this.breadCrumbService.popAll();
     this.navbarService.header.next('Facilities');
     const facilityQuery = this.service.getFacilities();
-    facilityQuery.refetch();
     facilityQuery.valueChanges.subscribe((result: any) => {
       this.facilities = result?.data?.facilities;
       this.loading = result.loading;

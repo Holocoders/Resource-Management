@@ -70,6 +70,6 @@ export class ActivityService {
         }
       }
     `;
-    return this.apollo.watchQuery({ query });
+    return this.apollo.watchQuery({ query, fetchPolicy: 'cache-and-network' });
   }
 }

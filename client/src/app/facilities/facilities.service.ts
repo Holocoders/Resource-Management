@@ -23,6 +23,7 @@ export class FacilitiesService {
           }
         }
       `,
+      fetchPolicy: 'cache-and-network'
     });
   }
 

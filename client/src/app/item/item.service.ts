@@ -75,27 +75,29 @@ export class ItemService {
   }
 
   getAllChildren(id: string) {
-    return this.apollo.watchQuery({
-      query: gql`
-        query childItems($id: String!) {
-          childItems(id: $id) {
-            node {
+    const query = gql`
+      query childItems($id: String!) {
+        childItems(id: $id) {
+          node {
+            _id
+            parent {
               _id
-              parent {
-                _id
-              }
-              categoryCount
-              itemCount
-              isItem
             }
-            description
-            name
-            price
-            quantity
+            categoryCount
+            itemCount
+            isItem
           }
+          description
+          name
+          price
+          quantity
         }
-      `,
+      }
+    `;
+    return this.apollo.watchQuery({
+      query,
       variables: { id },
+      fetchPolicy: 'cache-and-network',
     });
   }
 

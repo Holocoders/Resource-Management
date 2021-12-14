@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryService } from '../category/category.service';
 import { NodeService } from './node.service';
 import { BreadcrumbsService } from '../breadcrumbs/breadcrumbs.service';
-import { combineLatest } from 'rxjs';
+import { combineLatest, mergeMap, of } from 'rxjs';
 
 @Component({
   selector: 'app-node',
@@ -16,6 +16,7 @@ import { combineLatest } from 'rxjs';
 export class NodeComponent implements OnInit {
   nodes: (Category | Item)[] = [];
   id = '';
+  loading = false;
   displayAddDialog = false;
 
   constructor(
@@ -30,29 +31,27 @@ export class NodeComponent implements OnInit {
   getNodes(id: string) {
     const items = this.itemService.getAllChildren(id);
     const categories = this.categoryService.getAllChildren(id);
-    items.refetch();
-    categories.refetch();
     return combineLatest(items.valueChanges, categories.valueChanges);
   }
 
   ngOnInit() {
-    this.route.queryParams.subscribe((params) => {
-      this.id = params.id;
-      const observable = this.getNodes(this.id);
-      observable.subscribe((result) => {
+    this.loading = true;
+    this.route.queryParams
+      .pipe(
+        mergeMap((params) => {
+          this.id = params.id;
+          return of(params.id);
+        }),
+        mergeMap((id) => this.getNodes(id))
+      )
+      .subscribe((result) => {
         const [items, categories] = result as any;
-        this.nodes = [];
-        for (const category of categories.data.childCategories) {
-          const temp = new Category();
-          this.nodes.push(Object.assign(temp, category));
-        }
-        for (const item of items.data.childItems) {
-          const temp = new Item();
-          this.nodes.push(Object.assign(temp, item));
-        }
-        this.nodes = [...this.nodes];
+        this.loading = items.loading || categories.loading;
+        this.nodes = [
+          ...categories.data.childCategories,
+          ...items.data.childItems,
+        ];
       });
-    });
   }
 
   closeDialogCategory(event: any) {
