@@ -31,7 +31,9 @@ export class FacilityService {
   async create(createFacilityInput: CreateFacilityInput, createdBy: string) {
     createFacilityInput._id = await this.nodeService.create(null, createdBy);
     const createdFacility = new this.facilityModel(createFacilityInput);
-    createdFacility.save();
+    await createdFacility.save();
+    await this.facilityModel.populate(createdFacility, this.populateObject);
+    // console.log(createdFacility);
     return createdFacility;
   }
 

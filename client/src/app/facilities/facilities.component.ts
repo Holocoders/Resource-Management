@@ -62,6 +62,7 @@ export class FacilitiesComponent implements OnInit {
         const facility = result?.data?.createFacility;
         this.loading = result.loading;
         this.error = result.error;
+        console.log(result);
         this.facilities = Object.assign([], this.facilities);
         this.facilities.push(facility);
         this.facilities = [...this.facilities];
