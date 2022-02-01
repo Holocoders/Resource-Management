@@ -14,7 +14,6 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class InventoryHistoryService {
-
   constructor(
     @InjectModel(InventoryHistory.name)
     private inventoryHistoryModel: Model<InventoryHistoryDocument>,

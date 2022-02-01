@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class FacilitiesService {
           }
         }
       `,
-      fetchPolicy: 'cache-and-network'
+      fetchPolicy: 'cache-and-network',
     });
   }
 
@@ -35,7 +36,7 @@ export class FacilitiesService {
     );
     formData.append('map', '{ "nfile": ["variables.file"] }');
     formData.append('nfile', file);
-    return this.http.post('http://localhost:3000/graphql', formData);
+    return this.http.post(environment.apiUrl, formData);
   }
 
   removeFacility(id: string) {

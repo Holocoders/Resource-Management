@@ -30,7 +30,9 @@ export class ItemHistoryService {
 
   update(updateItemHistoryInput: UpdateItemHistoryInput) {
     const { item, user } = updateItemHistoryInput;
-    return this.itemHistoryModel
-      .findOneAndUpdate({ item, user } as any, updateItemHistoryInput as any);
+    return this.itemHistoryModel.findOneAndUpdate(
+      { item, user } as any,
+      updateItemHistoryInput as any,
+    );
   }
 }

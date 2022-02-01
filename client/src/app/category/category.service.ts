@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -43,7 +44,7 @@ export class CategoryService {
     formData.append('operations', JSON.stringify(operations));
     formData.append('map', JSON.stringify(_map));
     formData.append('file', file, file.name);
-    return this.http.post('http://localhost:3000/graphql', formData);
+    return this.http.post(environment.apiUrl, formData);
   }
 
   getAllChildren(id: string) {
@@ -65,7 +66,7 @@ export class CategoryService {
           name
         }
       }
-    `
+    `;
     return this.apollo.watchQuery({
       query,
       variables: { id },

@@ -5,9 +5,7 @@ import { Apollo, gql } from 'apollo-angular';
   providedIn: 'root',
 })
 export class ActivityService {
-  constructor(
-    private apollo: Apollo,
-  ) {}
+  constructor(private apollo: Apollo) {}
 
   getAllActivities() {
     const query = gql`
