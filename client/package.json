@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --disable-host-check",
+    "start": "ng serve",
     "start:docker": "ng serve --host 0.0.0.0 --disable-host-check --poll 500",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
