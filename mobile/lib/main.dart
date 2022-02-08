@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/widgets/facilties.dart';
 import 'package:resource_management_system/widgets/item/item.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:resource_management_system/widgets/item/detail.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     HttpLink httpLink = HttpLink('http://10.0.2.2:3000/graphql');
 
     AuthLink authLink = AuthLink(
-      getToken: () async => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJfaWQiOiI2MWZlM2U0ODgzOGZlMzE3MmMyODcyMzMiLCJpYXQiOjE2NDQzMTM5NjksImV4cCI6MTY0NDQwMDM2OX0.NwB39ZV6j_y3AI27hkZXgx7fS5-2OINe-SJV3b4z7PY',
+      getToken: () async => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlAeS5jb20iLCJfaWQiOiI2MWIyMmZmNDlhMWVkNjRhZTA1MGFkM2YiLCJpYXQiOjE2NDQzMjU4MzksImV4cCI6MTY0NDQxMjIzOX0.9jqdlOND4cIrA8ZSe3qX3AuZwOncZ9fqs9vM7UVYGAw',
     );
 
     ValueNotifier<GraphQLClient> client = ValueNotifier(
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
             ),
             body: const SingleChildScrollView(
               child: Center(
-                child: Item(itemId: '61fe3ed1838fe3172c287279'),
+                child: Facilities(),
               ),
             ),
           ),
