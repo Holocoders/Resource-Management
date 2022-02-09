@@ -30,16 +30,19 @@ class Facilities extends StatelessWidget {
             return const Text('Loading');
           }
           // print(result.data?['facilities']);
-          return SizedBox(
-            height: 1000,
-            child: ListView.builder(
-              itemCount: result.data?['facilities']?.length ?? 0,
-              itemBuilder: (BuildContext context, int index) {
-                return NodeView(result, index);
-              },
+          return GridView.builder(
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 400,
+              childAspectRatio: 2 / 1,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
             ),
+            itemBuilder: (context, index) {
+              return NodeView(result, index);
+            },
+            itemCount: result.data?['facilities']?.length ?? 0,
           );
         });
   }
 }
-

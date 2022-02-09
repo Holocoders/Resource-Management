@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     HttpLink httpLink = HttpLink('http://10.0.2.2:3000/graphql');
 
     AuthLink authLink = AuthLink(
-      getToken: () async => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlAeS5jb20iLCJfaWQiOiI2MWIyMmZmNDlhMWVkNjRhZTA1MGFkM2YiLCJpYXQiOjE2NDQzMjU4MzksImV4cCI6MTY0NDQxMjIzOX0.9jqdlOND4cIrA8ZSe3qX3AuZwOncZ9fqs9vM7UVYGAw',
+      getToken: () async => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InlAeS5jb20iLCJfaWQiOiI2MWIyMmZmNDlhMWVkNjRhZTA1MGFkM2YiLCJpYXQiOjE2NDQ0MjYyOTMsImV4cCI6MTY0NDUxMjY5M30.e7szVV7UyMoFb5whsn-Yhs5HvrIO-FVjvu3Kc8jFVZg',
     );
 
     ValueNotifier<GraphQLClient> client = ValueNotifier(
