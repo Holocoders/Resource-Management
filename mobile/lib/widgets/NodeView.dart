@@ -1,24 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:resource_management_system/widgets/tags.dart';
 
 class NodeView extends StatelessWidget {
-
   final _node;
   const NodeView(this._node);
 
   @override
   Widget build(BuildContext context) {
-    // final facility = result.data?['facilities'][index];
     return Card(
-        margin: const EdgeInsets.all(10),
         elevation: 2,
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Container(
                 width: double.infinity,
-                color: Colors.lightGreen,
+                color: () {
+                  if (_node['node']['isItem'] == null) {
+                    return Colors.green;
+                  } else {
+                    return _node['node']['isItem']
+                        ? Colors.lightBlueAccent
+                        : Colors.green;
+                  }
+                }(),
                 child: Center(
                   child: Text(
                     _node['name'],
@@ -29,42 +36,33 @@ class NodeView extends StatelessWidget {
               Image(
                 image: NetworkImage(
                     'http://10.0.2.2:3000/${_node['node']['_id']}'),
-                width: 100,
-                height: 100,
+                width: 80,
+                height: 80,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.lightGreen,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Text(
-                        '${_node['node']['categoryCount']} Categories',
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.lightBlueAccent,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Text(
-                        '${_node['node']['itemCount']} Items',
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              () {
+                if (_node['node']['isItem'] == null) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Tag('${_node['node']['categoryCount']} Categories', Colors.green),
+                      Tag('${_node['node']['itemCount']} Items', Colors.lightBlue),
+                    ],
+                  );
+                } else {
+                  return _node['node']['isItem']
+                      ? Tag("quantity : " + _node['quantity'].toString(), Colors.lightBlue)
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Tag('${_node['node']['categoryCount']} Categories', Colors.green),
+                            Tag('${_node['node']['itemCount']} Items', Colors.lightBlue),
+                          ],
+                        );
+                }
+              }()
             ],
           ),
         ));
   }
 }
+

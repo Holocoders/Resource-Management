@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/widgets/FacilityCategory.dart';
 
 import 'NodeView.dart';
 
@@ -10,7 +11,6 @@ class NodesGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const _type = 'facilities';
     return GridView.builder(
       shrinkWrap: true,
       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -20,9 +20,20 @@ class NodesGridView extends StatelessWidget {
         mainAxisSpacing: 20,
       ),
       itemBuilder: (context, index) {
-        return NodeView(data?[_type][index]);
+        return InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => FacilityCategory(data[index]),
+              ),
+            );
+          },
+          splashColor: Theme.of(context).primaryColor,
+          child: NodeView(data?[index]),
+        );
       },
-      itemCount: data?[_type]?.length ?? 0,
+      itemCount: data?.length ?? 0,
     );
   }
 }

@@ -33,7 +33,7 @@ class Facilities extends StatelessWidget {
             return const Text('Loading');
           }
           // print(result.data?['facilities']);
-          return NodesGridView(result.data);
+          return NodesGridView(result.data?['facilities']);
         },
       ),
     );
