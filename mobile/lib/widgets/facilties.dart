@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-
-import 'NodeView.dart';
+import 'NodesGridView.dart';
 
 class Facilities extends StatelessWidget {
   const Facilities({Key? key}) : super(key: key);
@@ -22,7 +21,11 @@ class Facilities extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Query(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Facilities'),
+      ),
+      body: Query(
         options: QueryOptions(document: gql(_getAllFacilities)),
         builder: (QueryResult result,
             {VoidCallback? refetch, FetchMore? fetchMore}) {
@@ -30,19 +33,9 @@ class Facilities extends StatelessWidget {
             return const Text('Loading');
           }
           // print(result.data?['facilities']);
-          return GridView.builder(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 400,
-              childAspectRatio: 2 / 1,
-              crossAxisSpacing: 20,
-              mainAxisSpacing: 20,
-            ),
-            itemBuilder: (context, index) {
-              return NodeView(result, index);
-            },
-            itemCount: result.data?['facilities']?.length ?? 0,
-          );
-        });
+          return NodesGridView(result.data);
+        },
+      ),
+    );
   }
 }
