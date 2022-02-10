@@ -16,8 +16,8 @@ class NodesGridView extends StatelessWidget {
         ? GridView.builder(
             shrinkWrap: true,
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 400,
-              childAspectRatio: 2 / 1,
+              maxCrossAxisExtent: 500,
+              childAspectRatio: 3 / 2,
               crossAxisSpacing: 20,
               mainAxisSpacing: 20,
             ),
@@ -44,7 +44,7 @@ class NodesGridView extends StatelessWidget {
             itemCount: data?.length ?? 0,
           )
         : const Center(
-            child: Text('No nodes found'),
+            child: Text('No data found'),
           );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:resource_management_system/widgets/tags.dart';
 
 class NodeView extends StatelessWidget {
   final _node;
@@ -26,11 +25,36 @@ class NodeView extends StatelessWidget {
                         : Colors.green;
                   }
                 }(),
-                child: Center(
-                  child: Text(
-                    _node['name'],
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Spacer(
+                      flex: 1,
+                    ),
+                    Flexible(
+                      flex: 3,
+                      child: Text(
+                        _node['name'],
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
+                    ),
+                    Flexible(
+                      fit: FlexFit.loose,
+                      flex: 1,
+                      child: IconButton(
+                        onPressed: () => showDialog(
+                            context: context,
+                            builder: (context){
+                              return AlertDialog(
+                                title: const Text('Description'),
+                                content: Text(_node['description']),
+                              );
+                            }
+                        ),
+                        icon: const Icon(Icons.info_outline_rounded),
+                      ),
+                    )
+                  ],
                 ),
               ),
               Image(
@@ -44,18 +68,36 @@ class NodeView extends StatelessWidget {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Tag('${_node['node']['categoryCount']} Categories', Colors.green),
-                      Tag('${_node['node']['itemCount']} Items', Colors.lightBlue),
+                      Chip(
+                        label: Text(
+                            '${_node['node']['categoryCount']} Categories'),
+                        backgroundColor: Colors.green,
+                      ),
+                      Chip(
+                        label: Text('${_node['node']['itemCount']} Items'),
+                        backgroundColor: Colors.lightBlue,
+                      ),
                     ],
                   );
                 } else {
                   return _node['node']['isItem']
-                      ? Tag("quantity : " + _node['quantity'].toString(), Colors.lightBlue)
+                      ? Chip(
+                          label: Text('quantity : ${_node['quantity']}'),
+                          backgroundColor: Colors.blueAccent,
+                        )
                       : Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Tag('${_node['node']['categoryCount']} Categories', Colors.green),
-                            Tag('${_node['node']['itemCount']} Items', Colors.lightBlue),
+                            Chip(
+                              label: Text(
+                                  '${_node['node']['categoryCount']} Categories'),
+                              backgroundColor: Colors.green,
+                            ),
+                            Chip(
+                              label:
+                                  Text('${_node['node']['itemCount']} Items'),
+                              backgroundColor: Colors.lightBlue,
+                            ),
                           ],
                         );
                 }
@@ -65,4 +107,3 @@ class NodeView extends StatelessWidget {
         ));
   }
 }
-
