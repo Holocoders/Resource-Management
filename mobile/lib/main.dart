@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           scaffoldBackgroundColor: Colors.white,
         ),
-        routes: {
+        routes: { // TODO : Currently using basic navigator method, will switch to named routes later.
           '/': (context) => const Facilities(),
           // 'facility': (context) => const Item(),
           // '/item': (context) => Item(),
