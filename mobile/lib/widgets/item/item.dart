@@ -16,14 +16,21 @@ class Item extends StatefulWidget {
 class _ItemState extends State<Item> {
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Column(
-        children: [
-          DetailView(itemId: widget.itemId),
-          AvailabilityView(),
-          RecentView()
-        ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Item'),
+      ),
+      body: SingleChildScrollView(
+        child: Align(
+          alignment: Alignment.topCenter,
+          child: Column(
+            children: [
+              DetailView(itemId: widget.itemId),
+              AvailabilityView(),
+              RecentView()
+            ],
+          ),
+        ),
       ),
     );
   }

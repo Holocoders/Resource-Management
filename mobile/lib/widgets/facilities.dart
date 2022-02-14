@@ -29,6 +29,7 @@ class Facilities extends StatelessWidget {
         options: QueryOptions(document: gql(_getAllFacilities)),
         builder: (QueryResult result,
             {VoidCallback? refetch, FetchMore? fetchMore}) {
+
           if (result.isLoading) {
             return const Text('Loading');
           }
