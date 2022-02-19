@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/widgets/auth/auth_home.dart';
 import 'package:resource_management_system/widgets/facilities.dart';
 import 'package:resource_management_system/widgets/item/item.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
         ),
         routes: { // TODO : Currently using basic navigator method, will switch to named routes later.
-          '/': (context) => const Facilities(),
+          '/': (context) => const AuthHome(),
           // 'facility': (context) => const Item(),
           // '/item': (context) => Item(),
         },

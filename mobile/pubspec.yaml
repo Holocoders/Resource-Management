@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   graphql_flutter: ^5.0.0
   syncfusion_flutter_datepicker: ^19.4.50
+  reactive_forms: ^11.0.1
 
 dev_dependencies:
   flutter_test:
