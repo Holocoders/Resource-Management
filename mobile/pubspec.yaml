@@ -37,6 +37,8 @@ dependencies:
   graphql_flutter: ^5.0.0
   syncfusion_flutter_datepicker: ^19.4.50
   reactive_forms: ^11.0.1
+  shared_preferences: ^2.0.13
+  streaming_shared_preferences: ^2.0.0
 
 dev_dependencies:
   flutter_test:

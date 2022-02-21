@@ -33,7 +33,6 @@ class SignupForm extends StatelessWidget {
         ),
         'password': ['', Validators.required],
         'confPassword': ['', Validators.required],
-        'rememberMe': false,
       }, [
         _mustMatch('password', 'confPassword'),
       ]);
@@ -140,27 +139,30 @@ class SignupForm extends StatelessWidget {
                 autocorrect: false,
               ),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ReactiveCheckbox(formControlName: 'rememberMe'),
-                  const Text('Remember me')
-                ],
-              ),
-              SizedBox(height: 20),
               Mutation(
                 options: MutationOptions(
                   document: gql(signUpMutation),
                   onCompleted: (dynamic data) {
+                    print(data);
                     // TODO save user token and credentials and move to home page
                   },
-                  onError: (OperationException? error) {
-
-                  },
+                  onError: (OperationException? error) {},
                 ),
                 builder: (RunMutation runMutation, QueryResult? result) {
                   return ElevatedButton(
                     child: Text('Sign Up'),
+                    style: ButtonStyle(
+                      foregroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.green),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: const BorderSide(color: Colors.green))),
+                      minimumSize:
+                          MaterialStateProperty.all<Size>(const Size(200, 40)),
+                    ),
                     onPressed: () {
                       if (formGroup.valid) {
                         runMutation(<String, dynamic>{
@@ -177,6 +179,27 @@ class SignupForm extends StatelessWidget {
                   );
                 },
               ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                child: const Text(
+                  "Existing user? Sign In",
+                  style: TextStyle(fontSize: 14),
+                ),
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: const BorderSide(color: Colors.green))),
+                  minimumSize:
+                      MaterialStateProperty.all<Size>(const Size(200, 40)),
+                ),
+                onPressed: () => {Navigator.of(context).pop("flip")},
+              ),
+              const SizedBox(height: 20),
             ],
           );
         },

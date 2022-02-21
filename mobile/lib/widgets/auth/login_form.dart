@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -15,7 +19,6 @@ class _LoginFormState extends State<LoginForm> {
           validators: [Validators.required, Validators.email],
         ),
         'password': ['', Validators.required],
-        'rememberMe': false,
       });
 
   @override
@@ -82,19 +85,18 @@ class _LoginFormState extends State<LoginForm> {
                 autocorrect: false,
               ),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ReactiveCheckbox(formControlName: 'rememberMe'),
-                  const Text('Remember me')
-                ],
-              ),
-              SizedBox(height: 20),
               Mutation(
                 options: MutationOptions(
                   document: gql(loginMutation),
-                  onCompleted: (dynamic data) {
-                    // TODO save user token and credentials and move to home page
+                  onCompleted: (dynamic data) async {
+                    var user = {
+                      'name': data['login']['name'],
+                      'token': data['login']['token'],
+                      'email': formGroup.value['email'],
+                    };
+                    final userPrefs = await StreamingSharedPreferences.instance;
+                    userPrefs.setString('user', json.encode(user));
+                    Navigator.of(context).pushReplacementNamed('/facilities');
                   },
                   onError: (OperationException? error) {
 
@@ -103,6 +105,18 @@ class _LoginFormState extends State<LoginForm> {
                 builder: (RunMutation runMutation, QueryResult? result) {
                   return ElevatedButton(
                     child: Text('Sign In'),
+                    style: ButtonStyle(
+                      foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                      backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.green),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(18.0),
+                              side: const BorderSide(color: Colors.green))),
+                      minimumSize:
+                      MaterialStateProperty.all<Size>(const Size(200, 40)),
+                    ),
                     onPressed: () {
                       if (formGroup.valid) {
                         runMutation(<String, dynamic>{
@@ -116,6 +130,27 @@ class _LoginFormState extends State<LoginForm> {
                   );
                 },
               ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                child: const Text(
+                  "New user? Sign Up",
+                  style: TextStyle(fontSize: 14),
+                ),
+                style: ButtonStyle(
+                  foregroundColor:
+                  MaterialStateProperty.all<Color>(Colors.black),
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.white),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: const BorderSide(color: Colors.green))),
+                  minimumSize:
+                  MaterialStateProperty.all<Size>(const Size(200, 40)),
+                ),
+                onPressed: () => {Navigator.of(context).pop("flip")},
+              ),
+              const SizedBox(height: 20),
             ],
           );
         },

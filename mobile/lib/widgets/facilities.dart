@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/widgets/base_appbar.dart';
 import 'NodesGridView.dart';
 
 class Facilities extends StatelessWidget {
@@ -22,7 +23,8 @@ class Facilities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: BaseAppBar(
+        appBar: AppBar(),
         title: const Text('Facilities'),
       ),
       body: Query(
