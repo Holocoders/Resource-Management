@@ -31,6 +31,7 @@ export class ItemService {
     @Inject(forwardRef(() => NodeService))
     private nodeService: NodeService,
     private inventoryHistoryService: InventoryHistoryService,
+    @Inject(forwardRef(() => ItemHistoryService))
     private itemHistoryService: ItemHistoryService,
   ) {}
 

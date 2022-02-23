@@ -162,6 +162,7 @@ type Query {
   inventoryHistoryByItem(item: String!): [InventoryHistory!]!
   inventoryHistoryByUser(user: String!): [InventoryHistory!]!
   item(id: String!): Item!
+  itemAvailability(dueDate: String!, issueDate: String!, item: String!): Int!
   itemHistory: [ItemHistory!]!
   itemHistoryByItem(item: String!): [ItemHistory!]!
   itemHistoryByUser(user: String!): [ItemHistory!]!

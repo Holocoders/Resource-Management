@@ -15,7 +15,7 @@ import { ItemHistoryModule } from '../item-history/item-history.module';
     forwardRef(() => NodeModule),
     SharedModule,
     InventoryHistoryModule,
-    ItemHistoryModule,
+    forwardRef(() => ItemHistoryModule),
   ],
   exports: [ItemService],
 })
