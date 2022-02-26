@@ -82,7 +82,7 @@ class NodeView extends StatelessWidget {
                 } else {
                   return _node['node']['isItem']
                       ? Chip(
-                          label: Text('quantity : ${_node['quantity']}'),
+                          label: Text('Quantity : ${_node['quantity']}'),
                           backgroundColor: Colors.blueAccent,
                         )
                       : Row(

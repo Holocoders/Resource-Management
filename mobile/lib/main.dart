@@ -53,11 +53,11 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.green,
                 visualDensity: VisualDensity.adaptivePlatformDensity,
-                scaffoldBackgroundColor: Colors.white,
+                scaffoldBackgroundColor: Colors.white
               ),
               initialRoute: user == '' ? '/auth' : '/facilities',
               routes: { // TODO : Currently using basic navigator method, will switch to named routes later.
-                '/auth': (context) => AuthHome(),
+                '/auth': (context) => const AuthHome(),
                 '/facilities': (context) => const Facilities(),
                 // 'facility': (context) => const Item(),
                 // '/item': (context) => Item(),

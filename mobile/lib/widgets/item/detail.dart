@@ -49,8 +49,11 @@ class _DetailViewState extends State<DetailView> {
           }
 
           return Card(
-            elevation: 4,
+            color: Colors.white60,
             margin: const EdgeInsets.all(8),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(16)),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisSize: MainAxisSize.min,
@@ -80,6 +83,12 @@ class _DetailViewState extends State<DetailView> {
                   child: Text(
                     'Rs ${result.data?['item']['price']}',
                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: Text(
+                    'Quantity: ${result.data?['item']['quantity']}',
                   ),
                 ),
                 const SizedBox(height: 10),

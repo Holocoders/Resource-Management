@@ -26,7 +26,7 @@ class _ItemState extends State<Item> {
           child: Column(
             children: [
               DetailView(itemId: widget.itemId),
-              AvailabilityView(),
+              AvailabilityView(itemId: widget.itemId),
               RecentView()
             ],
           ),
