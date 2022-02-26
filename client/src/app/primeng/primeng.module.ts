@@ -59,6 +59,7 @@ const primeNgModules = [
   ToastModule,
   TooltipModule,
   ProgressSpinnerModule,
+  CheckboxModule,
 ];
 
 @NgModule({

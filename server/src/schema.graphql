@@ -2,6 +2,12 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+enum AllowedItemActivity {
+  BOTH
+  BUY
+  RENT
+}
+
 type Category {
   _id: Node
   description: String
@@ -35,10 +41,10 @@ input CreateInventoryHistoryInput {
 
 input CreateItemHistoryInput {
   activityType: ItemActivity!
-  cancelled: Boolean!
-  dueDate: DateTime
+  cancelled: Boolean = false
+  dueDate: DateTime = null
   issueDate: DateTime
-  issued: Boolean!
+  issued: Boolean = false
   item: String!
   quantity: Float!
   user: String
@@ -46,6 +52,7 @@ input CreateItemHistoryInput {
 
 input CreateItemInput {
   _id: String
+  allowedItemActivities: String!
   description: String
   name: String!
   parent: String!
@@ -90,6 +97,7 @@ type InventoryHistory {
 
 type Item {
   _id: Node
+  allowedItemActivities: AllowedItemActivity
   description: String
   name: String!
 
@@ -192,10 +200,10 @@ input UpdateInventoryHistoryInput {
 
 input UpdateItemHistoryInput {
   activityType: ItemActivity
-  cancelled: Boolean
-  dueDate: DateTime
+  cancelled: Boolean = false
+  dueDate: DateTime = null
   issueDate: DateTime
-  issued: Boolean
+  issued: Boolean = false
   item: String
   quantity: Float
   user: String
@@ -203,6 +211,7 @@ input UpdateItemHistoryInput {
 
 input UpdateItemInput {
   _id: String
+  allowedItemActivities: String
   description: String
   name: String
   parent: String

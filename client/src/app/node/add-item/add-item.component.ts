@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-add-item',
@@ -15,13 +16,22 @@ export class AddItemComponent {
     description: new FormControl(''),
     quantity: new FormControl(0, [Validators.required]),
     price: new FormControl(null, [Validators.required]),
+    allowedItemActivities: new FormControl([]),
   });
 
   constructor(private formBuilder: FormBuilder) {}
 
   saveItem() {
+    let activity = 'BOTH';
+    if (!this.addItemForm.valid) {
+      return;
+    }
+    if (this.addItemForm.value['allowedItemActivities'].length === 1) {
+      activity = this.addItemForm.value['allowedItemActivities'][0];
+    }
     const itemObj = this.addItemForm.value;
     itemObj.parent = this.parent;
+    itemObj.allowedItemActivities = activity;
     this.addItemForm.reset();
     this.addItemForm.clearValidators();
     this.onDialogClose.emit({

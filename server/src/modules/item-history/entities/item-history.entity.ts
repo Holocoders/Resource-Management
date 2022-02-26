@@ -5,8 +5,8 @@ import { Item } from '../../item/entities/item.entity';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export enum ItemActivity {
-  BUY,
-  RENT,
+  BUY = 'BUY',
+  RENT = 'RENT',
 }
 
 registerEnumType(ItemActivity, { name: 'ItemActivity' });

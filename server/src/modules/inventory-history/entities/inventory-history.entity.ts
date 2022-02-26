@@ -5,8 +5,8 @@ import { Item } from '../../item/entities/item.entity';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export enum InventoryActivity {
-  ADD,
-  REMOVE,
+  ADD = 'ADD',
+  REMOVE = 'REMOVE',
 }
 
 registerEnumType(InventoryActivity, { name: 'InventoryActivity' });

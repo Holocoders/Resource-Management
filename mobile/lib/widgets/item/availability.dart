@@ -19,12 +19,13 @@ class _AvailabilityViewState extends State<AvailabilityView> {
   int _maxCount = -1;
   DateTime? _startDate;
   DateTime? _endDate;
+  final timeZoneOffset = DateTime.now().timeZoneOffset;
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     setState(() {
       if (args.value is PickerDateRange) {
-        _startDate = args.value.startDate;
-        _endDate = args.value.endDate;
+        _startDate = args.value.startDate.add(timeZoneOffset);
+        _endDate = args.value.endDate?.add(timeZoneOffset) ?? args.value.startDate.add(timeZoneOffset);
         _range = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'
             ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
       }
@@ -54,20 +55,29 @@ class _AvailabilityViewState extends State<AvailabilityView> {
   }
   """;
 
+  String getItem = """
+  mutation createItemHistory (\$createItemHistoryInput: CreateItemHistoryInput!) {
+    createItemHistory (createItemHistoryInput: \$createItemHistoryInput) {
+      item {
+        _id {
+          _id
+        }
+      }
+    }
+  }
+  """;
+
   Widget _createIncrementDecrementButton(
-      IconData icon, Color fillColor, CounterCallback onPressed) {
-    return RawMaterialButton(
-      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-      constraints: const BoxConstraints(minWidth: 32.0, minHeight: 32.0),
-      onPressed: onPressed,
-      elevation: 2.0,
-      fillColor: fillColor,
-      child: Icon(
-        icon,
-        color: Colors.black,
-        size: 12.0,
-      ),
-      shape: const CircleBorder(),
+      IconData icon, Color fillColor, CounterCallback onPressed, bool disabled) {
+    return ElevatedButton(
+        onPressed: disabled ? null : onPressed,
+        child: Icon(icon, color: Colors.black),
+        style: ButtonStyle(
+            backgroundColor: disabled ? null : MaterialStateProperty.all<Color>(fillColor),
+            shape: MaterialStateProperty.all<CircleBorder>(
+                const CircleBorder()
+            )
+        )
     );
   }
 
@@ -84,6 +94,7 @@ class _AvailabilityViewState extends State<AvailabilityView> {
           onSelectionChanged: _onSelectionChanged,
           selectionMode: DateRangePickerSelectionMode.range,
           enablePastDates: false,
+          minDate: DateTime.now(),
           maxDate: DateTime.now().add(const Duration(days: 30)),
         ),
         const SizedBox(height: 10),
@@ -120,8 +131,8 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                 QueryResult result = await client.query(QueryOptions(
                   document: gql(itemAvailability),
                   variables: <String, dynamic>{
-                    'issueDate': _startDate?.toString(),
-                    'dueDate': _endDate?.toString() ?? _startDate?.toString(),
+                    'issueDate': _startDate?.toIso8601String(),
+                    'dueDate': _endDate?.toIso8601String() ?? _startDate?.toIso8601String(),
                     'item': widget.itemId,
                   },
                 ));
@@ -172,11 +183,11 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                     Icons.remove,
                     Colors.red,
                     _decrement,
+                    _currentCount <= 0
                   ),
                   const SizedBox(width: 5),
                   FocusScope(
                     child: Focus(
-                      onFocusChange: (focus) => print("focus: $focus"),
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.25,
                         child: TextField(
@@ -199,6 +210,7 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                     Icons.add,
                     Colors.green,
                     _increment,
+                    _currentCount >= _maxCount
                   ),
                 ],
               ),
@@ -211,17 +223,62 @@ class _AvailabilityViewState extends State<AvailabilityView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.check),
-                    label: const Text('Buy'),
-                    onPressed: _currentCount == 0 ? null : () {},
+                  Mutation(
+                      options: MutationOptions(
+                        document: gql(getItem),
+                        onCompleted: (dynamic data) {
+                          setState(() {
+                            _currentCount = 0;
+                            _maxCount = -1;
+                          });
+                        }
+                      ),
+                      builder: (RunMutation runMutation, QueryResult? result) {
+                        return ElevatedButton.icon(
+                          icon: const Icon(Icons.check),
+                          label: const Text('Buy'),
+                          onPressed: _currentCount == 0 ? null : () {
+                            runMutation({
+                              'createItemHistoryInput' : {
+                                'item': widget.itemId,
+                                'quantity': _currentCount,
+                                'activityType': 'BUY',
+                                'issueDate': _startDate.toString()
+                              }
+                            });
+                          },
+                        );
+                      },
                   ),
                   const SizedBox(width: 10),
-                  ElevatedButton.icon(
-                    icon: const Icon(Icons.vpn_key),
-                    label: const Text('Borrow'),
-                    onPressed: _currentCount == 0 ? null : () {},
-                  ),
+                  Mutation(
+                    options: MutationOptions(
+                        document: gql(getItem),
+                        onCompleted: (dynamic data) {
+                          setState(() {
+                            _currentCount = 0;
+                            _maxCount = -1;
+                          });
+                        }
+                    ),
+                    builder: (RunMutation runMutation, QueryResult? result) {
+                      return ElevatedButton.icon(
+                        icon: const Icon(Icons.vpn_key),
+                        label: const Text('Borrow'),
+                        onPressed: _currentCount == 0 ? null : () {
+                          runMutation({
+                            'createItemHistoryInput' : {
+                              'item': widget.itemId,
+                              'quantity': _currentCount,
+                              'activityType': 'RENT',
+                              'issueDate': _startDate.toString(),
+                              'dueDate': _endDate.toString()
+                            }
+                          });
+                        },
+                      );
+                    },
+                  )
                 ],
               ),
               const SizedBox(height: 10),

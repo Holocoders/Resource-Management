@@ -18,6 +18,9 @@ export class AddCategoryComponent {
   constructor(private formBuilder: FormBuilder) {}
 
   saveCategory() {
+    if (!this.addCategoryForm.valid) {
+      return;
+    }
     const obj = this.addCategoryForm.value;
     obj.parent = this.parent;
     this.addCategoryForm.reset();

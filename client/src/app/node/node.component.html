@@ -19,7 +19,7 @@
 
 <p-dialog [(visible)]="displayAddDialog" [draggable]="false" [modal]="true" [position]="'top'"
           [resizable]="false" [showHeader]="false" styleClass="w-full">
-  <div class="card mt-4">
+  <div class="card mt-4" *ngIf="displayAddDialog">
     <p-tabView>
       <p-tabPanel header="Category" leftIcon="pi pi-th-large" tooltip="Add New Category">
         <app-add-category (onDialogClose)="closeDialogCategory($event)" [parent]="id"></app-add-category>

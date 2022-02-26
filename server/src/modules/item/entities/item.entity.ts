@@ -1,9 +1,17 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { Node } from '../../node/entities/node.entity';
 
 export type ItemDocument = Item & Document;
+
+export enum AllowedItemActivity {
+  BUY = 'BUY',
+  RENT = 'RENT',
+  BOTH = 'BOTH',
+}
+
+registerEnumType(AllowedItemActivity, { name: 'AllowedItemActivity' });
 
 @Schema({})
 @ObjectType()
@@ -33,6 +41,10 @@ export class Item {
 
   @Prop({ default: 0 })
   quantity?: number;
+
+  @Prop({ default: AllowedItemActivity.BOTH })
+  @Field(() => AllowedItemActivity)
+  allowedItemActivities?: AllowedItemActivity;
 }
 
 export const ItemSchema = SchemaFactory.createForClass(Item);

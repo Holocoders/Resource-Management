@@ -8,7 +8,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/auth.guard';
 
 @Resolver(() => ItemHistory)
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 export class ItemHistoryResolver {
   constructor(private readonly itemHistoryService: ItemHistoryService) {}
 

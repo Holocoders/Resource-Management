@@ -34,6 +34,11 @@ type Category {
     picture: Image
 }
 
+enum AllowedItemActivity {
+    BUY
+    RENT
+}
+
 type Item {
     id: Node!
     name: String
@@ -42,6 +47,7 @@ type Item {
     description: String
     createdBy: User!
     quantity: Int!
+    allowedActivity: AllowedItemActivity
 }
 
 type ItemFrequency {

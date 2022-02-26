@@ -45,6 +45,16 @@
             locale="en-IN" mode="currency" styleClass="w-full">
           </p-inputNumber>
         </div>
+        <div class="p-field flex flex-column mt-4">
+          <label>
+            <h6 class="mb-1">Allowed actions</h6>
+          </label>
+          <div class="flex flex-row mt-2">
+            <p-checkbox label="Buy" name="buy" value="BUY" inputId="buy" [formControl]="$any(addItemForm).controls['allowedItemActivities']"></p-checkbox>
+            <div style="width: 10px;"></div>
+            <p-checkbox label="Rent" name="buy" value="RENT" inputId="rent" [formControl]="$any(addItemForm).controls['allowedItemActivities']"></p-checkbox>
+          </div>
+        </div>
         <div
           *ngIf="addItemForm.controls['price'].invalid && (addItemForm.controls['price'].dirty || addItemForm.controls['price'].touched)">
           <small *ngIf="addItemForm.controls['price'].errors?.required" class="p-error">Price is required</small>

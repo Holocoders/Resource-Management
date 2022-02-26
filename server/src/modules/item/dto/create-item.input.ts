@@ -9,4 +9,5 @@ export class CreateItemInput {
   description?: string;
   quantity?: number;
   parent: string;
+  allowedItemActivities: string;
 }
