@@ -6,12 +6,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { PrimengModule } from '../primeng/primeng.module';
 import { SidebarModule } from 'primeng/sidebar';
 import { UserModule } from '../user/user.module';
-import {
-  SuggestImagesComponent
-} from './suggest-images/suggest-images.component';
-import {
-  NodeGridItemComponent
-} from './node-grid-item/node-grid-item.component';
+import { SuggestImagesComponent } from './suggest-images/suggest-images.component';
+import { NodeGridItemComponent } from './node-grid-item/node-grid-item.component';
 import { LoaderComponent } from './loader/loader.component';
 import { FormsModule } from '@angular/forms';
 
