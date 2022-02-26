@@ -44,18 +44,18 @@ ItemSchema.virtual('node').get(function () {
 ItemSchema.set('toJSON', {
   virtuals: true,
   versionKey: false,
-  transform: (doc, ret) => {
-    delete ret._id;
-    delete ret.id;
+  transform: (document, returnValue) => {
+    delete returnValue._id;
+    delete returnValue.id;
   },
 });
 
 ItemSchema.set('toObject', {
   virtuals: true,
   versionKey: false,
-  transform: (doc, ret) => {
-    delete ret._id;
-    delete ret.id;
+  transform: (document, returnValue) => {
+    delete returnValue._id;
+    delete returnValue.id;
   },
 });
 

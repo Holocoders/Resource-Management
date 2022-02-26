@@ -41,15 +41,15 @@ export class ItemService {
       createdBy,
       true,
     );
-    const itemDoc = await new this.itemModel(createItemInput).save();
-    await this.itemModel.populate(itemDoc, this.populateObject);
+    const itemDocument = await new this.itemModel(createItemInput).save();
+    await this.itemModel.populate(itemDocument, this.populateObject);
     const createInventoryHistoryInput = new CreateInventoryHistoryInput();
     createInventoryHistoryInput.item = createItemInput._id;
     createInventoryHistoryInput.user = createdBy;
     createInventoryHistoryInput.quantity = createItemInput.quantity;
     createInventoryHistoryInput.activityType = InventoryActivity.ADD;
     await this.inventoryHistoryService.create(createInventoryHistoryInput);
-    return itemDoc;
+    return itemDocument;
   }
 
   async getAllChildren(id) {

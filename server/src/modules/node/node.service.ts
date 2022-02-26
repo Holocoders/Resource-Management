@@ -67,7 +67,7 @@ export class NodeService {
       parent: id,
       isItem: returnItems,
     } as any);
-    nodes = nodes.map((val) => val._id);
+    nodes = nodes.map((value) => value._id);
     return nodes;
   }
 

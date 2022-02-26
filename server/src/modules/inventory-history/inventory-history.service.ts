@@ -1,10 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import {
-  CreateInventoryHistoryInput
-} from './dto/create-inventory-history.input';
-import {
-  UpdateInventoryHistoryInput
-} from './dto/update-inventory-history.input';
+import { CreateInventoryHistoryInput } from './dto/create-inventory-history.input';
+import { UpdateInventoryHistoryInput } from './dto/update-inventory-history.input';
 import { InjectModel } from '@nestjs/mongoose';
 import {
   InventoryHistory,

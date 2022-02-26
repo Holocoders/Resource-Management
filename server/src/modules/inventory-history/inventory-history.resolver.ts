@@ -1,12 +1,8 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { InventoryHistoryService } from './inventory-history.service';
 import { InventoryHistory } from './entities/inventory-history.entity';
-import {
-  CreateInventoryHistoryInput
-} from './dto/create-inventory-history.input';
-import {
-  UpdateInventoryHistoryInput
-} from './dto/update-inventory-history.input';
+import { CreateInventoryHistoryInput } from './dto/create-inventory-history.input';
+import { UpdateInventoryHistoryInput } from './dto/update-inventory-history.input';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/auth.guard';
 import { CurrentUser } from '../../decorators/auth.decorator';
@@ -22,7 +18,7 @@ export class InventoryHistoryResolver {
   createInventoryHistory(
     @CurrentUser() user,
     @Args('createInventoryHistoryInput')
-      createInventoryHistoryInput: CreateInventoryHistoryInput,
+    createInventoryHistoryInput: CreateInventoryHistoryInput,
   ) {
     createInventoryHistoryInput.user =
       createInventoryHistoryInput.user || user._id;
@@ -51,7 +47,7 @@ export class InventoryHistoryResolver {
   @Mutation(() => InventoryHistory)
   updateInventoryHistory(
     @Args('updateInventoryHistoryInput')
-      updateInventoryHistoryInput: UpdateInventoryHistoryInput,
+    updateInventoryHistoryInput: UpdateInventoryHistoryInput,
   ) {
     return this.inventoryHistoryService.update(updateInventoryHistoryInput);
   }

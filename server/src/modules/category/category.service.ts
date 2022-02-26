@@ -34,11 +34,14 @@ export class CategoryService {
       createCategoryInput.parent,
       createdBy,
     );
-    const categoryDoc = await new this.categoryModel(
+    const categoryDocument = await new this.categoryModel(
       createCategoryInput,
     ).save();
-    await this.categoryModel.populate(categoryDoc, this.populateCategoryObject);
-    return categoryDoc;
+    await this.categoryModel.populate(
+      categoryDocument,
+      this.populateCategoryObject,
+    );
+    return categoryDocument;
   }
 
   async getAllChildren(id) {

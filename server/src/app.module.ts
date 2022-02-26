@@ -15,12 +15,12 @@ import { SharedModule } from './modules/shared/shared.module';
 import { InventoryHistoryModule } from './modules/inventory-history/inventory-history.module';
 import { NodeModule } from './modules/node/node.module';
 
-const env = process.env.NODE_ENV || 'dev';
+const environment = process.env.NODE_ENV || 'dev';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.env.${env}`,
+      envFilePath: `.env.${environment}`,
     }),
     MongooseModule.forRoot(process.env.MONGO_URL, {
       useNewUrlParser: true,

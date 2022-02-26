@@ -38,18 +38,18 @@ CategorySchema.virtual('node').get(function () {
 CategorySchema.set('toJSON', {
   virtuals: true,
   versionKey: false,
-  transform: (doc, ret) => {
-    delete ret._id;
-    delete ret.id;
+  transform: (document, returnValue) => {
+    delete returnValue._id;
+    delete returnValue.id;
   },
 });
 
 CategorySchema.set('toObject', {
   virtuals: true,
   versionKey: false,
-  transform: (doc, ret) => {
-    delete ret._id;
-    delete ret.id;
+  transform: (document, returnValue) => {
+    delete returnValue._id;
+    delete returnValue.id;
   },
 });
 
