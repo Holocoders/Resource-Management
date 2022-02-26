@@ -6,8 +6,8 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 typedef CounterCallback = void Function();
 
 class AvailabilityView extends StatefulWidget {
-  final String itemId;
-  const AvailabilityView({Key? key, required this.itemId}) : super(key: key);
+  final Map<String, dynamic> item;
+  const AvailabilityView({Key? key, required this.item}) : super(key: key);
 
   @override
   _AvailabilityViewState createState() => _AvailabilityViewState();
@@ -97,16 +97,9 @@ class _AvailabilityViewState extends State<AvailabilityView> {
           minDate: DateTime.now(),
           maxDate: DateTime.now().add(const Duration(days: 30)),
         ),
-        const SizedBox(height: 10),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Visibility(
-                child: Text('Selected range: $_range'),
-                visible: _range.isNotEmpty),
-          ],
+        Visibility(
+          child: Text('Selected range: $_range'),
+          visible: _range.isNotEmpty,
         ),
         const SizedBox(height: 10),
         GraphQLConsumer(
@@ -133,7 +126,7 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                   variables: <String, dynamic>{
                     'issueDate': _startDate?.toIso8601String(),
                     'dueDate': _endDate?.toIso8601String() ?? _startDate?.toIso8601String(),
-                    'item': widget.itemId,
+                    'item': widget.item['node']['_id'],
                   },
                 ));
                 if (result.hasException) {
@@ -173,7 +166,7 @@ class _AvailabilityViewState extends State<AvailabilityView> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               const SizedBox(height: 10),
-              const Text("Select number of items to buy/borrow"),
+              const Text("Select number of items to buy/rent/borrow."),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -216,22 +209,23 @@ class _AvailabilityViewState extends State<AvailabilityView> {
               ),
               const SizedBox(height: 10),
               Visibility(
-                child: const Text('You need to buy or borrow atleast 1 item.'),
+                child: const Text('You need to get atleast 1 item.'),
                 visible: _currentCount == 0,
               ),
               const SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Mutation(
+                  Visibility(
+                    child: Mutation(
                       options: MutationOptions(
-                        document: gql(getItem),
-                        onCompleted: (dynamic data) {
-                          setState(() {
-                            _currentCount = 0;
-                            _maxCount = -1;
-                          });
-                        }
+                          document: gql(getItem),
+                          onCompleted: (dynamic data) {
+                            setState(() {
+                              _currentCount = 0;
+                              _maxCount = -1;
+                            });
+                          }
                       ),
                       builder: (RunMutation runMutation, QueryResult? result) {
                         return ElevatedButton.icon(
@@ -240,7 +234,7 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                           onPressed: _currentCount == 0 ? null : () {
                             runMutation({
                               'createItemHistoryInput' : {
-                                'item': widget.itemId,
+                                'item': widget.item['node']['_id'],
                                 'quantity': _currentCount,
                                 'activityType': 'BUY',
                                 'issueDate': _startDate.toString()
@@ -249,35 +243,40 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                           },
                         );
                       },
+                    ),
+                    visible: widget.item['allowedItemActivities'] == 'BUY' || widget.item['allowedItemActivities'] == 'BOTH',
                   ),
                   const SizedBox(width: 10),
-                  Mutation(
-                    options: MutationOptions(
-                        document: gql(getItem),
-                        onCompleted: (dynamic data) {
-                          setState(() {
-                            _currentCount = 0;
-                            _maxCount = -1;
-                          });
-                        }
+                  Visibility(
+                    child: Mutation(
+                      options: MutationOptions(
+                          document: gql(getItem),
+                          onCompleted: (dynamic data) {
+                            setState(() {
+                              _currentCount = 0;
+                              _maxCount = -1;
+                            });
+                          }
+                      ),
+                      builder: (RunMutation runMutation, QueryResult? result) {
+                        return ElevatedButton.icon(
+                          icon: const Icon(Icons.vpn_key),
+                          label: const Text('Rent/Borrow'),
+                          onPressed: _currentCount == 0 ? null : () {
+                            runMutation({
+                              'createItemHistoryInput' : {
+                                'item': widget.item['node']['_id'],
+                                'quantity': _currentCount,
+                                'activityType': 'RENT',
+                                'issueDate': _startDate.toString(),
+                                'dueDate': _endDate.toString()
+                              }
+                            });
+                          },
+                        );
+                      },
                     ),
-                    builder: (RunMutation runMutation, QueryResult? result) {
-                      return ElevatedButton.icon(
-                        icon: const Icon(Icons.vpn_key),
-                        label: const Text('Borrow'),
-                        onPressed: _currentCount == 0 ? null : () {
-                          runMutation({
-                            'createItemHistoryInput' : {
-                              'item': widget.itemId,
-                              'quantity': _currentCount,
-                              'activityType': 'RENT',
-                              'issueDate': _startDate.toString(),
-                              'dueDate': _endDate.toString()
-                            }
-                          });
-                        },
-                      );
-                    },
+                    visible: widget.item['allowedItemActivities'] == 'RENT' || widget.item['allowedItemActivities'] == 'BOTH',
                   )
                 ],
               ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class RecentView extends StatefulWidget {
-  const RecentView({Key? key}) : super(key: key);
+
+  final Map<String, dynamic> item;
+  const RecentView({Key? key, required this.item}) : super(key: key);
 
   @override
   _RecentViewState createState() => _RecentViewState();

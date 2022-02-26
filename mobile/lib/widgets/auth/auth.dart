@@ -3,8 +3,9 @@ import 'package:resource_management_system/widgets/auth/signup_form.dart';
 
 import 'login_form.dart';
 
-class AuthHome extends StatelessWidget {
-  const AuthHome({Key? key}) : super(key: key);
+class Auth extends StatelessWidget {
+  const Auth({Key? key}) : super(key: key);
+  static String route = '/auth';
 
   Future<dynamic> openLoginSheet(context) {
     return showModalBottomSheet(

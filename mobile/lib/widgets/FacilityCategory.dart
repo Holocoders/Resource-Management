@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'NodesGridView.dart';
+import 'base_appbar.dart';
 
 class FacilityCategory extends StatelessWidget {
-  final data;
+  const FacilityCategory({Key? key}) : super(key: key);
 
-  const FacilityCategory(this.data, {Key? key}) : super(key: key);
+  static const String route = '/category';
 
   final String _getAllCategories = """
     query childCategories(\$id: String!) {
@@ -41,27 +42,31 @@ class FacilityCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final data = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Category'),
+      appBar: BaseAppBar(
+        title: Text('Category'),
+        appBar: AppBar(),
       ),
       body: Query(
         options: QueryOptions(
             document: gql(_getAllCategories),
-            variables: {'id': data?['node']?['_id']}),
+            variables: {'id': data['_id']}),
         builder: (QueryResult categories,
             {VoidCallback? refetch, FetchMore? fetchMore}) {
           if (categories.isLoading) {
-            return const Text('Loading');
+            return const Center(child: CircularProgressIndicator());
           }
           return Query(
               options: QueryOptions(
                   document: gql(_getAllItems),
-                  variables: {'id': data?['node']?['_id']}),
+                  variables: {'id': data['_id']}),
               builder: (QueryResult items,
                   {VoidCallback? refetch, FetchMore? fetchMore}) {
                 if (items.isLoading) {
-                  return const Text('Loading');
+                  return const Center(child: CircularProgressIndicator());
                 }
                 var nodes = [...categories.data?['childCategories'], ...items.data?['childItems']];
                 return NodesGridView(nodes);

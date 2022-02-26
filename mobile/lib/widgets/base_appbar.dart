@@ -5,7 +5,6 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Text title;
   final AppBar appBar;
   List<Widget> widgets;
-  List<String> actions = [];
 
   BaseAppBar(
       {Key? key, required this.title, required this.appBar, List<Widget>? widgets})
@@ -20,12 +19,12 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       future: streamingSharedPrefs,
       builder: (BuildContext context,
           AsyncSnapshot<dynamic> snapshot) {
-        if (snapshot.hasData) {
+        if (snapshot.hasData && snapshot.connectionState == ConnectionState.done) {
           StreamingSharedPreferences prefs = snapshot.data!;
           return PreferenceBuilder(
             preference: prefs.getString('user', defaultValue: ''),
             builder: (context, user) {
-              if (user != '' && !actions.contains('logout')) {
+              if (user != '') {
                 widgets.add(
                   IconButton(
                     icon: Icon(Icons.login),
@@ -35,10 +34,10 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                     },
                   ),
                 );
-                actions.add('logout');
               }
               return AppBar(
                 title: title,
+                automaticallyImplyLeading: false,
                 actions: widgets,
               );
             },
@@ -50,14 +49,6 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         );
       },
     );
-    // final preferences = await StreamingSharedPreferences.instance;
-    // return PreferenceBuilder(
-    //     preference: preference, builder: builder
-    // )
-    // return AppBar(
-    //   title: title,
-    //   actions: widgets,
-    // );
   }
 
   @override

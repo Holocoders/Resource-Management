@@ -30,7 +30,10 @@ export class ItemHistoryService {
       {
         $match: {
           item: Mongoose.Types.ObjectId(itemId),
-          issueDate: { $lte: issueDate },
+          $or: [
+            { issueDate: { $lte: issueDate } },
+            { issueDate: { $lte: dueDate } },
+          ],
           activityType: ItemActivity.BUY,
           cancelled: false,
         },
@@ -50,20 +53,20 @@ export class ItemHistoryService {
           $or: [
             {
               $and: [
-                { issueDate: { $lte: issueDate } },
-                { dueDate: { $gte: issueDate } },
-              ],
-            },
-            {
-              $and: [
                 { issueDate: { $gte: issueDate } },
-                { dueDate: { $lte: dueDate } },
+                { issueDate: { $lte: dueDate } },
               ],
             },
             {
               $and: [
-                { issueDate: { $lte: dueDate } },
+                { issueDate: { $lte: issueDate } },
                 { dueDate: { $gte: dueDate } },
+              ],
+            },
+            {
+              $and: [
+                { dueDate: { $gte: issueDate } },
+                { dueDate: { $lte: dueDate } },
               ],
             },
           ],

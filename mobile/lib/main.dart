@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:resource_management_system/widgets/auth/auth_home.dart';
+import 'package:resource_management_system/widgets/FacilityCategory.dart';
+import 'package:resource_management_system/widgets/auth/auth.dart';
 import 'package:resource_management_system/widgets/facilities.dart';
+import 'package:resource_management_system/widgets/item/item.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 void main() async {
@@ -55,48 +57,17 @@ class MyApp extends StatelessWidget {
                 visualDensity: VisualDensity.adaptivePlatformDensity,
                 scaffoldBackgroundColor: Colors.white
               ),
-              initialRoute: user == '' ? '/auth' : '/facilities',
-              routes: { // TODO : Currently using basic navigator method, will switch to named routes later.
-                '/auth': (context) => const AuthHome(),
-                '/facilities': (context) => const Facilities(),
-                // 'facility': (context) => const Item(),
-                // '/item': (context) => Item(),
+              initialRoute: user == '' ? Auth.route : Facilities.route,
+              routes: {
+                Auth.route: (context) => const Auth(),
+                Item.route: (context) => const Item(),
+                Facilities.route: (context) => const Facilities(),
+                FacilityCategory.route: (context) => const FacilityCategory(),
               },
             ),
           );
 
         },
     );
-
-    // AuthLink authLink = AuthLink(
-    //   getToken: () async => 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFAYS5jb20iLCJfaWQiOiI2MWZlM2U0ODgzOGZlMzE3MmMyODcyMzMiLCJpYXQiOjE2NDQ4MzI0MDIsImV4cCI6MTY0NDkxODgwMn0.CqIFMGHX20Ws6ZkwaJm_SP6FSDaBKzGNUP9FFZT2eRg',
-    // );
-    //
-    // ValueNotifier<GraphQLClient> client = ValueNotifier(
-    //     GraphQLClient(
-    //       link: authLink.concat(httpLink),
-    //       cache: GraphQLCache(
-    //         store: InMemoryStore(),
-    //       ),
-    //     )
-    // );
-    //
-    // return GraphQLProvider(
-    //   client: client,
-    //   child: MaterialApp(
-    //     theme: ThemeData(
-    //       primarySwatch: Colors.green,
-    //       visualDensity: VisualDensity.adaptivePlatformDensity,
-    //       scaffoldBackgroundColor: Colors.white,
-    //     ),
-    //     initialRoute: '/auth',
-    //     routes: { // TODO : Currently using basic navigator method, will switch to named routes later.
-    //       '/auth': (context) => AuthHome(),
-    //       '/facilities': (context) => const Facilities(),
-    //       // 'facility': (context) => const Item(),
-    //       // '/item': (context) => Item(),
-    //     },
-    //   ),
-    // );
   }
 }
