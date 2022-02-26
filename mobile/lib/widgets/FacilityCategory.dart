@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'NodesGridView.dart';
 import 'base_appbar.dart';
+import 'base_drawer.dart';
 
 class FacilityCategory extends StatelessWidget {
   const FacilityCategory({Key? key}) : super(key: key);
@@ -46,8 +47,9 @@ class FacilityCategory extends StatelessWidget {
     final data = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
     return Scaffold(
+      drawer: const BaseDrawer(),
       appBar: BaseAppBar(
-        title: Text('Category'),
+        title: const Text('Category'),
         appBar: AppBar(),
       ),
       body: Query(

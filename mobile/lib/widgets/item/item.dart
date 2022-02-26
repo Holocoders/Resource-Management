@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
+import 'package:resource_management_system/widgets/base_drawer.dart';
 import 'package:resource_management_system/widgets/item/availability.dart';
 import 'package:resource_management_system/widgets/item/detail.dart';
 import 'package:resource_management_system/widgets/item/recent.dart';
@@ -45,6 +46,7 @@ class _ItemState extends State<Item> {
   """;
 
     return Scaffold(
+      drawer: const BaseDrawer(),
       appBar: BaseAppBar(
         title: Text('Item'),
         appBar: AppBar(),
