@@ -1,4 +1,4 @@
-import { Args, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { PermissionService } from './permission.service';
 import { CreatePermissionInput } from './dto/create-permission.input';
 
@@ -6,8 +6,9 @@ import { CreatePermissionInput } from './dto/create-permission.input';
 export class PermissionResolver {
   constructor(private readonly permissionService: PermissionService) {}
 
+  @Mutation(() => String)
   async createPermission(
-    @Args('createFacilityInput') createPermissionInput: CreatePermissionInput,
+    @Args('createPermissionInput') createPermissionInput: CreatePermissionInput,
   ) {
     return this.permissionService.create(
       createPermissionInput.userId,

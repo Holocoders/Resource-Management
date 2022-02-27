@@ -60,9 +60,15 @@ input CreateItemInput {
   quantity: Float
 }
 
+input CreatePermissionInput {
+  nodeId: String
+  userId: String!
+}
+
 input CreateUserInput {
   email: String!
   name: String!
+  nodeId: String = "0"
   password: String!
 }
 
@@ -132,6 +138,7 @@ type Mutation {
   createInventoryHistory(createInventoryHistoryInput: CreateInventoryHistoryInput!): InventoryHistory!
   createItem(createItemInput: CreateItemInput!, file: Upload!): Item!
   createItemHistory(createItemHistoryInput: CreateItemHistoryInput!): ItemHistory!
+  createPermission(createPermissionInput: CreatePermissionInput!): String!
   createUser(createUserInput: CreateUserInput!): User!
   login(email: String!, password: String!): User!
   reduceQuantity(id: String!, reduceBy: Int!): Item!
@@ -223,6 +230,7 @@ input UpdateUserInput {
   _id: String!
   email: String
   name: String
+  nodeId: String = "0"
   password: String
 }
 
