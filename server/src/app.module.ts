@@ -14,6 +14,7 @@ import { ItemHistoryModule } from './modules/item-history/item-history.module';
 import { SharedModule } from './modules/shared/shared.module';
 import { InventoryHistoryModule } from './modules/inventory-history/inventory-history.module';
 import { NodeModule } from './modules/node/node.module';
+import { PermissionModule } from './modules/permission/permission.module';
 
 const environment = process.env.NODE_ENV || 'dev';
 
@@ -55,6 +56,7 @@ const environment = process.env.NODE_ENV || 'dev';
     ItemHistoryModule,
     InventoryHistoryModule,
     SharedModule,
+    PermissionModule,
   ],
   providers: [AppService, AppResolver],
 })
