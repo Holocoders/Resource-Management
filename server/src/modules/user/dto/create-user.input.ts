@@ -10,4 +10,6 @@ export class CreateUserInput {
   email: string;
 
   password: string;
+
+  nodeId?: string = '0'; // 0 implies super user, control over all facilities.
 }

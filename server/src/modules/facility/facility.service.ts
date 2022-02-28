@@ -33,7 +33,6 @@ export class FacilityService {
     const createdFacility = new this.facilityModel(createFacilityInput);
     await createdFacility.save();
     await this.facilityModel.populate(createdFacility, this.populateObject);
-    // console.log(createdFacility);
     return createdFacility;
   }
 

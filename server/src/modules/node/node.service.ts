@@ -102,4 +102,21 @@ export class NodeService {
     await this.nodeModel.deleteMany({ _id: { $in: nodeIds } });
     return this.nodeModel.findById(node.parent);
   }
+
+  async getParents(id) {
+    return this.nodeModel.aggregate([
+      {
+        $graphLookup: {
+          from: 'nodes',
+          startWith: '$parent',
+          connectFromField: 'parent',
+          connectToField: '_id',
+          as: 'parentNodes',
+        },
+      },
+      {
+        $match: { _id: new Mongoose.Types.ObjectId(id) },
+      },
+    ]);
+  }
 }
