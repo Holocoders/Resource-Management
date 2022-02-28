@@ -43,8 +43,11 @@ export class SigninComponent implements OnInit {
     }
     const { email, password, rememberMe } = this.signInForm.value;
     this.authService.signIn(email, password, rememberMe).subscribe({
-      next: () => {
-        this.router.navigateByUrl('/facilities');
+      next: (data) => {
+        if (data.nodeId == '0') this.router.navigateByUrl('/facilities');
+        else {
+          this.router.navigateByUrl('/node?id=' + data.nodeId);
+        }
         this.messageService.addToastMessage({
           detail: 'Welcome back!',
           severity: 'success',

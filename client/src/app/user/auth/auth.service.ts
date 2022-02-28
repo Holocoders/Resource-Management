@@ -57,6 +57,7 @@ export class AuthService {
           login(email: $email, password: $password) {
             name
             token
+            nodeId
           }
         }
       `,
@@ -68,13 +69,14 @@ export class AuthService {
     return mutation.pipe(
       map((result) => {
         const data = (result.data as any).login;
-        const user = new User(email, data.name, data.token);
+        const user = new User(email, data.name, data.token, data.nodeId);
         this.user.next(user);
         if (rememberMe) {
           localStorage.setItem('user', JSON.stringify(user));
         } else {
           sessionStorage.setItem('user', JSON.stringify(user));
         }
+        return data;
       }),
       catchError(() => {
         return throwError(void 0);
