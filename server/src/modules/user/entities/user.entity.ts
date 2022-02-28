@@ -20,6 +20,7 @@ export class User {
   password: string;
 
   token?: string;
+  nodeId?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

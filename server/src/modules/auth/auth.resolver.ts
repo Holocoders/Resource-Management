@@ -4,15 +4,17 @@ import { CreateUserInput } from '../user/dto/create-user.input';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { GraphQLError } from 'graphql';
-import { UseGuards } from '@nestjs/common';
+import { forwardRef, Inject, Logger, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './auth.guard';
 import { CurrentUser } from '../../decorators/auth.decorator';
+import { PermissionService } from '../permission/permission.service';
 
 @Resolver(() => User)
 export class AuthResolver {
   constructor(
     private authService: AuthService,
     private userService: UserService,
+    private permissionService: PermissionService,
   ) {}
 
   @Mutation(() => User)
@@ -25,6 +27,7 @@ export class AuthResolver {
       password,
     });
     result.token = token as string;
+    result.nodeId = await this.permissionService.getPermissionNode(result.id);
     return result;
   }
 
@@ -36,6 +39,9 @@ export class AuthResolver {
     const token = await this.authService.login({ email, password });
     const user = await this.userService.findOne({ email });
     user.token = token as string;
+    user.nodeId = (await this.permissionService.getPermissionNode(
+      user._id,
+    )) as string;
     return user;
   }
 

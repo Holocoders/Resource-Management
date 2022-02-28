@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthResolver } from './auth.resolver';
 import { AuthService } from './auth.service';
@@ -8,11 +8,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from '../user/entities/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
+import { PermissionModule } from '../permission/permission.module';
 
 @Module({
   imports: [
     UserModule,
     ConfigModule,
+    forwardRef(() => PermissionModule),
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),

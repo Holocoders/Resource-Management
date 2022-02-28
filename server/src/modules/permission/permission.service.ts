@@ -20,6 +20,14 @@ export class PermissionService {
     return permission._id;
   }
 
+  getPermissionNode(userId: string): Promise<string> {
+    return this.permissionModel
+      .findOne({ userId: userId })
+      .then((permission) => {
+        return permission.nodeId;
+      });
+  }
+
   permissionCheck(userId: string, nodeId: string) {
     return this.permissionModel
       .findOne({ userId: userId, nodeId: nodeId })

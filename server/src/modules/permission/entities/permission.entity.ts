@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { ObjectType } from '@nestjs/graphql';
 import { Document } from 'mongoose';
 
 export type PermissionDocument = Permission & Document;
@@ -7,7 +7,7 @@ export type PermissionDocument = Permission & Document;
 @Schema()
 @ObjectType()
 export class Permission {
-  @Field(() => ID)
+  @Prop()
   userId: string;
 
   @Prop()
