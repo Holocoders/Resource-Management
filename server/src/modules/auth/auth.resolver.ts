@@ -20,6 +20,7 @@ export class AuthResolver {
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     const password = createUserInput.password;
+    const nodeId = createUserInput.nodeId;
     const result = await this.userService.create(createUserInput);
     if (result instanceof GraphQLError) return result;
     const token = await this.authService.login({
@@ -27,7 +28,9 @@ export class AuthResolver {
       password,
     });
     result.token = token as string;
-    result.nodeId = await this.permissionService.getPermissionNode(result.id);
+    result.nodeId = nodeId;
+    await this.permissionService.create(result.id, nodeId);
+    // result.nodeId = await this.permissionService.getPermissionNode(result.id);
     return result;
   }
 

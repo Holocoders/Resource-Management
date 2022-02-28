@@ -1,0 +1,21 @@
+<p-toolbar styleClass="mb-4">
+  <ng-template pTemplate="left">
+    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="display=true"></button>
+  </ng-template>
+</p-toolbar>
+<p-table [value]="users">
+  <ng-template pTemplate="header">
+    <tr>
+      <th>User ID</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-user>
+    <tr>
+      <td>{{user.userId}}</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-dialog header="New User" [(visible)]="display">
+  <app-create-user (userCreated)="display=false"></app-create-user>
+</p-dialog>

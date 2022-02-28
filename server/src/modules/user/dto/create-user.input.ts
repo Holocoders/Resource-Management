@@ -11,5 +11,5 @@ export class CreateUserInput {
 
   password: string;
 
-  nodeId?: string = '0'; // 0 implies super user, control over all facilities.
+  nodeId?: string; // 0 implies super user, control over all facilities.
 }

@@ -19,4 +19,20 @@ export class NodeService {
       variables: { id },
     });
   }
+
+  getUsers(nodeId: string) {
+    return this.apollo.watchQuery({
+      query: gql`
+        query getUsersWithPermission($nodeId: String!) {
+          getUsersWithPermission(nodeId: $nodeId) {
+            nodeId
+            userId
+          }
+        }
+      `,
+      variables: {
+        nodeId,
+      },
+    }).valueChanges;
+  }
 }

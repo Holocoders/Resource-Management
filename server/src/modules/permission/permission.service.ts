@@ -4,6 +4,8 @@ import { Model } from 'mongoose';
 import { Permission, PermissionDocument } from './entities/permission.entity';
 import { NodeService } from '../node/node.service';
 import { CreatePermissionInput } from './dto/create-permission.input';
+import { Node } from '../node/entities/node.entity';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class PermissionService {
@@ -39,5 +41,15 @@ export class PermissionService {
           return !!parents.includes(node);
         }
       });
+  }
+
+  findAll(id: string) {
+    return this.permissionModel.find({ nodeId: id });
+    //   .populate([
+    //   {
+    //     path: 'userId',
+    //     model: User.name,
+    //   },
+    // ])
   }
 }

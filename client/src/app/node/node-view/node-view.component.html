@@ -1,0 +1,36 @@
+<p-dataView #dv *ngIf="!loading; else loader" [value]="nodes" filterBy="name" layout="grid">
+  <ng-template pTemplate="header">
+    <div class="flex flex-wrap justify-content-between">
+      <span class="p-input-icon-left p-mb-2 p-mb-md-0">
+                  <i class="pi pi-search"></i>
+                  <input (input)="dv.filter($any($event.target).value)" pInputText placeholder="Search by Name"
+                         type="search">
+              </span>
+      <p-button (onClick)="displayAddDialog=true" class="mr-2 cursor-pointer" icon="pi pi-plus" label="Add"></p-button>
+    </div>
+  </ng-template>
+  <ng-template let-object pTemplate="gridItem">
+    <app-node-grid-item
+      (click)="goToNode(object, object?.node?.isItem)" (onDeleteClick)="removeNode($event, object?.node?._id)"
+      [obj]="object" class="cursor-pointer">
+    </app-node-grid-item>
+  </ng-template>
+</p-dataView>
+
+<p-dialog [(visible)]="displayAddDialog" [draggable]="false" [modal]="true" [position]="'top'"
+          [resizable]="false" [showHeader]="false" styleClass="w-full">
+  <div class="card mt-4" *ngIf="displayAddDialog">
+    <p-tabView>
+      <p-tabPanel header="Category" leftIcon="pi pi-th-large" tooltip="Add New Category">
+        <app-add-category (onDialogClose)="closeDialogCategory($event)" [parent]="id"></app-add-category>
+      </p-tabPanel>
+      <p-tabPanel header="Item" leftIcon="pi pi-briefcase" tooltip="Add New Item">
+        <app-add-item (onDialogClose)="closeDialogItem($event)" [parent]="id"></app-add-item>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+</p-dialog>
+
+<ng-template #loader>
+  <app-loader class="h-full flex justify-content-center align-items-center"></app-loader>
+</ng-template>

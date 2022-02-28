@@ -67,7 +67,7 @@ input CreatePermissionInput {
 input CreateUserInput {
   email: String!
   name: String!
-  nodeId: String = "0"
+  nodeId: String
   password: String!
 }
 
@@ -170,6 +170,11 @@ type Node {
   parent: Node
 }
 
+type Permission {
+  nodeId: String!
+  userId: String!
+}
+
 type Query {
   category(id: String!): Category!
   childCategories(id: String!): [Category!]!
@@ -178,6 +183,10 @@ type Query {
   facilities: [Facility!]!
   facility(id: String!): Facility!
   getHello: String!
+  getUsersWithPermission(
+    """Node ID"""
+    nodeId: String!
+  ): [Permission!]!
   inventoryHistory: [InventoryHistory!]!
   inventoryHistoryByItem(item: String!): [InventoryHistory!]!
   inventoryHistoryByUser(user: String!): [InventoryHistory!]!
@@ -234,7 +243,7 @@ input UpdateUserInput {
   _id: String!
   email: String
   name: String
-  nodeId: String = "0"
+  nodeId: String
   password: String
 }
 

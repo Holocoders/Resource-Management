@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(private apollo: Apollo) {}
 
-  signup(user: User, password: string, rememberMe = false) {
+  signup(user: User, password: string, nodeId = '0', rememberMe = false) {
     const { name, email } = user;
     const mutation = this.apollo.mutate({
       mutation: gql`
@@ -23,6 +23,7 @@ export class AuthService {
             name
             password
             token
+            nodeId
           }
         }
       `,
@@ -31,19 +32,11 @@ export class AuthService {
           name,
           email,
           password,
+          nodeId,
         },
       },
     });
     return mutation.pipe(
-      map(({ data }) => {
-        const user = (data as any).createUser as User;
-        if (rememberMe) {
-          localStorage.setItem('user', JSON.stringify(user));
-        } else {
-          sessionStorage.setItem('user', JSON.stringify(user));
-        }
-        this.user.next(user);
-      }),
       catchError(() => {
         return throwError(void 0);
       })

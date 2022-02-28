@@ -28,6 +28,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TooltipModule } from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ToolbarModule } from 'primeng/toolbar';
 
 const primeNgModules = [
   AvatarModule,
@@ -60,6 +61,7 @@ const primeNgModules = [
   TooltipModule,
   ProgressSpinnerModule,
   CheckboxModule,
+  ToolbarModule,
 ];
 
 @NgModule({

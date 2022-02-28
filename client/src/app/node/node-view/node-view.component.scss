@@ -1,0 +1,15 @@
+:host ::ng-deep {
+  .p-tabview-nav {
+    justify-content: center;
+
+    li {
+      width: 100%;
+
+      a {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+}
+
