@@ -23,7 +23,7 @@ export class PermissionService {
 
   getPermissionNode(userId: string): Promise<string> {
     return this.permissionModel
-      .findOne({ userId: userId as any })
+      .findOne({ userId: userId as any }) // TODO: BUG : The query is not working as expected
       .then((permission) => {
         return permission.nodeId;
       });
