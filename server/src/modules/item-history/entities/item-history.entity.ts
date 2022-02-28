@@ -9,6 +9,14 @@ export enum ItemActivity {
   RENT = 'RENT',
 }
 
+export enum ItemState {
+  ORDERED = 'ORDERED',
+  ISSUED = 'ISSUED',
+  CANCELLED = 'CANCELLED',
+  RETURNED = 'RETURNED',
+}
+
+registerEnumType(ItemState, { name: 'ItemState' });
 registerEnumType(ItemActivity, { name: 'ItemActivity' });
 
 @Schema()
@@ -37,10 +45,8 @@ export class ItemHistory {
   activityDate?: Date;
 
   @Prop()
-  cancelled: boolean;
-
-  @Prop()
-  issued: boolean;
+  @Field(() => ItemState)
+  itemState: ItemState;
 
   @Prop()
   @Field(() => ItemActivity)

@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:resource_management_system/widgets/facilities.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
@@ -96,7 +98,7 @@ class _LoginFormState extends State<LoginForm> {
                     };
                     final userPrefs = await StreamingSharedPreferences.instance;
                     userPrefs.setString('user', json.encode(user));
-                    Navigator.of(context).pushReplacementNamed('/facilities');
+                    Get.toNamed(Facilities.route);
                   },
                   onError: (OperationException? error) {
 

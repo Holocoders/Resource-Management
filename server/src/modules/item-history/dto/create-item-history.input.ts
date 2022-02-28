@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { ItemActivity } from '../entities/item-history.entity';
+import { ItemActivity, ItemState } from '../entities/item-history.entity';
 
 @InputType()
 export class CreateItemHistoryInput {
@@ -8,10 +8,8 @@ export class CreateItemHistoryInput {
   @Field(() => String)
   user?: string;
   quantity: number;
-  @Field(() => Boolean, { defaultValue: false })
-  cancelled: boolean;
-  @Field(() => Boolean, { defaultValue: false })
-  issued: boolean;
+  @Field(() => String, { defaultValue: ItemState.ORDERED })
+  itemState: ItemState;
   activityType: ItemActivity;
   issueDate?: Date;
   @Field(() => Date, { defaultValue: null })

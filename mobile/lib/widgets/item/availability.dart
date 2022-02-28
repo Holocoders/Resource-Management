@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:resource_management_system/widgets/snackbars.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 typedef CounterCallback = void Function();
@@ -25,7 +27,8 @@ class _AvailabilityViewState extends State<AvailabilityView> {
     setState(() {
       if (args.value is PickerDateRange) {
         _startDate = args.value.startDate.add(timeZoneOffset);
-        _endDate = args.value.endDate?.add(timeZoneOffset) ?? args.value.startDate.add(timeZoneOffset);
+        _endDate = args.value.endDate?.add(timeZoneOffset) ??
+            args.value.startDate.add(timeZoneOffset);
         _range = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'
             ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
       }
@@ -67,18 +70,16 @@ class _AvailabilityViewState extends State<AvailabilityView> {
   }
   """;
 
-  Widget _createIncrementDecrementButton(
-      IconData icon, Color fillColor, CounterCallback onPressed, bool disabled) {
+  Widget _createIncrementDecrementButton(IconData icon, Color fillColor,
+      CounterCallback onPressed, bool disabled) {
     return ElevatedButton(
         onPressed: disabled ? null : onPressed,
         child: Icon(icon, color: Colors.black),
         style: ButtonStyle(
-            backgroundColor: disabled ? null : MaterialStateProperty.all<Color>(fillColor),
-            shape: MaterialStateProperty.all<CircleBorder>(
-                const CircleBorder()
-            )
-        )
-    );
+            backgroundColor:
+                disabled ? null : MaterialStateProperty.all<Color>(fillColor),
+            shape:
+                MaterialStateProperty.all<CircleBorder>(const CircleBorder())));
   }
 
   @override
@@ -108,24 +109,15 @@ class _AvailabilityViewState extends State<AvailabilityView> {
               child: const Text('Check Availability'),
               onPressed: () async {
                 if (_startDate == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text('Please select a valid date range.'),
-                      action: SnackBarAction(
-                        label: 'OK',
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        },
-                      ),
-                    ),
-                  );
+                  CustomSnackbars.error('Please select a valid range!');
                   return;
                 }
                 QueryResult result = await client.query(QueryOptions(
                   document: gql(itemAvailability),
                   variables: <String, dynamic>{
                     'issueDate': _startDate?.toIso8601String(),
-                    'dueDate': _endDate?.toIso8601String() ?? _startDate?.toIso8601String(),
+                    'dueDate': _endDate?.toIso8601String() ??
+                        _startDate?.toIso8601String(),
                     'item': widget.item['node']['_id'],
                   },
                 ));
@@ -173,11 +165,7 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                 children: <Widget>[
                   // counter
                   _createIncrementDecrementButton(
-                    Icons.remove,
-                    Colors.red,
-                    _decrement,
-                    _currentCount <= 0
-                  ),
+                      Icons.remove, Colors.red, _decrement, _currentCount <= 0),
                   const SizedBox(width: 5),
                   FocusScope(
                     child: Focus(
@@ -199,12 +187,8 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                     ),
                   ),
                   const SizedBox(width: 5),
-                  _createIncrementDecrementButton(
-                    Icons.add,
-                    Colors.green,
-                    _increment,
-                    _currentCount >= _maxCount
-                  ),
+                  _createIncrementDecrementButton(Icons.add, Colors.green,
+                      _increment, _currentCount >= _maxCount),
                 ],
               ),
               const SizedBox(height: 10),
@@ -225,26 +209,28 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                               _currentCount = 0;
                               _maxCount = -1;
                             });
-                          }
-                      ),
+                          }),
                       builder: (RunMutation runMutation, QueryResult? result) {
                         return ElevatedButton.icon(
                           icon: const Icon(Icons.check),
                           label: const Text('Buy'),
-                          onPressed: _currentCount == 0 ? null : () {
-                            runMutation({
-                              'createItemHistoryInput' : {
-                                'item': widget.item['node']['_id'],
-                                'quantity': _currentCount,
-                                'activityType': 'BUY',
-                                'issueDate': _startDate.toString()
-                              }
-                            });
-                          },
+                          onPressed: _currentCount == 0
+                              ? null
+                              : () {
+                                  runMutation({
+                                    'createItemHistoryInput': {
+                                      'item': widget.item['node']['_id'],
+                                      'quantity': _currentCount,
+                                      'activityType': 'BUY',
+                                      'issueDate': _startDate.toString()
+                                    }
+                                  });
+                                },
                         );
                       },
                     ),
-                    visible: widget.item['allowedItemActivities'] == 'BUY' || widget.item['allowedItemActivities'] == 'BOTH',
+                    visible: widget.item['allowedItemActivities'] == 'BUY' ||
+                        widget.item['allowedItemActivities'] == 'BOTH',
                   ),
                   const SizedBox(width: 10),
                   Visibility(
@@ -256,27 +242,29 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                               _currentCount = 0;
                               _maxCount = -1;
                             });
-                          }
-                      ),
+                          }),
                       builder: (RunMutation runMutation, QueryResult? result) {
                         return ElevatedButton.icon(
                           icon: const Icon(Icons.vpn_key),
                           label: const Text('Rent/Borrow'),
-                          onPressed: _currentCount == 0 ? null : () {
-                            runMutation({
-                              'createItemHistoryInput' : {
-                                'item': widget.item['node']['_id'],
-                                'quantity': _currentCount,
-                                'activityType': 'RENT',
-                                'issueDate': _startDate.toString(),
-                                'dueDate': _endDate.toString()
-                              }
-                            });
-                          },
+                          onPressed: _currentCount == 0
+                              ? null
+                              : () {
+                                  runMutation({
+                                    'createItemHistoryInput': {
+                                      'item': widget.item['node']['_id'],
+                                      'quantity': _currentCount,
+                                      'activityType': 'RENT',
+                                      'issueDate': _startDate.toString(),
+                                      'dueDate': _endDate.toString()
+                                    }
+                                  });
+                                },
                         );
                       },
                     ),
-                    visible: widget.item['allowedItemActivities'] == 'RENT' || widget.item['allowedItemActivities'] == 'BOTH',
+                    visible: widget.item['allowedItemActivities'] == 'RENT' ||
+                        widget.item['allowedItemActivities'] == 'BOTH',
                   )
                 ],
               ),

@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/widgets/FacilityCategory.dart';
+import 'package:resource_management_system/widgets/activities/activities.dart';
+import 'package:resource_management_system/widgets/activities/single_activity.dart';
 import 'package:resource_management_system/widgets/auth/auth.dart';
 import 'package:resource_management_system/widgets/facilities.dart';
 import 'package:resource_management_system/widgets/item/item.dart';
@@ -51,7 +54,7 @@ class MyApp extends StatelessWidget {
           );
           return GraphQLProvider(
             client: client,
-            child: MaterialApp(
+            child: GetMaterialApp(
               theme: ThemeData(
                 primarySwatch: Colors.green,
                 visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -63,6 +66,8 @@ class MyApp extends StatelessWidget {
                 Item.route: (context) => const Item(),
                 Facilities.route: (context) => const Facilities(),
                 FacilityCategory.route: (context) => const FacilityCategory(),
+                Activities.route: (context) => const Activities(),
+                SingleActivity.route: (context) => const SingleActivity(),
               },
             ),
           );

@@ -39,6 +39,7 @@ dependencies:
   reactive_forms: ^11.0.1
   shared_preferences: ^2.0.13
   streaming_shared_preferences: ^2.0.0
+  get: ^4.6.1
 
 dev_dependencies:
   flutter_test:

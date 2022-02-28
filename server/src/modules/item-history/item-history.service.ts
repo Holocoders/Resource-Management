@@ -99,6 +99,7 @@ export class ItemHistoryService {
     return this.itemHistoryModel.findOneAndUpdate(
       { item, user } as any,
       updateItemHistoryInput as any,
+      { new: true },
     );
   }
 }

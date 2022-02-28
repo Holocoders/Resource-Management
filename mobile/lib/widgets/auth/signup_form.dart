@@ -1,6 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:resource_management_system/widgets/snackbars.dart';
+import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
+
+import '../facilities.dart';
 
 class SignupForm extends StatelessWidget {
   const SignupForm({Key? key}) : super(key: key);
@@ -142,15 +150,27 @@ class SignupForm extends StatelessWidget {
               Mutation(
                 options: MutationOptions(
                   document: gql(signUpMutation),
-                  onCompleted: (dynamic data) {
-                    print(data);
-                    // TODO save user token and credentials and move to home page
+                  onCompleted: (dynamic data) async {
+                    if (data == null) return;
+                    var user = {
+                      'name': data['createUser']['name'],
+                      'token': data['createUser']['token'],
+                      'email': data['createUser']['email'],
+                    };
+                    final userPrefs = await StreamingSharedPreferences.instance;
+                    userPrefs.setString('user', json.encode(user));
+                    Get.toNamed(Facilities.route);
                   },
-                  onError: (OperationException? error) {},
+                  onError: (OperationException? error) {
+                    if (error?.graphqlErrors.isNotEmpty == true) {
+                      CustomSnackbars.error(error?.graphqlErrors.first.message);
+                    }
+                    CustomSnackbars.error('An error occurred');
+                  },
                 ),
                 builder: (RunMutation runMutation, QueryResult? result) {
                   return ElevatedButton(
-                    child: Text('Sign Up'),
+                    child: const Text('Sign Up'),
                     style: ButtonStyle(
                       foregroundColor:
                           MaterialStateProperty.all<Color>(Colors.white),

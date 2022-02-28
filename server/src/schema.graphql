@@ -41,11 +41,10 @@ input CreateInventoryHistoryInput {
 
 input CreateItemHistoryInput {
   activityType: ItemActivity!
-  cancelled: Boolean = false
   dueDate: DateTime = null
   issueDate: DateTime
-  issued: Boolean = false
   item: String!
+  itemState: String = "ORDERED"
   quantity: Float!
   user: String
 }
@@ -117,13 +116,19 @@ enum ItemActivity {
 type ItemHistory {
   activityDate: DateTime
   activityType: ItemActivity!
-  cancelled: Boolean!
   dueDate: DateTime
   issueDate: DateTime
-  issued: Boolean!
   item: Item!
+  itemState: ItemState!
   quantity: Float!
   user: User!
+}
+
+enum ItemState {
+  CANCELLED
+  ISSUED
+  ORDERED
+  RETURNED
 }
 
 type Mutation {
@@ -173,7 +178,7 @@ type Query {
   itemAvailability(dueDate: String!, issueDate: String!, item: String!): Int!
   itemHistory: [ItemHistory!]!
   itemHistoryByItem(item: String!): [ItemHistory!]!
-  itemHistoryByUser(user: String!): [ItemHistory!]!
+  itemHistoryByUser: [ItemHistory!]!
   user(_id: String!): User!
   users: [User!]!
 }
@@ -200,11 +205,10 @@ input UpdateInventoryHistoryInput {
 
 input UpdateItemHistoryInput {
   activityType: ItemActivity
-  cancelled: Boolean = false
   dueDate: DateTime = null
   issueDate: DateTime
-  issued: Boolean = false
   item: String
+  itemState: String = "ORDERED"
   quantity: Float
   user: String
 }

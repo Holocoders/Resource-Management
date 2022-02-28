@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:resource_management_system/utils.dart';
+import 'package:resource_management_system/widgets/auth/auth.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -27,10 +31,10 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
               if (user != '') {
                 widgets.add(
                   IconButton(
-                    icon: Icon(Icons.login),
+                    icon: const Icon(Icons.login),
                     onPressed: () {
                       prefs.clear();
-                      Navigator.pushReplacementNamed(context, '/auth');
+                      Get.toNamed(Auth.route);
                     },
                   ),
                 );
@@ -51,5 +55,5 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => new Size.fromHeight(appBar.preferredSize.height);
+  Size get preferredSize => Size.fromHeight(appBar.preferredSize.height);
 }

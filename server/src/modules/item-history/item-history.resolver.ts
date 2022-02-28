@@ -33,8 +33,8 @@ export class ItemHistoryResolver {
   }
 
   @Query(() => [ItemHistory], { name: 'itemHistoryByUser' })
-  findItemHistoryByUser(@Args('user', { type: () => String }) user: string) {
-    return this.itemHistoryService.findAll({ user });
+  findItemHistoryByUser(@CurrentUser() user) {
+    return this.itemHistoryService.findAll({ user: user._id });
   }
 
   @Query(() => Int, { name: 'itemAvailability' })
@@ -54,7 +54,9 @@ export class ItemHistoryResolver {
   updateItemHistory(
     @Args('updateItemHistoryInput')
     updateItemHistoryInput: UpdateItemHistoryInput,
+    @CurrentUser() user,
   ) {
+    updateItemHistoryInput.user = updateItemHistoryInput.user || user._id;
     return this.itemHistoryService.update(updateItemHistoryInput);
   }
 }

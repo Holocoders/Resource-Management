@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:resource_management_system/widgets/activities/activities.dart';
 import 'package:resource_management_system/widgets/facilities.dart';
 
 class BaseDrawer extends StatelessWidget {
@@ -46,10 +47,10 @@ class BaseDrawer extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.settings),
+                  leading: Icon(Icons.calendar_today),
                   title: Text('My activities'),
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.pushNamed(context, Activities.route);
                   },
                 ),
               ]
