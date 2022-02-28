@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ObjectType } from '@nestjs/graphql';
-import { Document } from 'mongoose';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 import { User } from '../../user/entities/user.entity';
 import { Node } from '../../node/entities/node.entity';
 
@@ -10,10 +10,12 @@ export type PermissionDocument = Permission & Document;
 @ObjectType()
 export class Permission {
   @Prop({
+    type: MongooseSchema.Types.ObjectId,
     ref: User.name,
-    // autopopulate: true,
+    autopopulate: true,
   })
-  userId: string;
+  @Field(() => User)
+  userId: MongooseSchema.Types.ObjectId | User;
 
   @Prop({
     ref: Node.name,

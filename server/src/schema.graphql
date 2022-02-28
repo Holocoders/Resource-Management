@@ -172,7 +172,7 @@ type Node {
 
 type Permission {
   nodeId: String!
-  userId: String!
+  userId: User!
 }
 
 type Query {

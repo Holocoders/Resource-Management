@@ -4,8 +4,7 @@ import { Model } from 'mongoose';
 import { Permission, PermissionDocument } from './entities/permission.entity';
 import { NodeService } from '../node/node.service';
 import { CreatePermissionInput } from './dto/create-permission.input';
-import { Node } from '../node/entities/node.entity';
-import { User } from '../user/entities/user.entity';
+import * as Mongoose from 'mongoose';
 
 @Injectable()
 export class PermissionService {
@@ -24,7 +23,7 @@ export class PermissionService {
 
   getPermissionNode(userId: string): Promise<string> {
     return this.permissionModel
-      .findOne({ userId: userId })
+      .findOne({ userId: userId as any })
       .then((permission) => {
         return permission.nodeId;
       });
@@ -32,7 +31,7 @@ export class PermissionService {
 
   permissionCheck(userId: string, nodeId: string) {
     return this.permissionModel
-      .findOne({ userId: userId, nodeId: nodeId })
+      .findOne({ userId: userId as any, nodeId: nodeId })
       .then(async (permission) => {
         const node = permission.nodeId;
         if (node == nodeId) return true;
@@ -45,11 +44,5 @@ export class PermissionService {
 
   findAll(id: string) {
     return this.permissionModel.find({ nodeId: id });
-    //   .populate([
-    //   {
-    //     path: 'userId',
-    //     model: User.name,
-    //   },
-    // ])
   }
 }
