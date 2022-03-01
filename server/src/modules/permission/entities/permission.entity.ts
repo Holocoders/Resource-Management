@@ -18,9 +18,12 @@ export class Permission {
   userId: MongooseSchema.Types.ObjectId | User;
 
   @Prop({
+    type: MongooseSchema.Types.ObjectId,
     ref: Node.name,
+    autopopulate: true,
   })
-  nodeId: string;
+  @Field(() => Node)
+  nodeId: MongooseSchema.Types.ObjectId | Node;
 }
 
 export const PermissionSchema = SchemaFactory.createForClass(Permission);

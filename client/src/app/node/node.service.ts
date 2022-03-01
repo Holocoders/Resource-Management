@@ -25,8 +25,11 @@ export class NodeService {
       query: gql`
         query getUsersWithPermission($nodeId: String!) {
           getUsersWithPermission(nodeId: $nodeId) {
-            nodeId
-            userId
+            userId {
+              _id
+              name
+              email
+            }
           }
         }
       `,

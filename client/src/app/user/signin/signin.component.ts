@@ -44,7 +44,7 @@ export class SigninComponent implements OnInit {
     const { email, password, rememberMe } = this.signInForm.value;
     this.authService.signIn(email, password, rememberMe).subscribe({
       next: (data) => {
-        if (data.nodeId == '0') this.router.navigateByUrl('/facilities');
+        if (data.nodeId == null) this.router.navigateByUrl('/facilities');
         else {
           this.router.navigateByUrl('/node?id=' + data.nodeId);
         }

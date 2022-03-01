@@ -25,16 +25,19 @@ export class PermissionService {
     return this.permissionModel
       .findOne({ userId: userId as any }) // TODO: BUG : The query is not working as expected
       .then((permission) => {
-        return permission.nodeId;
+        if (permission.nodeId == null) {
+          return null;
+        }
+        return permission.nodeId.toString();
       });
   }
 
   permissionCheck(userId: string, nodeId: string) {
     return this.permissionModel
-      .findOne({ userId: userId as any, nodeId: nodeId })
+      .findOne({ userId: userId as any, nodeId: nodeId as any })
       .then(async (permission) => {
         const node = permission.nodeId;
-        if (node == nodeId) return true;
+        if (node.toString() == nodeId) return true;
         else {
           const parents = await this.nodeService.getParents(nodeId);
           return !!parents.includes(node);
@@ -43,6 +46,6 @@ export class PermissionService {
   }
 
   findAll(id: string) {
-    return this.permissionModel.find({ nodeId: id });
+    return this.permissionModel.find({ nodeId: id as any });
   }
 }
