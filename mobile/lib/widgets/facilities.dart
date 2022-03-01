@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
 import 'package:resource_management_system/widgets/base_drawer.dart';
-import 'NodesGridView.dart';
+import 'nodes_grid_view.dart';
 
 class Facilities extends StatelessWidget {
   const Facilities({Key? key}) : super(key: key);
@@ -36,6 +36,9 @@ class Facilities extends StatelessWidget {
             {VoidCallback? refetch, FetchMore? fetchMore}) {
           if (result.isLoading) {
             return const Center(child: CircularProgressIndicator());
+          }
+          if (result.data == null) {
+            return const Center(child: Text('No items found'));
           }
           // print(result.data?['facilities']);
           return NodesGridView(result.data?['facilities']);

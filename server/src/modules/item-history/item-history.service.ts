@@ -85,9 +85,9 @@ export class ItemHistoryService {
     return totalQty - bought - borrowed;
   }
 
-  findAll(query?: any) {
+  findAll(query?: any, projection?: any) {
     if (!query) return this.itemHistoryModel.find();
-    return this.itemHistoryModel.find(query);
+    return this.itemHistoryModel.find(query, projection);
   }
 
   deleteItemRelatedHistory(ids: string[]) {

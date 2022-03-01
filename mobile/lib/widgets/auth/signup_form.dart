@@ -217,7 +217,7 @@ class SignupForm extends StatelessWidget {
                   minimumSize:
                       MaterialStateProperty.all<Size>(const Size(200, 40)),
                 ),
-                onPressed: () => {Navigator.of(context).pop("flip")},
+                onPressed: () => {Get.back(result: 'flip')},
               ),
               const SizedBox(height: 20),
             ],

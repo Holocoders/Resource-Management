@@ -55,7 +55,9 @@
           <span class="p-column-title">Item</span>
           <p-avatar image="http://localhost:3000/{{activity.item.node._id}}" shape="circle"
                     styleClass="p-mr-2"></p-avatar>
-          <span class="image-text ml-2">{{activity.item.name}}</span>
+          <span class="image-text ml-2" pTooltip="{{activity.item.name}}">
+            {{activity.item.name| slice:0:20}}{{activity.item.name.length > 20 ? '...' : ''}}
+          </span>
         </td>
         <td style="min-width:200px">
           <span class="p-column-title">Name</span>

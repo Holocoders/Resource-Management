@@ -10,8 +10,8 @@
                   pTooltip="{{obj?.description}}" type="button"></button>
         </div>
         <div class="flex align-items-center justify-content-center
-      flex-grow-1 font-bold border-round">
-          {{obj?.name}}
+      flex-grow-1 font-bold border-round" pTooltip="{{obj?.name}}">
+          {{obj?.name | slice:0:20}}{{obj?.name.length > 20 ? '...' : ''}}
         </div>
         <div class="flex align-items-center justify-content-center
       flex-none font-bold border-round m-2">

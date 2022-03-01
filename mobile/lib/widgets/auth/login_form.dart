@@ -86,7 +86,7 @@ class _LoginFormState extends State<LoginForm> {
                 enableSuggestions: false,
                 autocorrect: false,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Mutation(
                 options: MutationOptions(
                   document: gql(loginMutation),
@@ -150,7 +150,7 @@ class _LoginFormState extends State<LoginForm> {
                   minimumSize:
                   MaterialStateProperty.all<Size>(const Size(200, 40)),
                 ),
-                onPressed: () => {Navigator.of(context).pop("flip")},
+                onPressed: () => {Get.back(result: 'flip')},
               ),
               const SizedBox(height: 20),
             ],

@@ -9,22 +9,39 @@ extension StringCasingExtension on String {
       .join(' ');
 }
 
-class ItemStateColors {
+
+class ActivityUtil {
+  static var activities = [
+    'RENT',
+    'BUY'
+  ];
+}
+
+class ItemStateUtil {
+
+
+  static var itemStates = [
+    'ORDERED',
+    'ISSUED',
+    'RETURNED',
+    'CANCELLED'
+  ];
+
   static getColors(String itemState) {
     switch (itemState) {
       case 'ORDERED':
-        return ordered;
+        return orderedColor;
       case 'ISSUED':
-        return issued;
+        return issuedColor;
       case 'RETURNED':
-        return returned;
+        return returnedColor;
       case 'CANCELLED':
-        return cancelled;
+        return cancelledColor;
     }
   }
 
-  static const ordered = Color.fromRGBO(255, 255, 224, 0.5);
-  static const issued = Color.fromRGBO(205, 205, 255, 0.5);
-  static const cancelled = Color.fromRGBO(255, 204, 203, 0.5);
-  static const returned = Color.fromRGBO(205, 255, 219, 0.5);
+  static const orderedColor = Color.fromRGBO(255, 255, 224, 0.5);
+  static const issuedColor = Color.fromRGBO(205, 205, 255, 0.5);
+  static const cancelledColor = Color.fromRGBO(255, 204, 203, 0.5);
+  static const returnedColor = Color.fromRGBO(205, 255, 219, 0.5);
 }

@@ -61,11 +61,11 @@ export class FacilitiesComponent implements OnInit {
       .subscribe((result: any) => {
         const facility = result?.data?.createFacility;
         this.loading = result.loading;
+        this.display = false;
         this.error = result.error;
         this.facilities = Object.assign([], this.facilities);
         this.facilities.push(facility);
         this.facilities = [...this.facilities];
-        this.display = false;
         this.selectedFacility = { name: '', description: '' };
       });
   }

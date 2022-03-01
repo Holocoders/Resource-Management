@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:resource_management_system/widgets/activities/activities.dart';
 import 'package:resource_management_system/widgets/facilities.dart';
 
@@ -40,17 +41,17 @@ class BaseDrawer extends StatelessWidget {
             child: Column(
               children: [
                 ListTile(
-                  leading: Icon(Icons.home),
-                  title: Text('Facilities'),
+                  leading: const Icon(Icons.home),
+                  title: const Text('Facilities'),
                   onTap: () {
-                    Navigator.pushNamed(context, Facilities.route);
+                    Get.toNamed(Facilities.route);
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.calendar_today),
-                  title: Text('My activities'),
+                  leading: const Icon(Icons.calendar_today),
+                  title: const Text('My activities'),
                   onTap: () {
-                    Navigator.pushNamed(context, Activities.route);
+                    Get.toNamed(Activities.route);
                   },
                 ),
               ]

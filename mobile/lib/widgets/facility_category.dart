@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'NodesGridView.dart';
+import 'nodes_grid_view.dart';
 import 'base_appbar.dart';
 import 'base_drawer.dart';
 
@@ -55,7 +55,8 @@ class FacilityCategory extends StatelessWidget {
       body: Query(
         options: QueryOptions(
             document: gql(_getAllCategories),
-            variables: {'id': data['_id']}),
+            variables: {'id': data['_id']},
+        ),
         builder: (QueryResult categories,
             {VoidCallback? refetch, FetchMore? fetchMore}) {
           if (categories.isLoading) {
@@ -69,6 +70,9 @@ class FacilityCategory extends StatelessWidget {
                   {VoidCallback? refetch, FetchMore? fetchMore}) {
                 if (items.isLoading) {
                   return const Center(child: CircularProgressIndicator());
+                }
+                if (items.data == null) {
+                  return const Center(child: Text('No items found'));
                 }
                 var nodes = [...categories.data?['childCategories'], ...items.data?['childItems']];
                 return NodesGridView(nodes);

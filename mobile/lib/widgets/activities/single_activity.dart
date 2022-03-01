@@ -58,7 +58,7 @@ class _SingleActivityState extends State<SingleActivity> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
-            color: ItemStateColors.getColors(activity['itemState']),
+            color: ItemStateUtil.getColors(activity['itemState']),
             child: Container(
               alignment: Alignment.topLeft,
               height: 30,
@@ -66,66 +66,67 @@ class _SingleActivityState extends State<SingleActivity> {
                 child: Text(
                   "Current status: ${activity['itemState']}",
                   style: const TextStyle(
-                      fontSize: 15, fontStyle: FontStyle.italic),
+                    fontSize: 15,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
               ),
             ),
           ),
           const SizedBox(height: 10),
-          Card(
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(color: Colors.grey, width: 1),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: GestureDetector(
+          GestureDetector(
               onTap: () => Get.toNamed(Item.route,
                   arguments: activity['item']['node']['_id']),
-              child: Column(
-                children: [
-                  const SizedBox(height: 10),
-                  Container(
-                    alignment: Alignment.topRight,
-                    padding: const EdgeInsets.only(right: 10),
-                    child: const Icon(
-                      Icons.keyboard_arrow_right,
-                      size: 30,
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  side: const BorderSide(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    Container(
+                      alignment: Alignment.topRight,
+                      padding: const EdgeInsets.only(right: 10),
+                      child: const Icon(
+                        Icons.keyboard_arrow_right,
+                        size: 30,
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        'http://10.0.2.2:3000/${activity['item']['node']['_id']}'),
-                    radius: MediaQuery.of(context).size.width / 7,
-                  ),
-                  const SizedBox(height: 10),
-                  Center(
-                      child: Text(
-                    activity['item']['name'],
-                    style: const TextStyle(
-                        fontSize: 20, fontWeight: FontWeight.bold),
-                  )),
-                  const SizedBox(height: 10),
-                  Center(
-                    child: Text(activity['item']['description']),
-                  ),
-                  const SizedBox(height: 10),
-                  Center(
-                    child: Text(
-                        'Created By: ${activity['item']['node']['createdBy']['name']}'),
-                  ),
-                  const SizedBox(height: 10),
-                  Center(
-                    child: Text(
-                      'Rs ${activity['item']['price']}',
+                    const SizedBox(height: 10),
+                    CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          'http://10.0.2.2:3000/${activity['item']['node']['_id']}'),
+                      radius: MediaQuery.of(context).size.width / 7,
+                    ),
+                    const SizedBox(height: 10),
+                    Center(
+                        child: Text(
+                      activity['item']['name'],
                       style: const TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w600),
+                          fontSize: 20, fontWeight: FontWeight.bold),
+                    )),
+                    const SizedBox(height: 10),
+                    Center(
+                      child: Text(activity['item']['description']),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ),
-          ),
+                    const SizedBox(height: 10),
+                    Center(
+                      child: Text(
+                          'Created By: ${activity['item']['node']['createdBy']['name']}'),
+                    ),
+                    const SizedBox(height: 10),
+                    Center(
+                      child: Text(
+                        'Rs ${activity['item']['price']}',
+                        style: const TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              )),
           Row(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -185,7 +186,7 @@ class _SingleActivityState extends State<SingleActivity> {
                       side: const BorderSide(color: Colors.grey, width: 1),
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    color: ItemStateColors.cancelled,
+                    color: ItemStateUtil.cancelledColor,
                     child: ListTile(
                       title: const Center(child: Text('Due date')),
                       subtitle: Center(

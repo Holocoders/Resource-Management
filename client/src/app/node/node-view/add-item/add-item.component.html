@@ -45,6 +45,10 @@
             locale="en-IN" mode="currency" styleClass="w-full">
           </p-inputNumber>
         </div>
+        <div
+          *ngIf="addItemForm.controls['price'].invalid && (addItemForm.controls['price'].dirty || addItemForm.controls['price'].touched)">
+          <small *ngIf="addItemForm.controls['price'].errors?.required" class="p-error">Price is required</small>
+        </div>
         <div class="p-field flex flex-column mt-4">
           <label>
             <h6 class="mb-1">Allowed actions</h6>
@@ -54,10 +58,6 @@
             <div style="width: 10px;"></div>
             <p-checkbox label="Rent" name="buy" value="RENT" inputId="rent" [formControl]="$any(addItemForm).controls['allowedItemActivities']"></p-checkbox>
           </div>
-        </div>
-        <div
-          *ngIf="addItemForm.controls['price'].invalid && (addItemForm.controls['price'].dirty || addItemForm.controls['price'].touched)">
-          <small *ngIf="addItemForm.controls['price'].errors?.required" class="p-error">Price is required</small>
         </div>
         <div class="w-full mt-4 flex justify-content-evenly flex-column sm:flex-row">
           <button label="Create Item" pButton pRipple type="submit"></button>

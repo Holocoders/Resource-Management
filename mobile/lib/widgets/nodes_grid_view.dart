@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:resource_management_system/widgets/FacilityCategory.dart';
+import 'package:resource_management_system/widgets/facility_category.dart';
 import 'package:resource_management_system/widgets/facilities.dart';
 import 'package:resource_management_system/widgets/item/item.dart';
 
-import 'NodeView.dart';
+import 'node_view.dart';
 
 class NodesGridView extends StatelessWidget {
   final data;
@@ -16,6 +17,7 @@ class NodesGridView extends StatelessWidget {
     return data?.length != 0
         ? GridView.builder(
             shrinkWrap: true,
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 500,
               childAspectRatio: 3 / 2,
@@ -27,10 +29,10 @@ class NodesGridView extends StatelessWidget {
                 onTap: () {
                   if (data[index]['node']['isItem'] == null ||
                       data[index]['node']['isItem'] == false){
-                    Navigator.pushNamed(context, FacilityCategory.route, arguments: data[index]['node']);
+                    Get.toNamed(FacilityCategory.route, arguments: data[index]['node'], preventDuplicates: false);
                     return;
                   }
-                  Navigator.pushNamed(context, Item.route, arguments: data[index]['node']['_id']);
+                  Get.toNamed(Item.route, arguments: data[index]['node']['_id']);
                 },
                 splashColor: Theme.of(context).primaryColor,
                 child: NodeView(data?[index]),

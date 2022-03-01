@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:resource_management_system/widgets/FacilityCategory.dart';
+import 'package:resource_management_system/widgets/facility_category.dart';
 import 'package:resource_management_system/widgets/activities/activities.dart';
 import 'package:resource_management_system/widgets/activities/single_activity.dart';
 import 'package:resource_management_system/widgets/auth/auth.dart';
