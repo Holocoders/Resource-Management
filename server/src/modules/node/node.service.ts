@@ -103,8 +103,8 @@ export class NodeService {
     return this.nodeModel.findById(node.parent);
   }
 
-  async getParents(id) {
-    return this.nodeModel.aggregate([
+  async getParentIDs(id) {
+    const node = await this.nodeModel.aggregate([
       {
         $graphLookup: {
           from: 'nodes',
@@ -118,5 +118,9 @@ export class NodeService {
         $match: { _id: new Mongoose.Types.ObjectId(id) },
       },
     ]);
+    const parentIDs = [id];
+    if (!node || node.length == 0) return [id];
+    parentIDs.push(node[0].parentNodes.map((node) => node._id.toString()));
+    return parentIDs;
   }
 }

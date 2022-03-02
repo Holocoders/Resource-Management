@@ -15,6 +15,7 @@ import { SharedModule } from './modules/shared/shared.module';
 import { InventoryHistoryModule } from './modules/inventory-history/inventory-history.module';
 import { NodeModule } from './modules/node/node.module';
 import { PermissionModule } from './modules/permission/permission.module';
+import { PermissionService } from './modules/permission/permission.service';
 
 const environment = process.env.NODE_ENV || 'dev';
 

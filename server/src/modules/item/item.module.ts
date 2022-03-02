@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { SharedModule } from '../shared/shared.module';
 import { InventoryHistoryModule } from '../inventory-history/inventory-history.module';
 import { ItemHistoryModule } from '../item-history/item-history.module';
+import { PermissionModule } from '../permission/permission.module';
 
 @Module({
   providers: [ItemResolver, ItemService],
@@ -15,6 +16,7 @@ import { ItemHistoryModule } from '../item-history/item-history.module';
     forwardRef(() => NodeModule),
     SharedModule,
     InventoryHistoryModule,
+    forwardRef(() => PermissionModule),
     forwardRef(() => ItemHistoryModule),
   ],
   exports: [ItemService],

@@ -6,13 +6,14 @@ import { UpdateItemInput } from './dto/update-item.input';
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
 import { CurrentUser } from '../../decorators/auth.decorator';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/auth.guard';
+import { JwtAuthGuard, RolesGuard } from '../auth/auth.guard';
 import { GraphQLError } from 'graphql';
 import { SharedService } from '../shared/shared.service';
 import { join } from 'path';
+import { Roles } from '../../decorators/roles.decorator';
 
 @Resolver(() => Item)
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class ItemResolver {
   constructor(
     private readonly itemService: ItemService,
@@ -46,6 +47,7 @@ export class ItemResolver {
     return join(__dirname, path);
   }
 
+  @Roles('admin')
   @Query(() => [Item], { name: 'childItems' })
   getAllChildren(
     @CurrentUser() user,

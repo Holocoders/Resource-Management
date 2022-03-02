@@ -16,6 +16,27 @@ export class PermissionService {
     private readonly userService: UserService,
   ) {}
 
+  async isSuperAdmin(userId: string) {
+    const result = await this.permissionModel.findOne({
+      userId: userId as any,
+      nodeId: null,
+    });
+    return result != null;
+  }
+
+  async isAdmin(userId: any, nodeId: any) {
+    const isSuperAdmin = await this.isSuperAdmin(userId);
+    if (isSuperAdmin) {
+      return true;
+    }
+    const parents = await this.nodeService.getParentIDs(nodeId);
+    const permissions = await this.permissionModel.find({
+      userId: userId as any,
+      nodeId: { $in: parents },
+    });
+    return permissions.length > 0;
+  }
+
   async create(userId: string, nodeId: string) {
     const user = await this.userService.findById(userId);
     if (!user) {
@@ -45,7 +66,7 @@ export class PermissionService {
         const node = permission.nodeId;
         if (node.toString() == nodeId) return true;
         else {
-          const parents = await this.nodeService.getParents(nodeId);
+          const parents = await this.nodeService.getParentIDs(nodeId);
           return !!parents.includes(node);
         }
       });
