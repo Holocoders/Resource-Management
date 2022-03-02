@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { Permission, PermissionDocument } from './entities/permission.entity';
 import { NodeService } from '../node/node.service';
 import { CreatePermissionInput } from './dto/create-permission.input';
-import * as Mongoose from 'mongoose';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class PermissionService {
@@ -12,9 +12,15 @@ export class PermissionService {
     @InjectModel(Permission.name)
     private permissionModel: Model<PermissionDocument>,
     @Inject(forwardRef(() => NodeService)) private nodeService: NodeService,
+    @Inject(forwardRef(() => UserService))
+    private readonly userService: UserService,
   ) {}
 
   async create(userId: string, nodeId: string) {
+    const user = await this.userService.findById(userId);
+    if (!user) {
+      throw new Error('User not found');
+    }
     const createNodeInput = new CreatePermissionInput(userId, nodeId);
     const PermissionDocument = new this.permissionModel(createNodeInput);
     const permission = await PermissionDocument.save();
@@ -23,7 +29,7 @@ export class PermissionService {
 
   getPermissionNode(userId: string): Promise<string> {
     return this.permissionModel
-      .findOne({ userId: userId as any }) // TODO: BUG : The query is not working as expected
+      .findOne({ userId: userId as any })
       .then((permission) => {
         if (permission.nodeId == null) {
           return null;

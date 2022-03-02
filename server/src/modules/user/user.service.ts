@@ -30,10 +30,7 @@ export class UserService {
       createUserInput.password = await bcrypt
         .hash(createUserInput.password, 10)
         .then((r) => r);
-      const user = await new this.userModel(createUserInput).save();
-      const id = user._id;
-      await this.permissionService.create(id, createUserInput.nodeId);
-      return user;
+      return new this.userModel(createUserInput).save();
     }
   }
 

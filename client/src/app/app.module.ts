@@ -13,6 +13,8 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { MainComponent } from './main/main.component';
 import { FormsModule } from '@angular/forms';
 import { ActivityComponent } from './activity/activity.component';
+import { FacilitiesGridViewComponent } from './facilities/facilities-grid-view/facilities-grid-view.component';
+import { FacilitiesAdminViewComponent } from './facilities/facilities-admin-view/facilities-admin-view.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { ActivityComponent } from './activity/activity.component';
     MainComponent,
     BreadcrumbsComponent,
     ActivityComponent,
+    FacilitiesGridViewComponent,
+    FacilitiesAdminViewComponent,
   ],
   imports: [
     BrowserModule,

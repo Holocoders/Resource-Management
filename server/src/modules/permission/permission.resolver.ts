@@ -1,7 +1,6 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { PermissionService } from './permission.service';
 import { CreatePermissionInput } from './dto/create-permission.input';
-import { Facility } from '../facility/entities/facility.entity';
 import { Permission } from './entities/permission.entity';
 
 @Resolver()

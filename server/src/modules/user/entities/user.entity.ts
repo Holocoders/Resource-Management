@@ -20,9 +20,6 @@ export class User {
   password: string;
 
   token?: string;
-
-  // TODO: Is this used ?
-  nodeId?: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -11,7 +11,6 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:import/typescript",
@@ -27,7 +26,6 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-
     "unicorn/no-fn-reference-in-iterator": "off",
     "unicorn/no-array-for-each": "off",
     "unicorn/no-null": "off",

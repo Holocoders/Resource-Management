@@ -4,7 +4,7 @@ import { CreateUserInput } from '../user/dto/create-user.input';
 import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { GraphQLError } from 'graphql';
-import { forwardRef, Inject, Logger, UseGuards } from '@nestjs/common';
+import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './auth.guard';
 import { CurrentUser } from '../../decorators/auth.decorator';
 import { PermissionService } from '../permission/permission.service';
@@ -20,7 +20,6 @@ export class AuthResolver {
   @Mutation(() => User)
   async createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
     const password = createUserInput.password;
-    const nodeId = createUserInput.nodeId;
     const result = await this.userService.create(createUserInput);
     if (result instanceof GraphQLError) return result;
     const token = await this.authService.login({
@@ -28,9 +27,6 @@ export class AuthResolver {
       password,
     });
     result.token = token as string;
-    result.nodeId = nodeId;
-    await this.permissionService.create(result.id, nodeId);
-    // result.nodeId = await this.permissionService.getPermissionNode(result.id);
     return result;
   }
 
@@ -42,9 +38,6 @@ export class AuthResolver {
     const token = await this.authService.login({ email, password });
     const user = await this.userService.findOne({ email });
     user.token = token as string;
-    user.nodeId = (await this.permissionService.getPermissionNode(
-      user._id,
-    )) as string;
     return user;
   }
 
