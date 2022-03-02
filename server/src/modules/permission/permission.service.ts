@@ -48,30 +48,6 @@ export class PermissionService {
     return permission._id;
   }
 
-  getPermissionNode(userId: string): Promise<string> {
-    return this.permissionModel
-      .findOne({ userId: userId as any })
-      .then((permission) => {
-        if (permission.nodeId == null) {
-          return null;
-        }
-        return permission.nodeId.toString();
-      });
-  }
-
-  permissionCheck(userId: string, nodeId: string) {
-    return this.permissionModel
-      .findOne({ userId: userId as any, nodeId: nodeId as any })
-      .then(async (permission) => {
-        const node = permission.nodeId;
-        if (node.toString() == nodeId) return true;
-        else {
-          const parents = await this.nodeService.getParentIDs(nodeId);
-          return !!parents.includes(node);
-        }
-      });
-  }
-
   findAll(id: string) {
     return this.permissionModel.find({ nodeId: id as any });
   }

@@ -10,7 +10,7 @@ import { JwtAuthGuard, RolesGuard } from '../auth/auth.guard';
 import { GraphQLError } from 'graphql';
 import { SharedService } from '../shared/shared.service';
 import { join } from 'path';
-import { Roles } from '../../decorators/roles.decorator';
+import { AuthorizeNode } from '../../decorators/metadata.decorator';
 
 @Resolver(() => Item)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -20,6 +20,7 @@ export class ItemResolver {
     private readonly sharedService: SharedService,
   ) {}
 
+  @AuthorizeNode('createItemInput._id')
   @Mutation(() => Item)
   async createItem(
     @CurrentUser() user,
@@ -34,6 +35,7 @@ export class ItemResolver {
     return item;
   }
 
+  @AuthorizeNode('id')
   @Mutation(() => String)
   async uploadItemImage(
     @CurrentUser() user,
@@ -47,7 +49,6 @@ export class ItemResolver {
     return join(__dirname, path);
   }
 
-  @Roles('admin')
   @Query(() => [Item], { name: 'childItems' })
   getAllChildren(
     @CurrentUser() user,
@@ -57,12 +58,14 @@ export class ItemResolver {
     return this.itemService.getAllChildren(id);
   }
 
+  @AuthorizeNode('id')
   @Query(() => Item, { name: 'item' })
   findOne(@CurrentUser() user, @Args('id', { type: () => String }) id: string) {
     if (!user) return new GraphQLError('Unauthorized');
     return this.itemService.findOne(id);
   }
 
+  @AuthorizeNode('updateItemInput._id')
   @Mutation(() => Item)
   updateItem(
     @CurrentUser() user,
@@ -72,6 +75,7 @@ export class ItemResolver {
     return this.itemService.update(updateItemInput._id, updateItemInput);
   }
 
+  @AuthorizeNode('id')
   @Mutation(() => Item)
   reduceQuantity(
     @CurrentUser() user,

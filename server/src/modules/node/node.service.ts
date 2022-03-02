@@ -118,9 +118,12 @@ export class NodeService {
         $match: { _id: new Mongoose.Types.ObjectId(id) },
       },
     ]);
-    const parentIDs = [id];
+    let parentIDs = [id];
     if (!node || node.length == 0) return [id];
-    parentIDs.push(node[0].parentNodes.map((node) => node._id.toString()));
+    parentIDs = [
+      ...parentIDs,
+      ...node[0].parentNodes.map((node) => node._id.toString()),
+    ];
     return parentIDs;
   }
 }
