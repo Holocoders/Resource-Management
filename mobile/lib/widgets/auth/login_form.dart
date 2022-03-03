@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:resource_management_system/widgets/facilities.dart';
+import 'package:resource_management_system/widgets/snackbars.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
@@ -91,6 +92,7 @@ class _LoginFormState extends State<LoginForm> {
                 options: MutationOptions(
                   document: gql(loginMutation),
                   onCompleted: (dynamic data) async {
+                    if (data == null) return;
                     var user = {
                       'name': data['login']['name'],
                       'token': data['login']['token'],
@@ -101,7 +103,7 @@ class _LoginFormState extends State<LoginForm> {
                     Get.toNamed(Facilities.route);
                   },
                   onError: (OperationException? error) {
-
+                    CustomSnackbars.error(error?.graphqlErrors.first.message ?? 'Unable to login!');
                   },
                 ),
                 builder: (RunMutation runMutation, QueryResult? result) {

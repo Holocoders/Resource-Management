@@ -6,18 +6,20 @@ import { UpdateFacilityInput } from './dto/update-facility.input';
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
 import { SharedService } from '../shared/shared.service';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/auth.guard';
+import { JwtAuthGuard, RolesGuard } from '../auth/auth.guard';
 import { CurrentUser } from '../../decorators/auth.decorator';
 import { GraphQLError } from 'graphql';
+import { AuthorizeNode } from '../../decorators/metadata.decorator';
 
 @Resolver(() => Facility)
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class FacilityResolver {
   constructor(
     private readonly facilityService: FacilityService,
     private readonly sharedService: SharedService,
   ) {}
 
+  @AuthorizeNode('createFacilityInput.parent')
   @Mutation(() => Facility)
   async createFacility(
     @CurrentUser() user,
@@ -35,6 +37,7 @@ export class FacilityResolver {
     return facility;
   }
 
+  @AuthorizeNode('id')
   @Mutation(() => Boolean)
   async uploadFacilityImage(
     @Args('id', { type: () => String }) id: string,
@@ -55,6 +58,7 @@ export class FacilityResolver {
     return this.facilityService.findOne(id);
   }
 
+  @AuthorizeNode('updateFacilityInput._id')
   @Mutation(() => Facility)
   updateFacility(
     @Args('updateFacilityInput') updateFacilityInput: UpdateFacilityInput,
@@ -65,6 +69,7 @@ export class FacilityResolver {
     );
   }
 
+  @AuthorizeNode('id')
   @Mutation(() => Facility)
   removeFacility(@Args('id', { type: () => String }) id: string) {
     return this.facilityService.remove(id);

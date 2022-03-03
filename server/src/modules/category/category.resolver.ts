@@ -7,23 +7,25 @@ import { CurrentUser } from '../../decorators/auth.decorator';
 import { GraphQLError } from 'graphql';
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
 import { UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/auth.guard';
+import { JwtAuthGuard, RolesGuard } from '../auth/auth.guard';
 import { SharedService } from '../shared/shared.service';
+import { AuthorizeNode } from '../../decorators/metadata.decorator';
 
 @Resolver(() => Category)
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class CategoryResolver {
   constructor(
     private readonly categoryService: CategoryService,
     private readonly sharedService: SharedService,
   ) {}
 
+  @AuthorizeNode('createCategoryInput.parent')
   @Mutation(() => Category)
   async createCategory(
     @CurrentUser() user,
     @Args('createCategoryInput') createCategoryInput: CreateCategoryInput,
     @Args({ name: 'file', type: () => GraphQLUpload })
-    { createReadStream, filename }: FileUpload,
+    { createReadStream }: FileUpload,
   ) {
     if (!user) return new GraphQLError('Unauthorized');
     const category = await this.categoryService.create(
@@ -35,12 +37,13 @@ export class CategoryResolver {
     return category;
   }
 
+  @AuthorizeNode('id')
   @Mutation(() => String)
   async uploadCategoryImage(
     @CurrentUser() user,
     @Args('id', { type: () => String }) id: string,
     @Args({ name: 'file', type: () => GraphQLUpload })
-    { createReadStream, filename }: FileUpload,
+    { createReadStream }: FileUpload,
   ): Promise<any> {
     if (!user) return new GraphQLError('Unauthorized');
     const path = `./uploads/${id}`;
@@ -63,6 +66,7 @@ export class CategoryResolver {
     return this.categoryService.findOne(id);
   }
 
+  @AuthorizeNode('updateCategoryInput._id')
   @Mutation(() => Category)
   updateCategory(
     @CurrentUser() user,

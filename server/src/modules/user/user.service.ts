@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { User, UserDocument } from './entities/user.entity';
 import { InjectModel } from '@nestjs/mongoose';
@@ -8,15 +8,10 @@ import { GraphQLError } from 'graphql';
 import { GetUserInput } from './dto/get-user.input';
 import { UpdatePasswordInput } from './dto/update-password.input';
 import { UpdateUserInput } from './dto/update-user.input';
-import { PermissionService } from '../permission/permission.service';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
-    @Inject(forwardRef(() => PermissionService))
-    private permissionService: PermissionService,
-  ) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async create(
     createUserInput: CreateUserInput,

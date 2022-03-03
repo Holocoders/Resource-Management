@@ -20,7 +20,7 @@ export class ItemResolver {
     private readonly sharedService: SharedService,
   ) {}
 
-  @AuthorizeNode('createItemInput._id')
+  @AuthorizeNode('createItemInput.parent')
   @Mutation(() => Item)
   async createItem(
     @CurrentUser() user,

@@ -6,6 +6,7 @@ import { NodeResolver } from './node.resolver';
 import { ItemModule } from '../item/item.module';
 import { CategoryModule } from '../category/category.module';
 import { FacilityModule } from '../facility/facility.module';
+import { PermissionModule } from '../permission/permission.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { FacilityModule } from '../facility/facility.module';
     forwardRef(() => ItemModule),
     forwardRef(() => CategoryModule),
     forwardRef(() => FacilityModule),
+    forwardRef(() => PermissionModule),
   ],
   providers: [NodeService, NodeResolver],
   exports: [NodeService],

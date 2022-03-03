@@ -104,6 +104,9 @@ export class NodeService {
   }
 
   async getParentIDs(id) {
+    if (!id) {
+      return [];
+    }
     const node = await this.nodeModel.aggregate([
       {
         $graphLookup: {

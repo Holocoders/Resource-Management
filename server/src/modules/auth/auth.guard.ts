@@ -30,6 +30,9 @@ export class RolesGuard implements CanActivate {
       'argumentName',
       context.getHandler(),
     );
+    if (!argumentName) {
+      return true;
+    }
     const contextArguments = context.getArgs();
     const request = this.getRequest(context);
     const nodeId = lodash.get(

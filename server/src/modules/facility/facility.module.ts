@@ -5,6 +5,7 @@ import { Facility, FacilitySchema } from './entities/facility.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { NodeModule } from '../node/node.module';
 import { SharedModule } from '../shared/shared.module';
+import { PermissionModule } from '../permission/permission.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { SharedModule } from '../shared/shared.module';
       { name: Facility.name, schema: FacilitySchema },
     ]),
     forwardRef(() => NodeModule),
+    forwardRef(() => PermissionModule),
     SharedModule,
   ],
   providers: [FacilityResolver, FacilityService],

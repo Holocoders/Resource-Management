@@ -7,14 +7,12 @@ import { GraphQLError } from 'graphql';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from './auth.guard';
 import { CurrentUser } from '../../decorators/auth.decorator';
-import { PermissionService } from '../permission/permission.service';
 
 @Resolver(() => User)
 export class AuthResolver {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private permissionService: PermissionService,
   ) {}
 
   @Mutation(() => User)
@@ -36,6 +34,7 @@ export class AuthResolver {
     @Args('password') password: string,
   ): Promise<User | GraphQLError> {
     const token = await this.authService.login({ email, password });
+    if (token instanceof GraphQLError) return token;
     const user = await this.userService.findOne({ email });
     user.token = token as string;
     return user;
