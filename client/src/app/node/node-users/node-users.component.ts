@@ -16,7 +16,7 @@ export class NodeUsersComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private nodeService: NodeService
+    private nodeService: NodeService,
   ) {}
 
   ngOnInit(): void {
@@ -26,7 +26,7 @@ export class NodeUsersComponent implements OnInit {
           this.nodeId = params.id;
           return of(params.id);
         }),
-        mergeMap((id) => this.nodeService.getUsers(id))
+        mergeMap((id) => this.nodeService.getUsers(id)),
       )
       .subscribe((result) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

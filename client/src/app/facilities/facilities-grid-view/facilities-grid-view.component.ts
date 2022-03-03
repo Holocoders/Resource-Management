@@ -67,12 +67,10 @@ export class FacilitiesGridViewComponent implements OnInit {
         this.facilities.push(facility);
         this.facilities = [...this.facilities];
         this.selectedFacility = { name: '', description: '' };
+        this.newFacilityName = '';
+        this.newFacilityDesc = '';
+        this.newFacilityImage = null;
       });
-  }
-
-  openInfo(facility: any) {
-    this.selectedFacility = facility;
-    this.infoDisplay = true;
   }
 
   goToNode(facility: any) {
