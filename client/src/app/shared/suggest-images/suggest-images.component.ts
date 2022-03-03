@@ -20,7 +20,7 @@ export class SuggestImagesComponent {
 
   constructor(
     private service: SuggestImagesService,
-    private localMessageService: LocalMessageService
+    private localMessageService: LocalMessageService,
   ) {}
 
   suggestImages() {
