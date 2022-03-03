@@ -1,4 +1,4 @@
-<form (ngSubmit)="saveCategory()" [formGroup]="addCategoryForm">
+<form (ngSubmit)="saveCategory()" (click)="$event.stopPropagation()" [formGroup]="addCategoryForm">
   <div class="w-full grid">
     <div class="col-12 lg:col-6 p-4">
       <div class="flex flex-column w-full">
@@ -23,14 +23,15 @@
           <textarea class="w-full" formControlName="description" id="item-desc" pInputTextarea></textarea>
         </div>
         <div class="w-full mt-4 flex justify-content-evenly flex-column sm:flex-row">
-          <button label="Create Category" pButton pRipple type="submit"></button>
-          <button (click)="closeDialog()" class="p-button-warning mt-2 sm:mt-0" label="Cancel" pButton pRipple
+          <button label="{{category !== null ? 'Update' : 'Create'}} Category" pButton pRipple type="submit" (click)="$event.stopPropagation();"></button>
+          <button (click)="closeDialog(); $event.stopPropagation();" class="p-button-warning mt-2 sm:mt-0" label="Cancel" pButton pRipple
                   type="button"></button>
         </div>
       </div>
     </div>
     <div class="col-12 lg:col-6 p-4">
       <app-suggest-images (onFileUpload)="file = $event"
+                          [currentFile]="file"
                           [query]="addCategoryForm.controls['name'].value"></app-suggest-images>
     </div>
   </div>

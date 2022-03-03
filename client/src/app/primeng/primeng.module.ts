@@ -29,6 +29,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TooltipModule } from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToolbarModule } from 'primeng/toolbar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 const primeNgModules = [
   AvatarModule,
@@ -62,6 +64,7 @@ const primeNgModules = [
   ProgressSpinnerModule,
   CheckboxModule,
   ToolbarModule,
+  ConfirmPopupModule,
 ];
 
 @NgModule({

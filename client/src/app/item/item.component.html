@@ -13,7 +13,7 @@
           <h6>Created by: {{item?.node?.createdBy?.name}}</h6>
         </div>
         <div class="col-6 flex justify-content-center">
-          <p-chip label="Available : 4" styleClass="bg-primary"></p-chip>
+          <p-chip label="Total: {{item?.quantity}}" styleClass="bg-primary"></p-chip>
         </div>
         <div class="col-6 flex justify-content-center">
           <p-chip label="Rented : 11" styleClass="bg-yellow-300"></p-chip>
@@ -27,14 +27,14 @@
         <div class="col-6 flex justify-content-center">
           <p-button styleClass="border-round p-button-warning">
             <ng-template pTemplate="content">
-              <i class="pi pi-pencil"></i>
+              <i class="pi pi-pencil" (click)="displayAddDialog = true;"></i>
             </ng-template>
           </p-button>
         </div>
         <div class="col-6 flex justify-content-center">
           <p-button styleClass="border-round p-button-danger">
             <ng-template pTemplate="content">
-              <i class="pi pi-trash"></i>
+              <i class="pi pi-trash" (click)="deleteItem($event)"></i>
             </ng-template>
           </p-button>
         </div>
@@ -169,3 +169,12 @@
     </div>
   </div>
 </div>
+
+
+<p-dialog [(visible)]="displayAddDialog" [draggable]="false" [modal]="true" [position]="'top'"
+          [resizable]="false" [showHeader]="false" styleClass="w-full">
+  <div class="card mt-4" *ngIf="displayAddDialog">
+    <app-add-item [item]="item" (onDialogClose)="closeDialogItem($event)" [parent]="item?.node?._id || ''"></app-add-item>
+  </div>
+</p-dialog>
+<p-confirmPopup></p-confirmPopup>

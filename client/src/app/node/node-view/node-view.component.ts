@@ -25,7 +25,7 @@ export class NodeViewComponent implements OnInit {
     private nodeService: NodeService,
     private router: Router,
     private route: ActivatedRoute,
-    private breadCrumbService: BreadcrumbsService
+    private breadCrumbService: BreadcrumbsService,
   ) {}
 
   getNodes(id: string) {
@@ -42,7 +42,7 @@ export class NodeViewComponent implements OnInit {
           this.id = params.id;
           return of(params.id);
         }),
-        mergeMap((id) => this.getNodes(id))
+        mergeMap((id) => this.getNodes(id)),
       )
       .subscribe((result) => {
         const [items, categories] = result as any;

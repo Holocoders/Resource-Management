@@ -67,11 +67,15 @@ export class ItemResolver {
 
   @AuthorizeNode('updateItemInput._id')
   @Mutation(() => Item)
-  updateItem(
+  async updateItem(
     @CurrentUser() user,
     @Args('updateItemInput') updateItemInput: UpdateItemInput,
+    @Args({ name: 'file', type: () => GraphQLUpload })
+    { createReadStream }: FileUpload,
   ) {
     if (!user) return new GraphQLError('Unauthorized');
+    const path = `./uploads/${updateItemInput._id}`;
+    await this.sharedService.uploadImage(createReadStream, path);
     return this.itemService.update(updateItemInput._id, updateItemInput);
   }
 

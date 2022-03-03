@@ -1,4 +1,4 @@
-<form (ngSubmit)="saveItem()" [formGroup]="addItemForm">
+<form (ngSubmit)="saveItem()" (click)="$event.stopPropagation()" [formGroup]="addItemForm">
   <div class="w-full grid">
     <div class="col-12 lg:col-6 p-4">
       <div class="flex flex-column w-full">
@@ -60,14 +60,16 @@
           </div>
         </div>
         <div class="w-full mt-4 flex justify-content-evenly flex-column sm:flex-row">
-          <button label="Create Item" pButton pRipple type="submit"></button>
-          <button (click)="closeDialog()" class="p-button-warning mt-2 sm:mt-0" label="Cancel" pButton pRipple
+          <button label="{{item !== null ? 'Update' : 'Create'}} Item" pButton pRipple type="submit" (click)="$event.stopPropagation();"></button>
+          <button (click)="closeDialog(); $event.stopPropagation();" class="p-button-warning mt-2 sm:mt-0" label="Cancel" pButton pRipple
                   type="button"></button>
         </div>
       </div>
     </div>
     <div class="col-12 lg:col-6 p-4">
-      <app-suggest-images (onFileUpload)="file = $event"
+      <app-suggest-images
+                          [currentFile]="file"
+                          (onFileUpload)="file = $event"
                           [query]="addItemForm.controls['name'].value"></app-suggest-images>
     </div>
   </div>

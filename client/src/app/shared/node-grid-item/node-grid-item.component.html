@@ -5,7 +5,8 @@
         class="{{obj?.node?.isItem ? 'bg-blue-200' : 'bg-green-200'}} flex flex-wrap justify-content-between border-round-top">
         <div class="flex align-items-center justify-content-center
       flex-none font-bold border-round m-2" style="visibility: hidden">
-          <i class="pi pi-pencil"></i> &nbsp;&nbsp;
+          <button class="pi pi-pencil" icon="pi pi-info-circle" pButton
+                  pTooltip="Edit {{obj?.node?.isItem ? 'item' : 'category'}}" type="button"></button>
           <button class="p-button-rounded" icon="pi pi-info-circle" pButton
                   pTooltip="{{obj?.description}}" type="button"></button>
         </div>
@@ -15,9 +16,12 @@
         </div>
         <div class="flex align-items-center justify-content-center
       flex-none font-bold border-round m-2">
-          <i class="pi pi-pencil"></i> &nbsp;&nbsp;
+          <button class="p-button-rounded p-button-text" icon="pi pi-pencil" pButton
+                  pTooltip="Edit {{obj?.node?.isItem ? 'item' : 'category'}}"
+                  type="button" (click)="$event.stopPropagation(); displayAddDialog = true;">
+          </button>
           <button class="p-button-rounded p-button-text" icon="pi pi-info-circle" pButton
-                  pTooltip="{{obj?.description}}" type="button"></button>
+                  pTooltip="{{obj?.description}}" type="button" (click)="$event.stopPropagation()"></button>
         </div>
       </div>
     </div>
@@ -47,10 +51,25 @@
       <p-divider></p-divider>
     </div>
     <div class="col-12 flex flex-wrap justify-content-center">
-      <button (click)="$event.stopPropagation(); onDeleteClick.emit(obj?.node?._id)"
+      <button (click)="$event.stopPropagation(); onNodeDelete($event, obj?.node?._id)"
               class="p-button-raised p-button-danger p-button-text" icon="pi pi-trash" pButton
               pRipple
               type="button"></button>
     </div>
   </div>
 </div>
+
+
+<p-dialog [(visible)]="displayAddDialog" [draggable]="false" [modal]="true" [position]="'top'"
+          [resizable]="false" [showHeader]="false" styleClass="w-full">
+  <div class="card mt-4" *ngIf="displayAddDialog">
+    <div *ngIf="obj?.node?.isItem; else category" class="card-header">
+      <app-add-item (onDialogClose)="closeDialogItem($event, obj)" [parent]="obj?.node.parent._id" [item]="obj"></app-add-item>
+    </div>
+    <ng-template #category>
+      <app-add-category (onDialogClose)="closeDialogCategory($event, obj)" [parent]="obj?.node.parent._id" [category]="obj"></app-add-category>
+    </ng-template>
+  </div>
+</p-dialog>
+
+<p-confirmPopup></p-confirmPopup>

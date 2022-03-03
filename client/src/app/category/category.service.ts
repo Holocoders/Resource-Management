@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 export class CategoryService {
   constructor(
     private readonly apollo: Apollo,
-    private readonly http: HttpClient
+    private readonly http: HttpClient,
   ) {}
 
   addCategory(createCategoryInput: any, file: any) {
@@ -47,6 +47,41 @@ export class CategoryService {
     return this.http.post(environment.apiUrl, formData);
   }
 
+  updateCategory(updateCategoryInput: any, file: any) {
+    const operations = {
+      query: `
+        mutation updateCategory ($updateCategoryInput: UpdateCategoryInput!, $file: Upload!) {
+          updateCategory (updateCategoryInput: $updateCategoryInput, file: $file) {
+              node {
+                _id
+                createdBy {
+                  _id
+                  email
+                  name
+                }
+                isItem
+                itemCount
+                categoryCount
+              }
+              description
+              name
+          }
+      }`,
+      variables: {
+        file: file,
+        updateCategoryInput,
+      },
+    };
+    const _map = {
+      file: ['variables.file'],
+    };
+    const formData = new FormData();
+    formData.append('operations', JSON.stringify(operations));
+    formData.append('map', JSON.stringify(_map));
+    formData.append('file', file, file.name);
+    return this.http.post(environment.apiUrl, formData);
+  }
+
   getAllChildren(id: string) {
     const query = gql`
       query childCategories($id: String!) {
@@ -57,6 +92,9 @@ export class CategoryService {
               _id
               email
               name
+            }
+            parent {
+              _id
             }
             categoryCount
             itemCount

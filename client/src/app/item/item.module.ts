@@ -5,6 +5,7 @@ import { ItemComponent } from './item.component';
 import { PrimengModule } from '../primeng/primeng.module';
 import { SharedModule } from '../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ConfirmationService } from 'primeng/api';
 
 @NgModule({
   declarations: [ItemComponent],
@@ -15,5 +16,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     SharedModule,
     ReactiveFormsModule,
   ],
+  providers: [ConfirmationService],
 })
 export class ItemModule {}

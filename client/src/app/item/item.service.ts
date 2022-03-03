@@ -28,6 +28,7 @@ export class ItemService {
             name
             price
             quantity
+            allowedItemActivities
           }
         }
       `,
@@ -58,11 +59,51 @@ export class ItemService {
             name
             price
             quantity
+            allowedItemActivities
           }
       }`,
       variables: {
         file: file,
         createItemInput,
+      },
+    };
+    const _map = {
+      file: ['variables.file'],
+    };
+    const formData = new FormData();
+    formData.append('operations', JSON.stringify(operations));
+    formData.append('map', JSON.stringify(_map));
+    formData.append('file', file, file.name);
+    return this.http.post(environment.apiUrl, formData);
+  }
+
+  updateItem(updateItemInput: any, file: any) {
+    const operations = {
+      query: `
+        mutation updateItem ($updateItemInput: UpdateItemInput!, $file: Upload!) {
+          updateItem (updateItemInput: $updateItemInput, file: $file) {
+            node {
+              _id
+              createdBy {
+                _id
+                email
+                name
+              }
+              parent {
+                _id
+              }
+              isItem
+            }
+            description
+            name
+            price
+            quantity
+            allowedItemActivities
+          }
+      }`,
+      variables: {
+        file: file,
+        updateItemInput,
       },
     };
     const _map = {
@@ -92,6 +133,7 @@ export class ItemService {
           name
           price
           quantity
+          allowedItemActivities
         }
       }
     `;
@@ -125,6 +167,7 @@ export class ItemService {
             name
             price
             quantity
+            allowedItemActivities
           }
           quantity
           user {

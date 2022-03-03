@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { SuggestImagesService } from './suggest-images.service';
 import { LocalMessageService } from '../local-message.service';
 
@@ -7,7 +14,7 @@ import { LocalMessageService } from '../local-message.service';
   templateUrl: './suggest-images.component.html',
   styleUrls: ['./suggest-images.component.scss'],
 })
-export class SuggestImagesComponent {
+export class SuggestImagesComponent implements OnChanges {
   uploadedFiles: any[] = [];
   products: any[] = [];
   showSuggestions = false;
@@ -15,13 +22,21 @@ export class SuggestImagesComponent {
 
   @Output() onFileUpload = new EventEmitter();
   @Input() query: string;
+  @Input() currentFile?: any;
 
   offset = 1;
 
   constructor(
     private service: SuggestImagesService,
-    private localMessageService: LocalMessageService
+    private localMessageService: LocalMessageService,
   ) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.currentFile && changes.currentFile.currentValue) {
+      this.uploadedFiles = [changes.currentFile.currentValue];
+      this.uploadedFiles = [...this.uploadedFiles];
+    }
+  }
 
   suggestImages() {
     if (this.query === '') {
@@ -53,6 +68,7 @@ export class SuggestImagesComponent {
   acceptImage(url: string) {
     this.service.convertImageToFile(url).subscribe((file) => {
       this.uploadedFiles = [];
+      console.log(this.uploadedFiles);
       this.uploadedFiles.push(file);
       this.uploadedFiles = [...this.uploadedFiles];
       this.onFileUpload.emit(this.uploadedFiles[0]);

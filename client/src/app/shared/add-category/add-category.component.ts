@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -6,9 +13,11 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
   templateUrl: './add-category.component.html',
   styleUrls: ['./add-category.component.scss'],
 })
-export class AddCategoryComponent {
+export class AddCategoryComponent implements OnChanges {
   @Output() onDialogClose = new EventEmitter();
   @Input() parent: string;
+  @Input() category?: any = null;
+
   file: any;
   addCategoryForm = this.formBuilder.group({
     name: new FormControl('', [Validators.required]),
@@ -16,6 +25,20 @@ export class AddCategoryComponent {
   });
 
   constructor(private formBuilder: FormBuilder) {}
+
+  async ngOnChanges(changes: SimpleChanges) {
+    if (changes.category && changes.category.currentValue) {
+      this.addCategoryForm.patchValue(changes.category.currentValue);
+      const response = await (
+        await fetch(
+          `http://localhost:3000/${changes.category.currentValue.node._id}`,
+        )
+      ).blob();
+      this.file = new File([response], 'image.jpg', {
+        type: 'image/jpeg',
+      });
+    }
+  }
 
   saveCategory() {
     if (!this.addCategoryForm.valid) {

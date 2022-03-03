@@ -37,6 +37,24 @@ export class CategoryResolver {
     return category;
   }
 
+  @AuthorizeNode('updateCategoryInput._id')
+  @Mutation(() => Category)
+  async updateCategory(
+    @CurrentUser() user,
+    @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput,
+    @Args({ name: 'file', type: () => GraphQLUpload })
+    { createReadStream }: FileUpload,
+  ) {
+    if (!user) return new GraphQLError('Unauthorized');
+    const category = await this.categoryService.update(
+      updateCategoryInput._id,
+      updateCategoryInput,
+    );
+    const path = `./uploads/${category.node['_id']}`;
+    await this.sharedService.uploadImage(createReadStream, path);
+    return category;
+  }
+
   @AuthorizeNode('id')
   @Mutation(() => String)
   async uploadCategoryImage(
@@ -64,18 +82,5 @@ export class CategoryResolver {
   findOne(@CurrentUser() user, @Args('id', { type: () => String }) id: string) {
     if (!user) return new GraphQLError('Unauthorized');
     return this.categoryService.findOne(id);
-  }
-
-  @AuthorizeNode('updateCategoryInput._id')
-  @Mutation(() => Category)
-  updateCategory(
-    @CurrentUser() user,
-    @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput,
-  ) {
-    if (!user) return new GraphQLError('Unauthorized');
-    return this.categoryService.update(
-      updateCategoryInput._id,
-      updateCategoryInput,
-    );
   }
 }

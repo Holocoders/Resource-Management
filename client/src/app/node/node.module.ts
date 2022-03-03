@@ -6,18 +6,17 @@ import { PrimengModule } from '../primeng/primeng.module';
 import { ItemModule } from '../item/item.module';
 import { CategoryModule } from '../category/category.module';
 import { NodeRoutingModule } from './node-routing.module';
-import { AddCategoryComponent } from './node-view/add-category/add-category.component';
-import { AddItemComponent } from './node-view/add-item/add-item.component';
+import { AddCategoryComponent } from '../shared/add-category/add-category.component';
+import { AddItemComponent } from '../shared/add-item/add-item.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NodeUsersComponent } from './node-users/node-users.component';
 import { NodeViewComponent } from './node-view/node-view.component';
 import { UserModule } from '../user/user.module';
 import { CreateUserComponent } from './node-users/create-user/create-user.component';
+import { NodeGridItemComponent } from '../shared/node-grid-item/node-grid-item.component';
 
 @NgModule({
   declarations: [
-    AddCategoryComponent,
-    AddItemComponent,
     NodeComponent,
     NodeUsersComponent,
     NodeViewComponent,
@@ -33,5 +32,6 @@ import { CreateUserComponent } from './node-users/create-user/create-user.compon
     CategoryModule,
     UserModule,
   ],
+  exports: [],
 })
 export class NodeModule {}

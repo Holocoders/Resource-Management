@@ -56,7 +56,11 @@ export class CategoryService {
   }
 
   update(id: string, updateCategoryInput: UpdateCategoryInput) {
-    return this.categoryModel.findByIdAndUpdate(id, updateCategoryInput as any);
+    return this.categoryModel.findByIdAndUpdate(
+      id,
+      updateCategoryInput as any,
+      { new: true },
+    );
   }
 
   async deleteMany(ids: any[]) {

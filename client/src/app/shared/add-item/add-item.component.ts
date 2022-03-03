@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 
@@ -7,9 +14,11 @@ import { Subject } from 'rxjs';
   templateUrl: './add-item.component.html',
   styleUrls: ['./add-item.component.scss'],
 })
-export class AddItemComponent {
+export class AddItemComponent implements OnChanges {
   @Output() onDialogClose = new EventEmitter();
   @Input() parent: string;
+  @Input() item?: any = null;
+
   file: any;
   addItemForm = this.formBuilder.group({
     name: new FormControl('', [Validators.required]),
@@ -20,6 +29,31 @@ export class AddItemComponent {
   });
 
   constructor(private formBuilder: FormBuilder) {}
+
+  async ngOnChanges(changes: SimpleChanges) {
+    if (changes.item && changes.item.currentValue) {
+      this.addItemForm.patchValue(changes.item.currentValue);
+      if (changes.item.currentValue.allowedItemActivities == 'BOTH') {
+        this.addItemForm.patchValue({
+          allowedItemActivities: ['BUY', 'RENT'],
+        });
+      } else {
+        this.addItemForm.patchValue({
+          allowedItemActivities: [
+            changes.item.currentValue.allowedItemActivities,
+          ],
+        });
+      }
+      const response = await (
+        await fetch(
+          `http://localhost:3000/${changes.item.currentValue.node._id}`,
+        )
+      ).blob();
+      this.file = new File([response], 'image.jpg', {
+        type: 'image/jpeg',
+      });
+    }
+  }
 
   saveItem() {
     let activity = 'BOTH';

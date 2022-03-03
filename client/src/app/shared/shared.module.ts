@@ -7,20 +7,25 @@ import { PrimengModule } from '../primeng/primeng.module';
 import { SidebarModule } from 'primeng/sidebar';
 import { UserModule } from '../user/user.module';
 import { SuggestImagesComponent } from './suggest-images/suggest-images.component';
-import { NodeGridItemComponent } from './node-grid-item/node-grid-item.component';
 import { LoaderComponent } from './loader/loader.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddItemComponent } from './add-item/add-item.component';
+import { AddCategoryComponent } from './add-category/add-category.component';
+import { NodeGridItemComponent } from './node-grid-item/node-grid-item.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     SidebarComponent,
     SuggestImagesComponent,
-    NodeGridItemComponent,
     LoaderComponent,
+    AddItemComponent,
+    AddCategoryComponent,
+    NodeGridItemComponent,
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     SharedRoutingModule,
     PrimengModule,
     SidebarModule,
@@ -31,8 +36,10 @@ import { FormsModule } from '@angular/forms';
     NavbarComponent,
     SidebarComponent,
     SuggestImagesComponent,
-    NodeGridItemComponent,
     LoaderComponent,
+    AddItemComponent,
+    AddCategoryComponent,
+    NodeGridItemComponent,
   ],
 })
 export class SharedModule {}
