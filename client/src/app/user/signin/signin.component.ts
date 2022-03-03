@@ -24,7 +24,7 @@ export class SigninComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private messageService: LocalMessageService
+    private messageService: LocalMessageService,
   ) {}
 
   ngOnInit(): void {

@@ -12,7 +12,7 @@ export class AuthService {
 
   constructor(private apollo: Apollo) {}
 
-  signup(user: User, password: string, nodeId = '0', rememberMe = false) {
+  signup(user: User, password: string) {
     const { name, email } = user;
     const mutation = this.apollo.mutate({
       mutation: gql`
@@ -23,7 +23,6 @@ export class AuthService {
             name
             password
             token
-            nodeId
           }
         }
       `,
@@ -32,14 +31,13 @@ export class AuthService {
           name,
           email,
           password,
-          nodeId,
         },
       },
     });
     return mutation.pipe(
       catchError(() => {
         return throwError(void 0);
-      })
+      }),
     );
   }
 
@@ -50,7 +48,6 @@ export class AuthService {
           login(email: $email, password: $password) {
             name
             token
-            nodeId
           }
         }
       `,
@@ -73,7 +70,7 @@ export class AuthService {
       }),
       catchError(() => {
         return throwError(void 0);
-      })
+      }),
     );
   }
 

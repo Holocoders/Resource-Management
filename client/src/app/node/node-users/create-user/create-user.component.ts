@@ -21,7 +21,6 @@ export class CreateUserComponent implements OnInit {
   @ViewChild('formConfPassword') formConfPassword: any;
   @Output() userCreated = new EventEmitter<boolean>();
   user: User;
-  nodeId: string;
   showPassword = false;
   signUpForm = this.formBuilder.group({
     name: new FormControl('', [Validators.required]),
@@ -34,14 +33,10 @@ export class CreateUserComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private messageService: LocalMessageService
+    private messageService: LocalMessageService,
   ) {}
 
-  ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.nodeId = params.id;
-    });
-  }
+  ngOnInit(): void {}
 
   signUp() {
     if (!this.signUpForm.valid) {
@@ -53,13 +48,12 @@ export class CreateUserComponent implements OnInit {
     }
     this.user = new User(
       this.signUpForm.value.email,
-      this.signUpForm.value.name
+      this.signUpForm.value.name,
     );
     this.user.name = this.signUpForm.value.name;
     this.user.email = this.signUpForm.value.email;
     const password = this.signUpForm.value.password;
-    console.log('node = ' + this.nodeId);
-    this.authService.signup(this.user, password, this.nodeId).subscribe(
+    this.authService.signup(this.user, password).subscribe(
       () => {
         this.userCreated.emit(true);
         this.messageService.addToastMessage({
@@ -72,7 +66,7 @@ export class CreateUserComponent implements OnInit {
           detail: 'User already exists!',
           severity: 'error',
         });
-      }
+      },
     );
   }
 
