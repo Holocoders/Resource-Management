@@ -38,4 +38,20 @@ export class NodeService {
       },
     }).valueChanges;
   }
+
+  addPermission(email: string, nodeId: string) {
+    return this.apollo.mutate({
+      mutation: gql`
+        mutation addPermission($createPermissionInput: CreatePermissionInput!) {
+          addPermission(createPermissionInput: $createPermissionInput)
+        }
+      `,
+      variables: {
+        createPermissionInput: {
+          email,
+          nodeId,
+        },
+      },
+    });
+  }
 }

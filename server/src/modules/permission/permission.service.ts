@@ -37,12 +37,12 @@ export class PermissionService {
     return permissions.length > 0;
   }
 
-  async create(userId: string, nodeId: string) {
-    const user = await this.userService.findById(userId);
+  async create(email: string, nodeId: string) {
+    const user = await this.userService.findOne({ email });
     if (!user) {
       throw new Error('User not found');
     }
-    const createNodeInput = new CreatePermissionInput(userId, nodeId);
+    const createNodeInput = new CreatePermissionInput(email, nodeId, user._id);
     const PermissionDocument = new this.permissionModel(createNodeInput);
     const permission = await PermissionDocument.save();
     return permission._id;

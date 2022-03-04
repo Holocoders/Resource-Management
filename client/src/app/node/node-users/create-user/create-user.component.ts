@@ -1,15 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { User } from '../../../user/user.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { AuthService } from '../../../user/auth/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { LocalMessageService } from '../../../shared/local-message.service';
+import { NodeService } from '../../node.service';
 
 @Component({
   selector: 'app-create-user',
@@ -17,28 +9,21 @@ import { LocalMessageService } from '../../../shared/local-message.service';
   styleUrls: ['./create-user.component.scss'],
 })
 export class CreateUserComponent implements OnInit {
-  @ViewChild('formPassword') formPassword: any;
-  @ViewChild('formConfPassword') formConfPassword: any;
+  @Input() nodeId: string;
   @Output() userCreated = new EventEmitter<boolean>();
-  user: User;
   showPassword = false;
   signUpForm = this.formBuilder.group({
-    name: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required]),
-    confPassword: new FormControl('', [Validators.required]),
   });
   constructor(
-    private authService: AuthService,
     private formBuilder: FormBuilder,
-    private router: Router,
-    private route: ActivatedRoute,
+    private nodeService: NodeService,
     private messageService: LocalMessageService,
   ) {}
 
   ngOnInit(): void {}
 
-  signUp() {
+  addPermission() {
     if (!this.signUpForm.valid) {
       this.messageService.addToastMessage({
         detail: 'Data entered is invalid!',
@@ -46,38 +31,21 @@ export class CreateUserComponent implements OnInit {
       });
       return;
     }
-    this.user = new User(
-      this.signUpForm.value.email,
-      this.signUpForm.value.name,
-    );
-    this.user.name = this.signUpForm.value.name;
-    this.user.email = this.signUpForm.value.email;
-    const password = this.signUpForm.value.password;
-    this.authService.signup(this.user, password).subscribe(
-      () => {
+    const email = this.signUpForm.value.email;
+    this.nodeService.addPermission(email, this.nodeId).subscribe(
+      (res) => {
         this.userCreated.emit(true);
         this.messageService.addToastMessage({
           detail: 'Successfully registered!',
           severity: 'success',
         });
       },
-      () => {
+      (err) => {
         this.messageService.addToastMessage({
           detail: 'User already exists!',
           severity: 'error',
         });
       },
     );
-  }
-
-  showHidePassword() {
-    const isVisible = this.formPassword.input.nativeElement.type == 'text';
-    this.showPassword = !isVisible;
-    this.formPassword.input.nativeElement.type = !isVisible
-      ? 'text'
-      : 'password';
-    this.formConfPassword.input.nativeElement.type = !isVisible
-      ? 'text'
-      : 'password';
   }
 }

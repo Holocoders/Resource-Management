@@ -8,11 +8,11 @@ export class PermissionResolver {
   constructor(private readonly permissionService: PermissionService) {}
 
   @Mutation(() => String)
-  async createPermission(
+  async addPermission(
     @Args('createPermissionInput') createPermissionInput: CreatePermissionInput,
   ) {
     return this.permissionService.create(
-      createPermissionInput.userId,
+      createPermissionInput.email,
       createPermissionInput.nodeId,
     );
   }
