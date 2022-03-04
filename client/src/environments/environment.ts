@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   serverUrl: 'http://localhost:3000/',
+  corsProxyUrl: 'http://localhost:3001/',
   apiUrl: 'http://localhost:3000/graphql/',
 };
 

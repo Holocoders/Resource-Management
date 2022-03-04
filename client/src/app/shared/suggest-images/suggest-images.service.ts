@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +11,7 @@ export class SuggestImagesService {
 
   convertImageToFile(url: string) {
     return this.http
-      .get('https://cors-anywhere.herokuapp.com/' + url, {
+      .get(environment.corsProxyUrl + url, {
         responseType: 'blob',
         headers: { skip: 'true' },
       })
@@ -18,7 +19,7 @@ export class SuggestImagesService {
         map((data) => {
           const blob = new Blob([data], { type: 'image/jpeg' });
           return new File([blob], 'image.jpg', { type: 'image/jpeg' });
-        })
+        }),
       );
   }
 
@@ -38,7 +39,7 @@ export class SuggestImagesService {
       .pipe(
         map((data: any) => {
           return data.items;
-        })
+        }),
       );
   }
 }

@@ -34,10 +34,11 @@ export class NodeGridItemComponent {
       });
   }
 
-  onNodeDelete(event: any, id: any) {
+  onNodeDelete(event: any, obj: any) {
+    const id = obj?.node?._id;
     this.confirmationService.confirm({
       target: event.target,
-      message: 'Are you sure that you want to delete this item?',
+      message: `Are you sure that you want to delete this ${obj.__typename.toLowerCase()}?`,
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {

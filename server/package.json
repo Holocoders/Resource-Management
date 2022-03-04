@@ -37,6 +37,7 @@
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "cors-anywhere": "^0.4.4",
     "fastify": "^3.20.2",
     "google-closure-library": "^20211107.0.0",
     "graphql": "^15.5.1",
