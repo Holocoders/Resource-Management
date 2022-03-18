@@ -2,19 +2,10 @@
 <div class="mt-8">
   <form [formGroup]="signUpForm" class="h-full w-screen flex justify-content-center">
     <div class="p-grid w-25rem sm:w-30rem">
-      <div class="w-full align-items-center flex justify-content-center">
-        RMS
-      </div>
       <p class="w-full align-items-center flex justify-content-center mt-4 text-5xl">
-        Sign Up
+        Add User
       </p>
-      <div class="p-input-icon-right w-full mt-4">
-        <i class="pi pi-user"></i>
-        <input class="w-full" formControlName="name" pInputText placeholder="Name" type="text">
-      </div>
-      <div *ngIf="signUpForm.controls['name'].invalid && signUpForm.controls['name'].dirty">
-        <small *ngIf="signUpForm.controls['name'].errors?.required" class="p-error">Name is required</small>
-      </div>
+
       <div class="p-input-icon-right w-full mt-4">
         <i class="pi pi-envelope"></i>
         <input class="w-full" formControlName="email" pInputText placeholder="Email-ID" type="text">
@@ -23,47 +14,8 @@
         <small *ngIf="signUpForm.controls['email'].errors?.required" class="p-error">Email-ID is required</small>
         <small *ngIf="signUpForm.controls['email'].errors?.email" class="p-error">Enter a valid email-id.</small>
       </div>
-      <div class="p-input-icon-right w-full mt-4">
-        <i (click)="showHidePassword()"
-           [class]="showPassword ? 'pi pi-eye-slash z-5 cursor-pointer' : 'pi pi-eye z-5 cursor-pointer'"></i>
-        <p-password #formPassword class="w-full" formControlName="password" inputStyleClass="w-full" placeholder="Password"
-                    styleClass="w-full">
-          <ng-template pTemplate="header">
-            <h6>Pick a password</h6>
-          </ng-template>
-          <ng-template pTemplate="footer">
-            <p-divider></p-divider>
-            <p class="p-mt-2">Suggestions</p>
-            <ul class="p-pl-2 p-ml-2 p-mt-0" style="line-height: 1.5">
-              <li>At least one lowercase</li>
-              <li>At least one uppercase</li>
-              <li>At least one numeric</li>
-              <li>Minimum 8 characters</li>
-            </ul>
-          </ng-template>
-        </p-password>
-      </div>
-      <div *ngIf="signUpForm.controls['password'].invalid && signUpForm.controls['password'].dirty">
-        <small *ngIf="signUpForm.controls['password'].errors?.required" class="p-error">Password is required.</small>
-      </div>
-      <div class="p-input-icon-right w-full mt-4">
-        <i (click)="showHidePassword()"
-           [class]="showPassword ? 'pi pi-eye-slash z-5 cursor-pointer' : 'pi pi-eye z-5 cursor-pointer'"></i>
-        <p-password #formConfPassword [feedback]="false" class="w-full"
-                    formControlName="confPassword"
-                    inputStyleClass="w-full"
-                    placeholder="Confirm Password"
-                    styleClass="w-full">
-        </p-password>
-      </div>
-      <div *ngIf="signUpForm.controls['confPassword'].invalid && signUpForm.controls['confPassword'].dirty">
-        <small *ngIf="signUpForm.controls['confPassword'].errors?.required" class="p-error">Password is
-          required.</small>
-        <small *ngIf="signUpForm.controls['confPassword'].errors?.mismatch" class="p-error">Passwords don't
-          match.</small>
-      </div>
       <div class="mt-4">
-        <button (click)="signUp()" [disabled]="!signUpForm.valid" class="w-full p-button" label="Create User" pButton pRipple
+        <button (click)="addPermission()" [disabled]="!signUpForm.valid" class="w-full p-button" label="Create User" pButton pRipple
                 type="button"></button>
       </div>
     </div>

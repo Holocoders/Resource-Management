@@ -3,12 +3,15 @@ import { Field, InputType } from '@nestjs/graphql';
 @InputType()
 export class CreatePermissionInput {
   @Field(() => String)
-  userId: string;
+  email: string;
+  @Field(() => String)
+  userId?: string;
   @Field(() => String)
   nodeId?: string;
 
-  constructor(userId: string, nodeId: string) {
-    this.userId = userId;
+  constructor(email: string, nodeId: string, userId = '') {
+    this.email = email;
     this.nodeId = nodeId;
+    this.userId = userId;
   }
 }
