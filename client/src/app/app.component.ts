@@ -17,12 +17,12 @@ export class AppComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private messageService: MessageService,
-    private localMessageService: LocalMessageService
+    private localMessageService: LocalMessageService,
   ) {}
 
   ngOnInit() {
     this.localMessageService.toastMessage.subscribe((message) =>
-      this.messageService.add(message)
+      this.messageService.add(message),
     );
     this.authService.autoLogin();
   }

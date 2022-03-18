@@ -16,12 +16,12 @@ export class AuthGuard implements CanActivate {
   constructor(
     private api: AuthService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
   ) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ):
     | Observable<boolean | UrlTree>
     | Promise<boolean | UrlTree>
@@ -34,7 +34,7 @@ export class AuthGuard implements CanActivate {
           return true;
         }
         return this.router.createUrlTree(['/user/signin']);
-      })
+      }),
     );
   }
 }

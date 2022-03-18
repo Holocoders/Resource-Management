@@ -7,7 +7,6 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-add-item',

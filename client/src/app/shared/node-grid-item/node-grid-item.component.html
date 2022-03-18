@@ -16,12 +16,12 @@
         </div>
         <div class="flex align-items-center justify-content-center
       flex-none font-bold border-round m-2">
-          <button class="p-button-rounded p-button-text" icon="pi pi-pencil" pButton
-                  pTooltip="Edit {{obj?.node?.isItem ? 'item' : 'category'}}"
-                  type="button" (click)="$event.stopPropagation(); displayAddDialog = true;">
+          <button (click)="$event.stopPropagation(); displayAddDialog = true;" class="p-button-rounded p-button-text" icon="pi pi-pencil"
+                  pButton
+                  pTooltip="Edit {{obj?.node?.isItem ? 'item' : 'category'}}" type="button">
           </button>
-          <button class="p-button-rounded p-button-text" icon="pi pi-info-circle" pButton
-                  pTooltip="{{obj?.description}}" type="button" (click)="$event.stopPropagation()"></button>
+          <button (click)="$event.stopPropagation()" class="p-button-rounded p-button-text" icon="pi pi-info-circle"
+                  pButton pTooltip="{{obj?.description}}" type="button"></button>
         </div>
       </div>
     </div>
@@ -62,12 +62,14 @@
 
 <p-dialog [(visible)]="displayAddDialog" [draggable]="false" [modal]="true" [position]="'top'"
           [resizable]="false" [showHeader]="false" styleClass="w-full">
-  <div class="card mt-4" *ngIf="displayAddDialog">
+  <div *ngIf="displayAddDialog" class="card mt-4">
     <div *ngIf="obj?.node?.isItem; else category" class="card-header">
-      <app-add-item (onDialogClose)="closeDialogItem($event, obj)" [parent]="obj?.node.parent._id" [item]="obj"></app-add-item>
+      <app-add-item (onDialogClose)="closeDialogItem($event, obj)" [item]="obj"
+                    [parent]="obj?.node.parent._id"></app-add-item>
     </div>
     <ng-template #category>
-      <app-add-category (onDialogClose)="closeDialogCategory($event, obj)" [parent]="obj?.node.parent._id" [category]="obj"></app-add-category>
+      <app-add-category (onDialogClose)="closeDialogCategory($event, obj)" [category]="obj"
+                        [parent]="obj?.node.parent._id"></app-add-category>
     </ng-template>
   </div>
 </p-dialog>

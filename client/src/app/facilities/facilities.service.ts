@@ -32,7 +32,7 @@ export class FacilitiesService {
     const formData = new FormData();
     formData.append(
       'operations',
-      `{ "query": "mutation ($createFacilityInput: CreateFacilityInput!, $file: Upload!) { createFacility(file: $file, createFacilityInput: $createFacilityInput) { node { _id itemCount categoryCount } name description } }", "variables": { "file": null, "createFacilityInput": {"name": "${name}", "description": "${desc}"} } }`
+      `{ "query": "mutation ($createFacilityInput: CreateFacilityInput!, $file: Upload!) { createFacility(file: $file, createFacilityInput: $createFacilityInput) { node { _id itemCount categoryCount } name description } }", "variables": { "file": null, "createFacilityInput": {"name": "${name}", "description": "${desc}"} } }`,
     );
     formData.append('map', '{ "nfile": ["variables.file"] }');
     formData.append('nfile', file);

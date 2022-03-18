@@ -9,7 +9,7 @@
       <p-button (onClick)="displayAddDialog=true" class="mr-2 cursor-pointer" icon="pi pi-plus" label="Add"></p-button>
     </div>
   </ng-template>
-  <ng-template let-object let-i="rowIndex" pTemplate="gridItem">
+  <ng-template let-i="rowIndex" let-object pTemplate="gridItem">
     <app-node-grid-item
       (click)="goToNode(object, object?.node?.isItem)" (onDeleteClick)="removeNode($event, object?.node?._id)"
       [(obj)]="nodes[i]" class="cursor-pointer">
@@ -19,7 +19,7 @@
 
 <p-dialog [(visible)]="displayAddDialog" [draggable]="false" [modal]="true" [position]="'top'"
           [resizable]="false" [showHeader]="false" styleClass="w-full">
-  <div class="card mt-4" *ngIf="displayAddDialog">
+  <div *ngIf="displayAddDialog" class="card mt-4">
     <p-tabView>
       <p-tabPanel header="Category" leftIcon="pi pi-th-large" tooltip="Add New Category">
         <app-add-category (onDialogClose)="closeDialogCategory($event)" [parent]="id"></app-add-category>

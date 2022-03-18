@@ -15,7 +15,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(
     req: HttpRequest<any>,
-    next: HttpHandler
+    next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     if (req.url.indexOf('googleapis') != -1 || req.headers.get('skip')) {
       return next.handle(req);
@@ -29,7 +29,7 @@ export class AuthInterceptor implements HttpInterceptor {
           headers: req.headers.append('Authorization', 'Bearer ' + user.token),
         });
         return next.handle(modReq);
-      })
+      }),
     );
   }
 }

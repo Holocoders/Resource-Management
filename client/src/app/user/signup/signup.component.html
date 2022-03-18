@@ -26,7 +26,8 @@
       <div class="p-input-icon-right w-full mt-4">
         <i (click)="showHidePassword()"
            [class]="showPassword ? 'pi pi-eye-slash z-5 cursor-pointer' : 'pi pi-eye z-5 cursor-pointer'"></i>
-        <p-password #formPassword class="w-full" formControlName="password" inputStyleClass="w-full" placeholder="Password"
+        <p-password #formPassword class="w-full" formControlName="password" inputStyleClass="w-full"
+                    placeholder="Password"
                     styleClass="w-full">
           <ng-template pTemplate="header">
             <h6>Pick a password</h6>
@@ -67,7 +68,8 @@
         <label class="ml-2">Remember me</label>
       </div>
       <div class="mt-4">
-        <button (click)="signUp()" [disabled]="!signUpForm.valid" class="w-full p-button" label="Sign Up" pButton pRipple
+        <button (click)="signUp()" [disabled]="!signUpForm.valid" class="w-full p-button" label="Sign Up" pButton
+                pRipple
                 type="button"></button>
       </div>
       <div class="flex justify-content-center mt-4">

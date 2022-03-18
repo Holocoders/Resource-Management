@@ -22,7 +22,7 @@ import { NavbarService } from './navbar.service';
         style({
           transform: 'translateX(0)',
           visibility: 'visible',
-        })
+        }),
       ),
       state(
         'out',
@@ -30,7 +30,7 @@ import { NavbarService } from './navbar.service';
           transform: 'translateX(-100%)',
           visibility: 'hidden',
           position: 'absolute',
-        })
+        }),
       ),
       transition('in => out', animate('400ms ease-in-out')),
       transition('out => in', animate('400ms ease-in-out')),
@@ -40,13 +40,13 @@ import { NavbarService } from './navbar.service';
         'in',
         style({
           'margin-left': '0',
-        })
+        }),
       ),
       state(
         'out',
         style({
           'margin-left': '20rem',
-        })
+        }),
       ),
       transition('in => out', animate('400ms ease-in-out')),
       transition('out => in', animate('400ms ease-in-out')),
@@ -66,7 +66,7 @@ export class NavbarComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private service: NavbarService
+    private service: NavbarService,
   ) {}
 
   ngOnInit(): void {

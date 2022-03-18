@@ -1,4 +1,4 @@
-<form (ngSubmit)="saveItem()" (click)="$event.stopPropagation()" [formGroup]="addItemForm">
+<form (click)="$event.stopPropagation()" (ngSubmit)="saveItem()" [formGroup]="addItemForm">
   <div class="w-full grid">
     <div class="col-12 lg:col-6 p-4">
       <div class="flex flex-column w-full">
@@ -54,23 +54,27 @@
             <h6 class="mb-1">Allowed actions</h6>
           </label>
           <div class="flex flex-row mt-2">
-            <p-checkbox label="Buy" name="buy" value="BUY" inputId="buy" [formControl]="$any(addItemForm).controls['allowedItemActivities']"></p-checkbox>
+            <p-checkbox [formControl]="$any(addItemForm).controls['allowedItemActivities']" inputId="buy" label="Buy" name="buy"
+                        value="BUY"></p-checkbox>
             <div style="width: 10px;"></div>
-            <p-checkbox label="Rent" name="buy" value="RENT" inputId="rent" [formControl]="$any(addItemForm).controls['allowedItemActivities']"></p-checkbox>
+            <p-checkbox [formControl]="$any(addItemForm).controls['allowedItemActivities']" inputId="rent" label="Rent" name="buy"
+                        value="RENT"></p-checkbox>
           </div>
         </div>
         <div class="w-full mt-4 flex justify-content-evenly flex-column sm:flex-row">
-          <button label="{{item !== null ? 'Update' : 'Create'}} Item" pButton pRipple type="submit" (click)="$event.stopPropagation();"></button>
-          <button (click)="closeDialog(); $event.stopPropagation();" class="p-button-warning mt-2 sm:mt-0" label="Cancel" pButton pRipple
+          <button (click)="$event.stopPropagation();" label="{{item !== null ? 'Update' : 'Create'}} Item" pButton pRipple
+                  type="submit"></button>
+          <button (click)="closeDialog(); $event.stopPropagation();" class="p-button-warning mt-2 sm:mt-0"
+                  label="Cancel" pButton pRipple
                   type="button"></button>
         </div>
       </div>
     </div>
     <div class="col-12 lg:col-6 p-4">
       <app-suggest-images
-                          [currentFile]="file"
-                          (onFileUpload)="file = $event"
-                          [query]="addItemForm.controls['name'].value"></app-suggest-images>
+        (onFileUpload)="file = $event"
+        [currentFile]="file"
+        [query]="addItemForm.controls['name'].value"></app-suggest-images>
     </div>
   </div>
 </form>

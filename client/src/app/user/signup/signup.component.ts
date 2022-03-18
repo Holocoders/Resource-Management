@@ -27,7 +27,7 @@ export class SignupComponent implements OnInit {
     private authService: AuthService,
     private formBuilder: FormBuilder,
     private router: Router,
-    private messageService: LocalMessageService
+    private messageService: LocalMessageService,
   ) {}
 
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class SignupComponent implements OnInit {
     }
     this.user = new User(
       this.signUpForm.value.email,
-      this.signUpForm.value.name
+      this.signUpForm.value.name,
     );
     this.user.name = this.signUpForm.value.name;
     this.user.email = this.signUpForm.value.email;
@@ -67,7 +67,7 @@ export class SignupComponent implements OnInit {
           detail: 'User already exists!',
           severity: 'error',
         });
-      }
+      },
     );
   }
 

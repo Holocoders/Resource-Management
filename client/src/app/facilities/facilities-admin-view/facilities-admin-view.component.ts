@@ -7,5 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FacilitiesAdminViewComponent implements OnInit {
   constructor() {}
+
   ngOnInit() {}
 }

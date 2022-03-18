@@ -4,7 +4,8 @@
     <div class="block absolute overflow-hidden w-full z-5">
       <div [@slideInOutNavbar]="isDesktopSidebarOpen ? 'out' : 'in'"
            class="flex align-items-center border-0 border-bottom-1 border-300 h-4rem">
-        <button (click)="isDesktopSidebarOpen = !isDesktopSidebarOpen; onMenuClick.emit()" class="p-button-text ml-3" icon="pi pi-bars"
+        <button (click)="isDesktopSidebarOpen = !isDesktopSidebarOpen; onMenuClick.emit()" class="p-button-text ml-3"
+                icon="pi pi-bars"
                 pButton></button>
         <ng-container *ngTemplateOutlet="topNav"></ng-container>
       </div>

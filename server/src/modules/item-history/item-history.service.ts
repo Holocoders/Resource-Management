@@ -5,6 +5,7 @@ import {
   ItemActivity,
   ItemHistory,
   ItemHistoryDocument,
+  ItemState,
 } from './entities/item-history.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
@@ -35,7 +36,7 @@ export class ItemHistoryService {
             { issueDate: { $lte: dueDate } },
           ],
           activityType: ItemActivity.BUY,
-          cancelled: false,
+          itemState: { $ne: ItemState.CANCELLED },
         },
       },
       {
@@ -71,7 +72,7 @@ export class ItemHistoryService {
             },
           ],
           activityType: ItemActivity.RENT,
-          cancelled: false,
+          itemState: { $ne: ItemState.CANCELLED },
         },
       },
       {

@@ -15,6 +15,7 @@ export class CreateUserComponent implements OnInit {
   signUpForm = this.formBuilder.group({
     email: new FormControl('', [Validators.required, Validators.email]),
   });
+
   constructor(
     private formBuilder: FormBuilder,
     private nodeService: NodeService,

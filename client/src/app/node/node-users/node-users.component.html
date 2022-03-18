@@ -1,6 +1,6 @@
 <p-toolbar styleClass="mb-4">
   <ng-template pTemplate="left">
-    <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="display=true"></button>
+    <button (click)="display=true" class="p-button-success mr-2" icon="pi pi-plus" label="New" pButton pRipple></button>
   </ng-template>
 </p-toolbar>
 <p-table [value]="users">
@@ -10,7 +10,7 @@
       <th>Email</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-user>
+  <ng-template let-user pTemplate="body">
     <tr>
       <td>{{user.userId.name}}</td>
       <td>{{user.userId.email}}</td>
@@ -18,6 +18,6 @@
   </ng-template>
 </p-table>
 
-<p-dialog header="New User" [(visible)]="display">
+<p-dialog [(visible)]="display" header="New User">
   <app-create-user (userCreated)="display=false"></app-create-user>
 </p-dialog>

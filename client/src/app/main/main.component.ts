@@ -22,14 +22,14 @@ import { Router } from '@angular/router';
         style({
           transform: 'translateX(0)',
           'margin-left': '0',
-        })
+        }),
       ),
       state(
         'out',
         style({
           transform: 'translateX(0)',
           'margin-left': '20rem',
-        })
+        }),
       ),
       transition('in => out', animate('400ms ease-in-out')),
       transition('out => in', animate('400ms ease-in-out')),

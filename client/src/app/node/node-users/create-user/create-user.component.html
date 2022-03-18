@@ -15,7 +15,8 @@
         <small *ngIf="signUpForm.controls['email'].errors?.email" class="p-error">Enter a valid email-id.</small>
       </div>
       <div class="mt-4">
-        <button (click)="addPermission()" [disabled]="!signUpForm.valid" class="w-full p-button" label="Create User" pButton pRipple
+        <button (click)="addPermission()" [disabled]="!signUpForm.valid" class="w-full p-button" label="Create User"
+                pButton pRipple
                 type="button"></button>
       </div>
     </div>

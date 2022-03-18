@@ -3,7 +3,8 @@
     <p-card styleClass="p-6 shadow-4 border-round h-full">
       <div class="grid">
         <div class="col-12 flex justify-content-center mt-4">
-          <img [alt]="item?.name" [src]="'http://localhost:3000/' + item?.node?._id" class="border-1 border-primary border-circle" height="200"
+          <img [alt]="item?.name" [src]="'http://localhost:3000/' + item?.node?._id"
+               class="border-1 border-primary border-circle" height="200"
                width="200">
         </div>
         <div class="col-12 flex justify-content-center mt-4">
@@ -27,14 +28,14 @@
         <div class="col-6 flex justify-content-center">
           <p-button styleClass="border-round p-button-warning">
             <ng-template pTemplate="content">
-              <i class="pi pi-pencil" (click)="displayAddDialog = true;"></i>
+              <i (click)="displayAddDialog = true;" class="pi pi-pencil"></i>
             </ng-template>
           </p-button>
         </div>
         <div class="col-6 flex justify-content-center">
           <p-button styleClass="border-round p-button-danger">
             <ng-template pTemplate="content">
-              <i class="pi pi-trash" (click)="deleteItem($event)"></i>
+              <i (click)="deleteItem($event)" class="pi pi-trash"></i>
             </ng-template>
           </p-button>
         </div>
@@ -121,7 +122,9 @@
           <p-card styleClass="h-full shadow-4 border-round">
             <div class="grid">
               <div class="col-12 flex justify-content-center mt-4">
-                <img height="100" src="https://5.imimg.com/data5/SELLER/Default/2020/9/RO/CL/XV/681044/battery-eliminator-500x500.jpg" width="100">
+                <img height="100"
+                     src="https://5.imimg.com/data5/SELLER/Default/2020/9/RO/CL/XV/681044/battery-eliminator-500x500.jpg"
+                     width="100">
               </div>
               <div class="col-12 flex justify-content-center mt-4">
                 <h6 class="mb-0">Battery Eliminator</h6>
@@ -173,8 +176,9 @@
 
 <p-dialog [(visible)]="displayAddDialog" [draggable]="false" [modal]="true" [position]="'top'"
           [resizable]="false" [showHeader]="false" styleClass="w-full">
-  <div class="card mt-4" *ngIf="displayAddDialog">
-    <app-add-item [item]="item" (onDialogClose)="closeDialogItem($event)" [parent]="item?.node?._id || ''"></app-add-item>
+  <div *ngIf="displayAddDialog" class="card mt-4">
+    <app-add-item (onDialogClose)="closeDialogItem($event)" [item]="item"
+                  [parent]="item?.node?._id || ''"></app-add-item>
   </div>
 </p-dialog>
 <p-confirmPopup></p-confirmPopup>

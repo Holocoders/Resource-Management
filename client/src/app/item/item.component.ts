@@ -3,7 +3,7 @@ import { Item } from '../models/item.model';
 import { ItemService } from './item.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, mergeMap } from 'rxjs/operators';
-import { ConfirmationService, Message } from 'primeng/api';
+import { ConfirmationService } from 'primeng/api';
 import { NodeService } from '../node/node.service';
 
 @Component({
