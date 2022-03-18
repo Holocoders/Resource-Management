@@ -19,7 +19,7 @@ async function bootstrap() {
   }
   app.use(graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }));
   const port = process.env.PORT || 3000;
-  const proxy_port = process.env.CORS_PROXY_PORT || 4000;
+  const proxy_port = process.env.CORS_PROXY_PORT || 3001;
   Logger.debug(
     `Application running in ${
       process.env.NODE_ENV || 'dev'
