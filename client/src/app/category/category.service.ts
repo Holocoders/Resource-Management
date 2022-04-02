@@ -24,7 +24,7 @@ export class CategoryService {
                   email
                   name
                 }
-                isItem
+                type
                 itemCount
                 categoryCount
               }
@@ -59,7 +59,7 @@ export class CategoryService {
                   email
                   name
                 }
-                isItem
+                type
                 itemCount
                 categoryCount
               }
@@ -98,7 +98,7 @@ export class CategoryService {
             }
             categoryCount
             itemCount
-            isItem
+            type
           }
           description
           name

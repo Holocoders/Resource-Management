@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:resource_management_system/widgets/snackbars.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 typedef CounterCallback = void Function();
 
 class AvailabilityView extends StatefulWidget {
   final Map<String, dynamic> item;
+
   const AvailabilityView({Key? key, required this.item}) : super(key: key);
 
   @override
@@ -19,6 +20,8 @@ class _AvailabilityViewState extends State<AvailabilityView> {
   String _range = '';
   int _currentCount = 0;
   int _maxCount = -1;
+  String activityType = 'RENT';
+  var allowedItemActivities = [];
   DateTime? _startDate;
   DateTime? _endDate;
   final timeZoneOffset = DateTime.now().timeZoneOffset;
@@ -31,6 +34,8 @@ class _AvailabilityViewState extends State<AvailabilityView> {
             args.value.startDate.add(timeZoneOffset);
         _range = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'
             ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
+      } else if (args.value is DateTime) {
+        _startDate = args.value.add(timeZoneOffset);
       }
     });
   }
@@ -53,8 +58,8 @@ class _AvailabilityViewState extends State<AvailabilityView> {
   }
 
   String itemAvailability = """
-  query itemAvailability (\$dueDate: String!, \$issueDate: String!, \$item: String!) {
-    itemAvailability (dueDate: \$dueDate, issueDate: \$issueDate, item: \$item)
+  query itemAvailability (\$dueDate: String!, \$activityType: ItemActivity!, \$issueDate: String!, \$item: String!) {
+    itemAvailability (dueDate: \$dueDate, activityType: \$activityType, issueDate: \$issueDate, item: \$item)
   }
   """;
 
@@ -87,21 +92,41 @@ class _AvailabilityViewState extends State<AvailabilityView> {
     return Column(
       children: <Widget>[
         const SizedBox(height: 20),
+        ToggleSwitch(
+          minWidth: 90.0,
+          cornerRadius: 20.0,
+          initialLabelIndex: activityType == 'RENT' ? 0 : 1,
+          totalSwitches: widget.item['allowedItemActivities'] == 'BOTH' ? 2 : 1,
+          labels: widget.item['allowedItemActivities'] == 'BOTH'
+              ? ['RENT', 'BUY']
+              : [widget.item['allowedItemActivities']],
+          radiusStyle: true,
+          onToggle: (index) {
+            setState(() {
+              activityType = index == 0 ? 'RENT' : 'BUY';
+            });
+          },
+        ),
+        const SizedBox(height: 10),
         const Text(
           'Select date range to check for availability.',
         ),
         const SizedBox(height: 10),
         SfDateRangePicker(
           onSelectionChanged: _onSelectionChanged,
-          selectionMode: DateRangePickerSelectionMode.range,
+          selectionMode: activityType == 'RENT'
+              ? DateRangePickerSelectionMode.range
+              : DateRangePickerSelectionMode.single,
           enablePastDates: false,
           minDate: DateTime.now(),
           maxDate: DateTime.now().add(const Duration(days: 30)),
         ),
-        Visibility(
-          child: Text('Selected range: $_range'),
-          visible: _range.isNotEmpty,
-        ),
+        _range.isNotEmpty && _startDate != null
+            ? activityType == 'RENT'
+                ? Text('Selected range: $_range')
+                : Text(
+                    'Issue date: ${DateFormat('dd/MM/yyyy').format(_startDate!)}')
+            : const SizedBox(height: 0),
         const SizedBox(height: 10),
         GraphQLConsumer(
           builder: (GraphQLClient client) {
@@ -118,6 +143,7 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                     'issueDate': _startDate?.toIso8601String(),
                     'dueDate': _endDate?.toIso8601String() ??
                         _startDate?.toIso8601String(),
+                    'activityType': activityType,
                     'item': widget.item['node']['_id'],
                   },
                 ));
@@ -197,76 +223,38 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                 visible: _currentCount == 0,
               ),
               const SizedBox(height: 10),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Visibility(
-                    child: Mutation(
-                      options: MutationOptions(
-                          document: gql(getItem),
-                          onCompleted: (dynamic data) {
-                            setState(() {
-                              _currentCount = 0;
-                              _maxCount = -1;
-                            });
-                          }),
-                      builder: (RunMutation runMutation, QueryResult? result) {
-                        return ElevatedButton.icon(
-                          icon: const Icon(Icons.check),
-                          label: const Text('Buy'),
-                          onPressed: _currentCount == 0
-                              ? null
-                              : () {
-                                  runMutation({
-                                    'createItemHistoryInput': {
-                                      'item': widget.item['node']['_id'],
-                                      'quantity': _currentCount,
-                                      'activityType': 'BUY',
-                                      'issueDate': _startDate.toString()
-                                    }
-                                  });
-                                },
-                        );
-                      },
-                    ),
-                    visible: widget.item['allowedItemActivities'] == 'BUY' ||
-                        widget.item['allowedItemActivities'] == 'BOTH',
-                  ),
-                  const SizedBox(width: 10),
-                  Visibility(
-                    child: Mutation(
-                      options: MutationOptions(
-                          document: gql(getItem),
-                          onCompleted: (dynamic data) {
-                            setState(() {
-                              _currentCount = 0;
-                              _maxCount = -1;
-                            });
-                          }),
-                      builder: (RunMutation runMutation, QueryResult? result) {
-                        return ElevatedButton.icon(
-                          icon: const Icon(Icons.vpn_key),
-                          label: const Text('Rent/Borrow'),
-                          onPressed: _currentCount == 0
-                              ? null
-                              : () {
-                                  runMutation({
-                                    'createItemHistoryInput': {
-                                      'item': widget.item['node']['_id'],
-                                      'quantity': _currentCount,
-                                      'activityType': 'RENT',
-                                      'issueDate': _startDate.toString(),
-                                      'dueDate': _endDate.toString()
-                                    }
-                                  });
-                                },
-                        );
-                      },
-                    ),
-                    visible: widget.item['allowedItemActivities'] == 'RENT' ||
-                        widget.item['allowedItemActivities'] == 'BOTH',
-                  )
-                ],
+              Mutation(
+                options: MutationOptions(
+                    document: gql(getItem),
+                    onCompleted: (dynamic data) {
+                      setState(() {
+                        _currentCount = 0;
+                        _maxCount = -1;
+                      });
+                    }),
+                builder: (RunMutation runMutation, QueryResult? result) {
+                  var mutObj = {
+                    'createItemHistoryInput': {
+                      'item': widget.item['node']['_id'],
+                      'quantity': _currentCount,
+                      'activityType': activityType,
+                      'issueDate': _startDate.toString(),
+                    }
+                  };
+                  if (activityType == 'RENT') {
+                    mutObj['createItemHistoryInput']!['dueDate'] =
+                        _endDate.toString();
+                  }
+                  return ElevatedButton.icon(
+                    icon: const Icon(Icons.check),
+                    label: const Text('Place order'),
+                    onPressed: _currentCount == 0
+                        ? null
+                        : () {
+                            runMutation(mutObj);
+                          },
+                  );
+                },
               ),
               const SizedBox(height: 10),
             ],

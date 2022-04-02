@@ -1,9 +1,18 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { User } from '../../user/entities/user.entity';
 
 export type NodeDocument = Node & Document;
+
+export enum NodeType {
+  CATEGORY = 'CATEGORY',
+  ITEM = 'ITEM',
+  PACK = 'PACK',
+  FACILITY = 'FACILITY',
+}
+
+registerEnumType(NodeType, { name: 'NodeType' });
 
 @Schema()
 @ObjectType()
@@ -29,8 +38,12 @@ export class Node {
   @Prop({ default: 0 })
   itemCount: number;
 
-  @Prop({ default: false })
-  isItem: boolean;
+  @Prop({ default: 0 })
+  packCount: number;
+
+  @Field(() => NodeType)
+  @Prop({ required: true })
+  type: NodeType;
 }
 
 export const NodeSchema = SchemaFactory.createForClass(Node);

@@ -21,13 +21,11 @@ class NodeView extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15)),
                   color: () {
-                    if (_node['node']['isItem'] == null) {
-                      return Colors.green;
-                    } else {
-                      return _node['node']['isItem']
-                          ? Colors.lightBlueAccent
-                          : Colors.green;
+                    var nodeType = _node['node']['type'];
+                    if (nodeType == 'ITEM') {
+                      return Colors.lightBlueAccent;
                     }
+                    return Colors.green;
                   }()
               ),
               child: Row(
@@ -69,43 +67,27 @@ class NodeView extends StatelessWidget {
               height: 80,
             ),
                 () {
-              if (_node['node']['isItem'] == null) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Chip(
-                      label: Text(
-                          '${_node['node']['categoryCount']} Categories'),
-                      backgroundColor: Colors.green,
-                    ),
-                    Chip(
-                      label: Text('${_node['node']['itemCount']} Items'),
-                      backgroundColor: Colors.lightBlue,
-                    ),
-                  ],
-                );
-              } else {
-                return _node['node']['isItem']
-                    ? Chip(
+              var nodeType = _node['node']['type'];
+              if (nodeType == 'ITEM') {
+                Chip(
                   label: Text('Quantity : ${_node['quantity']}'),
                   backgroundColor: Colors.blueAccent,
-                )
-                    : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Chip(
-                      label: Text(
-                          '${_node['node']['categoryCount']} Categories'),
-                      backgroundColor: Colors.green,
-                    ),
-                    Chip(
-                      label:
-                      Text('${_node['node']['itemCount']} Items'),
-                      backgroundColor: Colors.lightBlue,
-                    ),
-                  ],
                 );
               }
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Chip(
+                    label: Text(
+                        '${_node['node']['categoryCount']} Categories'),
+                    backgroundColor: Colors.green,
+                  ),
+                  Chip(
+                    label: Text('${_node['node']['itemCount']} Items'),
+                    backgroundColor: Colors.lightBlue,
+                  ),
+                ],
+              );
             }(),
             const SizedBox(height: 10,)
           ],

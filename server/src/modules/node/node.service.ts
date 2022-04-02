@@ -3,7 +3,7 @@ import { CreateNodeInput } from './dto/create-node.input';
 import { InjectModel } from '@nestjs/mongoose';
 import * as Mongoose from 'mongoose';
 import { Model } from 'mongoose';
-import { Node, NodeDocument } from './entities/node.entity';
+import { Node, NodeDocument, NodeType } from './entities/node.entity';
 import * as fs from 'fs';
 import { ItemService } from '../item/item.service';
 import { CategoryService } from '../category/category.service';
@@ -21,8 +21,8 @@ export class NodeService {
     private facilityService: FacilityService,
   ) {}
 
-  async updateCounts(node: Node, isItem: boolean, inc: boolean) {
-    if (!isItem) {
+  async updateCounts(node: Node, type: NodeType, inc: boolean) {
+    if (type === NodeType.CATEGORY) {
       await this.nodeModel.findByIdAndUpdate(node.parent, {
         $inc: {
           categoryCount: inc ? 1 : -1,
@@ -45,27 +45,38 @@ export class NodeService {
         $match: { _id: new Mongoose.Types.ObjectId(node._id) },
       },
     ]);
-    await this.nodeModel.updateMany(
-      { _id: { $in: nodesToUpdate[0].nodesToUpdate.map((node) => node._id) } },
-      { $inc: { itemCount: inc ? 1 : -1 } },
-    );
+    if (type === NodeType.ITEM) {
+      await this.nodeModel.updateMany(
+        {
+          _id: { $in: nodesToUpdate[0].nodesToUpdate.map((node) => node._id) },
+        },
+        { $inc: { itemCount: inc ? 1 : -1 } },
+      );
+    } else if (type === NodeType.PACK) {
+      await this.nodeModel.updateMany(
+        {
+          _id: { $in: nodesToUpdate[0].nodesToUpdate.map((node) => node._id) },
+        },
+        { $inc: { packCount: inc ? 1 : -1 } },
+      );
+    }
   }
 
-  async create(parent: any, createdBy: string, isItem = false) {
-    const createNodeInput = new CreateNodeInput(parent, createdBy, isItem);
+  async create(parent: any, createdBy: string, type: NodeType) {
+    const createNodeInput = new CreateNodeInput(parent, createdBy, type);
     const nodeDocument = new this.nodeModel(createNodeInput);
     const node = await nodeDocument.save();
     if (!parent) {
       return node._id;
     }
-    await this.updateCounts(node, isItem, true);
+    await this.updateCounts(node, type, true);
     return node._id;
   }
 
-  async findAllChildren(id: string, returnItems = true) {
+  async findAllChildren(id: string, type: NodeType) {
     let nodes = await this.nodeModel.find({
       parent: id,
-      isItem: returnItems,
+      type,
     } as any);
     nodes = nodes.map((value) => value._id);
     return nodes;
@@ -73,7 +84,7 @@ export class NodeService {
 
   async remove(id: string) {
     const node = await this.nodeModel.findById(id);
-    await this.updateCounts(node, node.isItem, false);
+    await this.updateCounts(node, node.type, false);
     const nodesToRemove = await this.nodeModel.aggregate([
       {
         $graphLookup: {

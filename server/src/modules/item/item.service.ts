@@ -9,7 +9,7 @@ import * as fs from 'fs';
 import { InventoryHistoryService } from '../inventory-history/inventory-history.service';
 import { CreateInventoryHistoryInput } from '../inventory-history/dto/create-inventory-history.input';
 import { InventoryActivity } from '../inventory-history/entities/inventory-history.entity';
-import { Node } from '../node/entities/node.entity';
+import { Node, NodeType } from '../node/entities/node.entity';
 import { ItemHistoryService } from '../item-history/item-history.service';
 
 @Injectable()
@@ -39,7 +39,7 @@ export class ItemService {
     createItemInput._id = await this.nodeService.create(
       createItemInput.parent,
       createdBy,
-      true,
+      NodeType.ITEM,
     );
     const itemDocument = await new this.itemModel(createItemInput).save();
     await this.itemModel.populate(itemDocument, this.populateObject);
@@ -53,7 +53,7 @@ export class ItemService {
   }
 
   async getAllChildren(id) {
-    const nodes = await this.nodeService.findAllChildren(id);
+    const nodes = await this.nodeService.findAllChildren(id, NodeType.ITEM);
     const items = await this.itemModel.find({ _id: { $in: nodes } });
     await this.itemModel.populate(items, this.populateObject);
     return items;

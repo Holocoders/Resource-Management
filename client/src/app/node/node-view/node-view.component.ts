@@ -7,6 +7,7 @@ import { ItemService } from '../../item/item.service';
 import { NodeService } from '../node.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbsService } from '../../breadcrumbs/breadcrumbs.service';
+import { NodeType } from 'src/app/models/node.model';
 
 @Component({
   selector: 'app-node-view',
@@ -87,9 +88,9 @@ export class NodeViewComponent implements OnInit {
     });
   }
 
-  goToNode(node: any, isItem: boolean) {
+  goToNode(node: any, type: NodeType) {
     const id = node?.node?._id;
-    if (isItem) {
+    if (type === NodeType.ITEM) {
       this.breadCrumbService.push({
         label: node.name,
         routerLink: '/item',
@@ -97,12 +98,21 @@ export class NodeViewComponent implements OnInit {
       });
       this.router.navigate(['/item'], { queryParams: { id } });
       return;
+    } else if (type === NodeType.CATEGORY) {
+      this.breadCrumbService.push({
+        label: node.name,
+        routerLink: '/node',
+        queryParams: { id },
+      });
+      this.router.navigate(['/node'], { queryParams: { id } });
+    } else if (type === NodeType.PACK) {
+      this.breadCrumbService.push({
+        label: node.name,
+        routerLink: '/pack',
+        queryParams: { id },
+      });
+      this.router.navigate(['/pack'], { queryParams: { id } });
+      return;
     }
-    this.breadCrumbService.push({
-      label: node.name,
-      routerLink: '/node',
-      queryParams: { id },
-    });
-    this.router.navigate(['/node'], { queryParams: { id } });
   }
 }

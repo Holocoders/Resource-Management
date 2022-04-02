@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ItemService } from '../../item/item.service';
 import { CategoryService } from '../../category/category.service';
 import { ConfirmationService } from 'primeng/api';
+import { NodeType } from 'src/app/models/node.model';
 
 @Component({
   selector: 'app-node-grid-item',
@@ -19,6 +20,13 @@ export class NodeGridItemComponent {
     private categoryService: CategoryService,
     private confirmationService: ConfirmationService,
   ) {}
+
+  getHeaderColor(type: NodeType) {
+    if (type === NodeType.ITEM) {
+      return 'bg-blue-200';
+    }
+    return 'bg-green-200';
+  }
 
   closeDialogItem(event: any, obj: any) {
     if (!event.submit) {

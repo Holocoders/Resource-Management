@@ -6,7 +6,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Category, CategoryDocument } from './entities/category.entity';
 import * as fs from 'fs';
-import { Node } from '../node/entities/node.entity';
+import { Node, NodeType } from '../node/entities/node.entity';
 
 @Injectable()
 export class CategoryService {
@@ -33,6 +33,7 @@ export class CategoryService {
     createCategoryInput._id = await this.nodeService.create(
       createCategoryInput.parent,
       createdBy,
+      NodeType.CATEGORY,
     );
     const categoryDocument = await new this.categoryModel(
       createCategoryInput,
@@ -45,7 +46,7 @@ export class CategoryService {
   }
 
   async getAllChildren(id) {
-    const nodes = await this.nodeService.findAllChildren(id, false);
+    const nodes = await this.nodeService.findAllChildren(id, NodeType.CATEGORY);
     const categories = await this.categoryModel.find({ _id: { $in: nodes } });
     await this.categoryModel.populate(categories, this.populateCategoryObject);
     return categories;

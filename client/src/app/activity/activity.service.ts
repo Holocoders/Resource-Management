@@ -24,7 +24,7 @@ export class ActivityService {
               parent {
                 _id
               }
-              isItem
+              type
             }
             description
             name
@@ -52,7 +52,7 @@ export class ActivityService {
               parent {
                 _id
               }
-              isItem
+              type
             }
             description
             name

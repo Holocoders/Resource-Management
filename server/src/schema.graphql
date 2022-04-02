@@ -165,9 +165,17 @@ type Node {
   _id: ID!
   categoryCount: Float!
   createdBy: User!
-  isItem: Boolean!
   itemCount: Float!
+  packCount: Float!
   parent: Node
+  type: NodeType!
+}
+
+enum NodeType {
+  CATEGORY
+  FACILITY
+  ITEM
+  PACK
 }
 
 type Permission {
@@ -191,7 +199,7 @@ type Query {
   inventoryHistoryByItem(item: String!): [InventoryHistory!]!
   inventoryHistoryByUser(user: String!): [InventoryHistory!]!
   item(id: String!): Item!
-  itemAvailability(dueDate: String!, issueDate: String!, item: String!): Int!
+  itemAvailability(activityType: ItemActivity!, dueDate: String!, issueDate: String!, item: String!): Int!
   itemHistory: [ItemHistory!]!
   itemHistoryByItem(item: String!): [ItemHistory!]!
   itemHistoryByUser: [ItemHistory!]!

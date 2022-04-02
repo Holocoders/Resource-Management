@@ -11,6 +11,7 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import * as Mongoose from 'mongoose';
 import { ItemService } from '../item/item.service';
+import { GraphQLError } from 'graphql';
 
 @Injectable()
 export class ItemHistoryService {
@@ -25,18 +26,22 @@ export class ItemHistoryService {
     return await new this.itemHistoryModel(createItemHistoryInput).save();
   }
 
-  async findItemAvailability(itemId: string, issueDate: Date, dueDate: Date) {
+  async findItemAvailabilityBuy(itemId: string, issueDate: Date) {
     const totalQty = (await this.itemService.findOne(itemId))['quantity'];
-    let result = await this.itemHistoryModel.aggregate([
+    const result = await this.itemHistoryModel.aggregate([
       {
         $match: {
           item: Mongoose.Types.ObjectId(itemId),
-          $or: [
-            { issueDate: { $lte: issueDate } },
-            { issueDate: { $lte: dueDate } },
-          ],
-          activityType: ItemActivity.BUY,
           itemState: { $ne: ItemState.CANCELLED },
+          $or: [
+            {
+              activityType: ItemActivity.BUY,
+            },
+            {
+              activityType: ItemActivity.RENT,
+              dueDate: { $gte: issueDate },
+            },
+          ],
         },
       },
       {
@@ -47,43 +52,60 @@ export class ItemHistoryService {
       },
     ]);
     const bought = result[0] ? result[0]['bought'] : 0;
-    result = await this.itemHistoryModel.aggregate([
+    return totalQty - bought;
+  }
+
+  async findItemAvailabilityRent(
+    itemId: string,
+    issueDate: Date,
+    dueDate: Date,
+  ) {
+    const totalQty = (await this.itemService.findOne(itemId))['quantity'];
+    const result = await this.itemHistoryModel.aggregate([
       {
         $match: {
           item: Mongoose.Types.ObjectId(itemId),
+          itemState: { $ne: ItemState.CANCELLED },
           $or: [
             {
+              activityType: ItemActivity.BUY,
+              issueDate: { $lte: dueDate },
+            },
+            {
+              activityType: ItemActivity.RENT,
               $and: [
-                { issueDate: { $gte: issueDate } },
                 { issueDate: { $lte: dueDate } },
-              ],
-            },
-            {
-              $and: [
-                { issueDate: { $lte: issueDate } },
-                { dueDate: { $gte: dueDate } },
-              ],
-            },
-            {
-              $and: [
                 { dueDate: { $gte: issueDate } },
-                { dueDate: { $lte: dueDate } },
               ],
             },
           ],
-          activityType: ItemActivity.RENT,
-          itemState: { $ne: ItemState.CANCELLED },
         },
       },
       {
         $group: {
           _id: '$item',
-          borrowed: { $sum: '$quantity' },
+          rented: { $sum: '$quantity' },
         },
       },
     ]);
-    const borrowed = result[0] ? result[0]['borrowed'] : 0;
-    return totalQty - bought - borrowed;
+    const rented = result[0] ? result[0]['rented'] : 0;
+    return totalQty - rented;
+  }
+
+  async findItemAvailability(
+    itemId: string,
+    activityType: ItemActivity,
+    issueDate: Date,
+    dueDate: Date,
+  ) {
+    switch (activityType) {
+      case ItemActivity.BUY:
+        return await this.findItemAvailabilityBuy(itemId, issueDate);
+      case ItemActivity.RENT:
+        return await this.findItemAvailabilityRent(itemId, issueDate, dueDate);
+      default:
+        return new GraphQLError('Invalid activity type');
+    }
   }
 
   findAll(query?: any, projection?: any) {

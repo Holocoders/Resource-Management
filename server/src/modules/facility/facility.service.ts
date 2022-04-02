@@ -6,7 +6,7 @@ import { Facility, FacilityDocument } from './entities/facility.entity';
 import { Model } from 'mongoose';
 import { NodeService } from '../node/node.service';
 import * as fs from 'fs';
-import { Node } from '../node/entities/node.entity';
+import { Node, NodeType } from '../node/entities/node.entity';
 import { User } from '../user/entities/user.entity';
 
 @Injectable()
@@ -29,7 +29,11 @@ export class FacilityService {
   ) {}
 
   async create(createFacilityInput: CreateFacilityInput, createdBy: string) {
-    createFacilityInput._id = await this.nodeService.create(null, createdBy);
+    createFacilityInput._id = await this.nodeService.create(
+      null,
+      createdBy,
+      NodeType.FACILITY,
+    );
     const createdFacility = new this.facilityModel(createFacilityInput);
     await createdFacility.save();
     await this.facilityModel.populate(createdFacility, this.populateObject);

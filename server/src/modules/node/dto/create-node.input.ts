@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { NodeType } from '../entities/node.entity';
 
 @InputType()
 export class CreateNodeInput {
@@ -6,11 +7,13 @@ export class CreateNodeInput {
   parent: string;
   isItem: boolean;
   @Field(() => String)
+  type: NodeType;
+  @Field(() => String)
   createdBy?: string;
 
-  constructor(parent: string, createdBy: string, isItem = false) {
+  constructor(parent: string, createdBy: string, type: NodeType) {
     this.parent = parent;
-    this.isItem = isItem;
+    this.type = type;
     this.createdBy = createdBy;
   }
 }

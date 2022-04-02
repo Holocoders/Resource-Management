@@ -53,7 +53,7 @@ export class ItemService {
               parent {
                 _id
               }
-              isItem
+              type
             }
             description
             name
@@ -92,7 +92,7 @@ export class ItemService {
               parent {
                 _id
               }
-              isItem
+              type
             }
             description
             name
@@ -127,7 +127,7 @@ export class ItemService {
             }
             categoryCount
             itemCount
-            isItem
+            type
           }
           description
           name
@@ -161,7 +161,7 @@ export class ItemService {
               parent {
                 _id
               }
-              isItem
+              type
             }
             description
             name

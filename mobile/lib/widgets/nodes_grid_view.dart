@@ -27,12 +27,12 @@ class NodesGridView extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  if (data[index]['node']['isItem'] == null ||
-                      data[index]['node']['isItem'] == false){
-                    Get.toNamed(FacilityCategory.route, arguments: data[index]['node'], preventDuplicates: false);
+                  var nodeType = data[index]['node']['type'];
+                  if (nodeType == 'ITEM') {
+                    Get.toNamed(Item.route, arguments: data[index]['node']['_id']);
                     return;
                   }
-                  Get.toNamed(Item.route, arguments: data[index]['node']['_id']);
+                  Get.toNamed(FacilityCategory.route, arguments: data[index]['node'], preventDuplicates: false);
                 },
                 splashColor: Theme.of(context).primaryColor,
                 child: NodeView(data?[index]),

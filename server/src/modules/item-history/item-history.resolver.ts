@@ -1,6 +1,6 @@
 import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ItemHistoryService } from './item-history.service';
-import { ItemHistory } from './entities/item-history.entity';
+import { ItemActivity, ItemHistory } from './entities/item-history.entity';
 import { CreateItemHistoryInput } from './dto/create-item-history.input';
 import { UpdateItemHistoryInput } from './dto/update-item-history.input';
 import { CurrentUser } from '../../decorators/auth.decorator';
@@ -40,11 +40,14 @@ export class ItemHistoryResolver {
   @Query(() => Int, { name: 'itemAvailability' })
   findItemAvailability(
     @Args('item', { type: () => String }) item: string,
+    @Args('activityType', { type: () => ItemActivity })
+    activityType: ItemActivity,
     @Args('issueDate', { type: () => String }) issueDate: string,
     @Args('dueDate', { type: () => String }) dueDate: string,
   ) {
     return this.itemHistoryService.findItemAvailability(
       item,
+      activityType,
       new Date(issueDate),
       new Date(dueDate),
     );

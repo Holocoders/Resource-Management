@@ -16,7 +16,7 @@ class FacilityCategory extends StatelessWidget {
             _id
             categoryCount
             itemCount
-            isItem
+            type
           }
           description
           name
@@ -31,7 +31,7 @@ class FacilityCategory extends StatelessWidget {
             _id
             categoryCount
             itemCount
-            isItem
+            type
           }
           description
           name
