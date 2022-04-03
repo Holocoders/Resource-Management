@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
 import 'package:resource_management_system/widgets/base_drawer.dart';
+import 'facility_category_add.dart';
+import 'package:get/get.dart';
 import 'nodes_grid_view.dart';
 
 class Facilities extends StatelessWidget {
@@ -43,6 +45,12 @@ class Facilities extends StatelessWidget {
           // print(result.data?['facilities']);
           return NodesGridView(result.data?['facilities']);
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.toNamed(FacilityCategoryAdd.route, arguments: '-1');
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }

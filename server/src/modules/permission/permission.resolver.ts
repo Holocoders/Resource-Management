@@ -24,4 +24,17 @@ export class PermissionResolver {
   ) {
     return this.permissionService.findAll(nodeId);
   }
+
+  @Query(() => [Boolean], { name: 'checkPermission' })
+  checkPermission(
+    @Args('userId', { type: () => String, description: 'User ID' })
+    userId: string,
+    @Args('nodeId', { type: () => String, description: 'Node ID' })
+    nodeId: string,
+  ) {
+    return (
+      this.permissionService.isSuperAdmin(userId) ||
+      this.permissionService.isAdmin(userId, nodeId)
+    );
+  }
 }
