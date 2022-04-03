@@ -1,0 +1,125 @@
+<form (click)="$event.stopPropagation()" (ngSubmit)="savePack()" [formGroup]="addPackForm">
+  <div class="w-full grid">
+    <div class="col-12 lg:col-6 p-4">
+      <div class="flex flex-column w-full">
+        <div class="p-field">
+          <label for="item-name">
+            <h6 class="mb-1">Pack name</h6>
+          </label>
+          <input
+            [class]="addPackForm.controls['name'].invalid &&
+                      (addPackForm.controls['name'].dirty || addPackForm.controls['name'].touched)
+                      ? 'ng-invalid ng-dirty w-full' : 'w-full'" formControlName="name" id="item-name"
+            pInputText type="text">
+        </div>
+        <div
+          *ngIf="addPackForm.controls['name'].invalid && (addPackForm.controls['name'].dirty || addPackForm.controls['name'].touched)">
+          <small *ngIf="addPackForm.controls['name'].errors?.required" class="p-error">Name is required</small>
+        </div>
+        <div class="p-field mt-4">
+          <label for="item-desc">
+            <h6 class="mb-1">Description</h6>
+          </label>
+          <textarea class="w-full" formControlName="description" id="item-desc" pInputTextarea></textarea>
+        </div>
+        <div class="p-field flex flex-column mt-4">
+          <label for="item-quantity">
+            <h6 class="mb-1">Quantity</h6>
+          </label>
+          <p-inputNumber [showButtons]="true" formControlName="quantity" id="item-quantity" mode="decimal"
+                         styleClass="w-full"></p-inputNumber>
+        </div>
+        <div
+          *ngIf="addPackForm.controls['quantity'].invalid && (addPackForm.controls['quantity'].dirty || addPackForm.controls['quantity'].touched)">
+          <small *ngIf="addPackForm.controls['quantity'].errors?.required" class="p-error">Quantity is required</small>
+        </div>
+        <div class="p-field flex flex-column mt-4">
+          <label for="item-price">
+            <h6 class="mb-1">Price</h6>
+          </label>
+          <p-inputNumber
+            [class]="addPackForm.controls['price'].invalid &&
+                      (addPackForm.controls['price'].dirty || addPackForm.controls['price'].touched)
+                      ? 'ng-invalid ng-dirty w-full' : 'w-full'"
+            currency="INR" currencyDisplay="code" formControlName="price" id="item-price" inputId="item-price"
+            locale="en-IN" mode="currency" styleClass="w-full">
+          </p-inputNumber>
+        </div>
+        <div
+          *ngIf="addPackForm.controls['price'].invalid && (addPackForm.controls['price'].dirty || addPackForm.controls['price'].touched)">
+          <small *ngIf="addPackForm.controls['price'].errors?.required" class="p-error">Price is required</small>
+        </div>
+        <div class="p-field flex flex-column mt-4">
+          <label>
+            <h6 class="mb-1">Allowed actions</h6>
+          </label>
+          <div class="flex flex-row mt-2">
+            <p-checkbox [formControl]="$any(addPackForm).controls['allowedItemActivities']" inputId="buy" label="Buy" name="buy"
+                        value="BUY"></p-checkbox>
+            <div style="width: 10px;"></div>
+            <p-checkbox [formControl]="$any(addPackForm).controls['allowedItemActivities']" inputId="rent" label="Rent" name="buy"
+                        value="RENT"></p-checkbox>
+          </div>
+        </div>
+        <div class="p-field flex flex-column mt-4">
+          <label>
+            <h6 class="mb-1">Pack Items</h6>
+          </label>
+          <div class="flex flex-row mt-2">
+            <div class="grid w-full">
+              <div class="col-12">
+                <p-multiSelect
+                  [(ngModel)]="addPackForm.value['packItems']"
+                  [options]="items"
+                  optionLabel="item.name"
+                  [ngModelOptions]="{standalone: true}"
+                  defaultLabel="Select items"
+                  [maxSelectedLabels]="0"
+                  selectedItemsLabel="{0} items selected">
+                </p-multiSelect>
+              </div>
+              <div>
+                <p-table [value]="addPackForm.value['packItems']" responsiveLayout="scroll">
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>Item name</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-item>
+                    <tr>
+                      <td>{{item.item.name}}</td>
+                      <td>
+                        <p-inplace [closable]="true" [style]="{'min-height':'33px'}">
+                          <ng-template pTemplate="display">
+                            {{item.quantity}}
+                          </ng-template>
+                          <ng-template pTemplate="content">
+                            <input (change)="onQuantityChange(item, $event)" type="text" [value]="item.quantity" pInputText>
+                          </ng-template>
+                        </p-inplace>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="w-full mt-4 flex justify-content-evenly flex-column sm:flex-row">
+          <button (click)="$event.stopPropagation();" label="{{item !== null ? 'Update' : 'Create'}} Pack" pButton pRipple
+                  type="submit"></button>
+          <button (click)="closeDialog(); $event.stopPropagation();" class="p-button-warning mt-2 sm:mt-0"
+                  label="Cancel" pButton pRipple
+                  type="button"></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 p-4">
+      <app-suggest-images
+        (onFileUpload)="file = $event"
+        [currentFile]="file"
+        [query]="addPackForm.controls['name'].value"></app-suggest-images>
+    </div>
+  </div>
+</form>

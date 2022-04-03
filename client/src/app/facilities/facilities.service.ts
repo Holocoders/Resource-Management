@@ -17,6 +17,7 @@ export class FacilitiesService {
             node {
               _id
               categoryCount
+              type
               itemCount
             }
             name

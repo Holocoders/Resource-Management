@@ -29,7 +29,7 @@
       <img [alt]="obj?.name" [src]="'http://localhost:3000/' + obj?.node?._id"
            height="100" width="100"/>
     </div>
-    <div *ngIf="obj?.node?.type === 'ITEM'; else category" class="col-12 flex align-items-center justify-content-center
+    <div *ngIf="obj?.node?.type === 'ITEM' || obj?.node?.type === 'PACK'; else category" class="col-12 flex align-items-center justify-content-center
            border-round m-2">
       <p-chip label="Available : {{obj?.quantity}}" styleClass="bg-primary"></p-chip>
     </div>
@@ -51,7 +51,7 @@
       <p-divider></p-divider>
     </div>
     <div class="col-12 flex flex-wrap justify-content-center">
-      <button (click)="$event.stopPropagation(); onNodeDelete($event, obj)"
+      <button (click)="onNodeDelete($event, obj); $event.stopPropagation(); "
               class="p-button-raised p-button-danger p-button-text" icon="pi pi-trash" pButton
               pRipple
               type="button"></button>
@@ -63,10 +63,16 @@
 <p-dialog [(visible)]="displayAddDialog" [draggable]="false" [modal]="true" [position]="'top'"
           [resizable]="false" [showHeader]="false" styleClass="w-full">
   <div *ngIf="displayAddDialog" class="card mt-4">
-    <div *ngIf="obj?.node?.type === 'ITEM'; else category" class="card-header">
+    <div *ngIf="obj?.node?.type === 'ITEM'; else pack" class="card-header">
       <app-add-item (onDialogClose)="closeDialogItem($event, obj)" [item]="obj"
                     [parent]="obj?.node.parent._id"></app-add-item>
     </div>
+    <ng-template #pack>
+      <div *ngIf="obj?.node?.type === 'PACK'; else category" class="card-header">
+        <app-add-pack (onDialogClose)="closeDialogPack($event, obj)" [item]="obj"
+                      [parent]="obj?.node.parent._id"></app-add-pack>
+      </div>
+    </ng-template>
     <ng-template #category>
       <app-add-category (onDialogClose)="closeDialogCategory($event, obj)" [category]="obj"
                         [parent]="obj?.node.parent._id"></app-add-category>

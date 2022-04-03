@@ -30,9 +30,14 @@ export class NodeViewComponent implements OnInit {
   ) {}
 
   getNodes(id: string) {
-    const items = this.itemService.getAllChildren(id);
+    const items = this.itemService.getAllItemChildren(id);
+    const packs = this.itemService.getAllPackChildren(id);
     const categories = this.categoryService.getAllChildren(id);
-    return combineLatest(items.valueChanges, categories.valueChanges);
+    return combineLatest(
+      items.valueChanges,
+      categories.valueChanges,
+      packs.valueChanges,
+    );
   }
 
   ngOnInit() {
@@ -46,11 +51,12 @@ export class NodeViewComponent implements OnInit {
         mergeMap((id) => this.getNodes(id)),
       )
       .subscribe((result) => {
-        const [items, categories] = result as any;
-        this.loading = items.loading || categories.loading;
+        const [items, categories, packs] = result as any;
+        this.loading = items.loading || categories.loading || packs.loading;
         this.nodes = [
           ...categories.data.childCategories,
           ...items.data.childItems,
+          ...packs.data.childPacks,
         ];
       });
   }
@@ -75,6 +81,18 @@ export class NodeViewComponent implements OnInit {
       return;
     }
     this.itemService.addItem(event.data, event.file).subscribe((res: any) => {
+      this.displayAddDialog = false;
+      this.nodes.push(res.data.createItem);
+      this.nodes = [...this.nodes];
+    });
+  }
+
+  closeDialogPack(event: any) {
+    if (!event.submit) {
+      this.displayAddDialog = false;
+      return;
+    }
+    this.itemService.addPack(event.data, event.file).subscribe((res: any) => {
       this.displayAddDialog = false;
       this.nodes.push(res.data.createItem);
       this.nodes = [...this.nodes];

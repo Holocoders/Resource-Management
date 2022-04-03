@@ -54,6 +54,7 @@ input CreateItemInput {
   allowedItemActivities: String!
   description: String
   name: String!
+  packItems: [PackItemInput!]
   parent: String!
   price: Float!
   quantity: Float
@@ -110,6 +111,7 @@ type Item {
   This field is the _id field in the DB. Virtual have been defined for readability.
   """
   node: Node
+  packItems: [PackItem!]
   price: Float!
   quantity: Float
 }
@@ -144,6 +146,7 @@ type Mutation {
   createInventoryHistory(createInventoryHistoryInput: CreateInventoryHistoryInput!): InventoryHistory!
   createItem(createItemInput: CreateItemInput!, file: Upload!): Item!
   createItemHistory(createItemHistoryInput: CreateItemHistoryInput!): ItemHistory!
+  createPack(createItemInput: CreateItemInput!, file: Upload!): Item!
   createUser(createUserInput: CreateUserInput!): User!
   login(email: String!, password: String!): User!
   reduceQuantity(id: String!, reduceBy: Int!): Item!
@@ -155,6 +158,7 @@ type Mutation {
   updateInventoryHistory(updateInventoryHistoryInput: UpdateInventoryHistoryInput!): InventoryHistory!
   updateItem(file: Upload!, updateItemInput: UpdateItemInput!): Item!
   updateItemHistory(updateItemHistoryInput: UpdateItemHistoryInput!): ItemHistory!
+  updatePack(file: Upload!, updateItemInput: UpdateItemInput!): Item!
   updateUser(updateUserInput: UpdateUserInput!): User!
   uploadCategoryImage(file: Upload!, id: String!): String!
   uploadFacilityImage(file: Upload!, id: String!): Boolean!
@@ -178,6 +182,16 @@ enum NodeType {
   PACK
 }
 
+type PackItem {
+  item: Item!
+  quantity: Float!
+}
+
+input PackItemInput {
+  item: String!
+  quantity: Float!
+}
+
 type Permission {
   nodeId: Node!
   userId: User!
@@ -187,6 +201,7 @@ type Query {
   category(id: String!): Category!
   childCategories(id: String!): [Category!]!
   childItems(id: String!): [Item!]!
+  childPacks(id: String!): [Item!]!
   currentUser: User!
   facilities: [Facility!]!
   facility(id: String!): Facility!
@@ -203,6 +218,7 @@ type Query {
   itemHistory: [ItemHistory!]!
   itemHistoryByItem(item: String!): [ItemHistory!]!
   itemHistoryByUser: [ItemHistory!]!
+  items: [Item!]!
   user(_id: String!): User!
   users: [User!]!
 }
@@ -242,6 +258,7 @@ input UpdateItemInput {
   allowedItemActivities: String
   description: String
   name: String
+  packItems: [PackItemInput!]
   parent: String
   price: Float
   quantity: Float

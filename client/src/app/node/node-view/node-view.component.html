@@ -27,6 +27,9 @@
       <p-tabPanel header="Item" leftIcon="pi pi-briefcase" tooltip="Add New Item">
         <app-add-item (onDialogClose)="closeDialogItem($event)" [parent]="id"></app-add-item>
       </p-tabPanel>
+      <p-tabPanel header="Pack" leftIcon="pi pi-folder" tooltip="Add New Pack">
+        <app-add-pack (onDialogClose)="closeDialogPack($event)" [parent]="id"></app-add-pack>
+      </p-tabPanel>
     </p-tabView>
   </div>
 </p-dialog>

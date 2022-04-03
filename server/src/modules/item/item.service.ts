@@ -35,12 +35,10 @@ export class ItemService {
     private itemHistoryService: ItemHistoryService,
   ) {}
 
-  async create(createItemInput: CreateItemInput, createdBy: string) {
-    createItemInput._id = await this.nodeService.create(
-      createItemInput.parent,
-      createdBy,
-      NodeType.ITEM,
-    );
+  async create(
+    createItemInput: CreateItemInput,
+    createdBy: string,
+  ): Promise<Item> {
     const itemDocument = await new this.itemModel(createItemInput).save();
     await this.itemModel.populate(itemDocument, this.populateObject);
     const createInventoryHistoryInput = new CreateInventoryHistoryInput();
@@ -52,11 +50,33 @@ export class ItemService {
     return itemDocument;
   }
 
-  async getAllChildren(id) {
-    const nodes = await this.nodeService.findAllChildren(id, NodeType.ITEM);
+  async createPack(createItemInput: CreateItemInput, createdBy: string) {
+    createItemInput._id = await this.nodeService.create(
+      createItemInput.parent,
+      createdBy,
+      NodeType.PACK,
+    );
+    return this.create(createItemInput, createdBy);
+  }
+
+  async createItem(createItemInput: CreateItemInput, createdBy: string) {
+    createItemInput._id = await this.nodeService.create(
+      createItemInput.parent,
+      createdBy,
+      NodeType.ITEM,
+    );
+    return this.create(createItemInput, createdBy);
+  }
+
+  async getAllChildren(id, type) {
+    const nodes = await this.nodeService.findAllChildren(id, type);
     const items = await this.itemModel.find({ _id: { $in: nodes } });
     await this.itemModel.populate(items, this.populateObject);
     return items;
+  }
+
+  async findAll() {
+    return this.itemModel.find();
   }
 
   findOne(id: string) {

@@ -13,7 +13,14 @@ export enum AllowedItemActivity {
 
 registerEnumType(AllowedItemActivity, { name: 'AllowedItemActivity' });
 
-@Schema({})
+@ObjectType()
+export class PackItem {
+  @Field(() => Item)
+  item: MongooseSchema.Types.ObjectId | Item;
+  quantity: number;
+}
+
+@Schema()
 @ObjectType()
 export class Item {
   @Field(() => Node)
@@ -41,6 +48,22 @@ export class Item {
 
   @Prop({ default: 0 })
   quantity?: number;
+
+  @Field(() => [PackItem])
+  @Prop({
+    type: [
+      {
+        item: {
+          type: MongooseSchema.Types.ObjectId,
+          ref: Item.name,
+          autopopulate: true,
+        },
+        quantity: Number,
+      },
+    ],
+    _id: false,
+  })
+  packItems?: PackItem[];
 
   @Prop({ default: AllowedItemActivity.BOTH })
   @Field(() => AllowedItemActivity)

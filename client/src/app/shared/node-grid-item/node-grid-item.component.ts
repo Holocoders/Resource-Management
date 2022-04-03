@@ -24,6 +24,8 @@ export class NodeGridItemComponent {
   getHeaderColor(type: NodeType) {
     if (type === NodeType.ITEM) {
       return 'bg-blue-200';
+    } else if (type === NodeType.PACK) {
+      return 'bg-pink-200';
     }
     return 'bg-green-200';
   }
@@ -31,6 +33,22 @@ export class NodeGridItemComponent {
   closeDialogItem(event: any, obj: any) {
     if (!event.submit) {
       this.displayAddDialog = false;
+      return;
+    }
+    event.data._id = obj.node._id;
+    this.itemService
+      .updateItem(event.data, event.file)
+      .subscribe((res: any) => {
+        obj = { ...obj, ...res.data.updateItem };
+        this.objChange.emit(obj);
+        this.displayAddDialog = false;
+      });
+  }
+
+  closeDialogPack(event: any, obj: any) {
+    if (!event.submit) {
+      this.displayAddDialog = false;
+      return;
     }
     event.data._id = obj.node._id;
     this.itemService
@@ -46,11 +64,14 @@ export class NodeGridItemComponent {
     const id = obj?.node?._id;
     this.confirmationService.confirm({
       target: event.target,
-      message: `Are you sure that you want to delete this ${obj.__typename.toLowerCase()}?`,
+      message: `Are you sure that you want to delete this ${obj?.node?.type.toLowerCase()}?`,
       header: 'Confirmation',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.onDeleteClick.emit(id);
+      },
+      reject: () => {
+        this.confirmationService.close();
       },
     });
   }

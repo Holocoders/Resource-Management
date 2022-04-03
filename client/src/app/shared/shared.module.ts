@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddItemComponent } from './add-item/add-item.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
 import { NodeGridItemComponent } from './node-grid-item/node-grid-item.component';
+import { AddPackComponent } from './add-pack/add-pack.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { NodeGridItemComponent } from './node-grid-item/node-grid-item.component
     AddItemComponent,
     AddCategoryComponent,
     NodeGridItemComponent,
+    AddPackComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +42,7 @@ import { NodeGridItemComponent } from './node-grid-item/node-grid-item.component
     AddItemComponent,
     AddCategoryComponent,
     NodeGridItemComponent,
+    AddPackComponent,
   ],
 })
 export class SharedModule {}

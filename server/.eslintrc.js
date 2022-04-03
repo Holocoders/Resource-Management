@@ -28,6 +28,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     "unicorn/no-fn-reference-in-iterator": "off",
     "unicorn/no-array-for-each": "off",
+    "import/no-unresolved": "off",
     "unicorn/no-null": "off",
     "unicorn/consistent-destructuring": "off",
     "unicorn/no-array-reduce": "off",

@@ -30,6 +30,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { InplaceModule } from 'primeng/inplace';
 
 const primeNgModules = [
   AvatarModule,
@@ -64,6 +66,8 @@ const primeNgModules = [
   CheckboxModule,
   ToolbarModule,
   ConfirmPopupModule,
+  MultiSelectModule,
+  InplaceModule,
 ];
 
 @NgModule({

@@ -4,13 +4,14 @@ import { Item } from './entities/item.entity';
 import { CreateItemInput } from './dto/create-item.input';
 import { UpdateItemInput } from './dto/update-item.input';
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
-import { CurrentUser } from '../../decorators/auth.decorator';
+import { CurrentUser } from 'src/decorators/auth.decorator';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard, RolesGuard } from '../auth/auth.guard';
 import { GraphQLError } from 'graphql';
 import { SharedService } from '../shared/shared.service';
 import { join } from 'path';
-import { AuthorizeNode } from '../../decorators/metadata.decorator';
+import { AuthorizeNode } from 'src/decorators/metadata.decorator';
+import { NodeType } from 'src/modules/node/entities/node.entity';
 
 @Resolver(() => Item)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -29,7 +30,22 @@ export class ItemResolver {
     { createReadStream }: FileUpload,
   ) {
     if (!user) return new GraphQLError('Unauthorized');
-    const item = await this.itemService.create(createItemInput, user._id);
+    const item = await this.itemService.createItem(createItemInput, user._id);
+    const path = `./uploads/${item.node['_id']}`;
+    await this.sharedService.uploadImage(createReadStream, path);
+    return item;
+  }
+
+  @AuthorizeNode('createItemInput.parent')
+  @Mutation(() => Item)
+  async createPack(
+    @CurrentUser() user,
+    @Args('createItemInput') createItemInput: CreateItemInput,
+    @Args({ name: 'file', type: () => GraphQLUpload })
+    { createReadStream }: FileUpload,
+  ) {
+    if (!user) return new GraphQLError('Unauthorized');
+    const item = await this.itemService.createPack(createItemInput, user._id);
     const path = `./uploads/${item.node['_id']}`;
     await this.sharedService.uploadImage(createReadStream, path);
     return item;
@@ -50,24 +66,52 @@ export class ItemResolver {
   }
 
   @Query(() => [Item], { name: 'childItems' })
-  getAllChildren(
+  getAllItemChildren(
     @CurrentUser() user,
     @Args('id', { type: () => String }) id: string,
   ) {
     if (!user) return new GraphQLError('Unauthorized');
-    return this.itemService.getAllChildren(id);
+    return this.itemService.getAllChildren(id, NodeType.ITEM);
   }
 
-  @AuthorizeNode('id')
+  @Query(() => [Item], { name: 'childPacks' })
+  getAllPackChildren(
+    @CurrentUser() user,
+    @Args('id', { type: () => String }) id: string,
+  ) {
+    if (!user) return new GraphQLError('Unauthorized');
+    return this.itemService.getAllChildren(id, NodeType.PACK);
+  }
+
   @Query(() => Item, { name: 'item' })
   findOne(@CurrentUser() user, @Args('id', { type: () => String }) id: string) {
     if (!user) return new GraphQLError('Unauthorized');
     return this.itemService.findOne(id);
   }
 
+  @Query(() => [Item], { name: 'items' })
+  findAll(@CurrentUser() user) {
+    if (!user) return new GraphQLError('Unauthorized');
+    return this.itemService.findAll();
+  }
+
   @AuthorizeNode('updateItemInput._id')
   @Mutation(() => Item)
   async updateItem(
+    @CurrentUser() user,
+    @Args('updateItemInput') updateItemInput: UpdateItemInput,
+    @Args({ name: 'file', type: () => GraphQLUpload })
+    { createReadStream }: FileUpload,
+  ) {
+    if (!user) return new GraphQLError('Unauthorized');
+    const path = `./uploads/${updateItemInput._id}`;
+    await this.sharedService.uploadImage(createReadStream, path);
+    return this.itemService.update(updateItemInput._id, updateItemInput);
+  }
+
+  @AuthorizeNode('updateItemInput._id')
+  @Mutation(() => Item)
+  async updatePack(
     @CurrentUser() user,
     @Args('updateItemInput') updateItemInput: UpdateItemInput,
     @Args({ name: 'file', type: () => GraphQLUpload })
