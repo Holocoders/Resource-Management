@@ -1,0 +1,70 @@
+<p-card styleClass="w-full shadow-4 border-round">
+  <p-table #dt [globalFilterFields]="['user.name','activityType','activityDate']"
+           [scrollable]="true" [value]="itemHistory" responsiveLayout="scroll"
+           scrollHeight="40vh">
+    <ng-template pTemplate="caption">
+      <div class="table-header">
+              <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input (input)="search(dt, $event)" pInputText placeholder="Search" type="text"/>
+              </span>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="pt-2 pb-2" pSortableColumn="user.name" style="min-width:200px">
+          <div class="flex align-items-center justify-content-between w-full">
+            User
+            <p-sortIcon field="user.name"></p-sortIcon>
+            <p-columnFilter class="ml-auto" display="menu" field="user.name" type="text"></p-columnFilter>
+          </div>
+        </th>
+        <th class="pt-2 pb-2" pSortableColumn="activityType" style="min-width:200px;">
+          <div class="flex align-items-center justify-content-between w-full">
+            Activity
+            <p-sortIcon field="activityType"></p-sortIcon>
+            <p-columnFilter class="ml-auto" display="menu" field="activityType" type="text"></p-columnFilter>
+          </div>
+        </th>
+        <th class="pt-2 pb-2" pSortableColumn="quantity" style="min-width:200px;">
+          <div class="flex align-items-center justify-content-between w-full">
+            Quantity
+            <p-sortIcon field="quantity"></p-sortIcon>
+            <p-columnFilter class="ml-auto" display="menu" field="quantity" type="numeric"></p-columnFilter>
+          </div>
+        </th>
+        <th class="pt-2 pb-2" pSortableColumn="activityDate" style="min-width:200px;">
+          <div class="flex align-items-center justify-content-between w-full">
+            Dates
+            <p-sortIcon field="activityDate"></p-sortIcon>
+            <p-columnFilter class="ml-auto" display="menu" field="activityDate" type="date"></p-columnFilter>
+          </div>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template let-activity pTemplate="body">
+      <tr>
+        <td style="min-width:200px">
+          <span class="p-column-title">Name</span>
+          <p-avatar icon="pi pi-user" shape="circle" styleClass="p-mr-2"></p-avatar>
+          <span class="image-text ml-2">{{activity.user.name}}</span>
+        </td>
+        <td style="min-width:200px">
+          <span class="p-column-title">Activity</span>
+          <p-tag [value]="activity.activityType">
+          </p-tag>
+        </td>
+        <td style="min-width:200px">
+          <span class="p-column-title">Quantity</span>
+          <span>{{activity.quantity}}</span>
+        </td>
+        <td style="min-width:200px">
+          <span class="p-column-title">Dates</span>
+          {{activity.activityDate | date}}
+          <br/>
+          {{activity?.dueDate}}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>

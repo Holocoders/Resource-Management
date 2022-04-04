@@ -1,0 +1,81 @@
+<div class="grid h-full w-full">
+  <div class="lg:col-5 xl:col-4 ml-3 lg:m-2">
+    <app-item-detail [item]="pack" (onDisplayDialog)="displayAddDialog=true"></app-item-detail>
+  </div>
+  <div class="col grid ml-3 m-2 overflow-x-auto">
+    <div class="col-12 p-0">
+      <app-item-history [itemHistory]="itemHistory"></app-item-history>
+      <div class="col-12 grid pl-0 pr-0">
+        <h4 class="h-4rem col-12 flex align-items-end">
+          Items in pack
+        </h4>
+        <p-card class="col-12" styleClass="w-full shadow-4 border-round">
+          <p-table #dt [globalFilterFields]="['item.item.node._id', 'item.name']"
+                   scrollHeight="25vh"
+                   [scrollable]="true" [value]="pack ? pack['packItems'] : []" responsiveLayout="scroll">
+            <ng-template pTemplate="caption">
+              <div class="table-header">
+              <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input (input)="search(dt, $event)" pInputText placeholder="Search" type="text"/>
+              </span>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="pt-2 pb-2" pSortableColumn="item.node._id" style="min-width:200px">
+                  <div class="flex align-items-center justify-content-between w-full">
+                    Item ID
+                    <p-sortIcon field="item.node._id"></p-sortIcon>
+                    <p-columnFilter class="ml-auto" display="menu" field="item.node._id" type="text"></p-columnFilter>
+                  </div>
+                </th>
+                <th class="pt-2 pb-2" pSortableColumn="item.name" style="min-width:200px;">
+                  <div class="flex align-items-center justify-content-between w-full">
+                    Item Name
+                    <p-sortIcon field="item.name"></p-sortIcon>
+                    <p-columnFilter class="ml-auto" display="menu" field="item.name" type="text"></p-columnFilter>
+                  </div>
+                </th>
+                <th class="pt-2 pb-2" pSortableColumn="quantity" style="min-width:200px;">
+                  <div class="flex align-items-center justify-content-between w-full">
+                    Quantity
+                    <p-sortIcon field="quantity"></p-sortIcon>
+                    <p-columnFilter class="ml-auto" display="menu" field="quantity" type="numeric"></p-columnFilter>
+                  </div>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template let-item pTemplate="body">
+              <tr>
+                <td style="min-width:200px">
+                  <span class="p-column-title">Item ID</span>
+                  <span class="image-text ml-2">{{item.item.node._id}}</span>
+                </td>
+                <td style="min-width:200px">
+                  <span class="p-column-title">Item Name</span>
+                  <span class="image-text ml-2">{{item.item.name}}</span>
+                </td>
+                <td style="min-width:200px">
+                  <span class="p-column-title">Quantity</span>
+                  <span>{{item.quantity}}</span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-card>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<p-dialog [(visible)]="displayAddDialog" [draggable]="false" [modal]="true" [position]="'top'"
+          [resizable]="false" [showHeader]="false" styleClass="w-full">
+  <div *ngIf="displayAddDialog" class="card mt-4">
+    <app-add-pack (onDialogClose)="closeDialogItem($event)" [item]="pack"
+                  [parent]="pack?.node?._id || ''"></app-add-pack>
+  </div>
+</p-dialog>
+
+<p-confirmPopup></p-confirmPopup>

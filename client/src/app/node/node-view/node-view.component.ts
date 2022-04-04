@@ -94,7 +94,7 @@ export class NodeViewComponent implements OnInit {
     }
     this.itemService.addPack(event.data, event.file).subscribe((res: any) => {
       this.displayAddDialog = false;
-      this.nodes.push(res.data.createItem);
+      this.nodes.push(res.data.createPack);
       this.nodes = [...this.nodes];
     });
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -38,12 +38,56 @@ export class ItemService {
     }).valueChanges;
   }
 
+  getPackDetails(id: string) {
+    return this.apollo.watchQuery({
+      query: gql`
+        query item($id: String!) {
+          item(id: $id) {
+            node {
+              _id
+              createdBy {
+                _id
+                name
+              }
+              parent {
+                _id
+              }
+            }
+            description
+            name
+            price
+            quantity
+            packItems {
+              item {
+                node {
+                  _id
+                }
+                name
+                description
+                price
+                quantity
+              }
+              quantity
+            }
+            allowedItemActivities
+          }
+        }
+      `,
+      variables: {
+        id,
+      },
+    }).valueChanges;
+  }
+
   addItem(createItemInput: any, file: any) {
     const operations = {
-      query: `
-        mutation createItem ($createItemInput: CreateItemInput!, $file: Upload!) {
-          createItem (createItemInput: $createItemInput, file: $file) {
-             node {
+      query: gql`
+        mutation createItem(
+          $createItemInput: CreateItemInput!
+          $file: Upload!
+        ) {
+          createItem(createItemInput: $createItemInput, file: $file) {
+            node {
               _id
               createdBy {
                 _id
@@ -61,7 +105,8 @@ export class ItemService {
             quantity
             allowedItemActivities
           }
-      }`,
+        }
+      `,
       variables: {
         file: file,
         createItemInput,
@@ -166,8 +211,8 @@ export class ItemService {
   updatePack(updateItemInput: any, file: any) {
     const operations = {
       query: `
-        mutation updatePack ($updatePackInput: UpdatePackInput!, $file: Upload!) {
-          updatePack (updatePackInput: $updatePackInput, file: $file) {
+        mutation updatePack ($updateItemInput: UpdateItemInput!, $file: Upload!) {
+          updatePack (updateItemInput: $updateItemInput, file: $file) {
             node {
               _id
               createdBy {
@@ -184,6 +229,14 @@ export class ItemService {
             name
             price
             quantity
+            packItems {
+              item {
+                node {
+                  _id
+                }
+              }
+              quantity
+            }
             allowedItemActivities
           }
       }`,

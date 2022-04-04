@@ -1,8 +1,29 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { ItemComponent } from './item.component';
+import {
+  RouterModule,
+  Routes,
+  UrlSegment,
+  UrlSegmentGroup,
+} from '@angular/router';
+import { ItemComponent } from './item/item.component';
+import { PackComponent } from 'src/app/item/pack/pack.component';
 
-const routes: Routes = [{ path: '', component: ItemComponent }];
+function isItem(url: UrlSegment[], group: UrlSegmentGroup) {
+  return group.segments.length === 1 && group.segments[0].path.endsWith('item')
+    ? { consumed: url }
+    : null;
+}
+
+function isPack(url: UrlSegment[], group: UrlSegmentGroup) {
+  return group.segments.length === 1 && group.segments[0].path.endsWith('pack')
+    ? { consumed: url }
+    : null;
+}
+
+const routes: Routes = [
+  { component: ItemComponent, matcher: isItem },
+  { component: PackComponent, matcher: isPack },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

@@ -1,0 +1,43 @@
+<p-card styleClass="p-6 shadow-4 border-round h-full">
+  <div class="grid">
+    <div class="col-12 flex justify-content-center mt-4">
+      <img [alt]="item?.name" [src]="'http://localhost:3000/' + item?.node?._id"
+           class="border-1 border-primary border-circle" height="200"
+           width="200">
+    </div>
+    <div class="col-12 flex justify-content-center mt-4">
+      <h4 class="mb-0">{{item?.name}}</h4>
+    </div>
+    <div class="col-12 flex justify-content-center pt-0">
+      <h6>Created by: {{item?.node?.createdBy?.name}}</h6>
+    </div>
+    <div class="col-6 flex justify-content-center">
+      <p-chip label="Total: {{item?.quantity}}" styleClass="bg-primary"></p-chip>
+    </div>
+    <div class="col-6 flex justify-content-center">
+      <p-chip label="Rented : 11" styleClass="bg-yellow-300"></p-chip>
+    </div>
+    <div class="col-12 flex justify-content-center mt-4">
+      <h6>Rs. {{item?.price}}</h6>
+    </div>
+    <div class="col-12 flex justify-content-center mt-4 p-6 text-center">
+      {{item?.description}}
+    </div>
+    <div class="col-6 flex justify-content-center">
+      <p-button styleClass="border-round p-button-warning">
+        <ng-template pTemplate="content">
+          <i (click)="onDisplayDialog.emit(true)" class="pi pi-pencil"></i>
+        </ng-template>
+      </p-button>
+    </div>
+    <div class="col-6 flex justify-content-center">
+      <p-button styleClass="border-round p-button-danger">
+        <ng-template pTemplate="content">
+          <i (click)="deleteItem($event)" class="pi pi-trash"></i>
+        </ng-template>
+      </p-button>
+    </div>
+  </div>
+</p-card>
+
+<p-confirmPopup></p-confirmPopup>

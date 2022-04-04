@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Item } from '../models/item.model';
-import { ItemService } from './item.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, mergeMap } from 'rxjs/operators';
-import { ConfirmationService } from 'primeng/api';
-import { NodeService } from '../node/node.service';
+import { NodeService } from 'src/app/node/node.service';
+import { Item } from 'src/app/models/item.model';
+import { ItemService } from 'src/app/item/item.service';
 
 @Component({
   selector: 'app-item',
@@ -13,7 +12,7 @@ import { NodeService } from '../node/node.service';
 })
 export class ItemComponent implements OnInit {
   item: Item;
-  inventoryHistory: any[] = [];
+  itemHistory: any[] = [];
   isLoading: boolean;
   displayAddDialog: boolean;
 
@@ -22,7 +21,6 @@ export class ItemComponent implements OnInit {
     private readonly nodeService: NodeService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private readonly confirmationService: ConfirmationService,
   ) {}
 
   ngOnInit(): void {
@@ -37,8 +35,8 @@ export class ItemComponent implements OnInit {
       )
       .subscribe((result: any) => {
         this.isLoading = result.loading;
-        this.inventoryHistory = result?.data?.inventoryHistoryByItem;
-        this.inventoryHistory = [...this.inventoryHistory];
+        this.itemHistory = result?.data?.inventoryHistoryByItem;
+        this.itemHistory = [...this.itemHistory];
       });
   }
 
@@ -53,29 +51,5 @@ export class ItemComponent implements OnInit {
         this.item = { ...this.item, ...res.data.updateItem };
         this.displayAddDialog = false;
       });
-  }
-
-  deleteItem(event: any) {
-    this.confirmationService.confirm({
-      target: event.target,
-      message: 'Are you sure that you want to delete this item?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.nodeService
-          .removeNode(this.item.node._id)
-          .subscribe((res: any) => {
-            this.router.navigate(['/node'], {
-              queryParams: {
-                id: this.item.node.parent._id,
-              },
-            });
-          });
-      },
-    });
-  }
-
-  search(dt: any, event: any) {
-    dt.filterGlobal(event.target.value, 'contains');
   }
 }
