@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:resource_management_system/widgets/activities/single_activity.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
 import 'package:resource_management_system/widgets/base_drawer.dart';
 import 'package:resource_management_system/utils.dart';
+
+import 'single_activity.dart';
 
 class Activities extends StatefulWidget {
   const Activities({Key? key}) : super(key: key);

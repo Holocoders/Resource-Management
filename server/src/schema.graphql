@@ -199,6 +199,13 @@ type Permission {
 
 type Query {
   category(id: String!): Category!
+  checkPermission(
+    """Node ID"""
+    nodeId: String!
+
+    """User ID"""
+    userId: String!
+  ): [Boolean!]!
   childCategories(id: String!): [Category!]!
   childItems(id: String!): [Item!]!
   childPacks(id: String!): [Item!]!

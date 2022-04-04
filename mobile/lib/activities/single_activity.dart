@@ -5,9 +5,9 @@ import 'package:resource_management_system/utils.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
 import 'package:intl/intl.dart';
 import 'package:resource_management_system/widgets/base_drawer.dart';
-import 'package:resource_management_system/widgets/item/detail.dart';
-import 'package:resource_management_system/widgets/item/item.dart';
 import 'package:resource_management_system/widgets/snackbars.dart';
+
+import '../item/item.dart';
 
 class SingleActivity extends StatefulWidget {
   const SingleActivity({Key? key}) : super(key: key);

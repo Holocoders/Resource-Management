@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:resource_management_system/widgets/auth/signup_form.dart';
-
 import 'login_form.dart';
+import 'signup_form.dart';
 
 class Auth extends StatelessWidget {
   const Auth({Key? key}) : super(key: key);
@@ -14,21 +13,17 @@ class Auth extends StatelessWidget {
         return LoginForm();
       },
       isScrollControlled: true,
-    ).then((value) => {
-      if (value == "flip") openSignUpSheet(context)
-    });
+    ).then((value) => {if (value == "flip") openSignUpSheet(context)});
   }
 
   Future<dynamic> openSignUpSheet(context) {
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return SignupForm();
+        return const SignupForm();
       },
       isScrollControlled: true,
-    ).then((value) => {
-      if (value == "flip") openLoginSheet(context)
-    });
+    ).then((value) => {if (value == "flip") openLoginSheet(context)});
   }
 
   @override
@@ -58,9 +53,7 @@ class Auth extends StatelessWidget {
                 minimumSize:
                     MaterialStateProperty.all<Size>(const Size(200, 40)),
               ),
-              onPressed: () => {
-                openLoginSheet(context)
-              },
+              onPressed: () => {openLoginSheet(context)},
             ),
             const SizedBox(height: 10),
             ElevatedButton(
@@ -78,9 +71,7 @@ class Auth extends StatelessWidget {
                 minimumSize:
                     MaterialStateProperty.all<Size>(const Size(200, 40)),
               ),
-              onPressed: () => {
-                openSignUpSheet(context)
-              },
+              onPressed: () => {openSignUpSheet(context)},
             ),
           ],
         ),

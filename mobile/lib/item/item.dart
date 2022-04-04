@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
 import 'package:resource_management_system/widgets/base_drawer.dart';
-import 'package:resource_management_system/widgets/item/availability.dart';
-import 'package:resource_management_system/widgets/item/detail.dart';
-import 'package:resource_management_system/widgets/item/recent.dart';
+import 'availability.dart';
+import 'detail.dart';
+import 'recent.dart';
 
 class Item extends StatefulWidget {
-
   // final String itemId;
   static String route = '/item';
+
   const Item({Key? key}) : super(key: key);
 
   @override
@@ -17,10 +17,8 @@ class Item extends StatefulWidget {
 }
 
 class _ItemState extends State<Item> {
-
   @override
   Widget build(BuildContext context) {
-
     final itemId = ModalRoute.of(context)!.settings.arguments as String;
 
     String getItemDetails = """

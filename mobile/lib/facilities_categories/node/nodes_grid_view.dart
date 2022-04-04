@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:resource_management_system/widgets/facility_category.dart';
-import 'package:resource_management_system/widgets/facilities.dart';
-import 'package:resource_management_system/widgets/item/item.dart';
 
+import '../facility_category.dart';
+import '../../item/item.dart';
 import 'node_view.dart';
 
 class NodesGridView extends StatelessWidget {
@@ -29,10 +27,12 @@ class NodesGridView extends StatelessWidget {
                 onTap: () {
                   var nodeType = data[index]['node']['type'];
                   if (nodeType == 'ITEM') {
-                    Get.toNamed(Item.route, arguments: data[index]['node']['_id']);
+                    Get.toNamed(Item.route,
+                        arguments: data[index]['node']['_id']);
                     return;
                   }
-                  Get.toNamed(FacilityCategory.route, arguments: data[index]['node'], preventDuplicates: false);
+                  Get.toNamed(FacilityCategory.route,
+                      arguments: data[index]['node'], preventDuplicates: false);
                 },
                 splashColor: Theme.of(context).primaryColor,
                 child: NodeView(data?[index]),

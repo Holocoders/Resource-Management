@@ -41,6 +41,9 @@ dependencies:
   streaming_shared_preferences: ^2.0.0
   toggle_switch: ^1.4.0
   get: ^4.6.1
+  image_picker: ^0.8.4+11
+  http: ^0.13.4
+  dio: ^4.0.6
 
 dev_dependencies:
   flutter_test:

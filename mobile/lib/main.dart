@@ -3,13 +3,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:resource_management_system/widgets/facility_category.dart';
-import 'package:resource_management_system/widgets/activities/activities.dart';
-import 'package:resource_management_system/widgets/activities/single_activity.dart';
-import 'package:resource_management_system/widgets/auth/auth.dart';
-import 'package:resource_management_system/widgets/facilities.dart';
-import 'package:resource_management_system/widgets/item/item.dart';
+import 'package:resource_management_system/facilities_categories/facilities.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
+
+import 'activities/activities.dart';
+import 'activities/single_activity.dart';
+import 'auth/auth.dart';
+import 'facilities_categories/facility_category.dart';
+import 'facilities_categories/facility_category_add.dart';
+import 'item/item.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,6 +61,8 @@ class MyApp extends StatelessWidget {
               Auth.route: (context) => const Auth(),
               Item.route: (context) => const Item(),
               Facilities.route: (context) => const Facilities(),
+              FacilityCategoryAdd.route: (context) =>
+                  const FacilityCategoryAdd(),
               FacilityCategory.route: (context) => const FacilityCategory(),
               Activities.route: (context) => const Activities(),
               SingleActivity.route: (context) => const SingleActivity(),
