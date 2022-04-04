@@ -1,39 +1,64 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:resource_management_system/widgets/facilities.dart';
 import 'package:resource_management_system/widgets/snackbars.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+import '../../facilities_categories/facilities.dart';
 
-  @override
-  _LoginFormState createState() => _LoginFormState();
-}
+class SignupForm extends StatelessWidget {
+  const SignupForm({Key? key}) : super(key: key);
 
-class _LoginFormState extends State<LoginForm> {
+  ValidatorFunction _mustMatch(String controlName, String matchingControlName) {
+    return (AbstractControl<dynamic> control) {
+      final form = control as FormGroup;
+
+      final formControl = form.control(controlName);
+      final matchingFormControl = form.control(matchingControlName);
+      if (formControl.value != matchingFormControl.value &&
+          matchingFormControl.dirty) {
+        matchingFormControl.setErrors({'mustMatch': true});
+
+        matchingFormControl.markAsTouched();
+      } else {
+        matchingFormControl.removeError('mustMatch');
+      }
+
+      return null;
+    };
+  }
+
   FormGroup buildForm() => fb.group(<String, Object>{
+        'name': FormControl<String>(
+          validators: [Validators.required],
+        ),
         'email': FormControl<String>(
           validators: [Validators.required, Validators.email],
         ),
         'password': ['', Validators.required],
-      });
+        'confPassword': ['', Validators.required],
+      }, [
+        _mustMatch('password', 'confPassword'),
+      ]);
 
   @override
   Widget build(BuildContext context) {
-    String loginMutation = """
-    mutation login(\$email: String!, \$password: String!) {
-      login(email: \$email, password: \$password) {
+    String signUpMutation = """
+    mutation createUser(\$createUserInput: CreateUserInput!) {
+      createUser(createUserInput: \$createUserInput) {
+        _id
+        email
         name
+        password
         token
       }
     }
     """;
+
     return SingleChildScrollView(
       padding: EdgeInsets.only(
         top: 20,
@@ -48,8 +73,23 @@ class _LoginFormState extends State<LoginForm> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Sign In',
+                'Sign Up',
                 style: Theme.of(context).textTheme.headline5,
+              ),
+              SizedBox(height: 20),
+              ReactiveTextField<String>(
+                formControlName: 'name',
+                validationMessages: (control) => {
+                  ValidationMessage.required: 'The name must not be empty',
+                },
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white70,
+                ),
               ),
               SizedBox(height: 20),
               ReactiveTextField<String>(
@@ -73,7 +113,7 @@ class _LoginFormState extends State<LoginForm> {
               ReactiveTextField<String>(
                 formControlName: 'password',
                 validationMessages: (control) => {
-                  ValidationMessage.required: 'The password must not be empty'
+                  ValidationMessage.required: 'The password must not be empty',
                 },
                 decoration: InputDecoration(
                   labelText: 'Password',
@@ -87,45 +127,70 @@ class _LoginFormState extends State<LoginForm> {
                 enableSuggestions: false,
                 autocorrect: false,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 20),
+              ReactiveTextField<String>(
+                formControlName: 'confPassword',
+                validationMessages: (control) => {
+                  ValidationMessage.required: 'The password must not be empty',
+                  ValidationMessage.mustMatch: 'The passwords must match',
+                },
+                decoration: InputDecoration(
+                  labelText: 'Confirm Password',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.white70,
+                ),
+                obscureText: true,
+                enableSuggestions: false,
+                autocorrect: false,
+              ),
+              SizedBox(height: 20),
               Mutation(
                 options: MutationOptions(
-                  document: gql(loginMutation),
+                  document: gql(signUpMutation),
                   onCompleted: (dynamic data) async {
                     if (data == null) return;
                     var user = {
-                      'name': data['login']['name'],
-                      'token': data['login']['token'],
-                      'email': formGroup.value['email'],
+                      'name': data['createUser']['name'],
+                      'token': data['createUser']['token'],
+                      'email': data['createUser']['email'],
                     };
                     final userPrefs = await StreamingSharedPreferences.instance;
                     userPrefs.setString('user', json.encode(user));
                     Get.toNamed(Facilities.route);
                   },
                   onError: (OperationException? error) {
-                    CustomSnackbars.error(error?.graphqlErrors.first.message ?? 'Unable to login!');
+                    if (error?.graphqlErrors.isNotEmpty == true) {
+                      CustomSnackbars.error(error?.graphqlErrors.first.message);
+                    }
+                    CustomSnackbars.error('An error occurred');
                   },
                 ),
                 builder: (RunMutation runMutation, QueryResult? result) {
                   return ElevatedButton(
-                    child: Text('Sign In'),
+                    child: const Text('Sign Up'),
                     style: ButtonStyle(
                       foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                          MaterialStateProperty.all<Color>(Colors.white),
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.green),
+                          MaterialStateProperty.all<Color>(Colors.green),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                               side: const BorderSide(color: Colors.green))),
                       minimumSize:
-                      MaterialStateProperty.all<Size>(const Size(200, 40)),
+                          MaterialStateProperty.all<Size>(const Size(200, 40)),
                     ),
                     onPressed: () {
                       if (formGroup.valid) {
                         runMutation(<String, dynamic>{
-                          'email': formGroup.value['email'],
-                          'password': formGroup.value['password'],
+                          'createUserInput': {
+                            'name': formGroup.value['name'],
+                            'email': formGroup.value['email'],
+                            'password': formGroup.value['password'],
+                          }
                         });
                       } else {
                         formGroup.markAllAsTouched();
@@ -137,20 +202,20 @@ class _LoginFormState extends State<LoginForm> {
               const SizedBox(height: 20),
               ElevatedButton(
                 child: const Text(
-                  "New user? Sign Up",
+                  "Existing user? Sign In",
                   style: TextStyle(fontSize: 14),
                 ),
                 style: ButtonStyle(
                   foregroundColor:
-                  MaterialStateProperty.all<Color>(Colors.black),
+                      MaterialStateProperty.all<Color>(Colors.black),
                   backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.white),
+                      MaterialStateProperty.all<Color>(Colors.white),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
                           side: const BorderSide(color: Colors.green))),
                   minimumSize:
-                  MaterialStateProperty.all<Size>(const Size(200, 40)),
+                      MaterialStateProperty.all<Size>(const Size(200, 40)),
                 ),
                 onPressed: () => {Get.back(result: 'flip')},
               ),

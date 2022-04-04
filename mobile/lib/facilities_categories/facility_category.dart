@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'facility_category_add.dart';
-import 'nodes_grid_view.dart';
-import 'base_appbar.dart';
-import 'base_drawer.dart';
+import 'Node/nodes_grid_view.dart';
+import '../widgets/base_appbar.dart';
+import '../widgets/base_drawer.dart';
 
 class FacilityCategory extends StatelessWidget {
   const FacilityCategory({Key? key}) : super(key: key);
