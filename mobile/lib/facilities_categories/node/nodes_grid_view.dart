@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:resource_management_system/item/pack.dart';
 
 import '../facility_category.dart';
 import '../../item/item.dart';
@@ -30,11 +31,14 @@ class NodesGridView extends StatelessWidget {
                     Get.toNamed(Item.route,
                         arguments: data[index]['node']['_id']);
                     return;
+                  } else if (nodeType == 'PACK') {
+                    Get.toNamed(Pack.route,
+                        arguments: data[index]['node']['_id']);
+                    return;
                   }
                   Get.toNamed(FacilityCategory.route,
                       arguments: data[index]['node'], preventDuplicates: false);
                 },
-                splashColor: Theme.of(context).primaryColor,
                 child: NodeView(data?[index]),
               );
             },

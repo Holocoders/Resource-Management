@@ -1,27 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/item/packItems.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
 import 'package:resource_management_system/widgets/base_drawer.dart';
+
 import 'availability.dart';
 import 'detail.dart';
-import 'recent.dart';
 
-class Item extends StatefulWidget {
-  // final String itemId;
-  static String route = '/item';
-
-  const Item({Key? key}) : super(key: key);
+class Pack extends StatefulWidget {
+  static String route = '/pack';
+  const Pack({Key? key}) : super(key: key);
 
   @override
-  _ItemState createState() => _ItemState();
+  State<Pack> createState() => _PackState();
 }
 
-class _ItemState extends State<Item> {
+class _PackState extends State<Pack> {
   @override
   Widget build(BuildContext context) {
-    final itemId = ModalRoute.of(context)!.settings.arguments as String;
-
-    String getItemDetails = """
+    final packId = ModalRoute.of(context)!.settings.arguments as String;
+    String getPackDetails = """
     query item(\$id: String!) {
       item(id: \$id) {
         node {
@@ -38,22 +36,33 @@ class _ItemState extends State<Item> {
         name
         price
         quantity
+        packItems {
+          item {
+            node {
+              _id
+            }
+            name
+            description
+            price
+            quantity
+          }
+          quantity
+        }
         allowedItemActivities
       }
     }
   """;
-
     return Scaffold(
       drawer: const BaseDrawer(),
       appBar: BaseAppBar(
-        title: const Text('Item'),
+        title: const Text('Pack'),
         appBar: AppBar(),
       ),
       body: Query(
         options: QueryOptions(
-          document: gql(getItemDetails),
+          document: gql(getPackDetails),
           variables: {
-            'id': itemId,
+            'id': packId,
           },
         ),
         builder: (QueryResult result,
@@ -69,8 +78,8 @@ class _ItemState extends State<Item> {
               child: Column(
                 children: [
                   DetailView(item: result.data?['item']),
+                  PackItems(item: result.data?['item']),
                   AvailabilityView(item: result.data?['item']),
-                  RecentView(item: result.data?['item'])
                 ],
               ),
             ),

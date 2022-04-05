@@ -27,6 +27,8 @@ class NodeView extends StatelessWidget {
                   var nodeType = _node['node']['type'];
                   if (nodeType == 'ITEM') {
                     return Colors.lightBlueAccent;
+                  } else if (nodeType == 'PACK') {
+                    return Colors.pinkAccent;
                   }
                   return Colors.green;
                 }()),

@@ -8,6 +8,15 @@ enum AllowedItemActivity {
   RENT
 }
 
+input BuyItemInput {
+  activityType: ItemActivity
+  issueDate: DateTime!
+  item: String!
+  itemState: String = "ORDERED"
+  quantity: Float!
+  user: String
+}
+
 type Category {
   _id: Node
   description: String
@@ -141,6 +150,7 @@ enum ItemState {
 
 type Mutation {
   addPermission(createPermissionInput: CreatePermissionInput!): String!
+  buyItem(buyItemInput: BuyItemInput!): ItemHistory!
   createCategory(createCategoryInput: CreateCategoryInput!, file: Upload!): Category!
   createFacility(createFacilityInput: CreateFacilityInput!, file: Upload!): Facility!
   createInventoryHistory(createInventoryHistoryInput: CreateInventoryHistoryInput!): InventoryHistory!
@@ -153,6 +163,7 @@ type Mutation {
   removeFacility(id: String!): Facility!
   removeNode(id: String!): Node
   removeUser(_id: String!): User!
+  rentItem(rentItemInput: RentItemInput!): ItemHistory!
   updateCategory(file: Upload!, updateCategoryInput: UpdateCategoryInput!): Category!
   updateFacility(updateFacilityInput: UpdateFacilityInput!): Facility!
   updateInventoryHistory(updateInventoryHistoryInput: UpdateInventoryHistoryInput!): InventoryHistory!
@@ -228,6 +239,16 @@ type Query {
   items: [Item!]!
   user(_id: String!): User!
   users: [User!]!
+}
+
+input RentItemInput {
+  activityType: ItemActivity
+  dueDate: DateTime!
+  issueDate: DateTime!
+  item: String!
+  itemState: String = "ORDERED"
+  quantity: Float!
+  user: String
 }
 
 input UpdateCategoryInput {

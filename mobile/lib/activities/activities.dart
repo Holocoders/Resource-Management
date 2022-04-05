@@ -28,6 +28,7 @@ class _ActivitiesState extends State<Activities> {
             email
             name
           }
+          type
         }
         name
         quantity

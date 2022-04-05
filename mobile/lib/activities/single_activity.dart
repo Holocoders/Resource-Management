@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/item/pack.dart';
 import 'package:resource_management_system/utils.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
 import 'package:intl/intl.dart';
@@ -76,7 +77,7 @@ class _SingleActivityState extends State<SingleActivity> {
             ),
             const SizedBox(height: 10),
             GestureDetector(
-                onTap: () => Get.toNamed(Item.route,
+                onTap: () => Get.toNamed(activity['item']['node']['type'] == 'ITEM' ? Item.route : Pack.route,
                     arguments: activity['item']['node']['_id']),
                 child: Card(
                   shape: RoundedRectangleBorder(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/facilities_categories/facilities.dart';
+import 'package:resource_management_system/item/pack.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import 'activities/activities.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
             routes: {
               Auth.route: (context) => const Auth(),
               Item.route: (context) => const Item(),
+              Pack.route: (context) => const Pack(),
               Facilities.route: (context) => const Facilities(),
               FacilityCategoryAdd.route: (context) =>
                   const FacilityCategoryAdd(),

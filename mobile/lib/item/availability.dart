@@ -63,17 +63,41 @@ class _AvailabilityViewState extends State<AvailabilityView> {
   }
   """;
 
-  String getItem = """
-  mutation createItemHistory (\$createItemHistoryInput: CreateItemHistoryInput!) {
-    createItemHistory (createItemHistoryInput: \$createItemHistoryInput) {
+  String buyItem = """
+  mutation buyItem (\$buyItemInput: BuyItemInput!) {
+    buyItem (buyItemInput: \$buyItemInput) {
       item {
-        _id {
-          _id
+        node {
+          _id 
         }
       }
     }
   }
   """;
+
+  String rentItem = """
+  mutation rentItem (\$rentItemInput: RentItemInput!) {
+    rentItem (rentItemInput: \$rentItemInput) {
+      item {
+        node {
+          _id 
+        }
+      }
+    }
+  }
+  """;
+
+  // String getItem = """
+  // mutation createItemHistory (\$createItemHistoryInput: CreateItemHistoryInput!) {
+  //   createItemHistory (createItemHistoryInput: \$createItemHistoryInput) {
+  //     item {
+  //       _id {
+  //         _id
+  //       }
+  //     }
+  //   }
+  // }
+  // """;
 
   Widget _createIncrementDecrementButton(IconData icon, Color fillColor,
       CounterCallback onPressed, bool disabled) {
@@ -88,6 +112,12 @@ class _AvailabilityViewState extends State<AvailabilityView> {
   }
 
   @override
+  void initState() {
+    activityType = widget.item['allowedItemActivities'] == 'BOTH' ? 'RENT' : widget.item['allowedItemActivities'];
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
@@ -95,7 +125,7 @@ class _AvailabilityViewState extends State<AvailabilityView> {
         ToggleSwitch(
           minWidth: 90.0,
           cornerRadius: 20.0,
-          initialLabelIndex: activityType == 'RENT' ? 0 : 1,
+          initialLabelIndex: activityType == 'BUY' && widget.item['allowedItemActivities'] == 'BOTH' ? 1 : 0,
           totalSwitches: widget.item['allowedItemActivities'] == 'BOTH' ? 2 : 1,
           labels: widget.item['allowedItemActivities'] == 'BOTH'
               ? ['RENT', 'BUY']
@@ -103,7 +133,11 @@ class _AvailabilityViewState extends State<AvailabilityView> {
           radiusStyle: true,
           onToggle: (index) {
             setState(() {
-              activityType = index == 0 ? 'RENT' : 'BUY';
+              if (widget.item['allowedItemActivities'] == 'BOTH') {
+                activityType = index == 0 ? 'RENT' : 'BUY';
+              } else {
+                activityType = widget.item['allowedItemActivities'];
+              }
             });
           },
         ),
@@ -169,7 +203,7 @@ class _AvailabilityViewState extends State<AvailabilityView> {
         ),
         const SizedBox(height: 10),
         Visibility(
-          child: Text('Max. available items: $_maxCount'),
+          child: Text('Max. available qty: $_maxCount'),
           visible: _maxCount >= 0,
         ),
         const SizedBox(height: 10),
@@ -225,32 +259,39 @@ class _AvailabilityViewState extends State<AvailabilityView> {
               const SizedBox(height: 10),
               Mutation(
                 options: MutationOptions(
-                    document: gql(getItem),
+                    document: gql(activityType == 'BUY' ? buyItem : rentItem),
                     onCompleted: (dynamic data) {
                       setState(() {
                         _currentCount = 0;
                         _maxCount = -1;
                       });
-                    }),
+                    },
+                    onError: (dynamic error) {
+                      print(error);
+                    },
+                  ),
                 builder: (RunMutation runMutation, QueryResult? result) {
-                  var mutObj = {
-                    'createItemHistoryInput': {
-                      'item': widget.item['node']['_id'],
-                      'quantity': _currentCount,
-                      'activityType': activityType,
-                      'issueDate': _startDate.toString(),
-                    }
-                  };
-                  if (activityType == 'RENT') {
-                    mutObj['createItemHistoryInput']!['dueDate'] =
-                        _endDate.toString();
-                  }
                   return ElevatedButton.icon(
                     icon: const Icon(Icons.check),
                     label: const Text('Place order'),
                     onPressed: _currentCount == 0
                         ? null
                         : () {
+                            Map<String, dynamic> mutObj = {};
+                            if (activityType == 'BUY') {
+                              mutObj['buyItemInput'] = {
+                                'item': widget.item['node']['_id'],
+                                'quantity': _currentCount,
+                                'issueDate': _startDate.toString(),
+                              };
+                            } else {
+                              mutObj['rentItemInput'] = {
+                                'item': widget.item['node']['_id'],
+                                'quantity': _currentCount,
+                                'issueDate': _startDate.toString(),
+                                'dueDate': _endDate.toString(),
+                              };
+                            }
                             runMutation(mutObj);
                           },
                   );

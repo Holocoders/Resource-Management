@@ -43,6 +43,33 @@ class FacilityCategory extends StatelessWidget {
       }
   """;
 
+  final String _getAllPacks = """
+    query childPacks(\$id: String!) {
+        childPacks(id: \$id) {
+          node {
+            _id
+            categoryCount
+            itemCount
+            type
+          }
+          description
+          name
+          price
+          packItems {
+            item {
+              node {
+                _id
+              }
+              name
+              quantity
+            }
+            quantity
+          }
+          quantity
+        }
+      }
+  """;
+
   @override
   Widget build(BuildContext context) {
     final data =
@@ -72,14 +99,27 @@ class FacilityCategory extends StatelessWidget {
                 if (items.isLoading) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                if (items.data == null) {
-                  return const Center(child: Text('No items found'));
-                }
-                var nodes = [
-                  ...categories.data?['childCategories'],
-                  ...items.data?['childItems']
-                ];
-                return NodesGridView(nodes);
+                return Query(
+                    options: QueryOptions(
+                        document: gql(_getAllPacks),
+                        variables: {'id': data['_id']}
+                    ),
+                    builder: (QueryResult packs,
+                        {VoidCallback? refetch, FetchMore? fetchMore}) {
+                      if (packs.isLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (items.data == null && packs.data == null) {
+                        return const Center(child: Text('No items found'));
+                      }
+                      var nodes = [
+                        ...categories.data?['childCategories'],
+                        ...items.data?['childItems'],
+                        ...packs.data?['childPacks']
+                      ];
+                      return NodesGridView(nodes);
+                    }
+                );
               });
         },
       ),

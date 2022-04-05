@@ -79,7 +79,7 @@ export class ItemService {
     return this.itemModel.find();
   }
 
-  findOne(id: string) {
+  findById(id: string) {
     return this.itemModel.findById(id);
   }
 
@@ -100,15 +100,5 @@ export class ItemService {
     return this.itemModel.findByIdAndUpdate(id, {
       $inc: { quantity: -reduceBy },
     });
-  }
-
-  relatedItems(id: string) {
-    // return Get related items array from DB
-  }
-
-  updateRelatedItems(id: string, other: string) {
-    // Check if other is in item ID's related items array.
-    // If so then increment the counter
-    // If not then add it to the array if size is available, else heap pop and then heap push item.
   }
 }

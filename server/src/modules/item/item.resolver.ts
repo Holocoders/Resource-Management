@@ -86,7 +86,7 @@ export class ItemResolver {
   @Query(() => Item, { name: 'item' })
   findOne(@CurrentUser() user, @Args('id', { type: () => String }) id: string) {
     if (!user) return new GraphQLError('Unauthorized');
-    return this.itemService.findOne(id);
+    return this.itemService.findById(id);
   }
 
   @Query(() => [Item], { name: 'items' })
