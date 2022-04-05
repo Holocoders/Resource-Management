@@ -25,7 +25,7 @@ export class PermissionResolver {
     return this.permissionService.findAll(nodeId);
   }
 
-  @Query(() => [Boolean], { name: 'checkPermission' })
+  @Query(() => Boolean, { name: 'checkPermission' })
   checkPermission(
     @Args('userId', { type: () => String, description: 'User ID' })
     userId: string,

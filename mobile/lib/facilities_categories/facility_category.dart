@@ -7,7 +7,7 @@ import '../widgets/base_appbar.dart';
 import '../widgets/base_drawer.dart';
 
 class FacilityCategory extends StatelessWidget {
-  const FacilityCategory({Key? key}) : super(key: key);
+  FacilityCategory({Key? key}) : super(key: key);
 
   static const String route = '/category';
 
@@ -70,6 +70,14 @@ class FacilityCategory extends StatelessWidget {
       }
   """;
 
+  final String _getPermission = """
+    query checkPermission (\$userId: String!, \$nodeId: String!,) {
+    checkPermission(userId:\$userId, nodeId: \$nodeId)
+  }
+  """;
+
+  var _editable = false.obs;
+
   @override
   Widget build(BuildContext context) {
     final data =
@@ -102,8 +110,7 @@ class FacilityCategory extends StatelessWidget {
                 return Query(
                     options: QueryOptions(
                         document: gql(_getAllPacks),
-                        variables: {'id': data['_id']}
-                    ),
+                        variables: {'id': data['_id']}),
                     builder: (QueryResult packs,
                         {VoidCallback? refetch, FetchMore? fetchMore}) {
                       if (packs.isLoading) {
@@ -117,18 +124,40 @@ class FacilityCategory extends StatelessWidget {
                         ...items.data?['childItems'],
                         ...packs.data?['childPacks']
                       ];
-                      return NodesGridView(nodes);
-                    }
-                );
+
+                      return Query(
+                        options: QueryOptions(
+                          document: gql(_getPermission),
+                          variables: {
+                            'userId': "621c8727d851aa458827e0c9",
+                            'nodeId': data['_id']
+                          },
+                        ),
+                        builder: (QueryResult permission,
+                            {VoidCallback? refetch, FetchMore? fetchMore}) {
+                          if (permission.isLoading) {
+                            return const Center(
+                                child: CircularProgressIndicator());
+                          }
+                          _editable.value = permission.data?['checkPermission'];
+                          return NodesGridView(
+                            nodes,
+                            editable: _editable.value,
+                          );
+                        },
+                      );
+                    });
               });
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.toNamed(FacilityCategoryAdd.route, arguments: data['_id']);
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: _editable.value
+          ? FloatingActionButton(
+              onPressed: () {
+                Get.toNamed(FacilityCategoryAdd.route, arguments: data['_id']);
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
     );
   }
 }

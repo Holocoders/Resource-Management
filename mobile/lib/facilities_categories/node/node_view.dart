@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class NodeView extends StatelessWidget {
   final _node;
+  final bool editable;
 
-  const NodeView(this._node);
+  const NodeView(this._node, {this.editable = false});
 
   @override
   Widget build(BuildContext context) {
@@ -93,13 +94,15 @@ class NodeView extends StatelessWidget {
           const SizedBox(
             height: 2,
           ),
-          IconButton(
-            icon: const Icon(
-              Icons.delete,
-              color: Colors.red,
-            ),
-            onPressed: () {},
-          ),
+          editable
+              ? IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: Colors.red,
+                  ),
+                  onPressed: () {},
+                )
+              : Container(),
         ],
       ),
     );

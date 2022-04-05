@@ -8,12 +8,13 @@ import 'node_view.dart';
 
 class NodesGridView extends StatelessWidget {
   final data;
+  final editable;
 
-  const NodesGridView(this.data);
+  const NodesGridView(this.data, {this.editable = false});
 
   @override
   Widget build(BuildContext context) {
-    return data?.length != 0
+    return data?.length > 0
         ? GridView.builder(
             shrinkWrap: true,
             padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -39,7 +40,10 @@ class NodesGridView extends StatelessWidget {
                   Get.toNamed(FacilityCategory.route,
                       arguments: data[index]['node'], preventDuplicates: false);
                 },
-                child: NodeView(data?[index]),
+                child: NodeView(
+                  data?[index],
+                  editable: editable,
+                ),
               );
             },
             itemCount: data?.length ?? 0,

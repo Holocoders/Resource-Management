@@ -216,7 +216,7 @@ type Query {
 
     """User ID"""
     userId: String!
-  ): [Boolean!]!
+  ): Boolean!
   childCategories(id: String!): [Category!]!
   childItems(id: String!): [Item!]!
   childPacks(id: String!): [Item!]!

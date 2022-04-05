@@ -44,28 +44,31 @@ class MyApp extends StatelessWidget {
           link = httpLink;
         }
 
-        ValueNotifier<GraphQLClient> client = ValueNotifier(GraphQLClient(
-          link: link,
-          cache: GraphQLCache(
-            store: InMemoryStore(),
+        ValueNotifier<GraphQLClient> client = ValueNotifier(
+          GraphQLClient(
+            link: link,
+            cache: GraphQLCache(
+              store: InMemoryStore(),
+            ),
           ),
-        ));
+        );
         return GraphQLProvider(
           client: client,
           child: GetMaterialApp(
             theme: ThemeData(
-                primarySwatch: Colors.green,
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-                scaffoldBackgroundColor: Colors.white),
+              primarySwatch: Colors.green,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              scaffoldBackgroundColor: Colors.white,
+            ),
             initialRoute: user == '' ? Auth.route : Facilities.route,
             routes: {
               Auth.route: (context) => const Auth(),
               Item.route: (context) => const Item(),
               Pack.route: (context) => const Pack(),
-              Facilities.route: (context) => const Facilities(),
+              Facilities.route: (context) => Facilities(),
               FacilityCategoryAdd.route: (context) =>
                   const FacilityCategoryAdd(),
-              FacilityCategory.route: (context) => const FacilityCategory(),
+              FacilityCategory.route: (context) => FacilityCategory(),
               Activities.route: (context) => const Activities(),
               SingleActivity.route: (context) => const SingleActivity(),
             },
