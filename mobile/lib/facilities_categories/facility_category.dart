@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import '../auth/user_service.dart';
 import '../widgets/no_item_found.dart';
 import 'facility_category_add.dart';
 import 'Node/nodes_grid_view.dart';
@@ -122,7 +123,7 @@ class FacilityCategory extends StatelessWidget {
                       options: QueryOptions(
                         document: gql(_getPermission),
                         variables: {
-                          'userId': "621c8727d851aa458827e0c9",
+                          'userId': Get.find<UserService>().user.value.id,
                           'nodeId': data['_id']
                         },
                       ),
@@ -134,7 +135,7 @@ class FacilityCategory extends StatelessWidget {
                         }
                         bool _editable = permission.data?['checkPermission'];
                         return Scaffold(
-                          drawer: const BaseDrawer(),
+                          drawer: BaseDrawer(),
                           appBar: BaseAppBar(
                             title: const Text('Category'),
                             appBar: AppBar(),

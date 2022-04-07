@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 import 'package:resource_management_system/facilities_categories/facilities.dart';
 
 import '../activities/activities.dart';
+import '../auth/user_service.dart';
 
 class BaseDrawer extends StatelessWidget {
-  const BaseDrawer({Key? key}) : super(key: key);
+  BaseDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,16 +21,16 @@ class BaseDrawer extends StatelessWidget {
             ),
             child: Center(
               child: Column(
-                children: const [
-                  CircleAvatar(
+                children: [
+                  const CircleAvatar(
                     backgroundImage:
                         NetworkImage('https://picsum.photos/200/300'),
                     radius: 40,
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Text(
-                    'John Doe',
-                    style: TextStyle(
+                    Get.find<UserService>().user.value.name,
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                     ),

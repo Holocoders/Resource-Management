@@ -11,7 +11,7 @@ class NoItemFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const BaseDrawer(),
+      drawer: BaseDrawer(),
       appBar: BaseAppBar(
         appBar: AppBar(),
         title: const Text('Facilities'),

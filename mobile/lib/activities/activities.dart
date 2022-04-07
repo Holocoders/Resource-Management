@@ -58,7 +58,7 @@ class _ActivitiesState extends State<Activities> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const BaseDrawer(),
+      drawer: BaseDrawer(),
       appBar: BaseAppBar(
         title: const Text('My activities'),
         appBar: AppBar(),
@@ -81,7 +81,8 @@ class _ActivitiesState extends State<Activities> {
                                 onPressed: () {
                                   Get.back();
                                 },
-                                child: const Text('Close', style: TextStyle(color: Colors.blueAccent)),
+                                child: const Text('Close',
+                                    style: TextStyle(color: Colors.blueAccent)),
                               ),
                             ),
                             const Divider(),
@@ -92,21 +93,28 @@ class _ActivitiesState extends State<Activities> {
                               spacing: 10,
                               children: List.generate(
                                 ItemStateUtil.itemStates.length,
-                                  (index) => FilterChip(
-                                  label: Text(ItemStateUtil.itemStates[index].toString().toCapitalized()),
-                                  onSelected: (bool selected) {
-                                    setState(() {
-                                      if (selected) {
-                                        _filteredStates.add(ItemStateUtil.itemStates[index]);
-                                      } else {
-                                        _filteredStates.removeWhere((element) => element == ItemStateUtil.itemStates[index]);
-                                      }
-                                    });
-                                  },
-                                  selected: _filteredStates.contains(ItemStateUtil.itemStates[index]),
-                                  checkmarkColor: Colors.black,
-                                  selectedColor: Colors.lightGreen
-                                ),
+                                (index) => FilterChip(
+                                    label: Text(ItemStateUtil.itemStates[index]
+                                        .toString()
+                                        .toCapitalized()),
+                                    onSelected: (bool selected) {
+                                      setState(() {
+                                        if (selected) {
+                                          _filteredStates.add(
+                                              ItemStateUtil.itemStates[index]);
+                                        } else {
+                                          _filteredStates.removeWhere(
+                                              (element) =>
+                                                  element ==
+                                                  ItemStateUtil
+                                                      .itemStates[index]);
+                                        }
+                                      });
+                                    },
+                                    selected: _filteredStates.contains(
+                                        ItemStateUtil.itemStates[index]),
+                                    checkmarkColor: Colors.black,
+                                    selectedColor: Colors.lightGreen),
                               ),
                             ),
                             const Divider(height: 2),
@@ -117,21 +125,28 @@ class _ActivitiesState extends State<Activities> {
                               spacing: 10,
                               children: List.generate(
                                 ActivityUtil.activities.length,
-                                  (index) => FilterChip(
-                                  label: Text(ActivityUtil.activities[index].toString().toCapitalized()),
-                                  onSelected: (bool selected) {
-                                    setState(() {
-                                      if (selected) {
-                                        _filteredActivities.add(ActivityUtil.activities[index]);
-                                      } else {
-                                        _filteredActivities.removeWhere((element) => element == ActivityUtil.activities[index]);
-                                      }
-                                    });
-                                  },
-                                  selected: _filteredActivities.contains(ActivityUtil.activities[index]),
-                                  checkmarkColor: Colors.black,
-                                  selectedColor: Colors.lightGreen
-                                ),
+                                (index) => FilterChip(
+                                    label: Text(ActivityUtil.activities[index]
+                                        .toString()
+                                        .toCapitalized()),
+                                    onSelected: (bool selected) {
+                                      setState(() {
+                                        if (selected) {
+                                          _filteredActivities.add(
+                                              ActivityUtil.activities[index]);
+                                        } else {
+                                          _filteredActivities.removeWhere(
+                                              (element) =>
+                                                  element ==
+                                                  ActivityUtil
+                                                      .activities[index]);
+                                        }
+                                      });
+                                    },
+                                    selected: _filteredActivities.contains(
+                                        ActivityUtil.activities[index]),
+                                    checkmarkColor: Colors.black,
+                                    selectedColor: Colors.lightGreen),
                               ),
                             ),
                             const Divider(height: 2),
@@ -144,9 +159,7 @@ class _ActivitiesState extends State<Activities> {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     isDismissible: false,
-                  ).then((value) => setState(() {
-
-                  }));
+                  ).then((value) => setState(() {}));
                 },
                 style: TextButton.styleFrom(
                   splashFactory: NoSplash.splashFactory,
@@ -191,16 +204,21 @@ class _ActivitiesState extends State<Activities> {
                   return const Center(child: Text('No data found'));
                 }
                 var itemHistory = result.data!['itemHistoryByUser'];
-                itemHistory = itemHistory.where((element) => _filteredActivities.contains(element['activityType'])).toList();
-                itemHistory = itemHistory.where((element) => _filteredStates.contains(element['itemState'])).toList();
+                itemHistory = itemHistory
+                    .where((element) =>
+                        _filteredActivities.contains(element['activityType']))
+                    .toList();
+                itemHistory = itemHistory
+                    .where((element) =>
+                        _filteredStates.contains(element['itemState']))
+                    .toList();
                 return ListView.builder(
                   itemCount: itemHistory?.length,
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
                         Get.toNamed(SingleActivity.route,
-                                arguments: itemHistory
-                                    [index])
+                                arguments: itemHistory[index])
                             ?.asStream()
                             .listen((_) => refetch!());
                       },
@@ -218,7 +236,8 @@ class _ActivitiesState extends State<Activities> {
                           vertical: 6.0,
                         ),
                         child: Container(
-                          decoration: _getBoxDecorator(itemHistory[index]['itemState']),
+                          decoration:
+                              _getBoxDecorator(itemHistory[index]['itemState']),
                           child: ListTile(
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 20.0,
@@ -231,11 +250,10 @@ class _ActivitiesState extends State<Activities> {
                                   right: BorderSide(width: 1.0),
                                 ),
                               ),
-                              child: Icon(itemHistory
-                                          [index]['activityType'] ==
-                                      'RENT'
-                                  ? Icons.vpn_key
-                                  : Icons.check),
+                              child: Icon(
+                                  itemHistory[index]['activityType'] == 'RENT'
+                                      ? Icons.vpn_key
+                                      : Icons.check),
                             ),
                             title: Text(
                               "${itemHistory[index]['activityType'].toString().toCapitalized()} (${itemHistory[index]['itemState'].toString().toCapitalized()})",
@@ -264,8 +282,7 @@ class _ActivitiesState extends State<Activities> {
                                 Text(
                                   "Order placed on\n${DateFormat('EEEE, dd MMM y').format(
                                     DateTime.parse(
-                                        itemHistory[index]
-                                            ['activityDate']),
+                                        itemHistory[index]['activityDate']),
                                   )}",
                                   style: const TextStyle(),
                                 )

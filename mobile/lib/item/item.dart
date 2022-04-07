@@ -44,7 +44,7 @@ class _ItemState extends State<Item> {
   """;
 
     return Scaffold(
-      drawer: const BaseDrawer(),
+      drawer: BaseDrawer(),
       appBar: BaseAppBar(
         title: const Text('Item'),
         appBar: AppBar(),

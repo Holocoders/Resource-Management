@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/auth/user_service.dart';
 import 'package:resource_management_system/facilities_categories/facilities.dart';
 import 'package:resource_management_system/item/pack.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
@@ -17,6 +19,7 @@ import 'item/item.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final preferences = await StreamingSharedPreferences.instance;
+  var userService = Get.put(UserService(), permanent: true);
   runApp(MyApp(preferences));
 }
 
@@ -36,6 +39,8 @@ class MyApp extends StatelessWidget {
         Link link;
         if (user != '') {
           var userJson = json.decode(user.toString());
+          Get.find<UserService>().setValues(userJson['_id'], userJson['name'],
+              userJson['email'], userJson['token']);
           AuthLink authLink = AuthLink(
             getToken: () async => 'Bearer ' + userJson['token'],
           );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/auth/user_service.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
 import 'package:resource_management_system/widgets/base_drawer.dart';
 import 'package:get/get.dart';
@@ -51,7 +52,7 @@ class Facilities extends StatelessWidget {
           options: QueryOptions(
             document: gql(Facilities._getPermission),
             variables: <String, dynamic>{
-              'userId': "621c8727d851aa458827e0c9",
+              'userId': Get.find<UserService>().user.value.id,
               'nodeId': '-1',
             },
           ),
@@ -65,7 +66,7 @@ class Facilities extends StatelessWidget {
 
             bool _editable = permissionResult.data!['checkPermission'];
             return Scaffold(
-              drawer: const BaseDrawer(),
+              drawer: BaseDrawer(),
               appBar: BaseAppBar(
                 appBar: AppBar(),
                 title: const Text('Facilities'),

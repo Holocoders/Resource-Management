@@ -9,6 +9,7 @@ import 'detail.dart';
 
 class Pack extends StatefulWidget {
   static String route = '/pack';
+
   const Pack({Key? key}) : super(key: key);
 
   @override
@@ -53,7 +54,7 @@ class _PackState extends State<Pack> {
     }
   """;
     return Scaffold(
-      drawer: const BaseDrawer(),
+      drawer: BaseDrawer(),
       appBar: BaseAppBar(
         title: const Text('Pack'),
         appBar: AppBar(),
