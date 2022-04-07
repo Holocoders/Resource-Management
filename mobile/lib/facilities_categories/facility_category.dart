@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/widgets/permissionQuery.dart';
 import '../auth/user_service.dart';
 import '../widgets/no_item_found.dart';
 import 'facility_category_add.dart';
@@ -119,43 +120,28 @@ class FacilityCategory extends StatelessWidget {
                       ...packs.data?['childPacks']
                     ];
 
-                    return Query(
-                      options: QueryOptions(
-                        document: gql(_getPermission),
-                        variables: {
-                          'userId': Get.find<UserService>().user.value.id,
-                          'nodeId': data['_id']
-                        },
-                      ),
-                      builder: (QueryResult permission,
-                          {VoidCallback? refetch, FetchMore? fetchMore}) {
-                        if (permission.isLoading) {
-                          return const Center(
-                              child: CircularProgressIndicator());
-                        }
-                        bool _editable = permission.data?['checkPermission'];
-                        return Scaffold(
-                          drawer: BaseDrawer(),
-                          appBar: BaseAppBar(
-                            title: const Text('Category'),
-                            appBar: AppBar(),
-                          ),
-                          body: NodesGridView(
-                            nodes,
-                            editable: _editable,
-                          ),
-                          floatingActionButton: _editable
-                              ? FloatingActionButton(
-                                  onPressed: () {
-                                    Get.toNamed(FacilityCategoryAdd.route,
-                                        arguments: data['_id']);
-                                  },
-                                  child: const Icon(Icons.add),
-                                )
-                              : null,
-                        );
-                      },
-                    );
+                    return PermissionQuery(
+                        nodeId: data['_id'],
+                        child: (bool _editable) => Scaffold(
+                              drawer: BaseDrawer(),
+                              appBar: BaseAppBar(
+                                title: const Text('Category'),
+                                appBar: AppBar(),
+                              ),
+                              body: NodesGridView(
+                                nodes,
+                                editable: _editable,
+                              ),
+                              floatingActionButton: _editable
+                                  ? FloatingActionButton(
+                                      onPressed: () {
+                                        Get.toNamed(FacilityCategoryAdd.route,
+                                            arguments: data['_id']);
+                                      },
+                                      child: const Icon(Icons.add),
+                                    )
+                                  : null,
+                            ));
                   });
             });
       },
