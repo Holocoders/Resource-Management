@@ -49,6 +49,9 @@ export class PermissionService {
   }
 
   findAll(id: string) {
+    if (id == '-1') {
+      return this.permissionModel.find({ nodeId: null });
+    }
     return this.permissionModel.find({ nodeId: id as any });
   }
 }

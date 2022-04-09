@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/facilities_categories/permission_users.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
 import 'package:resource_management_system/widgets/base_drawer.dart';
 import 'package:get/get.dart';
@@ -43,29 +44,47 @@ class Facilities extends StatelessWidget {
           return const NoItemFound();
         }
         return PermissionQuery(
-          child: (bool _editable) => Scaffold(
-            drawer: BaseDrawer(),
-            appBar: BaseAppBar(
-              appBar: AppBar(),
-              title: const Text('Facilities'),
-            ),
-            body: NodesGridView(
-              result.data?['facilities'],
-              editable: _editable,
-            ),
-            floatingActionButton: _editable
-                ? FloatingActionButton(
-                    onPressed: () {
-                      Get.toNamed(
-                        FacilityCategoryAdd.route,
-                        arguments: '-1',
-                      );
-                    },
-                    child: const Icon(
-                      Icons.add,
+          child: (bool _editable) => DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              drawer: BaseDrawer(),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: const Text('Facilities'),
+                bottom: const TabBar(
+                  tabs: [
+                    Tab(
+                      icon: Icon(Icons.list),
                     ),
-                  )
-                : null,
+                    Tab(
+                      icon: Icon(Icons.people),
+                    ),
+                  ],
+                ),
+              ),
+              body: TabBarView(
+                children: [
+                  NodesGridView(
+                    result.data?['facilities'],
+                    editable: _editable,
+                  ),
+                  const PermissionUsers(),
+                ],
+              ),
+              floatingActionButton: _editable
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        Get.toNamed(
+                          FacilityCategoryAdd.route,
+                          arguments: '-1',
+                        );
+                      },
+                      child: const Icon(
+                        Icons.add,
+                      ),
+                    )
+                  : null,
+            ),
           ),
         );
       },

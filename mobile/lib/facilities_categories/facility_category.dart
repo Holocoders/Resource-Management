@@ -8,6 +8,7 @@ import 'facility_category_add.dart';
 import 'Node/nodes_grid_view.dart';
 import '../widgets/base_appbar.dart';
 import '../widgets/base_drawer.dart';
+import 'permission_users.dart';
 
 class FacilityCategory extends StatelessWidget {
   FacilityCategory({Key? key}) : super(key: key);
@@ -121,27 +122,48 @@ class FacilityCategory extends StatelessWidget {
                     ];
 
                     return PermissionQuery(
-                        nodeId: data['_id'],
-                        child: (bool _editable) => Scaffold(
-                              drawer: BaseDrawer(),
-                              appBar: BaseAppBar(
-                                title: const Text('Category'),
-                                appBar: AppBar(),
-                              ),
-                              body: NodesGridView(
+                      nodeId: data['_id'],
+                      child: (bool _editable) => DefaultTabController(
+                        length: 2,
+                        child: Scaffold(
+                          drawer: BaseDrawer(),
+                          appBar: BaseAppBar(
+                            title: const Text('Category'),
+                            appBar: AppBar(),
+                            bottom: const TabBar(
+                              tabs: [
+                                Tab(
+                                  icon: Icon(Icons.list),
+                                ),
+                                Tab(
+                                  icon: Icon(Icons.people),
+                                ),
+                              ],
+                            ),
+                          ),
+                          body: TabBarView(
+                            children: [
+                              NodesGridView(
                                 nodes,
                                 editable: _editable,
                               ),
-                              floatingActionButton: _editable
-                                  ? FloatingActionButton(
-                                      onPressed: () {
-                                        Get.toNamed(FacilityCategoryAdd.route,
-                                            arguments: data['_id']);
-                                      },
-                                      child: const Icon(Icons.add),
-                                    )
-                                  : null,
-                            ));
+                              PermissionUsers(
+                                nodeId: data['_id'],
+                              ),
+                            ],
+                          ),
+                          floatingActionButton: _editable
+                              ? FloatingActionButton(
+                                  onPressed: () {
+                                    Get.toNamed(FacilityCategoryAdd.route,
+                                        arguments: data['_id']);
+                                  },
+                                  child: const Icon(Icons.add),
+                                )
+                              : null,
+                        ),
+                      ),
+                    );
                   });
             });
       },

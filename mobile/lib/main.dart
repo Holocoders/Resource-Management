@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/auth/user_service.dart';
 import 'package:resource_management_system/facilities_categories/facilities.dart';
@@ -70,7 +69,7 @@ class MyApp extends StatelessWidget {
               Auth.route: (context) => const Auth(),
               Item.route: (context) => const Item(),
               Pack.route: (context) => const Pack(),
-              Facilities.route: (context) => Facilities(),
+              Facilities.route: (context) => const Facilities(),
               FacilityCategoryAdd.route: (context) =>
                   const FacilityCategoryAdd(),
               FacilityCategory.route: (context) => FacilityCategory(),
