@@ -3,6 +3,6 @@ export class User {
     public email: string,
     public name: string,
     public token?: string,
-    public nodeId?: string,
+    public _id?: string,
   ) {}
 }

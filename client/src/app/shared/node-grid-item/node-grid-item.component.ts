@@ -12,6 +12,7 @@ import { NodeType } from 'src/app/models/node.model';
 export class NodeGridItemComponent {
   @Output() onDeleteClick = new EventEmitter();
   @Input() obj: any;
+  @Input() editable: boolean;
   @Output() objChange = new EventEmitter();
   displayAddDialog: boolean;
 

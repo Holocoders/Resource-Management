@@ -29,6 +29,6 @@ import { CreateUserComponent } from './node-users/create-user/create-user.compon
     CategoryModule,
     UserModule,
   ],
-  exports: [],
+  exports: [CreateUserComponent],
 })
 export class NodeModule {}

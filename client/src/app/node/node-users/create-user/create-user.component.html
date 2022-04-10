@@ -1,12 +1,9 @@
 <p-toast position="top-right"></p-toast>
-<div class="mt-8">
-  <form [formGroup]="signUpForm" class="h-full w-screen flex justify-content-center">
+<div>
+  <form [formGroup]="signUpForm" class="h-full flex justify-content-center">
     <div class="p-grid w-25rem sm:w-30rem">
-      <p class="w-full align-items-center flex justify-content-center mt-4 text-5xl">
-        Add User
-      </p>
 
-      <div class="p-input-icon-right w-full mt-4">
+      <div class="p-input-icon-right w-full">
         <i class="pi pi-envelope"></i>
         <input class="w-full" formControlName="email" pInputText placeholder="Email-ID" type="text">
       </div>
@@ -15,7 +12,7 @@
         <small *ngIf="signUpForm.controls['email'].errors?.email" class="p-error">Enter a valid email-id.</small>
       </div>
       <div class="mt-4">
-        <button (click)="addPermission()" [disabled]="!signUpForm.valid" class="w-full p-button" label="Create User"
+        <button (click)="addPermission()" [disabled]="!signUpForm.valid" class="w-full p-button" label="Add User"
                 pButton pRipple
                 type="button"></button>
       </div>

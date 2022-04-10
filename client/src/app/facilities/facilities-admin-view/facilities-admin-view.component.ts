@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NodeService } from '../../node/node.service';
 
 @Component({
@@ -8,6 +8,8 @@ import { NodeService } from '../../node/node.service';
 })
 export class FacilitiesAdminViewComponent implements OnInit {
   users: any;
+  display: boolean;
+  @Input() editable: boolean;
 
   constructor(private nodeService: NodeService) {}
 

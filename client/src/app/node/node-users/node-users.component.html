@@ -19,5 +19,5 @@
 </p-table>
 
 <p-dialog [(visible)]="display" header="New User">
-  <app-create-user (userCreated)="display=false"></app-create-user>
+  <app-create-user (userCreated)="display=false" [nodeId]="nodeId"></app-create-user>
 </p-dialog>

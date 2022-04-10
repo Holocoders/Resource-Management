@@ -1,3 +1,9 @@
+<p-toolbar styleClass="mb-4">
+  <ng-template pTemplate="left" [ngIf]="editable">
+    <button (click)="display=true" class="p-button-success mr-2" icon="pi pi-plus" label="New" pButton pRipple></button>
+  </ng-template>
+</p-toolbar>
+
 <p-table [value]="users">
   <ng-template pTemplate="header">
     <tr>
@@ -12,3 +18,8 @@
     </tr>
   </ng-template>
 </p-table>
+
+<p-dialog [(visible)]="display" header="New User">
+  <app-create-user (userCreated)="display=false"></app-create-user>
+</p-dialog>
+

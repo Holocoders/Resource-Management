@@ -7,8 +7,8 @@ import '../auth/user_service.dart';
 class PermissionQuery extends StatelessWidget {
   static const String _getPermission = """
     query checkPermission (\$userId: String!, \$nodeId: String!,) {
-    checkPermission(userId:\$userId, nodeId: \$nodeId)
-  }
+      checkPermission(userId:\$userId, nodeId: \$nodeId)
+    }
   """;
 
   final Function child;
@@ -26,15 +26,10 @@ class PermissionQuery extends StatelessWidget {
       options: QueryOptions(
         document: gql(_getPermission),
         variables: <String, dynamic>{
-          'userId': Get
-              .find<UserService>()
-              .user
-              .value
-              .id,
+          'userId': Get.find<UserService>().user.value.id,
           'nodeId': nodeId,
         },
       ),
-
       builder: (QueryResult permissionResult,
           {VoidCallback? refetch, FetchMore? fetchMore}) {
         if (permissionResult.isLoading) {

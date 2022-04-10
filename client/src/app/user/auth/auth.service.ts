@@ -46,6 +46,7 @@ export class AuthService {
       mutation: gql`
         mutation login($email: String!, $password: String!) {
           login(email: $email, password: $password) {
+            _id
             name
             token
           }
@@ -59,7 +60,8 @@ export class AuthService {
     return mutation.pipe(
       map((result) => {
         const data = (result.data as any).login;
-        const user = new User(email, data.name, data.token, data.nodeId);
+        console.log(data);
+        const user = new User(email, data.name, data.token, data._id);
         this.user.next(user);
         if (rememberMe) {
           localStorage.setItem('user', JSON.stringify(user));
