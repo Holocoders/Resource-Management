@@ -8,7 +8,7 @@ import { AuthService } from '../user/auth/auth.service';
 export class PermissionCheckService {
   constructor(private apollo: Apollo, private authService: AuthService) {}
 
-  getFacilities(nodeId: string) {
+  getPermission(nodeId: string) {
     const query = gql`
       query checkPermission($userId: String!, $nodeId: String!) {
         checkPermission(userId: $userId, nodeId: $nodeId)

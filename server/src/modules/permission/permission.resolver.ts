@@ -32,9 +32,6 @@ export class PermissionResolver {
     @Args('nodeId', { type: () => String, description: 'Node ID' })
     nodeId: string,
   ) {
-    return (
-      this.permissionService.isSuperAdmin(userId) ||
-      this.permissionService.isAdmin(userId, nodeId)
-    );
+    return this.permissionService.isAdmin(userId, nodeId);
   }
 }

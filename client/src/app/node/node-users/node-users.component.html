@@ -1,5 +1,5 @@
 <p-toolbar styleClass="mb-4">
-  <ng-template pTemplate="left">
+  <ng-template pTemplate="left" [ngIf]="editable">
     <button (click)="display=true" class="p-button-success mr-2" icon="pi pi-plus" label="New" pButton pRipple></button>
   </ng-template>
 </p-toolbar>

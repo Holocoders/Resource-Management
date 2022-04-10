@@ -13,7 +13,7 @@ export class FacilitiesComponent implements OnInit {
 
   ngOnInit() {
     this.permissionCheckService
-      .getFacilities('-1')
+      .getPermission('-1')
       .valueChanges.subscribe((res) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore

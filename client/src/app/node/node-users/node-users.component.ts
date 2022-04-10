@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { mergeMap, of } from 'rxjs';
 import { NodeService } from '../node.service';
@@ -12,6 +12,8 @@ export class NodeUsersComponent implements OnInit {
   nodeId: string;
   users: any;
   display = false;
+
+  @Input() editable: boolean;
 
   constructor(
     private router: Router,
