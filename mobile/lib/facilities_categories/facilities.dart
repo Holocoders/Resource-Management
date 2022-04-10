@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/facilities_categories/facility_category_tab_controller.dart';
 import 'package:resource_management_system/facilities_categories/permission_users.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
 import 'package:resource_management_system/widgets/base_drawer.dart';
@@ -29,6 +30,8 @@ class Facilities extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FacilityCategoryTabController _tabx =
+        Get.put(FacilityCategoryTabController());
     return Query(
       options: QueryOptions(
         document: gql(Facilities._getAllFacilities),
@@ -51,18 +54,13 @@ class Facilities extends StatelessWidget {
               appBar: BaseAppBar(
                 appBar: AppBar(),
                 title: const Text('Facilities'),
-                bottom: const TabBar(
-                  tabs: [
-                    Tab(
-                      icon: Icon(Icons.list),
-                    ),
-                    Tab(
-                      icon: Icon(Icons.people),
-                    ),
-                  ],
+                bottom: TabBar(
+                  controller: _tabx.controller,
+                  tabs: _tabx.myTabs,
                 ),
               ),
               body: TabBarView(
+                controller: _tabx.controller,
                 children: [
                   NodesGridView(
                     result.data?['facilities'],
@@ -71,19 +69,23 @@ class Facilities extends StatelessWidget {
                   const PermissionUsers(),
                 ],
               ),
-              floatingActionButton: _editable
-                  ? FloatingActionButton(
-                      onPressed: () {
-                        Get.toNamed(
-                          FacilityCategoryAdd.route,
-                          arguments: '-1',
-                        );
-                      },
-                      child: const Icon(
-                        Icons.add,
-                      ),
-                    )
-                  : null,
+              floatingActionButton: Obx(
+                () => _editable
+                    ? _tabx.currentPage.value == 0
+                        ? FloatingActionButton(
+                            onPressed: () {
+                              Get.toNamed(
+                                FacilityCategoryAdd.route,
+                                arguments: '-1',
+                              );
+                            },
+                            child: const Icon(
+                              Icons.add,
+                            ),
+                          )
+                        : Container()
+                    : Container(),
+              ),
             ),
           ),
         );

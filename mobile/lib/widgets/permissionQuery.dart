@@ -26,10 +26,15 @@ class PermissionQuery extends StatelessWidget {
       options: QueryOptions(
         document: gql(_getPermission),
         variables: <String, dynamic>{
-          'userId': Get.find<UserService>().user.value.id,
+          'userId': Get
+              .find<UserService>()
+              .user
+              .value
+              .id,
           'nodeId': nodeId,
         },
       ),
+
       builder: (QueryResult permissionResult,
           {VoidCallback? refetch, FetchMore? fetchMore}) {
         if (permissionResult.isLoading) {
