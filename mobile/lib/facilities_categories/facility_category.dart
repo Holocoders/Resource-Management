@@ -8,6 +8,7 @@ import 'facility_category_add.dart';
 import 'Node/nodes_grid_view.dart';
 import '../widgets/base_appbar.dart';
 import '../widgets/base_drawer.dart';
+import 'facility_category_tab_controller.dart';
 import 'permission_users.dart';
 
 class FacilityCategory extends StatelessWidget {
@@ -82,6 +83,8 @@ class FacilityCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FacilityCategoryTabController _tabx =
+        Get.put(FacilityCategoryTabController(), permanent: false);
     final data =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
@@ -123,44 +126,42 @@ class FacilityCategory extends StatelessWidget {
 
                     return PermissionQuery(
                       nodeId: data['_id'],
-                      child: (bool _editable) => DefaultTabController(
-                        length: 2,
-                        child: Scaffold(
-                          drawer: BaseDrawer(),
-                          appBar: BaseAppBar(
-                            title: const Text('Category'),
-                            appBar: AppBar(),
-                            bottom: const TabBar(
-                              tabs: [
-                                Tab(
-                                  icon: Icon(Icons.list),
-                                ),
-                                Tab(
-                                  icon: Icon(Icons.people),
-                                ),
-                              ],
+                      child: (bool _editable) => Scaffold(
+                        drawer: BaseDrawer(),
+                        appBar: BaseAppBar(
+                          title: const Text('Category'),
+                          appBar: AppBar(),
+                          bottom: TabBar(
+                            controller: _tabx.controller,
+                            tabs: _tabx.myTabs,
+                          ),
+                        ),
+                        body: TabBarView(
+                          controller: _tabx.controller,
+                          children: [
+                            NodesGridView(
+                              nodes,
+                              editable: _editable,
                             ),
-                          ),
-                          body: TabBarView(
-                            children: [
-                              NodesGridView(
-                                nodes,
-                                editable: _editable,
-                              ),
-                              PermissionUsers(
-                                nodeId: data['_id'],
-                              ),
-                            ],
-                          ),
-                          floatingActionButton: _editable
-                              ? FloatingActionButton(
-                                  onPressed: () {
-                                    Get.toNamed(FacilityCategoryAdd.route,
-                                        arguments: data['_id']);
-                                  },
-                                  child: const Icon(Icons.add),
-                                )
-                              : null,
+                            PermissionUsers(
+                              nodeId: data['_id'],
+                            ),
+                          ],
+                        ),
+                        floatingActionButton: Obx(
+                          () => _editable
+                              ? _tabx.currentPage.value == 0
+                                  ? FloatingActionButton(
+                                      onPressed: () {
+                                        Get.toNamed(FacilityCategoryAdd.route,
+                                            arguments: data['_id']);
+                                      },
+                                      child: const Icon(
+                                        Icons.add,
+                                      ),
+                                    )
+                                  : Container()
+                              : Container(),
                         ),
                       ),
                     );

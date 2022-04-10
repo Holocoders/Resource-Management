@@ -31,7 +31,7 @@ class Facilities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FacilityCategoryTabController _tabx =
-        Get.put(FacilityCategoryTabController());
+        Get.put(FacilityCategoryTabController(), permanent: false);
     return Query(
       options: QueryOptions(
         document: gql(Facilities._getAllFacilities),
