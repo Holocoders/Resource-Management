@@ -70,28 +70,26 @@ class Facilities extends StatelessWidget {
                   const PermissionUsers(),
                 ],
               ),
-              floatingActionButton: Obx(
-                () => _editable
-                    ? FloatingActionButton(
-                        onPressed: () {
-                          if (_tabx.currentPage.value == 0) {
-                            Get.toNamed(
-                              FacilityCategoryAdd.route,
-                              arguments: '-1',
-                            );
-                          } else {
-                            Get.toNamed(
-                              PermissionUsersAdd.route,
-                              arguments: '-1',
-                            );
-                          }
-                        },
-                        child: const Icon(
-                          Icons.add,
-                        ),
-                      )
-                    : Container(),
-              ),
+              floatingActionButton: _editable
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        if (_tabx.currentPage.value == 0) {
+                          Get.toNamed(
+                            FacilityCategoryAdd.route,
+                            arguments: '-1',
+                          );
+                        } else {
+                          Get.toNamed(
+                            PermissionUsersAdd.route,
+                            arguments: '-1',
+                          );
+                        }
+                      },
+                      child: const Icon(
+                        Icons.add,
+                      ),
+                    )
+                  : Container(),
             ),
           ),
         );
