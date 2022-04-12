@@ -33,6 +33,7 @@ class Facilities extends StatelessWidget {
   Widget build(BuildContext context) {
     final FacilityCategoryTabController _tabx =
         Get.put(FacilityCategoryTabController(), permanent: false);
+    _tabx.reset();
     return Query(
       options: QueryOptions(
         document: gql(Facilities._getAllFacilities),

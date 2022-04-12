@@ -1,7 +1,10 @@
 import 'dart:io';
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../auth/user_service.dart';
 
 class FacilityCategoryAdd extends StatefulWidget {
   const FacilityCategoryAdd({Key? key}) : super(key: key);
@@ -26,8 +29,11 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
   }
 
   _addFacility(name, desc, file) async {
-    var dio = Dio();
-    FormData formData = FormData.fromMap({
+    ;
+    var dio = http.Dio();
+    dio.options.headers['Authorization'] =
+        'Bearer ' + Get.find<UserService>().user.value.token;
+    http.FormData formData = http.FormData.fromMap({
       "operations":
           '{ "query": "mutation (\$createFacilityInput: CreateFacilityInput!, \$file: Upload!) { createFacility(file: \$file, createFacilityInput: \$createFacilityInput) { node { _id itemCount categoryCount } name description } }", "variables": { "file": null, "createFacilityInput": {"name": "$name", "description": "$desc"} } }',
       "map": '{ "nfile": ["variables.file"] }',
@@ -37,8 +43,10 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
   }
 
   _addCategory(name, desc, file) async {
-    var dio = Dio();
-    FormData formData = FormData.fromMap({
+    var dio = http.Dio();
+    dio.options.headers['Authorization'] =
+        'Bearer ' + Get.find<UserService>().user.value.token;
+    http.FormData formData = http.FormData.fromMap({
       "operations":
           '{ "query": "mutation (\$createCategoryInput: CreateCategoryInput!, \$file: Upload!) { createCategory(file: \$file, createCategoryInput: \$createCategoryInput) { node { _id itemCount } name description } }", "variables": { "file": null, "createCategoryInput": {"name": "$name", "description": "$desc"} } }',
       "map": '{ "nfile": ["variables.file"] }',

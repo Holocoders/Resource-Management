@@ -17,6 +17,7 @@ class FacilityCategoryTabController extends GetxController
 
   @override
   void onInit() {
+    print('FacilityCategoryTabController onInit');
     super.onInit();
     controller = TabController(vsync: this, length: myTabs.length);
     controller.addListener(() {
@@ -28,5 +29,12 @@ class FacilityCategoryTabController extends GetxController
   void onClose() {
     controller.dispose();
     super.onClose();
+  }
+
+  Future<void> reset() async {
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      controller.index = 0;
+      currentPage.value = 0;
+    });
   }
 }

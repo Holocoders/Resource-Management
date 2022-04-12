@@ -85,8 +85,8 @@ class NodeView extends StatelessWidget {
           ),
           () {
             var nodeType = _node['node']['type'];
-            if (nodeType == 'ITEM') {
-              Chip(
+            if (nodeType == 'ITEM' || nodeType == 'PACK') {
+              return Chip(
                 label: Text('Quantity : ${_node['quantity']}'),
                 backgroundColor: ThemeManager.theme.itemColor,
               );

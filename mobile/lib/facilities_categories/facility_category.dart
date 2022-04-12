@@ -86,6 +86,7 @@ class FacilityCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     final FacilityCategoryTabController _tabx =
         Get.put(FacilityCategoryTabController(), permanent: false);
+    _tabx.reset();
     final data =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
 
