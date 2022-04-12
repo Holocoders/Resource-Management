@@ -151,26 +151,24 @@ class FacilityCategory extends StatelessWidget {
                         ),
                         floatingActionButton: Obx(
                           () => _editable
-                              ? _tabx.currentPage.value == 0
-                                  ? FloatingActionButton(
-                                      onPressed: () {
-                                        if (_tabx.currentPage.value == 0) {
-                                          Get.toNamed(
-                                            FacilityCategoryAdd.route,
-                                            arguments: data['_id'],
-                                          );
-                                        } else {
-                                          Get.toNamed(
-                                            PermissionUsersAdd.route,
-                                            arguments: data['_id'],
-                                          );
-                                        }
-                                      },
-                                      child: const Icon(
-                                        Icons.add,
-                                      ),
-                                    )
-                                  : Container()
+                              ? FloatingActionButton(
+                                  onPressed: () {
+                                    if (_tabx.currentPage.value == 0) {
+                                      Get.toNamed(
+                                        FacilityCategoryAdd.route,
+                                        arguments: data['_id'],
+                                      );
+                                    } else {
+                                      Get.toNamed(
+                                        PermissionUsersAdd.route,
+                                        arguments: data['_id'],
+                                      );
+                                    }
+                                  },
+                                  child: const Icon(
+                                    Icons.add,
+                                  ),
+                                )
                               : Container(),
                         ),
                       ),
