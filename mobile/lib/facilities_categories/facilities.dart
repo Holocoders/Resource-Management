@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/facilities_categories/facility_category_tab_controller.dart';
 import 'package:resource_management_system/facilities_categories/permission_users.dart';
+import 'package:resource_management_system/facilities_categories/permission_users_add.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
 import 'package:resource_management_system/widgets/base_drawer.dart';
 import 'package:get/get.dart';
@@ -71,19 +72,24 @@ class Facilities extends StatelessWidget {
               ),
               floatingActionButton: Obx(
                 () => _editable
-                    ? _tabx.currentPage.value == 0
-                        ? FloatingActionButton(
-                            onPressed: () {
-                              Get.toNamed(
-                                FacilityCategoryAdd.route,
-                                arguments: '-1',
-                              );
-                            },
-                            child: const Icon(
-                              Icons.add,
-                            ),
-                          )
-                        : Container()
+                    ? FloatingActionButton(
+                        onPressed: () {
+                          if (_tabx.currentPage.value == 0) {
+                            Get.toNamed(
+                              FacilityCategoryAdd.route,
+                              arguments: '-1',
+                            );
+                          } else {
+                            Get.toNamed(
+                              PermissionUsersAdd.route,
+                              arguments: '-1',
+                            );
+                          }
+                        },
+                        child: const Icon(
+                          Icons.add,
+                        ),
+                      )
                     : Container(),
               ),
             ),

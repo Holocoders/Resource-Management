@@ -5,7 +5,10 @@ import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/auth/user_service.dart';
 import 'package:resource_management_system/facilities_categories/facilities.dart';
+import 'package:resource_management_system/facilities_categories/permission_users_add.dart';
 import 'package:resource_management_system/item/pack.dart';
+import 'package:resource_management_system/theme/light_theme.dart';
+import 'package:resource_management_system/theme/theme_manager.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import 'activities/activities.dart';
@@ -59,11 +62,7 @@ class MyApp extends StatelessWidget {
         return GraphQLProvider(
           client: client,
           child: GetMaterialApp(
-            theme: ThemeData(
-              primarySwatch: Colors.green,
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-              scaffoldBackgroundColor: Colors.white,
-            ),
+            theme: ThemeManager.theme.theme,
             initialRoute: user == '' ? Auth.route : Facilities.route,
             routes: {
               Auth.route: (context) => const Auth(),
@@ -73,6 +72,7 @@ class MyApp extends StatelessWidget {
               FacilityCategoryAdd.route: (context) =>
                   const FacilityCategoryAdd(),
               FacilityCategory.route: (context) => FacilityCategory(),
+              PermissionUsersAdd.route: (context) => PermissionUsersAdd(),
               Activities.route: (context) => const Activities(),
               SingleActivity.route: (context) => const SingleActivity(),
             },

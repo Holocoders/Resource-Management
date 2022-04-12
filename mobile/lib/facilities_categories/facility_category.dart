@@ -10,6 +10,7 @@ import '../widgets/base_appbar.dart';
 import '../widgets/base_drawer.dart';
 import 'facility_category_tab_controller.dart';
 import 'permission_users.dart';
+import 'permission_users_add.dart';
 
 class FacilityCategory extends StatelessWidget {
   FacilityCategory({Key? key}) : super(key: key);
@@ -153,8 +154,17 @@ class FacilityCategory extends StatelessWidget {
                               ? _tabx.currentPage.value == 0
                                   ? FloatingActionButton(
                                       onPressed: () {
-                                        Get.toNamed(FacilityCategoryAdd.route,
-                                            arguments: data['_id']);
+                                        if (_tabx.currentPage.value == 0) {
+                                          Get.toNamed(
+                                            FacilityCategoryAdd.route,
+                                            arguments: data['_id'],
+                                          );
+                                        } else {
+                                          Get.toNamed(
+                                            PermissionUsersAdd.route,
+                                            arguments: data['_id'],
+                                          );
+                                        }
                                       },
                                       child: const Icon(
                                         Icons.add,

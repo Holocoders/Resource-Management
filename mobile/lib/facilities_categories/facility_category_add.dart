@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 class FacilityCategoryAdd extends StatefulWidget {
   const FacilityCategoryAdd({Key? key}) : super(key: key);
-  static const String route = '/facilityAdd';
+  static const String route = '/facilityCategoryAdd';
 
   @override
   State<FacilityCategoryAdd> createState() => _FacilityCategoryAddState();

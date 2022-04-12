@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/theme/theme_manager.dart';
+
+import '../../widgets/snackbars.dart';
 
 class NodeView extends StatelessWidget {
   final _node;
   final bool editable;
+  final String _deleteMutation = """
+    mutation removeNode(\$id: String!) {
+      removeNode(id: \$id) {
+        _id
+      }
+    }
+  """;
 
   const NodeView(this._node, {this.editable = false});
 
@@ -27,11 +38,14 @@ class NodeView extends StatelessWidget {
                 color: () {
                   var nodeType = _node['node']['type'];
                   if (nodeType == 'ITEM') {
-                    return Colors.lightBlueAccent;
+                    return ThemeManager.theme.itemColor;
                   } else if (nodeType == 'PACK') {
-                    return Colors.pinkAccent;
+                    return ThemeManager.theme.packColor;
+                  } else if (_node['__typename'] == 'Facility') {
+                    return ThemeManager.theme.facilityColor;
+                  } else {
+                    return ThemeManager.theme.categoryColor;
                   }
-                  return Colors.green;
                 }()),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,7 +88,7 @@ class NodeView extends StatelessWidget {
             if (nodeType == 'ITEM') {
               Chip(
                 label: Text('Quantity : ${_node['quantity']}'),
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: ThemeManager.theme.itemColor,
               );
             }
             return Row(
@@ -82,11 +96,11 @@ class NodeView extends StatelessWidget {
               children: [
                 Chip(
                   label: Text('${_node['node']['categoryCount']} Categories'),
-                  backgroundColor: Colors.green,
+                  backgroundColor: ThemeManager.theme.categoryColor,
                 ),
                 Chip(
                   label: Text('${_node['node']['itemCount']} Items'),
-                  backgroundColor: Colors.lightBlue,
+                  backgroundColor: ThemeManager.theme.itemColor,
                 ),
               ],
             );
@@ -95,12 +109,31 @@ class NodeView extends StatelessWidget {
             height: 2,
           ),
           editable
-              ? IconButton(
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
+              ? Mutation(
+                  options: MutationOptions(
+                    document: gql(_deleteMutation),
+                    onCompleted: (dynamic result) async {
+                      print(result);
+                    },
+                    onError: (OperationException? error) {
+                      CustomSnackbars.error(
+                          error?.graphqlErrors.first.message ??
+                              'Unable to delete!');
+                    },
                   ),
-                  onPressed: () {},
+                  builder: (RunMutation runMutation, QueryResult? result) {
+                    return IconButton(
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                      onPressed: () {
+                        runMutation({
+                          'id': _node['node']['_id'],
+                        });
+                      },
+                    );
+                  },
                 )
               : Container(),
         ],

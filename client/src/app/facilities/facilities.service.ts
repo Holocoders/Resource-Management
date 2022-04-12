@@ -39,21 +39,4 @@ export class FacilitiesService {
     formData.append('nfile', file);
     return this.http.post(environment.apiUrl, formData);
   }
-
-  removeFacility(id: string) {
-    const REMOVE = gql`
-      mutation removeFacility($id: String!) {
-        removeFacility(id: $id) {
-          name
-        }
-      }
-    `;
-
-    return this.apollo.mutate({
-      mutation: REMOVE,
-      variables: {
-        id,
-      },
-    });
-  }
 }
