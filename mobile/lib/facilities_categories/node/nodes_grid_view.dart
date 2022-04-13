@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:resource_management_system/facilities_categories/node_controller.dart';
 import 'package:resource_management_system/item/pack.dart';
 
 import '../facility_category.dart';
@@ -7,14 +8,13 @@ import '../../item/item.dart';
 import 'node_view.dart';
 
 class NodesGridView extends StatelessWidget {
-  final data;
-  final bool editable;
+  final data = Get.find<NodeController>().data;
 
-  const NodesGridView(this.data, {this.editable = false});
+  NodesGridView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return data?.length > 0
+    return data.isNotEmpty
         ? GridView.builder(
             shrinkWrap: true,
             padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -41,12 +41,11 @@ class NodesGridView extends StatelessWidget {
                       arguments: data[index], preventDuplicates: false);
                 },
                 child: NodeView(
-                  data?[index],
-                  editable: editable,
+                  index,
                 ),
               );
             },
-            itemCount: data?.length ?? 0,
+            itemCount: data.length,
           )
         : const Center(
             child: Text('No data found'),

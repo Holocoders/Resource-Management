@@ -9,6 +9,7 @@ import 'Node/nodes_grid_view.dart';
 import '../widgets/base_appbar.dart';
 import '../widgets/base_drawer.dart';
 import 'facility_category_tab_controller.dart';
+import 'node_controller.dart';
 import 'permission_users.dart';
 import 'permission_users_add.dart';
 
@@ -76,17 +77,14 @@ class FacilityCategory extends StatelessWidget {
       }
   """;
 
-  final String _getPermission = """
-    query checkPermission (\$userId: String!, \$nodeId: String!,) {
-    checkPermission(userId:\$userId, nodeId: \$nodeId)
-  }
-  """;
-
   @override
   Widget build(BuildContext context) {
     final FacilityCategoryTabController _tabx =
         Get.put(FacilityCategoryTabController(), permanent: false);
     _tabx.reset();
+
+    final NodeController _nodeController = Get.put(NodeController());
+
     final data =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final node = data['node'];
@@ -125,9 +123,12 @@ class FacilityCategory extends StatelessWidget {
                       ...items.data?['childItems'],
                       ...packs.data?['childPacks']
                     ];
+
+                    _nodeController.setData(nodes);
+
                     return PermissionQuery(
                       nodeId: node['_id'],
-                      child: (bool _editable) => Scaffold(
+                      child: Scaffold(
                         drawer: BaseDrawer(),
                         appBar: BaseAppBar(
                           title: Text(data['name']),
@@ -140,35 +141,33 @@ class FacilityCategory extends StatelessWidget {
                         body: TabBarView(
                           controller: _tabx.controller,
                           children: [
-                            NodesGridView(
-                              nodes,
-                              editable: _editable,
-                            ),
+                            NodesGridView(),
                             PermissionUsers(
                               nodeId: node['_id'],
                             ),
                           ],
                         ),
-                        floatingActionButton: _editable
-                            ? FloatingActionButton(
-                                onPressed: () {
-                                  if (_tabx.currentPage.value == 0) {
-                                    Get.toNamed(
-                                      FacilityCategoryAdd.route,
-                                      arguments: node['_id'],
-                                    );
-                                  } else {
-                                    Get.toNamed(
-                                      PermissionUsersAdd.route,
-                                      arguments: node['_id'],
-                                    );
-                                  }
-                                },
-                                child: const Icon(
-                                  Icons.add,
-                                ),
-                              )
-                            : Container(),
+                        floatingActionButton:
+                            Get.find<NodeController>().editable.value
+                                ? FloatingActionButton(
+                                    onPressed: () {
+                                      if (_tabx.currentPage.value == 0) {
+                                        Get.toNamed(
+                                          FacilityCategoryAdd.route,
+                                          arguments: node['_id'],
+                                        );
+                                      } else {
+                                        Get.toNamed(
+                                          PermissionUsersAdd.route,
+                                          arguments: node['_id'],
+                                        );
+                                      }
+                                    },
+                                    child: const Icon(
+                                      Icons.add,
+                                    ),
+                                  )
+                                : Container(),
                       ),
                     );
                   });

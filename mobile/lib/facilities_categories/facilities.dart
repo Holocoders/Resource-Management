@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/facilities_categories/facility_category_tab_controller.dart';
+import 'package:resource_management_system/facilities_categories/node_controller.dart';
 import 'package:resource_management_system/facilities_categories/permission_users.dart';
 import 'package:resource_management_system/facilities_categories/permission_users_add.dart';
 import 'package:resource_management_system/widgets/base_appbar.dart';
@@ -32,8 +33,11 @@ class Facilities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FacilityCategoryTabController _tabx =
-        Get.put(FacilityCategoryTabController(), permanent: false);
+        Get.put(FacilityCategoryTabController());
     _tabx.reset();
+
+    final NodeController _nodeController = Get.put(NodeController());
+
     return Query(
       options: QueryOptions(
         document: gql(Facilities._getAllFacilities),
@@ -48,50 +52,45 @@ class Facilities extends StatelessWidget {
         if (result.data == null) {
           return const NoItemFound();
         }
+        _nodeController.setData(result.data?['facilities']);
         return PermissionQuery(
-          child: (bool _editable) => DefaultTabController(
-            length: 2,
-            child: Scaffold(
-              drawer: BaseDrawer(),
-              appBar: BaseAppBar(
-                appBar: AppBar(),
-                title: const Text('Facilities'),
-                bottom: TabBar(
-                  controller: _tabx.controller,
-                  tabs: _tabx.myTabs,
-                ),
-              ),
-              body: TabBarView(
+          child: Scaffold(
+            drawer: BaseDrawer(),
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: const Text('Facilities'),
+              bottom: TabBar(
                 controller: _tabx.controller,
-                children: [
-                  NodesGridView(
-                    result.data?['facilities'],
-                    editable: _editable,
-                  ),
-                  const PermissionUsers(),
-                ],
+                tabs: _tabx.myTabs,
               ),
-              floatingActionButton: _editable
-                  ? FloatingActionButton(
-                      onPressed: () {
-                        if (_tabx.currentPage.value == 0) {
-                          Get.toNamed(
-                            FacilityCategoryAdd.route,
-                            arguments: '-1',
-                          );
-                        } else {
-                          Get.toNamed(
-                            PermissionUsersAdd.route,
-                            arguments: '-1',
-                          );
-                        }
-                      },
-                      child: const Icon(
-                        Icons.add,
-                      ),
-                    )
-                  : Container(),
             ),
+            body: TabBarView(
+              controller: _tabx.controller,
+              children: [
+                NodesGridView(),
+                PermissionUsers(),
+              ],
+            ),
+            floatingActionButton: Get.find<NodeController>().editable.value
+                ? FloatingActionButton(
+                    onPressed: () {
+                      if (_tabx.currentPage.value == 0) {
+                        Get.toNamed(
+                          FacilityCategoryAdd.route,
+                          arguments: '-1',
+                        );
+                      } else {
+                        Get.toNamed(
+                          PermissionUsersAdd.route,
+                          arguments: '-1',
+                        );
+                      }
+                    },
+                    child: const Icon(
+                      Icons.add,
+                    ),
+                  )
+                : Container(),
           ),
         );
       },

@@ -1,10 +1,13 @@
 import 'dart:io';
-import 'package:dio/dio.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' as getx;
 import 'package:image_picker/image_picker.dart';
+import 'package:resource_management_system/facilities_categories/facilities.dart';
 
 import '../auth/user_service.dart';
+import '../widgets/snackbars.dart';
+import 'facility_category.dart';
 
 class FacilityCategoryAdd extends StatefulWidget {
   const FacilityCategoryAdd({Key? key}) : super(key: key);
@@ -29,27 +32,58 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
   }
 
   _addFacility(name, desc, file) async {
-    var dio = http.Dio();
+    var dio = Dio();
     dio.options.headers['Authorization'] =
-        'Bearer ' + Get.find<UserService>().user.value.token;
-    http.FormData formData = http.FormData.fromMap({
+        'Bearer ' + getx.Get
+            .find<UserService>()
+            .user
+            .value
+            .token;
+    FormData formData = FormData.fromMap({
       "operations":
-          '{ "query": "mutation (\$createFacilityInput: CreateFacilityInput!, \$file: Upload!) { createFacility(file: \$file, createFacilityInput: \$createFacilityInput) { node { _id itemCount categoryCount } name description } }", "variables": { "file": null, "createFacilityInput": {"name": "$name", "description": "$desc"} } }',
+      '{ "query": "mutation (\$createFacilityInput: CreateFacilityInput!, \$file: Upload!) { createFacility(file: \$file, createFacilityInput: \$createFacilityInput) { node { _id itemCount categoryCount } name description } }", "variables": { "file": null, "createFacilityInput": {"name": "$name", "description": "$desc"} } }',
       "map": '{ "nfile": ["variables.file"] }',
-      "nfile": file,
+      "nfile": await MultipartFile.fromFile(
+        file.path,
+        filename: "image.jpg",
+      ),
     });
     return dio.post('http://10.0.2.2:3000/graphql', data: formData);
   }
 
-  _addCategory(name, desc, file) async {
-    var dio = http.Dio();
+  _addCategory(id, name, desc, file) async {
+    var dio = Dio();
     dio.options.headers['Authorization'] =
-        'Bearer ' + Get.find<UserService>().user.value.token;
-    http.FormData formData = http.FormData.fromMap({
-      "operations":
-          '{ "query": "mutation (\$createCategoryInput: CreateCategoryInput!, \$file: Upload!) { createCategory(file: \$file, createCategoryInput: \$createCategoryInput) { node { _id itemCount } name description } }", "variables": { "file": null, "createCategoryInput": {"name": "$name", "description": "$desc"} } }',
-      "map": '{ "nfile": ["variables.file"] }',
-      "nfile": file,
+        'Bearer ' + getx.Get
+            .find<UserService>()
+            .user
+            .value
+            .token;
+    FormData formData = FormData.fromMap({
+      "operations": """
+          mutation createCategory (\$createCategoryInput: CreateCategoryInput!, \$file: Upload!) {
+            createCategory (createCategoryInput: \$createCategoryInput, file: \$file) {
+              node {
+                _id
+                createdBy {
+                  _id
+                  email
+                  name
+                }
+                type
+                itemCount
+                categoryCount
+              }
+              description
+              name
+          }
+      }, "variables": { "file": null, "createFacilityInput": {"parent", "$id", "name": "$name", "description": "$desc"} } }
+          """,
+      "map": '{ "file": ["variables.file"] }',
+      "file": await MultipartFile.fromFile(
+        file.path,
+        filename: "image.png",
+      ),
     });
     return dio.post('http://10.0.2.2:3000/graphql', data: formData);
   }
@@ -59,15 +93,28 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
     final res;
     if (id == '-1') {
       res = await _addFacility(name, description, _storedImage);
+      CustomSnackbars.success("Added Successfully");
+      getx.Get.toNamed(Facilities.route);
     } else {
-      res = await _addCategory(name, description, _storedImage);
+      res = await _addCategory(id, name, description, _storedImage);
+      CustomSnackbars.success("Added Successfully");
+      getx.Get.toNamed(FacilityCategory.route,
+          arguments: {
+            'node': {
+              '_id': id,
+            },
+            'name': name,
+          },
+          preventDuplicates: false);
     }
-    print(res);
   }
 
   @override
   Widget build(BuildContext context) {
-    final facilityId = ModalRoute.of(context)!.settings.arguments as String;
+    final facilityId = ModalRoute
+        .of(context)!
+        .settings
+        .arguments as String;
     return Scaffold(
       appBar: AppBar(
         title: facilityId == '-1'
@@ -111,10 +158,10 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
               child: Center(
                 child: _storedImage != null
                     ? Image.file(
-                        _storedImage!,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                      )
+                  _storedImage!,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                )
                     : const Text('No image selected.'),
               ),
             ),
