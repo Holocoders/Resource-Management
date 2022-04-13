@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:resource_management_system/auth/user_service.dart';
 import 'package:resource_management_system/facilities_categories/facilities.dart';
 import 'package:resource_management_system/widgets/snackbars.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,6 +30,7 @@ class _LoginFormState extends State<LoginForm> {
     String loginMutation = """
     mutation login(\$email: String!, \$password: String!) {
       login(email: \$email, password: \$password) {
+        _id
         name
         token
       }
@@ -51,7 +53,7 @@ class _LoginFormState extends State<LoginForm> {
                 'Sign In',
                 style: Theme.of(context).textTheme.headline5,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ReactiveTextField<String>(
                 formControlName: 'email',
                 validationMessages: (control) => {
@@ -69,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
                   fillColor: Colors.white70,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ReactiveTextField<String>(
                 formControlName: 'password',
                 validationMessages: (control) => {
@@ -94,10 +96,15 @@ class _LoginFormState extends State<LoginForm> {
                   onCompleted: (dynamic data) async {
                     if (data == null) return;
                     var user = {
+                      '_id': data['login']['_id'],
                       'name': data['login']['name'],
                       'token': data['login']['token'],
                       'email': formGroup.value['email'],
                     };
+
+                    Get.find<UserService>().setValues(user['_id'], user['name'],
+                        user['email'], user['token']);
+
                     final userPrefs = await StreamingSharedPreferences.instance;
                     userPrefs.setString('user', json.encode(user));
                     Get.toNamed(Facilities.route);
@@ -109,7 +116,7 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 builder: (RunMutation runMutation, QueryResult? result) {
                   return ElevatedButton(
-                    child: Text('Sign In'),
+                    child: const Text('Sign In'),
                     style: ButtonStyle(
                       foregroundColor:
                           MaterialStateProperty.all<Color>(Colors.white),

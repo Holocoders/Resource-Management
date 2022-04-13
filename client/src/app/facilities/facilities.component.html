@@ -1,8 +1,8 @@
 <p-tabView>
   <p-tabPanel [selected]="true" header="Facilities">
-    <app-facilities-grid-view></app-facilities-grid-view>
+    <app-facilities-grid-view [editable]="_editable"></app-facilities-grid-view>
   </p-tabPanel>
   <p-tabPanel header="Admins">
-    <app-facilities-admin-view></app-facilities-admin-view>
+    <app-facilities-admin-view [editable]="_editable"></app-facilities-admin-view>
   </p-tabPanel>
 </p-tabView>

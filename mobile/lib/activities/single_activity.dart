@@ -13,6 +13,7 @@ import '../item/item.dart';
 class SingleActivity extends StatefulWidget {
   const SingleActivity({Key? key}) : super(key: key);
   static const String route = '/single-activity';
+
   @override
   _SingleActivityState createState() => _SingleActivityState();
 }
@@ -31,7 +32,7 @@ class _SingleActivityState extends State<SingleActivity> {
     final activity =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Scaffold(
-      drawer: const BaseDrawer(),
+      drawer: BaseDrawer(),
       appBar: BaseAppBar(
         title: const Text("Activity"),
         appBar: AppBar(),
@@ -46,7 +47,7 @@ class _SingleActivityState extends State<SingleActivity> {
                     borderRadius: BorderRadius.circular(5)),
                 child: ListTile(
                   title:
-                  Text(activity['activityType'].toString().toCapitalized()),
+                      Text(activity['activityType'].toString().toCapitalized()),
                   trailing: Text(
                     DateFormat('EEE, dd MMM y')
                         .format(DateTime.parse(activity['activityDate'])),
@@ -77,7 +78,10 @@ class _SingleActivityState extends State<SingleActivity> {
             ),
             const SizedBox(height: 10),
             GestureDetector(
-                onTap: () => Get.toNamed(activity['item']['node']['type'] == 'ITEM' ? Item.route : Pack.route,
+                onTap: () => Get.toNamed(
+                    activity['item']['node']['type'] == 'ITEM'
+                        ? Item.route
+                        : Pack.route,
                     arguments: activity['item']['node']['_id']),
                 child: Card(
                   shape: RoundedRectangleBorder(
@@ -104,10 +108,10 @@ class _SingleActivityState extends State<SingleActivity> {
                       const SizedBox(height: 10),
                       Center(
                           child: Text(
-                            activity['item']['name'],
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          )),
+                        activity['item']['name'],
+                        style: const TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      )),
                       const SizedBox(height: 10),
                       Center(
                         child: Text(activity['item']['description']),
@@ -141,7 +145,7 @@ class _SingleActivityState extends State<SingleActivity> {
                     child: ListTile(
                       title: const Center(child: Text('Order Quantity')),
                       subtitle:
-                      Center(child: Text(activity['quantity'].toString())),
+                          Center(child: Text(activity['quantity'].toString())),
                     ),
                   ),
                 ),
@@ -176,7 +180,8 @@ class _SingleActivityState extends State<SingleActivity> {
                       title: const Center(child: Text('Issue date')),
                       subtitle: Center(
                           child: Text(DateFormat('EEE, dd MMM y').format(
-                              DateTime.parse(activity['issueDate'].toString())))),
+                              DateTime.parse(
+                                  activity['issueDate'].toString())))),
                     ),
                   ),
                 ),

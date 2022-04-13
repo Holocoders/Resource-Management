@@ -1,8 +1,8 @@
 <p-tabView>
   <p-tabPanel [selected]="true" header="Data">
-    <app-node-view></app-node-view>
+    <app-node-view [editable]="editable"></app-node-view>
   </p-tabPanel>
   <p-tabPanel header="Admins">
-    <app-node-users></app-node-users>
+    <app-node-users [editable]="editable"></app-node-users>
   </p-tabPanel>
 </p-tabView>

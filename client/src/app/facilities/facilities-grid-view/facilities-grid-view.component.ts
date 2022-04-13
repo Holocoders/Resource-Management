@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FacilitiesService } from '../facilities.service';
 import { NodeService } from '../../node/node.service';
 import { Router } from '@angular/router';
@@ -11,6 +11,8 @@ import { NavbarService } from '../../shared/navbar/navbar.service';
   styleUrls: ['./facilities-grid-view.component.scss'],
 })
 export class FacilitiesGridViewComponent implements OnInit {
+  @Input() editable: boolean;
+
   facilities: any;
   loading = true;
   error: any;

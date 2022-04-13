@@ -9,11 +9,13 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Text title;
   final AppBar appBar;
   List<Widget> widgets;
+  final PreferredSizeWidget? bottom;
 
   BaseAppBar(
       {Key? key,
       required this.title,
       required this.appBar,
+      this.bottom,
       List<Widget>? widgets})
       : widgets = widgets ?? [],
         super(key: key);
@@ -45,6 +47,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
               return AppBar(
                 title: title,
                 actions: widgets,
+                bottom: bottom,
               );
             },
           );
@@ -58,5 +61,5 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(appBar.preferredSize.height);
+  Size get preferredSize => const Size.fromHeight(90);
 }

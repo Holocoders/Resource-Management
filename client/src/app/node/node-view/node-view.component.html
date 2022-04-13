@@ -12,7 +12,7 @@
   <ng-template let-i="rowIndex" let-object pTemplate="gridItem">
     <app-node-grid-item
       (click)="goToNode(object, object?.node?.type)" (onDeleteClick)="removeNode($event, object?.node?._id)"
-      [(obj)]="nodes[i]" class="cursor-pointer">
+      [(obj)]="nodes[i]" class="cursor-pointer" [editable]="editable">
     </app-node-grid-item>
   </ng-template>
 </p-dataView>

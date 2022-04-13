@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PermissionCheckService } from '../shared/permission-check.service';
 
 @Component({
   selector: 'app-facilities',
@@ -6,7 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./facilities.component.scss'],
 })
 export class FacilitiesComponent implements OnInit {
-  constructor() {}
+  _editable = false;
 
-  ngOnInit() {}
+  constructor(private permissionCheckService: PermissionCheckService) {}
+
+  ngOnInit() {
+    this.permissionCheckService
+      .getPermission('-1')
+      .valueChanges.subscribe((res) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        this._editable = res.data?.['checkPermission'];
+      });
+  }
 }

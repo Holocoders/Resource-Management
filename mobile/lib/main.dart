@@ -1,10 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/auth/user_service.dart';
 import 'package:resource_management_system/facilities_categories/facilities.dart';
+import 'package:resource_management_system/facilities_categories/permission_users_add.dart';
 import 'package:resource_management_system/item/pack.dart';
+import 'package:resource_management_system/theme/light_theme.dart';
+import 'package:resource_management_system/theme/theme_manager.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import 'activities/activities.dart';
@@ -17,6 +21,7 @@ import 'item/item.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final preferences = await StreamingSharedPreferences.instance;
+  var userService = Get.put(UserService(), permanent: true);
   runApp(MyApp(preferences));
 }
 
@@ -36,6 +41,8 @@ class MyApp extends StatelessWidget {
         Link link;
         if (user != '') {
           var userJson = json.decode(user.toString());
+          Get.find<UserService>().setValues(userJson['_id'], userJson['name'],
+              userJson['email'], userJson['token']);
           AuthLink authLink = AuthLink(
             getToken: () async => 'Bearer ' + userJson['token'],
           );
@@ -44,19 +51,18 @@ class MyApp extends StatelessWidget {
           link = httpLink;
         }
 
-        ValueNotifier<GraphQLClient> client = ValueNotifier(GraphQLClient(
-          link: link,
-          cache: GraphQLCache(
-            store: InMemoryStore(),
+        ValueNotifier<GraphQLClient> client = ValueNotifier(
+          GraphQLClient(
+            link: link,
+            cache: GraphQLCache(
+              store: InMemoryStore(),
+            ),
           ),
-        ));
+        );
         return GraphQLProvider(
           client: client,
           child: GetMaterialApp(
-            theme: ThemeData(
-                primarySwatch: Colors.green,
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-                scaffoldBackgroundColor: Colors.white),
+            theme: ThemeManager.theme.theme,
             initialRoute: user == '' ? Auth.route : Facilities.route,
             routes: {
               Auth.route: (context) => const Auth(),
@@ -65,7 +71,8 @@ class MyApp extends StatelessWidget {
               Facilities.route: (context) => const Facilities(),
               FacilityCategoryAdd.route: (context) =>
                   const FacilityCategoryAdd(),
-              FacilityCategory.route: (context) => const FacilityCategory(),
+              FacilityCategory.route: (context) => FacilityCategory(),
+              PermissionUsersAdd.route: (context) => PermissionUsersAdd(),
               Activities.route: (context) => const Activities(),
               SingleActivity.route: (context) => const SingleActivity(),
             },

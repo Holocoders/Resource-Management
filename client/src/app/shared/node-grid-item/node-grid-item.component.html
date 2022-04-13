@@ -5,7 +5,7 @@
         class="{{getHeaderColor(obj?.node?.type)}} flex flex-wrap justify-content-between border-round-top">
         <div class="flex align-items-center justify-content-center
       flex-none font-bold border-round m-2" style="visibility: hidden">
-          <button class="pi pi-pencil" icon="pi pi-info-circle" pButton
+          <button class="pi pi-pencil" icon="pi pi-info-circle" pButton *ngIf="editable"
                   pTooltip="Edit {{obj?.node?.type?.toLowerCase()}}" type="button"></button>
           <button class="p-button-rounded" icon="pi pi-info-circle" pButton
                   pTooltip="{{obj?.description}}" type="button"></button>
@@ -16,7 +16,8 @@
         </div>
         <div class="flex align-items-center justify-content-center
       flex-none font-bold border-round m-2">
-          <button (click)="$event.stopPropagation(); displayAddDialog = true;" class="p-button-rounded p-button-text" icon="pi pi-pencil"
+          <button (click)="$event.stopPropagation(); displayAddDialog = true;" class="p-button-rounded p-button-text"
+                  icon="pi pi-pencil"
                   pButton
                   pTooltip="Edit {{obj?.node?.type?.toLowerCase()}}" type="button">
           </button>
@@ -50,7 +51,7 @@
     <div class="col-12">
       <p-divider></p-divider>
     </div>
-    <div class="col-12 flex flex-wrap justify-content-center">
+    <div class="col-12 flex flex-wrap justify-content-center" *ngIf="editable">
       <button (click)="onNodeDelete($event, obj); $event.stopPropagation(); "
               class="p-button-raised p-button-danger p-button-text" icon="pi pi-trash" pButton
               pRipple

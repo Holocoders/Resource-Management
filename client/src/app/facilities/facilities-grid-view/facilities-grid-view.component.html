@@ -12,6 +12,7 @@
   <ng-template let-facility pTemplate="gridItem">
     <app-node-grid-item (click)="goToNode(facility)"
                         (onDeleteClick)="removeFacility($event)"
+                        [editable]="editable"
                         [obj]="facility" class="cursor-pointer">
     </app-node-grid-item>
   </ng-template>
@@ -44,7 +45,7 @@
                           [query]="newFacilityName"></app-suggest-images>
     </div>
   </div>
-  <ng-template pTemplate="footer">
+  <ng-template pTemplate="footer" [ngIf]="editable">
     <p-button (click)="addFacility()" icon="pi pi-check" label="Add" styleClass="p-button-text"></p-button>
   </ng-template>
 </p-dialog>

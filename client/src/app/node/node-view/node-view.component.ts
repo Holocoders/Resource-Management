@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { combineLatest, mergeMap, of } from 'rxjs';
 import { Category } from '../../models/category.model';
 import { Item } from '../../models/item.model';
@@ -15,6 +15,7 @@ import { NodeType } from 'src/app/models/node.model';
   styleUrls: ['./node-view.component.scss'],
 })
 export class NodeViewComponent implements OnInit {
+  @Input() editable: boolean;
   nodes: (Category | Item)[] = [];
   id = '';
   loading = false;
