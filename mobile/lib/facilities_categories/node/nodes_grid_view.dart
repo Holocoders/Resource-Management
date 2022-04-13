@@ -38,7 +38,7 @@ class NodesGridView extends StatelessWidget {
                     return;
                   }
                   Get.toNamed(FacilityCategory.route,
-                      arguments: data[index]['node'], preventDuplicates: false);
+                      arguments: data[index], preventDuplicates: false);
                 },
                 child: NodeView(
                   data?[index],

@@ -48,10 +48,12 @@ export class PermissionService {
     return permission._id;
   }
 
-  findAll(id: string) {
+  async findAll(id: string) {
     if (id == '-1') {
       return this.permissionModel.find({ nodeId: null });
     }
-    return this.permissionModel.find({ nodeId: id as any });
+    let parents = await this.nodeService.getParentIDs(id);
+    parents = [...parents, null];
+    return this.permissionModel.find({ nodeId: { $in: parents } });
   }
 }

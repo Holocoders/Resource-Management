@@ -89,11 +89,11 @@ class FacilityCategory extends StatelessWidget {
     _tabx.reset();
     final data =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-
+    final node = data['node'];
     return Query(
       options: QueryOptions(
         document: gql(_getAllCategories),
-        variables: {'id': data['_id']},
+        variables: {'id': node['_id']},
       ),
       builder: (QueryResult categories,
           {VoidCallback? refetch, FetchMore? fetchMore}) {
@@ -102,7 +102,7 @@ class FacilityCategory extends StatelessWidget {
         }
         return Query(
             options: QueryOptions(
-                document: gql(_getAllItems), variables: {'id': data['_id']}),
+                document: gql(_getAllItems), variables: {'id': node['_id']}),
             builder: (QueryResult items,
                 {VoidCallback? refetch, FetchMore? fetchMore}) {
               if (items.isLoading) {
@@ -111,7 +111,7 @@ class FacilityCategory extends StatelessWidget {
               return Query(
                   options: QueryOptions(
                       document: gql(_getAllPacks),
-                      variables: {'id': data['_id']}),
+                      variables: {'id': node['_id']}),
                   builder: (QueryResult packs,
                       {VoidCallback? refetch, FetchMore? fetchMore}) {
                     if (packs.isLoading) {
@@ -125,13 +125,12 @@ class FacilityCategory extends StatelessWidget {
                       ...items.data?['childItems'],
                       ...packs.data?['childPacks']
                     ];
-
                     return PermissionQuery(
-                      nodeId: data['_id'],
+                      nodeId: node['_id'],
                       child: (bool _editable) => Scaffold(
                         drawer: BaseDrawer(),
                         appBar: BaseAppBar(
-                          title: const Text('Category'),
+                          title: Text(data['name']),
                           appBar: AppBar(),
                           bottom: TabBar(
                             controller: _tabx.controller,
@@ -146,7 +145,7 @@ class FacilityCategory extends StatelessWidget {
                               editable: _editable,
                             ),
                             PermissionUsers(
-                              nodeId: data['_id'],
+                              nodeId: node['_id'],
                             ),
                           ],
                         ),
@@ -156,12 +155,12 @@ class FacilityCategory extends StatelessWidget {
                                   if (_tabx.currentPage.value == 0) {
                                     Get.toNamed(
                                       FacilityCategoryAdd.route,
-                                      arguments: data['_id'],
+                                      arguments: node['_id'],
                                     );
                                   } else {
                                     Get.toNamed(
                                       PermissionUsersAdd.route,
-                                      arguments: data['_id'],
+                                      arguments: node['_id'],
                                     );
                                   }
                                 },
