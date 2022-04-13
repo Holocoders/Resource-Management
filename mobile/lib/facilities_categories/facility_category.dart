@@ -141,7 +141,7 @@ class FacilityCategory extends StatelessWidget {
                         body: TabBarView(
                           controller: _tabx.controller,
                           children: [
-                            const NodesGridView(),
+                            NodesGridView(),
                             PermissionUsers(
                               nodeId: node['_id'],
                             ),
