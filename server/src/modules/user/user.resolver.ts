@@ -37,6 +37,7 @@ export class UserResolver {
     @Args({ name: 'file', type: () => GraphQLUpload })
     { createReadStream }: FileUpload,
   ) {
+    console.log(user);
     const path = `./uploads/${user._id}`;
     await this.sharedService.uploadImage(createReadStream, path);
     return path;

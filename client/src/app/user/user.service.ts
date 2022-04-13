@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { gql } from 'apollo-angular';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 

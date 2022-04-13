@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HttpLink httpLink = HttpLink('http://10.0.2.2:3000/graphql');
-
     return PreferenceBuilder(
       preference: preferences.getString('user', defaultValue: ''),
       builder: (context, user) {

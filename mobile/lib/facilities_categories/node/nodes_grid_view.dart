@@ -8,7 +8,7 @@ import 'node_view.dart';
 
 class NodesGridView extends StatelessWidget {
   final data;
-  final editable;
+  final bool editable;
 
   const NodesGridView(this.data, {this.editable = false});
 

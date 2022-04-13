@@ -18,4 +18,21 @@ class CustomSnackbars {
       ),
     ),
   );
+
+  static SnackbarController success (message) => Get.snackbar(
+    'Success',
+    message,
+    snackPosition: SnackPosition.BOTTOM,
+    backgroundColor: Colors.green,
+    margin: const EdgeInsets.all(10),
+    icon: const Icon(Icons.error),
+    isDismissible: true,
+    mainButton: TextButton(
+      onPressed: () => Get.back(),
+      child: const Icon(Icons.close, color: Colors.black),
+      style: TextButton.styleFrom(
+        splashFactory: NoSplash.splashFactory,
+      ),
+    ),
+  );
 }

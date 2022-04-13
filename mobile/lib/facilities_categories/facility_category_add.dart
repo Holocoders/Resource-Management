@@ -29,7 +29,6 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
   }
 
   _addFacility(name, desc, file) async {
-    ;
     var dio = http.Dio();
     dio.options.headers['Authorization'] =
         'Bearer ' + Get.find<UserService>().user.value.token;
