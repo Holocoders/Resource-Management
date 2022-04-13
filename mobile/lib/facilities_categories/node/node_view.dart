@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/facilities_categories/facility_category.dart';
+import 'package:resource_management_system/facilities_categories/node_controller.dart';
 import 'package:resource_management_system/theme/theme_manager.dart';
 
 import '../../widgets/snackbars.dart';
 import '../facilities.dart';
 
 class NodeView extends StatelessWidget {
-  final _node;
-  final bool editable;
+  final index;
+
   final String _deleteMutation = """
     mutation removeNode(\$id: String!) {
       removeNode(id: \$id) {
@@ -18,10 +19,12 @@ class NodeView extends StatelessWidget {
     }
   """;
 
-  const NodeView(this._node, {this.editable = false});
+  const NodeView(this.index);
 
   @override
   Widget build(BuildContext context) {
+    final _node = Get.find<NodeController>().data[index];
+    final editable = Get.find<NodeController>().editable;
     return Card(
       elevation: 2,
       margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
@@ -111,11 +114,13 @@ class NodeView extends StatelessWidget {
           const SizedBox(
             height: 2,
           ),
-          editable
+          editable.value
               ? Mutation(
                   options: MutationOptions(
                     document: gql(_deleteMutation),
-                    onCompleted: (dynamic result) async {},
+                    onCompleted: (dynamic result) async {
+                      Get.find<NodeController>().removeNode(index);
+                    },
                     onError: (OperationException? error) {
                       CustomSnackbars.error(
                           error?.graphqlErrors.first.message ??
@@ -132,13 +137,6 @@ class NodeView extends StatelessWidget {
                         runMutation({
                           'id': _node['node']['_id'],
                         });
-                        if (_node['__typename'] == 'Facility') {
-                          Get.toNamed(Facilities.route,
-                              preventDuplicates: false);
-                        } else {
-                          Get.toNamed(FacilityCategory.route,
-                              arguments: _node, preventDuplicates: false);
-                        }
                       },
                     );
                   },

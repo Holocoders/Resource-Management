@@ -18,4 +18,9 @@ class NodeController extends GetxController {
     data.value = data.where((element) => element['_id'] != id).toList();
     update();
   }
+
+  removeNode(int index) {
+    data.removeAt(index);
+    update();
+  }
 }

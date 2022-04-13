@@ -52,51 +52,45 @@ class Facilities extends StatelessWidget {
         if (result.data == null) {
           return const NoItemFound();
         }
-        _nodeController.setData(result.data as List<dynamic>);
+        _nodeController.setData(result.data?['facilities']);
         return PermissionQuery(
-          child: (bool _editable) => DefaultTabController(
-            length: 2,
-            child: Scaffold(
-              drawer: BaseDrawer(),
-              appBar: BaseAppBar(
-                appBar: AppBar(),
-                title: const Text('Facilities'),
-                bottom: TabBar(
-                  controller: _tabx.controller,
-                  tabs: _tabx.myTabs,
-                ),
-              ),
-              body: TabBarView(
+          child: Scaffold(
+            drawer: BaseDrawer(),
+            appBar: BaseAppBar(
+              appBar: AppBar(),
+              title: const Text('Facilities'),
+              bottom: TabBar(
                 controller: _tabx.controller,
-                children: [
-                  NodesGridView(
-                    result.data?['facilities'],
-                    editable: _editable,
-                  ),
-                  const PermissionUsers(),
-                ],
+                tabs: _tabx.myTabs,
               ),
-              floatingActionButton: _editable
-                  ? FloatingActionButton(
-                      onPressed: () {
-                        if (_tabx.currentPage.value == 0) {
-                          Get.toNamed(
-                            FacilityCategoryAdd.route,
-                            arguments: '-1',
-                          );
-                        } else {
-                          Get.toNamed(
-                            PermissionUsersAdd.route,
-                            arguments: '-1',
-                          );
-                        }
-                      },
-                      child: const Icon(
-                        Icons.add,
-                      ),
-                    )
-                  : Container(),
             ),
+            body: TabBarView(
+              controller: _tabx.controller,
+              children: [
+                NodesGridView(),
+                PermissionUsers(),
+              ],
+            ),
+            floatingActionButton: Get.find<NodeController>().editable.value
+                ? FloatingActionButton(
+                    onPressed: () {
+                      if (_tabx.currentPage.value == 0) {
+                        Get.toNamed(
+                          FacilityCategoryAdd.route,
+                          arguments: '-1',
+                        );
+                      } else {
+                        Get.toNamed(
+                          PermissionUsersAdd.route,
+                          arguments: '-1',
+                        );
+                      }
+                    },
+                    child: const Icon(
+                      Icons.add,
+                    ),
+                  )
+                : Container(),
           ),
         );
       },

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 import '../auth/user_service.dart';
+import '../facilities_categories/node_controller.dart';
 
 class PermissionQuery extends StatelessWidget {
   static const String _getPermission = """
@@ -11,7 +12,7 @@ class PermissionQuery extends StatelessWidget {
     }
   """;
 
-  final Function child;
+  final Widget child;
   final String nodeId;
 
   const PermissionQuery({
@@ -37,9 +38,9 @@ class PermissionQuery extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-
         bool _editable = permissionResult.data!['checkPermission'];
-        return child(_editable);
+        Get.find<NodeController>().setEditable(_editable);
+        return child;
       },
     );
   }
