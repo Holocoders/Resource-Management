@@ -68,7 +68,7 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
               description
               name
           }
-      }, "variables": { "file": null, "createFacilityInput": {"_id", "$id", "name": "$name", "description": "$desc"} } }
+      }, "variables": { "file": null, "createFacilityInput": {"parent", "$id", "name": "$name", "description": "$desc"} } }
           """,
       "map": '{ "file": ["variables.file"] }',
       "file": await MultipartFile.fromFile(
