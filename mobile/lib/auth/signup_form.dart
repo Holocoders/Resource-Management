@@ -159,6 +159,7 @@ class SignupForm extends StatelessWidget {
                     };
                     final userPrefs = await StreamingSharedPreferences.instance;
                     userPrefs.setString('user', json.encode(user));
+                    CustomSnackbars.success("Signup Successful");
                     Get.offAllNamed(Facilities.route);
                   },
                   onError: (OperationException? error) {

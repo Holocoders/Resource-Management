@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:resource_management_system/facilities_categories/facility_category.dart';
 import 'package:resource_management_system/facilities_categories/node_controller.dart';
 import 'package:resource_management_system/theme/theme_manager.dart';
 
@@ -120,6 +119,7 @@ class NodeView extends StatelessWidget {
                     document: gql(_deleteMutation),
                     onCompleted: (dynamic result) async {
                       Get.find<NodeController>().removeNode(index);
+                      CustomSnackbars.success("Deleted Successfully");
                     },
                     onError: (OperationException? error) {
                       CustomSnackbars.error(

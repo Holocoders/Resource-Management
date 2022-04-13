@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:resource_management_system/facilities_categories/facilities.dart';
 
 import '../auth/user_service.dart';
+import '../widgets/snackbars.dart';
 import 'facility_category.dart';
 
 class FacilityCategoryAdd extends StatefulWidget {
@@ -33,10 +34,14 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
   _addFacility(name, desc, file) async {
     var dio = Dio();
     dio.options.headers['Authorization'] =
-        'Bearer ' + getx.Get.find<UserService>().user.value.token;
+        'Bearer ' + getx.Get
+            .find<UserService>()
+            .user
+            .value
+            .token;
     FormData formData = FormData.fromMap({
       "operations":
-          '{ "query": "mutation (\$createFacilityInput: CreateFacilityInput!, \$file: Upload!) { createFacility(file: \$file, createFacilityInput: \$createFacilityInput) { node { _id itemCount categoryCount } name description } }", "variables": { "file": null, "createFacilityInput": {"name": "$name", "description": "$desc"} } }',
+      '{ "query": "mutation (\$createFacilityInput: CreateFacilityInput!, \$file: Upload!) { createFacility(file: \$file, createFacilityInput: \$createFacilityInput) { node { _id itemCount categoryCount } name description } }", "variables": { "file": null, "createFacilityInput": {"name": "$name", "description": "$desc"} } }',
       "map": '{ "nfile": ["variables.file"] }',
       "nfile": await MultipartFile.fromFile(
         file.path,
@@ -49,7 +54,11 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
   _addCategory(id, name, desc, file) async {
     var dio = Dio();
     dio.options.headers['Authorization'] =
-        'Bearer ' + getx.Get.find<UserService>().user.value.token;
+        'Bearer ' + getx.Get
+            .find<UserService>()
+            .user
+            .value
+            .token;
     FormData formData = FormData.fromMap({
       "operations": """
           mutation createCategory (\$createCategoryInput: CreateCategoryInput!, \$file: Upload!) {
@@ -84,9 +93,11 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
     final res;
     if (id == '-1') {
       res = await _addFacility(name, description, _storedImage);
+      CustomSnackbars.success("Added Successfully");
       getx.Get.toNamed(Facilities.route);
     } else {
       res = await _addCategory(id, name, description, _storedImage);
+      CustomSnackbars.success("Added Successfully");
       getx.Get.toNamed(FacilityCategory.route,
           arguments: {
             'node': {
@@ -100,7 +111,10 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
 
   @override
   Widget build(BuildContext context) {
-    final facilityId = ModalRoute.of(context)!.settings.arguments as String;
+    final facilityId = ModalRoute
+        .of(context)!
+        .settings
+        .arguments as String;
     return Scaffold(
       appBar: AppBar(
         title: facilityId == '-1'
@@ -144,10 +158,10 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
               child: Center(
                 child: _storedImage != null
                     ? Image.file(
-                        _storedImage!,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                      )
+                  _storedImage!,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                )
                     : const Text('No image selected.'),
               ),
             ),
