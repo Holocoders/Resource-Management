@@ -51,10 +51,27 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
     dio.options.headers['Authorization'] =
         'Bearer ' + getx.Get.find<UserService>().user.value.token;
     FormData formData = FormData.fromMap({
-      "operations":
-          '{ "query": "mutation (\$createCategoryInput: CreateCategoryInput!, \$file: Upload!) { createCategory(file: \$file, createCategoryInput: \$createCategoryInput) { node { _id itemCount } name description } }", "variables": { "file": null, "createCategoryInput": {"id": "$id", "name": "$name", "description": "$desc"} } }',
-      "map": '{ "nfile": ["variables.file"] }',
-      "nfile": await MultipartFile.fromFile(
+      "operations": """
+          mutation createCategory (\$createCategoryInput: CreateCategoryInput!, \$file: Upload!) {
+            createCategory (createCategoryInput: \$createCategoryInput, file: \$file) {
+              node {
+                _id
+                createdBy {
+                  _id
+                  email
+                  name
+                }
+                type
+                itemCount
+                categoryCount
+              }
+              description
+              name
+          }
+      }, "variables": { "file": null, "createFacilityInput": {"_id", "$id", "name": "$name", "description": "$desc"} } }
+          """,
+      "map": '{ "file": ["variables.file"] }',
+      "file": await MultipartFile.fromFile(
         file.path,
         filename: "image.png",
       ),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/facilities_categories/facility_category.dart';
 import 'package:resource_management_system/theme/theme_manager.dart';
 
 import '../../widgets/snackbars.dart';
+import '../facilities.dart';
 
 class NodeView extends StatelessWidget {
   final _node;
@@ -112,9 +115,7 @@ class NodeView extends StatelessWidget {
               ? Mutation(
                   options: MutationOptions(
                     document: gql(_deleteMutation),
-                    onCompleted: (dynamic result) async {
-                      print(result);
-                    },
+                    onCompleted: (dynamic result) async {},
                     onError: (OperationException? error) {
                       CustomSnackbars.error(
                           error?.graphqlErrors.first.message ??
@@ -131,6 +132,13 @@ class NodeView extends StatelessWidget {
                         runMutation({
                           'id': _node['node']['_id'],
                         });
+                        if (_node['__typename'] == 'Facility') {
+                          Get.toNamed(Facilities.route,
+                              preventDuplicates: false);
+                        } else {
+                          Get.toNamed(FacilityCategory.route,
+                              arguments: _node, preventDuplicates: false);
+                        }
                       },
                     );
                   },
