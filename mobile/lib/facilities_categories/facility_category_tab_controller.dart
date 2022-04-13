@@ -17,9 +17,9 @@ class FacilityCategoryTabController extends GetxController
 
   @override
   void onInit() {
-    print('FacilityCategoryTabController onInit');
     super.onInit();
-    controller = TabController(vsync: this, length: myTabs.length);
+    controller =
+        TabController(vsync: this, length: myTabs.length, initialIndex: 0);
     controller.addListener(() {
       currentPage.value = controller.index;
     });

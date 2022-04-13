@@ -76,12 +76,6 @@ class FacilityCategory extends StatelessWidget {
       }
   """;
 
-  final String _getPermission = """
-    query checkPermission (\$userId: String!, \$nodeId: String!,) {
-    checkPermission(userId:\$userId, nodeId: \$nodeId)
-  }
-  """;
-
   @override
   Widget build(BuildContext context) {
     final FacilityCategoryTabController _tabx =

@@ -107,7 +107,7 @@ class _LoginFormState extends State<LoginForm> {
 
                     final userPrefs = await StreamingSharedPreferences.instance;
                     userPrefs.setString('user', json.encode(user));
-                    Get.toNamed(Facilities.route);
+                    Get.offAllNamed(Facilities.route);
                   },
                   onError: (OperationException? error) {
                     CustomSnackbars.error(error?.graphqlErrors.first.message ??
