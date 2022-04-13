@@ -66,7 +66,7 @@ class Facilities extends StatelessWidget {
             ),
             body: TabBarView(
               controller: _tabx.controller,
-              children: [
+              children: const [
                 NodesGridView(),
                 PermissionUsers(),
               ],
