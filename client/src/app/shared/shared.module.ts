@@ -13,11 +13,14 @@ import { AddItemComponent } from './add-item/add-item.component';
 import { AddCategoryComponent } from './add-category/add-category.component';
 import { NodeGridItemComponent } from './node-grid-item/node-grid-item.component';
 import { AddPackComponent } from './add-pack/add-pack.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { EditProfilePicComponent } from 'src/app/shared/sidebar/edit-profile-pic.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     SidebarComponent,
+    EditProfilePicComponent,
     SuggestImagesComponent,
     LoaderComponent,
     AddItemComponent,
@@ -33,6 +36,7 @@ import { AddPackComponent } from './add-pack/add-pack.component';
     SidebarModule,
     UserModule,
     FormsModule,
+    ImageCropperModule,
   ],
   exports: [
     NavbarComponent,

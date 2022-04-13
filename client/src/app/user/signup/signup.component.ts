@@ -10,10 +10,10 @@ import { LocalMessageService } from '../../shared/local-message.service';
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent {
   @ViewChild('formPassword') formPassword: any;
   @ViewChild('formConfPassword') formConfPassword: any;
-  user: User;
+
   showPassword = false;
   signUpForm = this.formBuilder.group({
     name: new FormControl('', [Validators.required]),
@@ -30,10 +30,6 @@ export class SignupComponent implements OnInit {
     private messageService: LocalMessageService,
   ) {}
 
-  ngOnInit(): void {
-    this.authService.user.subscribe((user) => (this.user = user));
-  }
-
   signUp() {
     if (!this.signUpForm.valid) {
       this.messageService.addToastMessage({
@@ -42,33 +38,28 @@ export class SignupComponent implements OnInit {
       });
       return;
     }
-    this.user = new User(
-      this.signUpForm.value.email,
-      this.signUpForm.value.name,
-    );
-    this.user.name = this.signUpForm.value.name;
-    this.user.email = this.signUpForm.value.email;
+    const user = {
+      name: this.signUpForm.value.name,
+      email: this.signUpForm.value.email,
+    };
     const password = this.signUpForm.value.password;
-    this.authService.signup(this.user, password).subscribe(
-      () => {
-        if (this.signUpForm.value.rememberMe) {
-          localStorage.setItem('user', JSON.stringify(this.user));
-        } else {
-          sessionStorage.setItem('user', JSON.stringify(this.user));
-        }
-        this.router.navigateByUrl('/facilities');
-        this.messageService.addToastMessage({
-          detail: 'Successfully registered!',
-          severity: 'success',
-        });
-      },
-      () => {
-        this.messageService.addToastMessage({
-          detail: 'User already exists!',
-          severity: 'error',
-        });
-      },
-    );
+    this.authService
+      .signup(user, password, this.signUpForm.value.rememberMe)
+      .subscribe(
+        () => {
+          this.router.navigateByUrl('/facilities');
+          this.messageService.addToastMessage({
+            detail: 'Successfully registered!',
+            severity: 'success',
+          });
+        },
+        () => {
+          this.messageService.addToastMessage({
+            detail: 'User already exists!',
+            severity: 'error',
+          });
+        },
+      );
   }
 
   showHidePassword() {

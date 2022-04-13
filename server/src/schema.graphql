@@ -170,6 +170,7 @@ type Mutation {
   updateItem(file: Upload!, updateItemInput: UpdateItemInput!): Item!
   updateItemHistory(updateItemHistoryInput: UpdateItemHistoryInput!): ItemHistory!
   updatePack(file: Upload!, updateItemInput: UpdateItemInput!): Item!
+  updateProfilePicture(file: Upload!): String!
   updateUser(updateUserInput: UpdateUserInput!): User!
   uploadCategoryImage(file: Upload!, id: String!): String!
   uploadFacilityImage(file: Upload!, id: String!): Boolean!

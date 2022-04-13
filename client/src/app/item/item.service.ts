@@ -81,7 +81,7 @@ export class ItemService {
 
   addItem(createItemInput: any, file: any) {
     const operations = {
-      query: gql`
+      query: `
         mutation createItem(
           $createItemInput: CreateItemInput!
           $file: Upload!

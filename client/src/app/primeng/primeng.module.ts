@@ -32,6 +32,7 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { InplaceModule } from 'primeng/inplace';
+import { BadgeModule } from 'primeng/badge';
 
 const primeNgModules = [
   AvatarModule,
@@ -68,6 +69,7 @@ const primeNgModules = [
   ConfirmPopupModule,
   MultiSelectModule,
   InplaceModule,
+  BadgeModule,
 ];
 
 @NgModule({

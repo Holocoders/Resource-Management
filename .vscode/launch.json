@@ -1,0 +1,46 @@
+{
+  "version": "0.2.0",
+  "compounds": [
+    {
+      "name": "RMS",
+      "configurations": ["client", "server", "mobile"],
+      "stopAll": true
+    },
+    {
+      "name": "RMS-Web",
+      "configurations": ["server", "client"],
+      "stopAll": true
+    },
+    {
+      "name": "RMS-Mobile",
+      "configurations": ["server", "mobile"],
+      "stopAll": true
+    }
+  ],
+  "configurations": [
+    {
+      "name": "client",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node",
+      "cwd": "${workspaceFolder}/client",
+      "args": ["start"]
+    },
+    {
+      "name": "server",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "type": "node",
+      "cwd": "${workspaceFolder}/server",
+      "args": ["run", "start:dev"]
+    },
+    {
+      "name": "mobile",
+      "cwd": "${workspaceFolder}/mobile",
+      "request": "launch",
+      "type": "dart"
+    }
+  ]
+}

@@ -25,6 +25,7 @@
     "apollo-angular": "^2.6.0",
     "bing-image-scraper": "0.0.1",
     "graphql": "^15.0.0",
+    "ngx-image-cropper": "^5.0.1",
     "npm-check": "^5.9.2",
     "primeflex": "^3.1.0",
     "primeicons": "^4.1.0",
