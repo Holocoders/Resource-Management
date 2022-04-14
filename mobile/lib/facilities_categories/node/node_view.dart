@@ -9,6 +9,7 @@ import '../facilities.dart';
 
 class NodeView extends StatelessWidget {
   final index;
+  final data;
 
   final String _deleteMutation = """
     mutation removeNode(\$id: String!) {
@@ -18,11 +19,12 @@ class NodeView extends StatelessWidget {
     }
   """;
 
-  const NodeView(this.index);
+  const NodeView(this.data, this.index);
 
   @override
   Widget build(BuildContext context) {
-    final _node = Get.find<NodeController>().data[index];
+    // final _node = Get.find<NodeController>().data[index];
+    final _node = data[index];
     final editable = Get.find<NodeController>().editable;
     return Card(
       elevation: 2,
@@ -118,7 +120,7 @@ class NodeView extends StatelessWidget {
                   options: MutationOptions(
                     document: gql(_deleteMutation),
                     onCompleted: (dynamic result) async {
-                      Get.find<NodeController>().removeNode(index);
+                      // Get.find<NodeController>().removeNode(index);
                       CustomSnackbars.success("Deleted Successfully");
                     },
                     onError: (OperationException? error) {

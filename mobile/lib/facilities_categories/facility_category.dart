@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:resource_management_system/widgets/GqlQuery.dart';
 import 'package:resource_management_system/widgets/permissionQuery.dart';
 import '../auth/user_service.dart';
 import '../widgets/no_item_found.dart';
@@ -88,91 +89,72 @@ class FacilityCategory extends StatelessWidget {
     final data =
         ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final node = data['node'];
-    return Query(
-      options: QueryOptions(
-        document: gql(_getAllCategories),
+    return GqlQuery(
+        query: _getAllCategories,
         variables: {'id': node['_id']},
-      ),
-      builder: (QueryResult categories,
-          {VoidCallback? refetch, FetchMore? fetchMore}) {
-        if (categories.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        return Query(
-            options: QueryOptions(
-                document: gql(_getAllItems), variables: {'id': node['_id']}),
-            builder: (QueryResult items,
-                {VoidCallback? refetch, FetchMore? fetchMore}) {
-              if (items.isLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              return Query(
-                  options: QueryOptions(
-                      document: gql(_getAllPacks),
-                      variables: {'id': node['_id']}),
-                  builder: (QueryResult packs,
-                      {VoidCallback? refetch, FetchMore? fetchMore}) {
-                    if (packs.isLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    if (items.data == null && packs.data == null) {
-                      return const NoItemFound();
-                    }
-                    var nodes = [
-                      ...categories.data?['childCategories'],
-                      ...items.data?['childItems'],
-                      ...packs.data?['childPacks']
-                    ];
+        child: (categories) {
+          return GqlQuery(
+              query: _getAllItems,
+              variables: {'id': node['_id']},
+              child: (items) {
+                return GqlQuery(
+                    query: _getAllPacks,
+                    variables: {'id': node['_id']},
+                    child: (packs) {
+                      var nodes = [
+                        ...categories.data?['childCategories'],
+                        ...items.data?['childItems'],
+                        ...packs.data?['childPacks']
+                      ];
 
-                    _nodeController.setData(nodes);
+                      // _nodeController.setData(nodes);
 
-                    return PermissionQuery(
-                      nodeId: node['_id'],
-                      child: Scaffold(
-                        drawer: BaseDrawer(),
-                        appBar: BaseAppBar(
-                          title: Text(data['name']),
-                          appBar: AppBar(),
-                          bottom: TabBar(
-                            controller: _tabx.controller,
-                            tabs: _tabx.myTabs,
-                          ),
-                        ),
-                        body: TabBarView(
-                          controller: _tabx.controller,
-                          children: [
-                            NodesGridView(),
-                            PermissionUsers(
-                              nodeId: node['_id'],
+                      return PermissionQuery(
+                        nodeId: node['_id'],
+                        child: Scaffold(
+                          drawer: BaseDrawer(),
+                          appBar: BaseAppBar(
+                            title: Text(data['name']),
+                            appBar: AppBar(),
+                            bottom: TabBar(
+                              controller: _tabx.controller,
+                              tabs: _tabx.myTabs,
                             ),
-                          ],
+                          ),
+                          body: TabBarView(
+                            controller: _tabx.controller,
+                            children: [
+                              NodesGridView(data: nodes),
+                              PermissionUsers(
+                                nodeId: node['_id'],
+                              ),
+                            ],
+                          ),
+                          floatingActionButton:
+                              Get.find<NodeController>().editable.value
+                                  ? FloatingActionButton(
+                                      onPressed: () {
+                                        if (_tabx.currentPage.value == 0) {
+                                          Get.toNamed(
+                                            FacilityCategoryAdd.route,
+                                            arguments: node['_id'],
+                                          );
+                                        } else {
+                                          Get.toNamed(
+                                            PermissionUsersAdd.route,
+                                            arguments: node['_id'],
+                                          );
+                                        }
+                                      },
+                                      child: const Icon(
+                                        Icons.add,
+                                      ),
+                                    )
+                                  : Container(),
                         ),
-                        floatingActionButton:
-                            Get.find<NodeController>().editable.value
-                                ? FloatingActionButton(
-                                    onPressed: () {
-                                      if (_tabx.currentPage.value == 0) {
-                                        Get.toNamed(
-                                          FacilityCategoryAdd.route,
-                                          arguments: node['_id'],
-                                        );
-                                      } else {
-                                        Get.toNamed(
-                                          PermissionUsersAdd.route,
-                                          arguments: node['_id'],
-                                        );
-                                      }
-                                    },
-                                    child: const Icon(
-                                      Icons.add,
-                                    ),
-                                  )
-                                : Container(),
-                      ),
-                    );
-                  });
-            });
-      },
-    );
+                      );
+                    });
+              });
+        });
   }
 }
