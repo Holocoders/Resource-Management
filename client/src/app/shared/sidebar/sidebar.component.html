@@ -10,7 +10,10 @@
   <div class="flex align-items-center justify-content-center h-10rem shadow-1">
     <div class="grid flex align-items-center justify-content-center">
       <div class="col-4 flex justify-content-end cursor-pointer" (click)="editProfilePicture()">
-        <p-avatar [image]="profilePic" shape="circle" size="xlarge"></p-avatar>
+        <img
+          [src]="profilePicUrl"
+          onerror="if (this.src !== 'assets/images/user_image.png') this.src = 'assets/images/user_image.png';"
+          height="60" width="60" class="border-circle">
       </div>
       <div class="col-6 flex flex-column justify-content-center">
         <div class="font-semibold">

@@ -22,10 +22,37 @@ class _PreviewImageState extends State<PreviewImage> {
   @override
   Widget build(BuildContext context) {
     if (widget.imagePath != null) {
+      RegExp urlRegex = RegExp(r'^(http|https)://');
+      if (widget.imagePath!.startsWith(urlRegex)) {
+        return Image.network(
+            widget.imagePath!,
+            errorBuilder: (context, error, stackTrace) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                      Icons.error,
+                      color: Theme.of(context).errorColor,
+                  ),
+                  const SizedBox(width: 10),
+                  const Text('Error loading image'),
+                ],
+              );
+            }
+        );
+      }
       return Image.file(File(widget.imagePath!));
     } else {
-      return Image.network(
-        'http://10.0.2.2:3000/${Get.find<UserService>().user.value.id}',
+      return Wrap(
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          Icon(
+            Icons.error,
+            color: Theme.of(context).errorColor,
+          ),
+          const SizedBox(width: 10),
+          const Text('No image to preview'),
+        ],
       );
     }
   }
@@ -85,7 +112,9 @@ Widget pickAndEditImageDialog(BuildContext context,
             ],
           ),
           const SizedBox(height: 10),
-          PreviewImage(imagePath: _imageFile),
+          PreviewImage(
+              imagePath: _imageFile ?? 'http://10.0.2.2:3000/${Get.find<UserService>().user.value.id}?${DateTime.now()}'
+          ),
           const SizedBox(height: 10),
           TextButton.icon(
             icon: const Icon(Icons.check),
@@ -115,6 +144,8 @@ class BaseDrawer extends StatefulWidget {
 }
 
 class _BaseDrawerState extends State<BaseDrawer> {
+  String profilePicUrl = "";
+
   _updateProfilePicture(file) async {
     var dio = http.Dio();
     dio.options.headers['Authorization'] =
@@ -141,9 +172,8 @@ class _BaseDrawerState extends State<BaseDrawer> {
 
   @override
   Widget build(BuildContext context) {
-
-    var userPic = 'http://10.0.2.2:3000/${Get.find<UserService>().user.value.id}?' + DateTime.now().toString();
-
+    profilePicUrl =
+        'http://10.0.2.2:3000/${Get.find<UserService>().user.value.id}?${DateTime.now()}';
     return Drawer(
       child: ListView(
         // Important: Remove any padding from the ListView.
@@ -156,44 +186,82 @@ class _BaseDrawerState extends State<BaseDrawer> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  TextButton(
-                    onPressed: () {
-                      Get.defaultDialog(
-                        title: "Update Profile Picture",
-                        content: pickAndEditImageDialog(
-                          context,
-                          onImagePicked: (image) async {
-                            if (image != null) {
-                              try {
-                                await _updateProfilePicture(image);
-                                CustomSnackbars.success(
-                                    "Profile picture updated");
-                              } catch (e) {
-                                CustomSnackbars.success(
-                                    "Error updating profile picture!");
-                              }
-                            }
-                            setState(() {
-                              userPic = 'http://10.0.2.2:3000/${Get.find<UserService>().user.value.id}?' + DateTime.now().toString();
-                              Navigator.of(Get.overlayContext!).pop();
-                            });
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 20, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            Get.defaultDialog(
+                              title: "Update Profile Picture",
+                              content: pickAndEditImageDialog(
+                                context,
+                                onImagePicked: (image) async {
+                                  if (image != null) {
+                                    try {
+                                      await _updateProfilePicture(image);
+                                      profilePicUrl =
+                                      'http://10.0.2.2:3000/${Get.find<UserService>().user.value.id}?${DateTime.now()}';
+                                      CustomSnackbars.success(
+                                        "Profile picture updated",
+                                      );
+                                    } catch (e) {
+                                      CustomSnackbars.success(
+                                        "Error updating profile picture!",
+                                      );
+                                    }
+                                  }
+                                  setState(() {
+                                    Navigator.of(Get.overlayContext!).pop();
+                                  });
+                                },
+                              ),
+                            );
                           },
+                          child: CircleAvatar(
+                            child: ClipOval(
+                              child: Image.network(
+                                profilePicUrl,
+                                fit: BoxFit.cover,
+                                height: 80,
+                                width: 80,
+                                errorBuilder: (context, url, error) {
+                                  return const CircleAvatar(
+                                    child: Icon(
+                                      Icons.person,
+                                      size: 40,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            key: ValueKey(profilePicUrl),
+                            radius: 40,
+                          ),
                         ),
-                      );
-                    },
-                    child: CircleAvatar(
-                      backgroundImage: NetworkImage(userPic),
-                      radius: 40,
-                      key: ValueKey(userPic),
+                        const SizedBox(width: 10),
+                        Text(
+                          Get.find<UserService>().user.value.name,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 15),
-                  Text(
-                    Get.find<UserService>().user.value.name,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Icon(
+                        Icons.info_outline,
+                      ),
+                      SizedBox(width: 10),
+                      Text('Click on the avatar to edit!'),
+                    ],
                   ),
                 ],
               ),

@@ -14,7 +14,9 @@ import { UserService } from 'src/app/user/user.service';
 })
 export class SidebarComponent implements OnInit {
   user: any;
-  profilePic: string;
+  imageUrl = '';
+  displayImage = false;
+  profilePicUrl: string;
 
   constructor(
     private navbarComponent: NavbarComponent,
@@ -26,7 +28,8 @@ export class SidebarComponent implements OnInit {
   ngOnInit(): void {
     this.auth.user.subscribe((user) => {
       this.user = user;
-      this.profilePic = `${environment.serverUrl}${user?._id}?${Date.now()}`;
+      this.imageUrl = `${environment.serverUrl}${user?._id}`;
+      this.profilePicUrl = `${this.imageUrl}s?${Date.now()}`;
     });
   }
 
@@ -35,7 +38,7 @@ export class SidebarComponent implements OnInit {
       header: 'Edit Profile Picture',
       dismissableMask: true,
       data: {
-        image: this.user.image,
+        image: this.profilePicUrl,
       },
     });
 
@@ -44,9 +47,7 @@ export class SidebarComponent implements OnInit {
         const res = await fetch(image);
         const blob = await res.blob();
         this.userService.updateProfilePicture(blob).subscribe(() => {
-          this.profilePic = `${environment.serverUrl}${
-            this.user._id
-          }?${Date.now()}`;
+          this.profilePicUrl = `${this.imageUrl}?${Date.now()}`;
         });
       }
     });
