@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:resource_management_system/facilities_categories/facilities.dart';
 
 import '../auth/user_service.dart';
+import '../widgets/base_drawer.dart';
 import '../widgets/snackbars.dart';
 import 'facility_category.dart';
 
@@ -24,28 +25,35 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
   late var description = '';
 
   Future<void> _takePicture() async {
-    final picker = ImagePicker();
-    final imageFile = await picker.pickImage(source: ImageSource.camera);
-    setState(() {
-      _storedImage = File(imageFile!.path);
-    });
+    getx.Get.defaultDialog(
+      title: "Add Picture",
+      content: pickAndEditImageDialog(
+        context,
+        onImagePicked: (image) async {
+          if (image != null) {
+            setState(() {
+              _storedImage = image;
+            });
+          }
+          setState(() {
+            Navigator.of(getx.Get.overlayContext!).pop();
+          });
+        },
+      ),
+    );
   }
 
   _addFacility(name, desc, file) async {
     var dio = Dio();
     dio.options.headers['Authorization'] =
-        'Bearer ' + getx.Get
-            .find<UserService>()
-            .user
-            .value
-            .token;
+        'Bearer ' + getx.Get.find<UserService>().user.value.token;
     FormData formData = FormData.fromMap({
       "operations":
-      '{ "query": "mutation (\$createFacilityInput: CreateFacilityInput!, \$file: Upload!) { createFacility(file: \$file, createFacilityInput: \$createFacilityInput) { node { _id itemCount categoryCount } name description } }", "variables": { "file": null, "createFacilityInput": {"name": "$name", "description": "$desc"} } }',
+          '{ "query": "mutation (\$createFacilityInput: CreateFacilityInput!, \$file: Upload!) { createFacility(file: \$file, createFacilityInput: \$createFacilityInput) { node { _id itemCount categoryCount } name description } }", "variables": { "file": null, "createFacilityInput": {"name": "$name", "description": "$desc"} } }',
       "map": '{ "nfile": ["variables.file"] }',
-      "nfile": await MultipartFile.fromFile(
+      "nfile": MultipartFile.fromFileSync(
         file.path,
-        filename: "image.jpg",
+        filename: file.path.split('/').last,
       ),
     });
     return dio.post('http://10.0.2.2:3000/graphql', data: formData);
@@ -54,11 +62,7 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
   _addCategory(id, name, desc, file) async {
     var dio = Dio();
     dio.options.headers['Authorization'] =
-        'Bearer ' + getx.Get
-            .find<UserService>()
-            .user
-            .value
-            .token;
+        'Bearer ' + getx.Get.find<UserService>().user.value.token;
     FormData formData = FormData.fromMap({
       "operations": """
           mutation createCategory (\$createCategoryInput: CreateCategoryInput!, \$file: Upload!) {
@@ -80,9 +84,9 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
       }, "variables": { "file": null, "createFacilityInput": {"parent", "$id", "name": "$name", "description": "$desc"} } }
           """,
       "map": '{ "file": ["variables.file"] }',
-      "file": await MultipartFile.fromFile(
+      "file": MultipartFile.fromFileSync(
         file.path,
-        filename: "image.png",
+        filename: file.path.split('/').last,
       ),
     });
     return dio.post('http://10.0.2.2:3000/graphql', data: formData);
@@ -111,10 +115,7 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
 
   @override
   Widget build(BuildContext context) {
-    final facilityId = ModalRoute
-        .of(context)!
-        .settings
-        .arguments as String;
+    final facilityId = ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
         title: facilityId == '-1'
@@ -158,10 +159,10 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
               child: Center(
                 child: _storedImage != null
                     ? Image.file(
-                  _storedImage!,
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                )
+                        _storedImage!,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      )
                     : const Text('No image selected.'),
               ),
             ),

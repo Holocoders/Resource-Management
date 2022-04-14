@@ -7,7 +7,6 @@ import 'package:resource_management_system/auth/user_service.dart';
 import 'package:resource_management_system/facilities_categories/facilities.dart';
 import 'package:resource_management_system/facilities_categories/permission_users_add.dart';
 import 'package:resource_management_system/item/pack.dart';
-import 'package:resource_management_system/theme/light_theme.dart';
 import 'package:resource_management_system/theme/theme_manager.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 

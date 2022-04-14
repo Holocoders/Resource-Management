@@ -8,14 +8,15 @@ import '../../item/item.dart';
 import 'node_view.dart';
 
 class NodesGridView extends StatelessWidget {
-  final data = Get.find<NodeController>().data;
+  final _nodeController = Get.find<NodeController>();
 
   NodesGridView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return data.isNotEmpty
+    return _nodeController.data.isNotEmpty
         ? GridView.builder(
+            itemCount: _nodeController.data.length,
             shrinkWrap: true,
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -27,25 +28,25 @@ class NodesGridView extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  var nodeType = data[index]['node']['type'];
+                  var nodeType = _nodeController.data[index]['node']['type'];
                   if (nodeType == 'ITEM') {
                     Get.toNamed(Item.route,
-                        arguments: data[index]['node']['_id']);
+                        arguments: _nodeController.data[index]['node']['_id']);
                     return;
                   } else if (nodeType == 'PACK') {
                     Get.toNamed(Pack.route,
-                        arguments: data[index]['node']['_id']);
+                        arguments: _nodeController.data[index]['node']['_id']);
                     return;
                   }
                   Get.toNamed(FacilityCategory.route,
-                      arguments: data[index], preventDuplicates: false);
+                      arguments: _nodeController.data[index],
+                      preventDuplicates: false);
                 },
                 child: NodeView(
                   index,
                 ),
               );
             },
-            itemCount: data.length,
           )
         : const Center(
             child: Text('No data found'),
