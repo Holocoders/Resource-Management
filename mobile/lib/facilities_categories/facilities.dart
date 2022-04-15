@@ -1,3 +1,5 @@
+// ! Obsolete file, migrated to facility_category.dart instead.
+
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/facilities_categories/facility_category_tab_controller.dart';
@@ -34,56 +36,55 @@ class Facilities extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final FacilityCategoryTabController _tabx =
-    Get.put(FacilityCategoryTabController());
+        Get.put(FacilityCategoryTabController());
     _tabx.reset();
 
     final NodeController _nodeController = Get.put(NodeController());
 
-    return GqlQuery(query: _getAllFacilities, child: (result) {
-      // _nodeController.setData(result.data?['facilities']);
-      return PermissionQuery(
-        child: Scaffold(
-          drawer: BaseDrawer(),
-          appBar: BaseAppBar(
-            appBar: AppBar(),
-            title: const Text('Facilities'),
-            bottom: TabBar(
-              controller: _tabx.controller,
-              tabs: _tabx.myTabs,
+    return GqlQuery(
+        query: _getAllFacilities,
+        child: (result) {
+          // _nodeController.setData(result.data?['facilities']);
+          return PermissionQuery(
+            child: Scaffold(
+              drawer: BaseDrawer(),
+              appBar: BaseAppBar(
+                appBar: AppBar(),
+                title: const Text('Facilities'),
+                bottom: TabBar(
+                  controller: _tabx.controller,
+                  tabs: _tabx.myTabs,
+                ),
+              ),
+              body: TabBarView(
+                controller: _tabx.controller,
+                children: [
+                  NodesGridView(data: result.data?['facilities']),
+                  PermissionUsers(),
+                ],
+              ),
+              floatingActionButton: Get.find<NodeController>().editable.value
+                  ? FloatingActionButton(
+                      onPressed: () {
+                        if (_tabx.currentPage.value == 0) {
+                          Get.toNamed(
+                            FacilityCategoryAdd.route,
+                            arguments: '-1',
+                          );
+                        } else {
+                          Get.toNamed(
+                            PermissionUsersAdd.route,
+                            arguments: '-1',
+                          );
+                        }
+                      },
+                      child: const Icon(
+                        Icons.add,
+                      ),
+                    )
+                  : Container(),
             ),
-          ),
-          body: TabBarView(
-            controller: _tabx.controller,
-            children: [
-              NodesGridView(data: result.data?['facilities']),
-              PermissionUsers(),
-            ],
-          ),
-          floatingActionButton: Get
-              .find<NodeController>()
-              .editable
-              .value
-              ? FloatingActionButton(
-            onPressed: () {
-              if (_tabx.currentPage.value == 0) {
-                Get.toNamed(
-                  FacilityCategoryAdd.route,
-                  arguments: '-1',
-                );
-              } else {
-                Get.toNamed(
-                  PermissionUsersAdd.route,
-                  arguments: '-1',
-                );
-              }
-            },
-            child: const Icon(
-              Icons.add,
-            ),
-          )
-              : Container(),
-        ),
-      );
-    });
+          );
+        });
   }
 }

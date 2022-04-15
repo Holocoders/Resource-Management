@@ -98,7 +98,7 @@ class _FacilityCategoryAddState extends State<FacilityCategoryAdd> {
     if (id == '-1') {
       res = await _addFacility(name, description, _storedImage);
       CustomSnackbars.success("Added Successfully");
-      getx.Get.toNamed(Facilities.route);
+      getx.Get.toNamed(FacilityCategory.route);
     } else {
       res = await _addCategory(id, name, description, _storedImage);
       CustomSnackbars.success("Added Successfully");

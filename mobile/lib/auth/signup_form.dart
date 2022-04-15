@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:resource_management_system/facilities_categories/facility_category.dart';
 import 'package:resource_management_system/widgets/snackbars.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
@@ -160,7 +161,7 @@ class SignupForm extends StatelessWidget {
                     final userPrefs = await StreamingSharedPreferences.instance;
                     userPrefs.setString('user', json.encode(user));
                     CustomSnackbars.success("Signup Successful");
-                    Get.offAllNamed(Facilities.route);
+                    Get.offAllNamed(FacilityCategory.route);
                   },
                   onError: (OperationException? error) {
                     if (error?.graphqlErrors.isNotEmpty == true) {

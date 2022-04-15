@@ -19,7 +19,29 @@ class FacilityCategory extends StatelessWidget {
 
   static const String route = '/category';
 
-  final String _getAllCategories = """
+  facilityQuery({required Function child}) {
+    const String _getAllFacilities = """
+      query facilities {
+        facilities {
+          node {
+            _id
+            categoryCount
+            itemCount
+          }
+          name
+          description
+        }
+      }
+      """;
+    return GqlQuery(
+        query: _getAllFacilities,
+        child: (result) {
+          return child(result.data?['facilities']);
+        });
+  }
+
+  categoryQuery({required id, required Function child}) {
+    const String _getAllCategories = """
     query childCategories(\$id: String!) {
         childCategories(id: \$id) {
           node {
@@ -34,7 +56,7 @@ class FacilityCategory extends StatelessWidget {
       }
   """;
 
-  final String _getAllItems = """
+    const String _getAllItems = """
     query childItems(\$id: String!) {
         childItems(id: \$id) {
           node {
@@ -51,7 +73,7 @@ class FacilityCategory extends StatelessWidget {
       }
   """;
 
-  final String _getAllPacks = """
+    const String _getAllPacks = """
     query childPacks(\$id: String!) {
         childPacks(id: \$id) {
           node {
@@ -77,6 +99,36 @@ class FacilityCategory extends StatelessWidget {
         }
       }
   """;
+    return GqlQuery(
+        query: _getAllCategories,
+        variables: {'id': id},
+        child: (categories) {
+          return GqlQuery(
+              query: _getAllItems,
+              variables: {'id': id},
+              child: (items) {
+                return GqlQuery(
+                    query: _getAllPacks,
+                    variables: {'id': id},
+                    child: (packs) {
+                      var nodes = [
+                        ...categories.data?['childCategories'],
+                        ...items.data?['childItems'],
+                        ...packs.data?['childPacks']
+                      ];
+                      return child(nodes);
+                    });
+              });
+        });
+  }
+
+  getData({id = '-1', required Function child}) {
+    if (id == '-1') {
+      return facilityQuery(child: child);
+    } else {
+      return categoryQuery(id: id, child: child);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,75 +138,64 @@ class FacilityCategory extends StatelessWidget {
 
     final NodeController _nodeController = Get.put(NodeController());
 
-    final data =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final node = data['node'];
-    return GqlQuery(
-        query: _getAllCategories,
-        variables: {'id': node['_id']},
-        child: (categories) {
-          return GqlQuery(
-              query: _getAllItems,
-              variables: {'id': node['_id']},
-              child: (items) {
-                return GqlQuery(
-                    query: _getAllPacks,
-                    variables: {'id': node['_id']},
-                    child: (packs) {
-                      var nodes = [
-                        ...categories.data?['childCategories'],
-                        ...items.data?['childItems'],
-                        ...packs.data?['childPacks']
-                      ];
+    var data = ModalRoute.of(context)!.settings.arguments;
+    var title;
+    String id;
+    if (data != null) {
+      data = data as Map<String, dynamic>;
+      title = data['name'];
+      final node = data['node'];
+      id = node['_id'];
+    } else {
+      id = '-1';
+      title = 'Facilities';
+    }
 
-                      // _nodeController.setData(nodes);
-
-                      return PermissionQuery(
-                        nodeId: node['_id'],
-                        child: Scaffold(
-                          drawer: BaseDrawer(),
-                          appBar: BaseAppBar(
-                            title: Text(data['name']),
-                            appBar: AppBar(),
-                            bottom: TabBar(
-                              controller: _tabx.controller,
-                              tabs: _tabx.myTabs,
-                            ),
-                          ),
-                          body: TabBarView(
-                            controller: _tabx.controller,
-                            children: [
-                              NodesGridView(data: nodes),
-                              PermissionUsers(
-                                nodeId: node['_id'],
-                              ),
-                            ],
-                          ),
-                          floatingActionButton:
-                              Get.find<NodeController>().editable.value
-                                  ? FloatingActionButton(
-                                      onPressed: () {
-                                        if (_tabx.currentPage.value == 0) {
-                                          Get.toNamed(
-                                            FacilityCategoryAdd.route,
-                                            arguments: node['_id'],
-                                          );
-                                        } else {
-                                          Get.toNamed(
-                                            PermissionUsersAdd.route,
-                                            arguments: node['_id'],
-                                          );
-                                        }
-                                      },
-                                      child: const Icon(
-                                        Icons.add,
-                                      ),
-                                    )
-                                  : Container(),
-                        ),
+    return getData(
+      id: id,
+      child: (nodes) => PermissionQuery(
+        nodeId: id,
+        child: Scaffold(
+          drawer: BaseDrawer(),
+          appBar: BaseAppBar(
+            title: Text(title),
+            appBar: AppBar(),
+            bottom: TabBar(
+              controller: _tabx.controller,
+              tabs: _tabx.myTabs,
+            ),
+          ),
+          body: TabBarView(
+            controller: _tabx.controller,
+            children: [
+              NodesGridView(data: nodes),
+              PermissionUsers(
+                nodeId: id,
+              ),
+            ],
+          ),
+          floatingActionButton: _nodeController.editable.value
+              ? FloatingActionButton(
+                  onPressed: () {
+                    if (_tabx.currentPage.value == 0) {
+                      Get.toNamed(
+                        FacilityCategoryAdd.route,
+                        arguments: id,
                       );
-                    });
-              });
-        });
+                    } else {
+                      Get.toNamed(
+                        PermissionUsersAdd.route,
+                        arguments: id,
+                      );
+                    }
+                  },
+                  child: const Icon(
+                    Icons.add,
+                  ),
+                )
+              : Container(),
+        ),
+      ),
+    );
   }
 }

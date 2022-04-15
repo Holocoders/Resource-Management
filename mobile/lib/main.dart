@@ -66,10 +66,10 @@ class MyApp extends StatelessWidget {
               Auth.route: (context) => const Auth(),
               Item.route: (context) => const Item(),
               Pack.route: (context) => const Pack(),
-              Facilities.route: (context) => const Facilities(),
+              Facilities.route: (context) => FacilityCategory(),
+              FacilityCategory.route: (context) => FacilityCategory(),
               FacilityCategoryAdd.route: (context) =>
                   const FacilityCategoryAdd(),
-              FacilityCategory.route: (context) => FacilityCategory(),
               PermissionUsersAdd.route: (context) => PermissionUsersAdd(),
               Activities.route: (context) => const Activities(),
               SingleActivity.route: (context) => const SingleActivity(),

@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:resource_management_system/facilities_categories/facilities.dart';
+import 'package:resource_management_system/facilities_categories/facility_category.dart';
 import 'package:resource_management_system/widgets/snackbars.dart';
 import '../activities/activities.dart';
 import '../auth/user_service.dart';
@@ -12,6 +13,7 @@ import 'camera_image_picker.dart';
 
 class PreviewImage extends StatefulWidget {
   final String? imagePath;
+
   const PreviewImage({Key? key, required this.imagePath}) : super(key: key);
 
   @override
@@ -24,22 +26,20 @@ class _PreviewImageState extends State<PreviewImage> {
     if (widget.imagePath != null) {
       RegExp urlRegex = RegExp(r'^(http|https)://');
       if (widget.imagePath!.startsWith(urlRegex)) {
-        return Image.network(
-            widget.imagePath!,
+        return Image.network(widget.imagePath!,
             errorBuilder: (context, error, stackTrace) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                      Icons.error,
-                      color: Theme.of(context).errorColor,
-                  ),
-                  const SizedBox(width: 10),
-                  const Text('Error loading image'),
-                ],
-              );
-            }
-        );
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.error,
+                color: Theme.of(context).errorColor,
+              ),
+              const SizedBox(width: 10),
+              const Text('Error loading image'),
+            ],
+          );
+        });
       }
       return Image.file(File(widget.imagePath!));
     } else {
@@ -113,8 +113,8 @@ Widget pickAndEditImageDialog(BuildContext context,
           ),
           const SizedBox(height: 10),
           PreviewImage(
-              imagePath: _imageFile ?? 'http://10.0.2.2:3000/${Get.find<UserService>().user.value.id}?${DateTime.now()}'
-          ),
+              imagePath: _imageFile ??
+                  'http://10.0.2.2:3000/${Get.find<UserService>().user.value.id}?${DateTime.now()}'),
           const SizedBox(height: 10),
           TextButton.icon(
             icon: const Icon(Icons.check),
@@ -203,7 +203,7 @@ class _BaseDrawerState extends State<BaseDrawer> {
                                     try {
                                       await _updateProfilePicture(image);
                                       profilePicUrl =
-                                      'http://10.0.2.2:3000/${Get.find<UserService>().user.value.id}?${DateTime.now()}';
+                                          'http://10.0.2.2:3000/${Get.find<UserService>().user.value.id}?${DateTime.now()}';
                                       CustomSnackbars.success(
                                         "Profile picture updated",
                                       );
@@ -274,7 +274,7 @@ class _BaseDrawerState extends State<BaseDrawer> {
                 leading: const Icon(Icons.home),
                 title: const Text('Facilities'),
                 onTap: () {
-                  Get.toNamed(Facilities.route);
+                  Get.offAllNamed(FacilityCategory.route);
                 },
               ),
               ListTile(

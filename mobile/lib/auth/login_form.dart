@@ -10,6 +10,8 @@ import 'package:resource_management_system/widgets/snackbars.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
+import '../facilities_categories/facility_category.dart';
+
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
 
@@ -108,7 +110,7 @@ class _LoginFormState extends State<LoginForm> {
                     final userPrefs = await StreamingSharedPreferences.instance;
                     userPrefs.setString('user', json.encode(user));
                     CustomSnackbars.success("Login Successful");
-                    Get.offAllNamed(Facilities.route);
+                    Get.offAllNamed(FacilityCategory.route);
                   },
                   onError: (OperationException? error) {
                     CustomSnackbars.error(error?.graphqlErrors.first.message ??
