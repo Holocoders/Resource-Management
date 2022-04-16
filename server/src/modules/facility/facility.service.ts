@@ -67,4 +67,8 @@ export class FacilityService {
     for (const id of ids) fs.rmSync(`./uploads/${id}`, { force: true });
     return this.facilityModel.deleteMany({ _id: { $in: ids } });
   }
+
+  async search(query: string) {
+    return this.facilityModel.find({ name: { $regex: query, $options: 'i' } });
+  }
 }

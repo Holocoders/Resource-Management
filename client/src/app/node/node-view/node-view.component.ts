@@ -8,6 +8,7 @@ import { NodeService } from '../node.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BreadcrumbsService } from '../../breadcrumbs/breadcrumbs.service';
 import { NodeType } from 'src/app/models/node.model';
+import { NavbarService } from '../../shared/navbar/navbar.service';
 
 @Component({
   selector: 'app-node-view',
@@ -28,6 +29,7 @@ export class NodeViewComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private breadCrumbService: BreadcrumbsService,
+    private navbarService: NavbarService,
   ) {}
 
   getNodes(id: string) {
@@ -109,6 +111,7 @@ export class NodeViewComponent implements OnInit {
 
   goToNode(node: any, type: NodeType) {
     const id = node?.node?._id;
+    this.navbarService.header.next(node.name);
     if (type === NodeType.ITEM) {
       this.breadCrumbService.push({
         label: node.name,

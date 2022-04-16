@@ -211,6 +211,7 @@ type Permission {
 
 type Query {
   category(id: String!): Category!
+  categorySearch(name: String!): [Category!]!
   checkPermission(
     """Node ID"""
     nodeId: String!
@@ -224,6 +225,7 @@ type Query {
   currentUser: User!
   facilities: [Facility!]!
   facility(id: String!): Facility!
+  facilitySearch(name: String!): [Facility!]!
   getHello: String!
   getUsersWithPermission(
     """Node ID"""
@@ -237,7 +239,9 @@ type Query {
   itemHistory: [ItemHistory!]!
   itemHistoryByItem(item: String!): [ItemHistory!]!
   itemHistoryByUser: [ItemHistory!]!
+  itemSearch(name: String!): [Item!]!
   items: [Item!]!
+  nodeSearch(name: String!): Node!
   user(_id: String!): User!
   users: [User!]!
 }

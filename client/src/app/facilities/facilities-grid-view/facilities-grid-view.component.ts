@@ -82,6 +82,7 @@ export class FacilitiesGridViewComponent implements OnInit {
       routerLink: '/node',
       queryParams: { id },
     });
+    this.navbarService.header.next(facility.name);
     this.router.navigate(['/node'], { queryParams: { id } });
   }
 }

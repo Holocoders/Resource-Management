@@ -68,4 +68,8 @@ export class CategoryService {
     for (const id of ids) fs.rmSync(`./uploads/${id}`, { force: true });
     return this.categoryModel.deleteMany({ _id: { $in: ids } });
   }
+
+  async search(query: string) {
+    return this.categoryModel.find({ name: { $regex: query, $options: 'i' } });
+  }
 }

@@ -140,4 +140,62 @@ export class NodeService {
     ];
     return parentIDs;
   }
+
+  async search(query: string) {
+    const nodes = await this.nodeModel.aggregate([
+      {
+        $lookup: {
+          from: 'facilities',
+          localField: '_id',
+          foreignField: 'node',
+          as: 'facilities',
+        },
+      },
+      {
+        $lookup: {
+          from: 'items',
+          localField: '_id',
+          foreignField: 'node',
+          as: 'items',
+        },
+      },
+      {
+        $lookup: {
+          from: 'categories',
+          localField: '_id',
+          foreignField: 'node',
+          as: 'categories',
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          description: 1,
+          facilities: {
+            $filter: {
+              input: '$facilities',
+              as: 'facility',
+              cond: { $eq: ['$$facility.name', query] },
+            },
+          },
+          items: {
+            $filter: {
+              input: '$items',
+              as: 'item',
+              cond: { $eq: ['$$item.name', query] },
+            },
+          },
+          categories: {
+            $filter: {
+              input: '$categories',
+              as: 'category',
+              cond: { $eq: ['$$category.name', query] },
+            },
+          },
+        },
+      },
+    ]);
+    console.log(nodes);
+    return nodes;
+  }
 }

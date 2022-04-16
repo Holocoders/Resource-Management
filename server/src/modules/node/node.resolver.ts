@@ -1,11 +1,11 @@
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard, RolesGuard } from '../auth/auth.guard';
-import { CurrentUser } from '../../decorators/auth.decorator';
+import { CurrentUser } from 'src/decorators/auth.decorator';
 import { GraphQLError } from 'graphql';
 import { NodeService } from './node.service';
 import { Node } from './entities/node.entity';
-import { AuthorizeNode } from '../../decorators/metadata.decorator';
+import { AuthorizeNode } from 'src/decorators/metadata.decorator';
 
 @Resolver()
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -20,5 +20,10 @@ export class NodeResolver {
   ) {
     if (!user) return new GraphQLError('Unauthorized');
     return this.nodeService.remove(id);
+  }
+
+  @Query(() => Node, { name: 'nodeSearch' })
+  nodeSearch(@Args('name', { type: () => String }) name: string) {
+    return this.nodeService.search(name);
   }
 }

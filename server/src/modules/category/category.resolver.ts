@@ -10,6 +10,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard, RolesGuard } from '../auth/auth.guard';
 import { SharedService } from '../shared/shared.service';
 import { AuthorizeNode } from '../../decorators/metadata.decorator';
+import { Facility } from 'src/modules/facility/entities/facility.entity';
 
 @Resolver(() => Category)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -82,5 +83,10 @@ export class CategoryResolver {
   findOne(@CurrentUser() user, @Args('id', { type: () => String }) id: string) {
     if (!user) return new GraphQLError('Unauthorized');
     return this.categoryService.findOne(id);
+  }
+
+  @Query(() => [Category], { name: 'categorySearch' })
+  search(@Args('name', { type: () => String }) name: string) {
+    return this.categoryService.search(name);
   }
 }

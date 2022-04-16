@@ -10,6 +10,7 @@ import { AuthService } from '../../user/auth/auth.service';
 import { User } from '../../user/user.model';
 import { Router } from '@angular/router';
 import { NavbarService } from './navbar.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-navbar',
@@ -61,6 +62,9 @@ export class NavbarComponent implements OnInit {
 
   header = 'Facilities';
 
+  searchResults = [];
+  searchData: any;
+
   @Output() onMenuClick = new EventEmitter();
 
   constructor(
@@ -81,5 +85,22 @@ export class NavbarComponent implements OnInit {
   logOut() {
     this.authService.logOut();
     this.router.navigateByUrl('/user/signin');
+  }
+
+  search(event: any) {
+    this.service.searchQuery(event.query).subscribe((results) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      this.searchResults = results;
+      console.log(results);
+    });
+  }
+
+  selectedNode() {
+    this.closeMobileSearch();
+    const name = this.searchData.name;
+    const id = this.searchData._id['_id'];
+    this.service.header.next(name);
+    this.router.navigate(['/node'], { queryParams: { id } });
   }
 }

@@ -101,4 +101,8 @@ export class ItemService {
       $inc: { quantity: -reduceBy },
     });
   }
+
+  async search(query: string) {
+    return this.itemModel.find({ name: { $regex: query, $options: 'i' } });
+  }
 }

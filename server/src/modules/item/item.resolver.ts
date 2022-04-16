@@ -12,6 +12,7 @@ import { SharedService } from '../shared/shared.service';
 import { join } from 'path';
 import { AuthorizeNode } from 'src/decorators/metadata.decorator';
 import { NodeType } from 'src/modules/node/entities/node.entity';
+import { Category } from 'src/modules/category/entities/category.entity';
 
 @Resolver(() => Item)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -93,6 +94,11 @@ export class ItemResolver {
   findAll(@CurrentUser() user) {
     if (!user) return new GraphQLError('Unauthorized');
     return this.itemService.findAll();
+  }
+
+  @Query(() => [Item], { name: 'itemSearch' })
+  search(@Args('name', { type: () => String }) name: string) {
+    return this.itemService.search(name);
   }
 
   @AuthorizeNode('updateItemInput._id')

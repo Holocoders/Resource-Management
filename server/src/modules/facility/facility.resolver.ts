@@ -9,7 +9,7 @@ import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard, RolesGuard } from '../auth/auth.guard';
 import { CurrentUser } from '../../decorators/auth.decorator';
 import { GraphQLError } from 'graphql';
-import { AuthorizeNode } from '../../decorators/metadata.decorator';
+import { AuthorizeNode } from 'src/decorators/metadata.decorator';
 
 @Resolver(() => Facility)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -56,6 +56,11 @@ export class FacilityResolver {
   @Query(() => Facility, { name: 'facility' })
   findOne(@Args('id', { type: () => String }) id: string) {
     return this.facilityService.findOne(id);
+  }
+
+  @Query(() => [Facility], { name: 'facilitySearch' })
+  search(@Args('name', { type: () => String }) name: string) {
+    return this.facilityService.search(name);
   }
 
   @AuthorizeNode('updateFacilityInput._id')
