@@ -6,6 +6,7 @@ import 'package:dio/dio.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:resource_management_system/facilities_categories/facilities.dart';
 import 'package:resource_management_system/facilities_categories/facility_category.dart';
+import 'package:resource_management_system/widgets/searchbar.dart';
 import 'package:resource_management_system/widgets/snackbars.dart';
 import '../activities/activities.dart';
 import '../auth/user_service.dart';
@@ -270,6 +271,13 @@ class _BaseDrawerState extends State<BaseDrawer> {
           Container(
             alignment: Alignment.center,
             child: Column(children: [
+              ListTile(
+                leading: const Icon(Icons.search),
+                title: const Text('Search'),
+                onTap: () {
+                  Get.offAllNamed(Searchbar.route);
+                },
+              ),
               ListTile(
                 leading: const Icon(Icons.home),
                 title: const Text('Facilities'),

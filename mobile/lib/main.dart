@@ -8,6 +8,7 @@ import 'package:resource_management_system/facilities_categories/facilities.dart
 import 'package:resource_management_system/facilities_categories/permission_users_add.dart';
 import 'package:resource_management_system/item/pack.dart';
 import 'package:resource_management_system/theme/theme_manager.dart';
+import 'package:resource_management_system/widgets/searchbar.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import 'activities/activities.dart';
@@ -73,6 +74,7 @@ class MyApp extends StatelessWidget {
               PermissionUsersAdd.route: (context) => PermissionUsersAdd(),
               Activities.route: (context) => const Activities(),
               SingleActivity.route: (context) => const SingleActivity(),
+              Searchbar.route: (context) => Searchbar(),
             },
           ),
         );
