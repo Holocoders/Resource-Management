@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' as getx;
-import 'package:image_picker/image_picker.dart';
-import 'package:resource_management_system/facilities_categories/facilities.dart';
 
 import '../auth/user_service.dart';
 import '../widgets/base_drawer.dart';

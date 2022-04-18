@@ -70,13 +70,20 @@
 </ng-template>
 
 <p-dialog [(visible)]="isMobileSearchOpen" [draggable]="false" [modal]="true" [resizable]="true"
-          [dismissableMask]="true"
-          [showHeader]="false" [maximizable]="true" [style]="{width: '25vw', height: '25vw'}">
+          [dismissableMask]="true" [showHeader]="false" [style]="{width: '25vw'}">
   <!--  <ng-container *ngTemplateOutlet="mobileSearch"></ng-container>-->
   <div class="mt-2 flex flex-wrap justify-content-center">
     <p-autoComplete [(ngModel)]="searchData" [suggestions]="searchResults" (completeMethod)="search($event)"
-                    (onSelect)="selectedNode()"
-                    field="name" placeholder="Search"></p-autoComplete>
+                    (onSelect)="selectedNode()" appendTo="body"
+                    [style]="{'width':'100%'}" [inputStyle]="{'width':'100%'}"
+                    field="name" placeholder="Search">
+      <ng-template let-node pTemplate="item">
+        <div class="country-item">
+          <img [src]="'http://localhost:3000/' + node?._id?._id" [width]="20" [height]="20"/>
+          {{node.name}}
+        </div>
+      </ng-template>
+    </p-autoComplete>
   </div>
 
 

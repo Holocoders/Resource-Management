@@ -11,6 +11,7 @@ import { User } from '../../user/user.model';
 import { Router } from '@angular/router';
 import { NavbarService } from './navbar.service';
 import { map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -64,6 +65,8 @@ export class NavbarComponent implements OnInit {
 
   searchResults = [];
   searchData: any;
+
+  url = environment.serverUrl;
 
   @Output() onMenuClick = new EventEmitter();
 
