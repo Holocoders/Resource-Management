@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:mobile_new/app/routes/app_pages.dart';
 import 'package:reactive_forms/reactive_forms.dart';
-import 'package:resource_management_system/auth/user_service.dart';
-import 'package:resource_management_system/widgets/snackbars.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
-import '../facilities_categories/facility_category.dart';
+import '../../../services/user_service.dart';
+import '../../../widgets/snackbars.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -18,8 +18,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  FormGroup buildForm() =>
-      fb.group(<String, Object>{
+  FormGroup buildForm() => fb.group(<String, Object>{
         'email': FormControl<String>(
           validators: [Validators.required, Validators.email],
         ),
@@ -42,10 +41,7 @@ class _LoginFormState extends State<LoginForm> {
         top: 20,
         left: 20,
         right: 20,
-        bottom: MediaQuery
-            .of(context)
-            .viewInsets
-            .bottom,
+        bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       child: ReactiveFormBuilder(
         form: buildForm,
@@ -55,19 +51,15 @@ class _LoginFormState extends State<LoginForm> {
             children: [
               Text(
                 'Sign In',
-                style: Theme
-                    .of(context)
-                    .textTheme
-                    .headline5,
+                style: Theme.of(context).textTheme.headline5,
               ),
               const SizedBox(height: 20),
               ReactiveTextField<String>(
                 formControlName: 'email',
-                validationMessages: (control) =>
-                {
+                validationMessages: (control) => {
                   ValidationMessage.required: 'The email must not be empty',
                   ValidationMessage.email:
-                  'The email value must be a valid email',
+                      'The email value must be a valid email',
                   'unique': 'This email is already in use',
                 },
                 decoration: InputDecoration(
@@ -82,8 +74,7 @@ class _LoginFormState extends State<LoginForm> {
               const SizedBox(height: 20),
               ReactiveTextField<String>(
                 formControlName: 'password',
-                validationMessages: (control) =>
-                {
+                validationMessages: (control) => {
                   ValidationMessage.required: 'The password must not be empty'
                 },
                 decoration: InputDecoration(
@@ -117,7 +108,7 @@ class _LoginFormState extends State<LoginForm> {
                     final userPrefs = await StreamingSharedPreferences.instance;
                     userPrefs.setString('user', json.encode(user));
                     CustomSnackbars.success("Login Successful");
-                    Get.offAllNamed(FacilityCategory.route);
+                    Get.offAllNamed(Routes.NODE);
                   },
                   onError: (OperationException? error) {
                     CustomSnackbars.error(error?.graphqlErrors.first.message ??
@@ -129,15 +120,15 @@ class _LoginFormState extends State<LoginForm> {
                     child: const Text('Sign In'),
                     style: ButtonStyle(
                       foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                          MaterialStateProperty.all<Color>(Colors.white),
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.green),
+                          MaterialStateProperty.all<Color>(Colors.green),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                               side: const BorderSide(color: Colors.green))),
                       minimumSize:
-                      MaterialStateProperty.all<Size>(const Size(200, 40)),
+                          MaterialStateProperty.all<Size>(const Size(200, 40)),
                     ),
                     onPressed: () {
                       if (formGroup.valid) {
@@ -160,15 +151,15 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 style: ButtonStyle(
                   foregroundColor:
-                  MaterialStateProperty.all<Color>(Colors.black),
+                      MaterialStateProperty.all<Color>(Colors.black),
                   backgroundColor:
-                  MaterialStateProperty.all<Color>(Colors.white),
+                      MaterialStateProperty.all<Color>(Colors.white),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(18.0),
                           side: const BorderSide(color: Colors.green))),
                   minimumSize:
-                  MaterialStateProperty.all<Size>(const Size(200, 40)),
+                      MaterialStateProperty.all<Size>(const Size(200, 40)),
                 ),
                 onPressed: () => {Get.back(result: 'flip')},
               ),

@@ -45,7 +45,7 @@ export class FacilityService {
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} facility`;
+    return this.facilityModel.findById(id);
   }
 
   update(id: string, updateFacilityInput: UpdateFacilityInput) {

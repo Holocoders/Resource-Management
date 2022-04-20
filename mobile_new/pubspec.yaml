@@ -1,0 +1,31 @@
+name: mobile_new
+version: 1.0.0+1
+publish_to: none
+description: RMS mobile (getx architecture)
+environment:
+  sdk: '>=2.16.2 <3.0.0'
+
+dependencies:
+  cupertino_icons: ^1.0.2
+  get: 4.6.1
+  graphql_flutter: ^5.0.0
+  syncfusion_flutter_datepicker: ^19.4.50
+  reactive_forms: ^11.0.1
+  shared_preferences: ^2.0.13
+  streaming_shared_preferences: ^2.0.0
+  toggle_switch: ^1.4.0
+  image_picker: ^0.8.4+11
+  dio: ^4.0.6
+  image_cropper: ^1.5.1
+  flutter_typeahead: ^3.2.4
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_lints: ^1.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
