@@ -4,6 +4,7 @@ import 'package:dio/dio.dart' as http;
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:mobile_new/app/modules/node_add/controllers/node_add_controller.dart';
 import 'package:mobile_new/app/routes/app_pages.dart';
 
 import '../../../services/user_service.dart';
@@ -45,72 +46,9 @@ class _NodeAddViewState extends State<NodeAddView> {
     );
   }
 
-  _addFacility(name, desc, file) async {
-    var dio = http.Dio();
-    dio.options.headers['Authorization'] =
-        'Bearer ' + Get.find<UserService>().user.value.token;
-    http.FormData formData = http.FormData.fromMap({
-      "operations":
-          '{ "query": "mutation (\$createFacilityInput: CreateFacilityInput!, \$file: Upload!) { createFacility(file: \$file, createFacilityInput: \$createFacilityInput) { node { _id itemCount categoryCount } name description } }", "variables": { "file": null, "createFacilityInput": {"name": "$name", "description": "$desc"} } }',
-      "map": '{ "nfile": ["variables.file"] }',
-      "nfile": http.MultipartFile.fromFileSync(
-        file.path,
-        filename: file.path.split('/').last,
-      ),
-    });
-    return dio.post('http://10.0.2.2:3000/graphql', data: formData);
-  }
-
-  _addCategory(id, name, desc, file) async {
-    var dio = http.Dio();
-    dio.options.headers['Authorization'] =
-        'Bearer ' + Get.find<UserService>().user.value.token;
-    http.FormData formData = http.FormData.fromMap({
-      "operations": """
-          mutation createCategory (\$createCategoryInput: CreateCategoryInput!, \$file: Upload!) {
-            createCategory (createCategoryInput: \$createCategoryInput, file: \$file) {
-              node {
-                _id
-                createdBy {
-                  _id
-                  email
-                  name
-                }
-                type
-                itemCount
-                categoryCount
-              }
-              description
-              name
-          }
-      }, "variables": { "file": null, "createFacilityInput": {"parent", "$id", "name": "$name", "description": "$desc"} } }
-          """,
-      "map": '{ "file": ["variables.file"] }',
-      "file": http.MultipartFile.fromFileSync(
-        file.path,
-        filename: file.path.split('/').last,
-      ),
-    });
-    return dio.post('http://10.0.2.2:3000/graphql', data: formData);
-  }
-
-  _submitForm(args) async {
-    _form.currentState?.save();
-    var res;
-    if (args == null) {
-      res = await _addFacility(name, description, _storedImage);
-      CustomSnackbars.success("Added Successfully");
-      Get.toNamed(Routes.NODE);
-    } else {
-      final id = args['id'];
-      res = await _addCategory(id, name, description, _storedImage);
-      CustomSnackbars.success("Added Successfully");
-      Get.toNamed(Routes.NODE, arguments: id, preventDuplicates: false);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(NodeAddController());
     final args = Get.arguments;
     return Scaffold(
       appBar: AppBar(
@@ -164,7 +102,8 @@ class _NodeAddViewState extends State<NodeAddView> {
             ),
             TextButton.icon(
               onPressed: () {
-                _submitForm(args);
+                _form.currentState?.save();
+                controller.submitForm(args, name, description, _storedImage);
               },
               icon: const Icon(Icons.add),
               label: const Text("Submit"),
