@@ -44,7 +44,7 @@ class SearchBarView extends GetView<SearchBarController> {
                   Get.to(() => NodeView(),
                       arguments: node, binding: NodeBinding(tag: node['_id']));
                 } else {
-                  Get.offNamed(Routes.ITEM_DETAILS, arguments: node['_id']);
+                  Get.offNamed(Routes.ITEM, arguments: node['_id']);
                 }
                 // Get.offNamed(FacilityCategory.route, arguments: suggestion);
               },

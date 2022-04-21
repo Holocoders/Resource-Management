@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:mobile_new/app/modules/auth/providers/auth_provider.dart';
 import 'package:mobile_new/app/routes/app_pages.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
@@ -10,14 +11,11 @@ import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 import '../../../services/user_service.dart';
 import '../../../widgets/snackbars.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({Key? key}) : super(key: key);
+class LoginForm extends GetView {
+  final _authProvider = Get.put(AuthProvider());
 
-  @override
-  _LoginFormState createState() => _LoginFormState();
-}
+  LoginForm({Key? key}) : super(key: key);
 
-class _LoginFormState extends State<LoginForm> {
   FormGroup buildForm() => fb.group(<String, Object>{
         'email': FormControl<String>(
           validators: [Validators.required, Validators.email],
@@ -27,15 +25,6 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    String loginMutation = """
-    mutation login(\$email: String!, \$password: String!) {
-      login(email: \$email, password: \$password) {
-        _id
-        name
-        token
-      }
-    }
-    """;
     return SingleChildScrollView(
       padding: EdgeInsets.only(
         top: 20,
@@ -90,57 +79,38 @@ class _LoginFormState extends State<LoginForm> {
                 autocorrect: false,
               ),
               const SizedBox(height: 20),
-              Mutation(
-                options: MutationOptions(
-                  document: gql(loginMutation),
-                  onCompleted: (dynamic data) async {
-                    if (data == null) return;
-                    var user = {
-                      '_id': data['login']['_id'],
-                      'name': data['login']['name'],
-                      'token': data['login']['token'],
-                      'email': formGroup.value['email'],
-                    };
-
-                    Get.find<UserService>().setValues(user['_id'], user['name'],
-                        user['email'], user['token']);
-
-                    final userPrefs = await StreamingSharedPreferences.instance;
-                    userPrefs.setString('user', json.encode(user));
-                    CustomSnackbars.success("Login Successful");
-                    Get.offAllNamed(Routes.NODE);
-                  },
-                  onError: (OperationException? error) {
-                    CustomSnackbars.error(error?.graphqlErrors.first.message ??
-                        'Unable to login!');
-                  },
+              ElevatedButton(
+                child: const Text('Sign In'),
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.green),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: const BorderSide(color: Colors.green))),
+                  minimumSize:
+                      MaterialStateProperty.all<Size>(const Size(200, 40)),
                 ),
-                builder: (RunMutation runMutation, QueryResult? result) {
-                  return ElevatedButton(
-                    child: const Text('Sign In'),
-                    style: ButtonStyle(
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.green),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: const BorderSide(color: Colors.green))),
-                      minimumSize:
-                          MaterialStateProperty.all<Size>(const Size(200, 40)),
-                    ),
-                    onPressed: () {
-                      if (formGroup.valid) {
-                        runMutation(<String, dynamic>{
-                          'email': formGroup.value['email'],
-                          'password': formGroup.value['password'],
-                        });
-                      } else {
-                        formGroup.markAllAsTouched();
-                      }
-                    },
-                  );
+                onPressed: () async {
+                  if (formGroup.valid) {
+                    try {
+                      var user = await _authProvider.login(
+                          formGroup.value['email'].toString(),
+                          formGroup.value['password'].toString());
+                      Get.find<UserService>().setValues(user['_id'], user['name'],
+                          user['email'], user['token']);
+                      final userPrefs = await StreamingSharedPreferences.instance;
+                      userPrefs.setString('user', json.encode(user));
+                      CustomSnackbars.success("Login Successful");
+                      Get.offAllNamed(Routes.NODE);
+                    } catch (e) {
+                      CustomSnackbars.error("Login Failed!");
+                    }
+                  } else {
+                    formGroup.markAllAsTouched();
+                  }
                 },
               ),
               const SizedBox(height: 20),

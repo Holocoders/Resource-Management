@@ -33,7 +33,7 @@ class NodeView extends GetView<NodeController> {
     _tabx.reset();
     return controller.obx(
       (value) => Scaffold(
-        drawer: BaseDrawer(),
+        drawer: const BaseDrawer(),
         appBar: BaseAppBar(
           title: Text(value['name']),
           appBar: AppBar(),

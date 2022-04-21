@@ -30,7 +30,7 @@ class NodeGridView extends GetView {
           onTap: () {
             var nodeType = data[index]['node']['type'];
             if (nodeType == 'ITEM') {
-              Get.toNamed(Routes.ITEM_DETAILS,
+              Get.toNamed(Routes.ITEM,
                   arguments: data[index]['node']['_id']);
               return;
             } else if (nodeType == 'PACK') {

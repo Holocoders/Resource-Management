@@ -8,8 +8,8 @@ import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/auth_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
-import '../modules/item_details/bindings/item_details_binding.dart';
-import '../modules/item_details/views/item_details_view.dart';
+import '../modules/item/bindings/item_binding.dart';
+import '../modules/item/views/item_view.dart';
 import '../modules/node/bindings/node_binding.dart';
 import '../modules/node/views/node_view.dart';
 import '../modules/node_add/bindings/node_add_binding.dart';
@@ -45,9 +45,9 @@ class AppPages {
       binding: NodeBinding(),
     ),
     GetPage(
-      name: _Paths.ITEM_DETAILS,
-      page: () => ItemDetailsView(),
-      binding: ItemDetailsBinding(),
+      name: _Paths.ITEM,
+      page: () => ItemView(),
+      binding: ItemBinding(),
     ),
     GetPage(
       name: _Paths.ACTIVITIES,
@@ -78,6 +78,11 @@ class AppPages {
       name: _Paths.ACTIVITY_DETAILS,
       page: () => ActivityDetailsView(),
       binding: ActivityDetailsBinding(),
+    ),
+    GetPage(
+      name: _Paths.ITEM,
+      page: () => ItemView(),
+      binding: ItemBinding(),
     ),
   ];
 }

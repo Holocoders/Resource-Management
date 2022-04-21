@@ -1,17 +1,19 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:get/get.dart';
+import 'package:mobile_new/app/modules/auth/providers/auth_provider.dart';
 import 'package:mobile_new/app/routes/app_pages.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
-import '../../../widgets/snackbars.dart';
+import 'package:mobile_new/app/widgets/snackbars.dart';
 
-class SignupForm extends StatelessWidget {
-  const SignupForm({Key? key}) : super(key: key);
+class SignupForm extends GetView {
+
+  final _authProvider = Get.put(AuthProvider());
+
+  SignupForm({Key? key}) : super(key: key);
 
   ValidatorFunction _mustMatch(String controlName, String matchingControlName) {
     return (AbstractControl<dynamic> control) {
@@ -47,17 +49,6 @@ class SignupForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String signUpMutation = """
-    mutation createUser(\$createUserInput: CreateUserInput!) {
-      createUser(createUserInput: \$createUserInput) {
-        _id
-        email
-        name
-        password
-        token
-      }
-    }
-    """;
 
     return SingleChildScrollView(
       padding: EdgeInsets.only(
@@ -76,7 +67,7 @@ class SignupForm extends StatelessWidget {
                 'Sign Up',
                 style: Theme.of(context).textTheme.headline5,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ReactiveTextField<String>(
                 formControlName: 'name',
                 validationMessages: (control) => {
@@ -91,14 +82,14 @@ class SignupForm extends StatelessWidget {
                   fillColor: Colors.white70,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ReactiveTextField<String>(
                 formControlName: 'email',
                 validationMessages: (control) => {
                   ValidationMessage.required: 'The email must not be empty',
                   ValidationMessage.email:
                       'The email value must be a valid email',
-                  'unique': 'This email is already in use',
+                      'unique': 'This email is already in use',
                 },
                 decoration: InputDecoration(
                   labelText: 'Email',
@@ -109,7 +100,7 @@ class SignupForm extends StatelessWidget {
                   fillColor: Colors.white70,
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ReactiveTextField<String>(
                 formControlName: 'password',
                 validationMessages: (control) => {
@@ -127,7 +118,7 @@ class SignupForm extends StatelessWidget {
                 enableSuggestions: false,
                 autocorrect: false,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ReactiveTextField<String>(
                 formControlName: 'confPassword',
                 validationMessages: (control) => {
@@ -146,58 +137,39 @@ class SignupForm extends StatelessWidget {
                 enableSuggestions: false,
                 autocorrect: false,
               ),
-              SizedBox(height: 20),
-              Mutation(
-                options: MutationOptions(
-                  document: gql(signUpMutation),
-                  onCompleted: (dynamic data) async {
-                    if (data == null) return;
-                    var user = {
-                      'name': data['createUser']['name'],
-                      'token': data['createUser']['token'],
-                      'email': data['createUser']['email'],
-                    };
-                    final userPrefs = await StreamingSharedPreferences.instance;
-                    userPrefs.setString('user', json.encode(user));
-                    CustomSnackbars.success("Signup Successful");
-                    Get.offAllNamed(Routes.NODE);
-                  },
-                  onError: (OperationException? error) {
-                    if (error?.graphqlErrors.isNotEmpty == true) {
-                      CustomSnackbars.error(error?.graphqlErrors.first.message);
-                    }
-                    CustomSnackbars.error('An error occurred');
-                  },
+              const SizedBox(height: 20),
+              ElevatedButton(
+                child: const Text('Sign Up'),
+                style: ButtonStyle(
+                  foregroundColor:
+                  MaterialStateProperty.all<Color>(Colors.white),
+                  backgroundColor:
+                  MaterialStateProperty.all<Color>(Colors.green),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(18.0),
+                          side: const BorderSide(color: Colors.green))),
+                  minimumSize:
+                  MaterialStateProperty.all<Size>(const Size(200, 40)),
                 ),
-                builder: (RunMutation runMutation, QueryResult? result) {
-                  return ElevatedButton(
-                    child: const Text('Sign Up'),
-                    style: ButtonStyle(
-                      foregroundColor:
-                          MaterialStateProperty.all<Color>(Colors.white),
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.green),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                              side: const BorderSide(color: Colors.green))),
-                      minimumSize:
-                          MaterialStateProperty.all<Size>(const Size(200, 40)),
-                    ),
-                    onPressed: () {
-                      if (formGroup.valid) {
-                        runMutation(<String, dynamic>{
-                          'createUserInput': {
-                            'name': formGroup.value['name'],
-                            'email': formGroup.value['email'],
-                            'password': formGroup.value['password'],
-                          }
-                        });
-                      } else {
-                        formGroup.markAllAsTouched();
-                      }
-                    },
-                  );
+                onPressed: () async {
+                  if (formGroup.valid) {
+                    try {
+                      var user = await _authProvider.signup(
+                        formGroup.value['name'].toString(),
+                        formGroup.value['email'].toString(),
+                        formGroup.value['password'].toString(),
+                      );
+                      final userPrefs = await StreamingSharedPreferences.instance;
+                      userPrefs.setString('user', json.encode(user));
+                      CustomSnackbars.success("Signup Successful");
+                      Get.offAllNamed(Routes.NODE);
+                    } catch (e) {
+                      CustomSnackbars.error("Signup Failed");
+                    }
+                  } else {
+                    formGroup.markAllAsTouched();
+                  }
                 },
               ),
               const SizedBox(height: 20),

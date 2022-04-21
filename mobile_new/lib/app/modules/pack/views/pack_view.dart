@@ -5,8 +5,8 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 import '../../../widgets/base_appbar.dart';
 import '../../../widgets/base_drawer.dart';
-import '../../item_details/views/availability_view.dart';
-import '../../item_details/views/detail_view.dart';
+import '../../item/views/availability_view.dart';
+import '../../item/views/detail_view.dart';
 import '../controllers/pack_controller.dart';
 import 'pack_items.dart';
 

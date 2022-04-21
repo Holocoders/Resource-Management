@@ -77,7 +77,7 @@ class _ActivityDetailsViewState extends State<ActivityDetailsView> {
             GestureDetector(
                 onTap: () => Get.toNamed(
                     activity['item']['node']['type'] == 'ITEM'
-                        ? Routes.ITEM_DETAILS
+                        ? Routes.ITEM
                         : Routes.PACK,
                     arguments: activity['item']['node']['_id']),
                 child: Card(

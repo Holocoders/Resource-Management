@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:mobile_new/app/modules/item/providers/item_provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 import 'package:intl/intl.dart';
@@ -67,35 +68,7 @@ class _AvailabilityViewState extends State<AvailabilityView> {
     });
   }
 
-  String itemAvailability = """
-  query itemAvailability (\$dueDate: String!, \$activityType: ItemActivity!, \$issueDate: String!, \$item: String!) {
-    itemAvailability (dueDate: \$dueDate, activityType: \$activityType, issueDate: \$issueDate, item: \$item)
-  }
-  """;
-
-  String buyItem = """
-  mutation buyItem (\$buyItemInput: BuyItemInput!) {
-    buyItem (buyItemInput: \$buyItemInput) {
-      item {
-        node {
-          _id 
-        }
-      }
-    }
-  }
-  """;
-
-  String rentItem = """
-  mutation rentItem (\$rentItemInput: RentItemInput!) {
-    rentItem (rentItemInput: \$rentItemInput) {
-      item {
-        node {
-          _id 
-        }
-      }
-    }
-  }
-  """;
+  final _itemProvider = Get.put(ItemProvider());
 
   // String getItem = """
   Widget _createIncrementDecrementButton(IconData icon, Color fillColor,
@@ -166,43 +139,25 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                     'Issue date: ${DateFormat('dd/MM/yyyy').format(_startDate!)}')
             : const SizedBox(height: 0),
         const SizedBox(height: 10),
-        GraphQLConsumer(
-          builder: (GraphQLClient client) {
-            return ElevatedButton(
-              child: const Text('Check Availability'),
-              onPressed: () async {
-                if (_startDate == null) {
-                  CustomSnackbars.error('Please select a valid range!');
-                  return;
-                }
-                QueryResult result = await client.query(QueryOptions(
-                  document: gql(itemAvailability),
-                  variables: <String, dynamic>{
-                    'issueDate': _startDate?.toIso8601String(),
-                    'dueDate': _endDate?.toIso8601String() ??
-                        _startDate?.toIso8601String(),
-                    'activityType': activityType,
-                    'item': widget.item['node']['_id'],
-                  },
-                ));
-                if (result.hasException) {
-                  SnackBar(
-                    content: const Text('Some error occurred!'),
-                    action: SnackBarAction(
-                      label: 'OK',
-                      onPressed: () {
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      },
-                    ),
-                  );
-                  return;
-                } else {
-                  setState(() {
-                    _maxCount = result.data!['itemAvailability'];
-                  });
-                }
-              },
-            );
+        ElevatedButton(
+          child: const Text('Check Availability'),
+          onPressed: () async {
+            if (_startDate == null) {
+              CustomSnackbars.error('Please select a valid range!');
+              return;
+            }
+            try {
+              var count = await _itemProvider.findItemAvailability(
+                  _startDate?.toIso8601String(),
+                  _endDate?.toIso8601String() ?? _startDate?.toIso8601String(),
+                  activityType,
+                  widget.item['node']['_id']);
+              setState(() {
+                _maxCount = count;
+              });
+            } catch (e) {
+              CustomSnackbars.error("Something went wrong!");
+            }
           },
         ),
         const SizedBox(height: 10),
@@ -261,44 +216,27 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                 visible: _currentCount == 0,
               ),
               const SizedBox(height: 10),
-              Mutation(
-                options: MutationOptions(
-                  document: gql(activityType == 'BUY' ? buyItem : rentItem),
-                  onCompleted: (dynamic data) {
+              ElevatedButton.icon(
+                icon: const Icon(Icons.check),
+                label: const Text('Place order'),
+                onPressed: _currentCount == 0
+                    ? null
+                    : () async {
+                  Map<String, dynamic> mutObj = {};
+                  try {
+                    if (activityType == 'BUY') {
+                      await _itemProvider.buyItem(widget.item['node']['_id'], _currentCount, _startDate.toString());
+                    } else {
+                      await _itemProvider.rentItem(widget.item['node']['_id'], _currentCount, _startDate.toString(), _endDate.toString());
+                    }
+                    CustomSnackbars.success("Order placed successfully.");
                     setState(() {
                       _currentCount = 0;
                       _maxCount = -1;
                     });
-                  },
-                  onError: (dynamic error) {
-                    print(error);
-                  },
-                ),
-                builder: (RunMutation runMutation, QueryResult? result) {
-                  return ElevatedButton.icon(
-                    icon: const Icon(Icons.check),
-                    label: const Text('Place order'),
-                    onPressed: _currentCount == 0
-                        ? null
-                        : () {
-                            Map<String, dynamic> mutObj = {};
-                            if (activityType == 'BUY') {
-                              mutObj['buyItemInput'] = {
-                                'item': widget.item['node']['_id'],
-                                'quantity': _currentCount,
-                                'issueDate': _startDate.toString(),
-                              };
-                            } else {
-                              mutObj['rentItemInput'] = {
-                                'item': widget.item['node']['_id'],
-                                'quantity': _currentCount,
-                                'issueDate': _startDate.toString(),
-                                'dueDate': _endDate.toString(),
-                              };
-                            }
-                            runMutation(mutObj);
-                          },
-                  );
+                  } catch (e) {
+                    CustomSnackbars.error("Unable to place order!");
+                  }
                 },
               ),
               const SizedBox(height: 10),

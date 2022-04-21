@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
             child: GetMaterialApp(
               theme: ThemeManager.theme.theme,
               title: "RMS",
-              initialRoute: AppPages.INITIAL,
+              initialRoute: user != '' ? Routes.NODE : Routes.AUTH,
               getPages: AppPages.routes,
             ),
           );

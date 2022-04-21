@@ -40,7 +40,7 @@ class PackItems extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
-                  Get.toNamed(Routes.ITEM_DETAILS,
+                  Get.toNamed(Routes.ITEM,
                       arguments: packItems[index]['item']['node']['_id']);
                 },
                 child: Card(

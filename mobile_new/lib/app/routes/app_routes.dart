@@ -6,7 +6,6 @@ abstract class Routes {
   static const HOME = _Paths.HOME;
   static const AUTH = _Paths.AUTH;
   static const NODE = _Paths.NODE;
-  static const ITEM_DETAILS = _Paths.ITEM_DETAILS;
   static const ACTIVITIES = _Paths.ACTIVITIES;
   static const NODE_ADD = _Paths.NODE_ADD;
   static const SEARCH_BAR = _Paths.SEARCH_BAR;
@@ -14,6 +13,7 @@ abstract class Routes {
   static const NODE_USERS_ADD = _Paths.NODE_USERS_ADD;
   static const PACK = _Paths.PACK;
   static const ACTIVITY_DETAILS = _Paths.ACTIVITY_DETAILS;
+  static const ITEM = _Paths.ITEM;
 }
 
 abstract class _Paths {
@@ -21,7 +21,6 @@ abstract class _Paths {
   static const HOME = '/home';
   static const AUTH = '/auth';
   static const NODE = '/node';
-  static const ITEM_DETAILS = '/item-details';
   static const ACTIVITIES = '/activities';
   static const NODE_ADD = '/node-add';
   static const SEARCH_BAR = '/search-bar';
@@ -29,4 +28,5 @@ abstract class _Paths {
   static const NODE_USERS_ADD = '/node-users-add';
   static const PACK = '/pack';
   static const ACTIVITY_DETAILS = '/activity-details';
+  static const ITEM = '/item';
 }
