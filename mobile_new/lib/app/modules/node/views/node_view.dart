@@ -35,7 +35,7 @@ class NodeView extends GetView<NodeController> {
       (value) => Scaffold(
         drawer: const BaseDrawer(),
         appBar: BaseAppBar(
-          title: Text(value['name']),
+          title: Text(value['name'] ?? "Facilities"),
           appBar: AppBar(),
           bottom: TabBar(
             controller: _tabx.controller,

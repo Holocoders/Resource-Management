@@ -280,7 +280,7 @@ class _BaseDrawerState extends State<BaseDrawer> {
                 leading: const Icon(Icons.home),
                 title: const Text('Facilities'),
                 onTap: () {
-                  Get.offAllNamed(Routes.NODE);
+                  Get.toNamed(Routes.NODE);
                 },
               ),
               ListTile(
