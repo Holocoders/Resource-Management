@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
         );
         return GraphQLProvider(
           client: client,
-          child: (GetMaterialApp
+          child: GetMaterialApp(
             theme: ThemeManager.theme.theme,
             initialRoute: user == '' ? Auth.route : Facilities.route,
             routes: {
