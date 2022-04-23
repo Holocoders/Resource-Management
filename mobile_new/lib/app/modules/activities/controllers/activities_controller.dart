@@ -1,20 +1,21 @@
 import 'package:get/get.dart';
 
-class ActivitiesController extends GetxController {
-  //TODO: Implement ActivitiesController
+import '../providers/activities_provider.dart';
 
-  final count = 0.obs;
+class ActivitiesController extends GetxController with StateMixin {
+
+  final _activitiesProvider = Get.put(ActivitiesProvider());
+
+
   @override
-  void onInit() {
-    super.onInit();
+  void onInit() async {
+    change({}, status: RxStatus.loading());
+    try {
+      var item = await _activitiesProvider.getActivities();
+      change(item, status: RxStatus.success());
+    } catch (e) {
+      change({}, status: RxStatus.error());
+    }
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {}
-  void increment() => count.value++;
 }

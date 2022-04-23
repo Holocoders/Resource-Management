@@ -1,20 +1,17 @@
 import 'package:get/get.dart';
 
-class ActivityDetailsController extends GetxController {
-  //TODO: Implement ActivityDetailsController
+class ActivityDetailsController extends GetxController with StateMixin {
 
-  final count = 0.obs;
+  Map<String, dynamic> activity = {};
+
   @override
   void onInit() {
-    super.onInit();
+    activity = Get.arguments as Map<String, dynamic>;
+    change(activity, status: RxStatus.success());
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void updateActivity(itemState) {
+    activity['itemState'] = itemState;
+    change(activity, status: RxStatus.success());
   }
-
-  @override
-  void onClose() {}
-  void increment() => count.value++;
 }
