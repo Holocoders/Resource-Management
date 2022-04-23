@@ -99,9 +99,10 @@ class LoginForm extends GetView {
                       var user = await _authProvider.login(
                           formGroup.value['email'].toString(),
                           formGroup.value['password'].toString());
-                      Get.find<UserService>().setValues(user['_id'], user['name'],
-                          user['email'], user['token']);
-                      final userPrefs = await StreamingSharedPreferences.instance;
+                      Get.find<UserService>().setValues(user['_id'],
+                          user['name'], user['email'], user['token']);
+                      final userPrefs =
+                          await StreamingSharedPreferences.instance;
                       userPrefs.setString('user', json.encode(user));
                       CustomSnackbars.success("Login Successful");
                       Get.offAllNamed(Routes.NODE);

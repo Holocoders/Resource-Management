@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:dio/dio.dart' as http;
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
