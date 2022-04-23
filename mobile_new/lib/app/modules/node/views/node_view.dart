@@ -28,8 +28,7 @@ class NodeView extends GetView<NodeController> {
 
   @override
   Widget build(BuildContext context) {
-    final NodeTabController _tabx =
-        Get.put(NodeTabController(), permanent: false);
+    final NodeTabController _tabx = Get.put(NodeTabController());
     _tabx.reset();
     return controller.obx(
       (value) => Scaffold(

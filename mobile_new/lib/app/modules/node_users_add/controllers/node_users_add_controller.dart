@@ -1,20 +1,17 @@
 import 'package:get/get.dart';
+import 'package:mobile_new/app/modules/node_users_add/providers/node_users_add_provider.dart';
 
 class NodeUsersAddController extends GetxController {
-  //TODO: Implement NodeUsersAddController
+  var id;
+  final NodeUsersAddProvider _provider = Get.put(NodeUsersAddProvider());
 
-  final count = 0.obs;
   @override
   void onInit() {
+    id = Get.arguments;
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  void addUser(String email) {
+    _provider.addNodeUser(email, id);
   }
-
-  @override
-  void onClose() {}
-  void increment() => count.value++;
 }

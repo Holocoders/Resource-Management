@@ -38,7 +38,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
                     icon: const Icon(Icons.login),
                     onPressed: () {
                       prefs.clear();
-                      Get.toNamed(Routes.AUTH);
+                      Get.offAllNamed(Routes.AUTH);
                     },
                   ),
                 );

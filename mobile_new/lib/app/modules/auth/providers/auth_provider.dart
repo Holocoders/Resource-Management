@@ -20,7 +20,7 @@ class AuthProvider extends ApiService {
   }
 
   Future<dynamic> signup(String name, String email, String password) async {
-    String doc =  """
+    String doc = """
     mutation createUser(\$createUserInput: CreateUserInput!) {
       createUser(createUserInput: \$createUserInput) {
         _id
