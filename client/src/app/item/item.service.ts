@@ -66,6 +66,7 @@ export class ItemService {
                 description
                 price
                 quantity
+                allowedItemActivities
               }
               quantity
             }

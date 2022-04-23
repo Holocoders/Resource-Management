@@ -26,8 +26,12 @@
           <label for="item-quantity">
             <h6 class="mb-1">Quantity</h6>
           </label>
-          <p-inputNumber [showButtons]="true" formControlName="quantity" id="item-quantity" mode="decimal"
-                         styleClass="w-full"></p-inputNumber>
+          <p-inputNumber
+            [showButtons]="true"
+            formControlName="quantity"
+            id="item-quantity" mode="decimal"
+            [max]="maxQty"
+            styleClass="w-full"></p-inputNumber>
         </div>
         <div
           *ngIf="addPackForm.controls['quantity'].invalid && (addPackForm.controls['quantity'].dirty || addPackForm.controls['quantity'].touched)">
@@ -37,6 +41,7 @@
           <label for="item-price">
             <h6 class="mb-1">Price</h6>
           </label>
+          <small>Total price of the pack: {{ originalPackPrice }}</small>
           <p-inputNumber
             [class]="addPackForm.controls['price'].invalid &&
                       (addPackForm.controls['price'].dirty || addPackForm.controls['price'].touched)
@@ -69,13 +74,28 @@
             <div class="grid w-full">
               <div class="col-12">
                 <p-multiSelect
-                  [(ngModel)]="addPackForm.value['packItems']"
-                  [options]="items"
-                  optionLabel="item.name"
-                  [ngModelOptions]="{standalone: true}"
+                  [styleClass]="'w-full'"
+                  [panelStyleClass]="'w-full'"
+                  class="multiselect-custom"
+                  [options]="allItems"
+                  (onChange)="onItemChange($event)"
                   defaultLabel="Select items"
+                  optionLabel="name"
                   [maxSelectedLabels]="0"
                   selectedItemsLabel="{0} items selected">
+                  <ng-template let-item pTemplate="item">
+                    <div class="flex flex-column">
+                      <div class="font-semibold">
+                        <span>{{item.name}}</span>
+                      </div>
+                      <div>
+                        <span>Price: {{item.price}}</span>
+                      </div>
+                      <div>
+                        <span>Quantity: {{item.totQty}}</span>
+                      </div>
+                    </div>
+                  </ng-template>
                 </p-multiSelect>
               </div>
               <div>
@@ -88,14 +108,16 @@
                   </ng-template>
                   <ng-template pTemplate="body" let-item>
                     <tr>
-                      <td>{{item.item.name}}</td>
+                      <td>{{item.name}}</td>
                       <td>
                         <p-inplace [closable]="true" [style]="{'min-height':'33px'}">
                           <ng-template pTemplate="display">
-                            {{item.quantity}}
+                            {{item.packQty}}
                           </ng-template>
                           <ng-template pTemplate="content">
-                            <input (change)="onQuantityChange(item, $event)" type="text" [value]="item.quantity" pInputText>
+                            <input (change)="onQuantityChange(item, $event)"
+                                   [min]="1" type="text"
+                                   [value]="item.packQty" pInputText>
                           </ng-template>
                         </p-inplace>
                       </td>
@@ -107,7 +129,7 @@
           </div>
         </div>
         <div class="w-full mt-4 flex justify-content-evenly flex-column sm:flex-row">
-          <button (click)="$event.stopPropagation();" label="{{item !== null ? 'Update' : 'Create'}} Pack" pButton pRipple
+          <button (click)="$event.stopPropagation();" label="{{pack !== null ? 'Update' : 'Create'}} Pack" pButton pRipple
                   type="submit"></button>
           <button (click)="closeDialog(); $event.stopPropagation();" class="p-button-warning mt-2 sm:mt-0"
                   label="Cancel" pButton pRipple

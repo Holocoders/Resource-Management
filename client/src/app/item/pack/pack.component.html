@@ -23,18 +23,18 @@
             </ng-template>
             <ng-template pTemplate="header">
               <tr>
-                <th class="pt-2 pb-2" pSortableColumn="item.node._id" style="min-width:200px">
-                  <div class="flex align-items-center justify-content-between w-full">
-                    Item ID
-                    <p-sortIcon field="item.node._id"></p-sortIcon>
-                    <p-columnFilter class="ml-auto" display="menu" field="item.node._id" type="text"></p-columnFilter>
-                  </div>
-                </th>
                 <th class="pt-2 pb-2" pSortableColumn="item.name" style="min-width:200px;">
                   <div class="flex align-items-center justify-content-between w-full">
                     Item Name
                     <p-sortIcon field="item.name"></p-sortIcon>
                     <p-columnFilter class="ml-auto" display="menu" field="item.name" type="text"></p-columnFilter>
+                  </div>
+                </th>
+                <th class="pt-2 pb-2" pSortableColumn="item.node._id" style="min-width:200px">
+                  <div class="flex align-items-center justify-content-between w-full">
+                    Price
+                    <p-sortIcon field="item.price"></p-sortIcon>
+                    <p-columnFilter class="ml-auto" display="menu" field="item.price" type="text"></p-columnFilter>
                   </div>
                 </th>
                 <th class="pt-2 pb-2" pSortableColumn="quantity" style="min-width:200px;">
@@ -49,12 +49,12 @@
             <ng-template let-item pTemplate="body">
               <tr>
                 <td style="min-width:200px">
-                  <span class="p-column-title">Item ID</span>
-                  <span class="image-text ml-2">{{item.item.node._id}}</span>
-                </td>
-                <td style="min-width:200px">
                   <span class="p-column-title">Item Name</span>
                   <span class="image-text ml-2">{{item.item.name}}</span>
+                </td>
+                <td style="min-width:200px">
+                  <span class="p-column-title">Price</span>
+                  <span class="image-text ml-2">{{item.item.price}}</span>
                 </td>
                 <td style="min-width:200px">
                   <span class="p-column-title">Quantity</span>
@@ -73,7 +73,7 @@
 <p-dialog [(visible)]="displayAddDialog" [draggable]="false" [modal]="true" [position]="'top'"
           [resizable]="false" [showHeader]="false" styleClass="w-full">
   <div *ngIf="displayAddDialog" class="card mt-4">
-    <app-add-pack (onDialogClose)="closeDialogItem($event)" [item]="pack"
+    <app-add-pack (onDialogClose)="closeDialogItem($event)" [pack]="pack"
                   [parent]="pack?.node?._id || ''"></app-add-pack>
   </div>
 </p-dialog>

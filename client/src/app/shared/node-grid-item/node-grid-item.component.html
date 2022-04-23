@@ -70,7 +70,7 @@
     </div>
     <ng-template #pack>
       <div *ngIf="obj?.node?.type === 'PACK'; else category" class="card-header">
-        <app-add-pack (onDialogClose)="closeDialogPack($event, obj)" [item]="obj"
+        <app-add-pack (onDialogClose)="closeDialogPack($event, obj)" [pack]="obj"
                       [parent]="obj?.node.parent._id"></app-add-pack>
       </div>
     </ng-template>
