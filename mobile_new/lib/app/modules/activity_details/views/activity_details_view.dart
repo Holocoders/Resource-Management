@@ -8,7 +8,6 @@ import 'package:mobile_new/app/services/activity_utils.dart';
 import 'package:mobile_new/app/widgets/base_appbar.dart';
 import 'package:mobile_new/app/widgets/base_drawer.dart';
 
-
 class ActivityDetailsView extends GetView<ActivityDetailsController> {
   ActivityDetailsView({Key? key}) : super(key: key);
 
@@ -16,8 +15,7 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
 
   @override
   Widget build(BuildContext context) {
-    return controller.obx(
-        (activity) => Scaffold(
+    return controller.obx((activity) => Scaffold(
           drawer: BaseDrawer(),
           appBar: BaseAppBar(
             title: const Text("Activity"),
@@ -32,8 +30,8 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
                         color: Get.theme.primaryColorLight,
                         borderRadius: BorderRadius.circular(5)),
                     child: ListTile(
-                      title:
-                      Text(activity['activityType'].toString().toCapitalized()),
+                      title: Text(
+                          activity['activityType'].toString().toCapitalized()),
                       trailing: Text(
                         DateFormat('EEE, dd MMM y')
                             .format(DateTime.parse(activity['activityDate'])),
@@ -94,10 +92,10 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
                           const SizedBox(height: 10),
                           Center(
                               child: Text(
-                                activity['item']['name'],
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              )),
+                            activity['item']['name'],
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          )),
                           const SizedBox(height: 10),
                           Center(
                             child: Text(activity['item']['description']),
@@ -130,8 +128,8 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
                         ),
                         child: ListTile(
                           title: const Center(child: Text('Order Quantity')),
-                          subtitle:
-                          Center(child: Text(activity['quantity'].toString())),
+                          subtitle: Center(
+                              child: Text(activity['quantity'].toString())),
                         ),
                       ),
                     ),
@@ -176,7 +174,8 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
                         child: Card(
                           elevation: 0,
                           shape: RoundedRectangleBorder(
-                            side: const BorderSide(color: Colors.grey, width: 1),
+                            side:
+                                const BorderSide(color: Colors.grey, width: 1),
                             borderRadius: BorderRadius.circular(5),
                           ),
                           color: ItemStateUtil.cancelledColor,
@@ -204,7 +203,8 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
                               Get.theme.errorColor),
                         ),
                         onPressed: () async {
-                          await _activityDetailsProvider.cancelOrder(activity['item']['node']['_id']);
+                          await _activityDetailsProvider
+                              .cancelOrder(activity['item']['node']['_id']);
                           controller.updateActivity('CANCELLED');
                         },
                       ),
@@ -212,7 +212,8 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
                       ElevatedButton(
                         child: const Text('Get item'),
                         onPressed: () async {
-                          _activityDetailsProvider.issueOrder(activity['item']['node']['_id']);
+                          _activityDetailsProvider
+                              .issueOrder(activity['item']['node']['_id']);
                           controller.updateActivity('ISSUED');
                         },
                       )
@@ -227,7 +228,8 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
                       ElevatedButton(
                         child: const Text('Return item'),
                         onPressed: () async {
-                          _activityDetailsProvider.returnOrder(activity['item']['node']['_id']);
+                          _activityDetailsProvider
+                              .returnOrder(activity['item']['node']['_id']);
                           controller.updateActivity('RETURNED');
                         },
                       )
@@ -238,7 +240,6 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 }

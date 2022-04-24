@@ -30,35 +30,16 @@ class MyApp extends StatelessWidget {
     return PreferenceBuilder(
         preference: preferences.getString('user', defaultValue: ''),
         builder: (context, user) {
-          Link link;
           if (user != '') {
             var userJson = json.decode(user.toString());
             Get.find<UserService>().setValues(userJson['_id'], userJson['name'],
                 userJson['email'], userJson['token']);
-            AuthLink authLink = AuthLink(
-              getToken: () async => 'Bearer ' + userJson['token'],
-            );
-            link = authLink.concat(httpLink);
-          } else {
-            link = httpLink;
           }
-          ValueNotifier<GraphQLClient> client = ValueNotifier(
-            GraphQLClient(
-              link: link,
-              cache: GraphQLCache(
-                store: InMemoryStore(),
-              ),
-            ),
-          );
-
-          return GraphQLProvider(
-            client: client,
-            child: GetMaterialApp(
-              theme: ThemeManager.theme.theme,
-              title: "RMS",
-              initialRoute: user != '' ? Routes.NODE : Routes.AUTH,
-              getPages: AppPages.routes,
-            ),
+          return GetMaterialApp(
+            theme: ThemeManager.theme.theme,
+            title: "RMS",
+            initialRoute: user != '' ? Routes.NODE : Routes.AUTH,
+            getPages: AppPages.routes,
           );
         });
   }
