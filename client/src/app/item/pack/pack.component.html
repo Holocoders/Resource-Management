@@ -73,7 +73,7 @@
 <p-dialog [(visible)]="displayAddDialog" [draggable]="false" [modal]="true" [position]="'top'"
           [resizable]="false" [showHeader]="false" styleClass="w-full">
   <div *ngIf="displayAddDialog" class="card mt-4">
-    <app-add-pack (onDialogClose)="closeDialogItem($event)" [pack]="pack"
+    <app-add-pack (onDialogClose)="closeDialogPack($event)" [pack]="pack"
                   [parent]="pack?.node?._id || ''"></app-add-pack>
   </div>
 </p-dialog>

@@ -235,6 +235,8 @@ export class ItemService {
                 node {
                   _id
                 }
+                name
+                price
               }
               quantity
             }

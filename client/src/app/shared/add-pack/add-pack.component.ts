@@ -43,6 +43,9 @@ export class AddPackComponent implements OnChanges, OnInit {
     this.addPackForm.get('packItems')?.valueChanges.subscribe((items: any) => {
       this.maxQty = Number.MAX_SAFE_INTEGER;
       this.originalPackPrice = 0;
+      if (!items) {
+        return;
+      }
       for (const item of items) {
         this.originalPackPrice += item.price * item.packQty;
         const maxItemQty = item.totQty / item.packQty;

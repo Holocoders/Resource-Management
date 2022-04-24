@@ -1,15 +1,10 @@
 import "package:flutter/material.dart";
 
-class DetailView extends StatefulWidget {
+class DetailView extends StatelessWidget {
   final Map<String, dynamic> item;
 
   const DetailView({Key? key, required this.item}) : super(key: key);
-
-  @override
-  _DetailViewState createState() => _DetailViewState();
-}
-
-class _DetailViewState extends State<DetailView> {
+  
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -25,38 +20,38 @@ class _DetailViewState extends State<DetailView> {
           const SizedBox(height: 10),
           CircleAvatar(
             backgroundImage: NetworkImage(
-                'http://10.0.2.2:3000/${widget.item['node']['_id']}'),
+                'http://10.0.2.2:3000/${item['node']['_id']}'),
             radius: MediaQuery.of(context).size.width / 5,
           ),
           const SizedBox(height: 10),
           Center(
               child: Text(
-            widget.item['name'],
+            item['name'],
             style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           )),
           const SizedBox(height: 10),
           Center(
             child: Text(
-              'Created By: ${widget.item['node']['createdBy']['name']}',
+              'Created By: ${item['node']['createdBy']['name']}',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ),
           const SizedBox(height: 10),
           Center(
             child: Text(
-              'Rs ${widget.item['price']}',
+              'Rs ${item['price']}',
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
           ),
           const SizedBox(height: 10),
           Center(
             child: Text(
-              'Quantity: ${widget.item['quantity']}',
+              'Quantity: ${item['quantity']}',
             ),
           ),
           const SizedBox(height: 10),
           Center(
-            child: Text(widget.item['description']),
+            child: Text(item['description']),
           ),
           const SizedBox(height: 20),
         ],

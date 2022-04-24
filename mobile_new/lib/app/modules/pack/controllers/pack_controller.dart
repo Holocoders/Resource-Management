@@ -1,20 +1,18 @@
 import 'package:get/get.dart';
+import 'package:mobile_new/app/modules/pack/providers/pack_provider.dart';
 
-class PackController extends GetxController {
-  //TODO: Implement PackController
+class PackController extends GetxController with StateMixin {
 
-  final count = 0.obs;
+  final _packProvider = Get.put(PackProvider());
+
   @override
-  void onInit() {
-    super.onInit();
+  void onInit() async {
+    var id = Get.arguments;
+    try {
+      var pack = await _packProvider.getPackDetails(id);
+      change(pack, status: RxStatus.success());
+    } catch (e) {
+      change({}, status: RxStatus.error());
+    }
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {}
-  void increment() => count.value++;
 }

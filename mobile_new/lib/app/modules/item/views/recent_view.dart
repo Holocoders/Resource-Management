@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 
-class RecentView extends StatefulWidget {
+class RecentView extends StatelessWidget {
   final Map<String, dynamic> item;
 
   const RecentView({Key? key, required this.item}) : super(key: key);
 
-  @override
-  _RecentViewState createState() => _RecentViewState();
-}
-
-class _RecentViewState extends State<RecentView> {
   @override
   Widget build(BuildContext context) {
     return Column(

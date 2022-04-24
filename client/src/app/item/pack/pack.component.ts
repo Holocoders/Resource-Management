@@ -29,6 +29,7 @@ export class PackComponent implements OnInit {
         mergeMap((id) => this.itemService.getPackDetails(id)),
         mergeMap((result: any) => {
           this.pack = JSON.parse(JSON.stringify(result?.data?.item));
+          console.log(this.pack);
           return this.itemService.inventoryHistoryByItem(this.pack.node._id);
         }),
       )
@@ -43,7 +44,7 @@ export class PackComponent implements OnInit {
     dt.filterGlobal(event.target.value, 'contains');
   }
 
-  closeDialogItem(event: any) {
+  closeDialogPack(event: any) {
     if (!event.submit) {
       this.displayAddDialog = false;
     }
