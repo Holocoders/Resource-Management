@@ -150,6 +150,7 @@ export class AddPackComponent implements OnChanges, OnInit {
     itemObj.allowedItemActivities = activity;
     this.addPackForm.reset();
     this.addPackForm.clearValidators();
+    console.log(itemObj);
     this.onDialogClose.emit({
       submit: true,
       data: itemObj,

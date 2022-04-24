@@ -14,6 +14,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   var userService = Get.put(UserService(), permanent: true);
   final preferences = await StreamingSharedPreferences.instance;
+  // preferences.clear();
   runApp(MyApp(
     preferences: preferences,
   ));

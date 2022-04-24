@@ -226,6 +226,7 @@ type Query {
   facilities: [Facility!]!
   facility(id: String!): Facility!
   facilitySearch(name: String!): [Facility!]!
+  findRelatedItems(itemId: String!): [Item!]!
   getHello: String!
   getUsersWithPermission(
     """Node ID"""
