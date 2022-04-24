@@ -14,8 +14,9 @@ export class NavbarService {
     query facilitySearch($name: String!) {
       facilitySearch(name: $name) {
         name
-        _id {
+        node {
           _id
+          type
         }
       }
     }
@@ -25,8 +26,9 @@ export class NavbarService {
     query categorySearch($name: String!) {
       categorySearch(name: $name) {
         name
-        _id {
+        node {
           _id
+          type
         }
       }
     }
@@ -36,8 +38,9 @@ export class NavbarService {
     query itemSearch($name: String!) {
       itemSearch(name: $name) {
         name
-        _id {
+        node {
           _id
+          type
         }
       }
     }

@@ -26,7 +26,9 @@
           <label for="item-quantity">
             <h6 class="mb-1">Quantity</h6>
           </label>
-          <p-inputNumber [showButtons]="true" formControlName="quantity" id="item-quantity" mode="decimal"
+          <p-inputNumber [showButtons]="true" formControlName="quantity"
+                         id="item-quantity"
+                         [min]="0"
                          styleClass="w-full"></p-inputNumber>
         </div>
         <div
