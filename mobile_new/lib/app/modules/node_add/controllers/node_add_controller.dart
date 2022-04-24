@@ -12,12 +12,15 @@ class NodeAddController extends GetxController
   final List<Tab> myTabs = <Tab>[
     const Tab(
       icon: Icon(Icons.auto_awesome_mosaic_outlined),
+      text: 'Category',
     ),
     const Tab(
       icon: Icon(Icons.inbox_outlined),
+      text: 'Item',
     ),
     const Tab(
       icon: Icon(Icons.folder_outlined),
+      text: 'Pack',
     ),
   ];
 

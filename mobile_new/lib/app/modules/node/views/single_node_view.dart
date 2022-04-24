@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-
-import '../../../services/theme/theme_manager.dart';
-import 'node_view.dart';
+import 'package:mobile_new/app/services/theme/app_colors.dart';
 
 class SingleNodeView extends GetView {
   final index;
@@ -28,22 +26,18 @@ class SingleNodeView extends GetView {
           children: [
             Container(
               width: double.infinity,
-              decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15)),
-                  color: () {
-                    var nodeType = _node['node']['type'];
-                    if (nodeType == 'ITEM') {
-                      return ThemeManager.theme.itemColor;
-                    } else if (nodeType == 'PACK') {
-                      return ThemeManager.theme.packColor;
-                    } else if (nodeType == 'FACILITY') {
-                      return ThemeManager.theme.facilityColor;
-                    } else {
-                      return ThemeManager.theme.categoryColor;
-                    }
-                  }()),
+              decoration: BoxDecoration(color: () {
+                var nodeType = _node['node']['type'];
+                if (nodeType == 'ITEM') {
+                  return AppColors.itemColor;
+                } else if (nodeType == 'PACK') {
+                  return AppColors.packColor;
+                } else if (nodeType == 'FACILITY') {
+                  return AppColors.facilityColor;
+                } else {
+                  return AppColors.categoryColor;
+                }
+              }()),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -86,7 +80,7 @@ class SingleNodeView extends GetView {
               if (nodeType == 'ITEM' || nodeType == 'PACK') {
                 return Chip(
                   label: Text('Quantity : ${_node['quantity']}'),
-                  backgroundColor: ThemeManager.theme.itemColor,
+                  backgroundColor: AppColors.itemColor,
                 );
               }
               return Row(
@@ -94,11 +88,11 @@ class SingleNodeView extends GetView {
                 children: [
                   Chip(
                     label: Text('${_node['node']['categoryCount']} Categories'),
-                    backgroundColor: ThemeManager.theme.categoryColor,
+                    backgroundColor: AppColors.categoryColor,
                   ),
                   Chip(
                     label: Text('${_node['node']['itemCount']} Items'),
-                    backgroundColor: ThemeManager.theme.itemColor,
+                    backgroundColor: AppColors.itemColor,
                   ),
                 ],
               );

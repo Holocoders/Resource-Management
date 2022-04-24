@@ -55,6 +55,7 @@ class _NodeAddViewState extends State<NodeAddView> {
             child: Form(
               key: controller.form,
               child: ListView(children: <Widget>[
+                SizedBox(height: 16),
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Name',
@@ -64,6 +65,7 @@ class _NodeAddViewState extends State<NodeAddView> {
                     controller.name = value!;
                   },
                 ),
+                SizedBox(height: 16),
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Description',
@@ -74,6 +76,7 @@ class _NodeAddViewState extends State<NodeAddView> {
                     controller.desc = value!;
                   },
                 ),
+                SizedBox(height: 16),
                 ...() {
                   var widgets = [];
                   if (controller.nodeType.value == 'Item' ||
@@ -88,6 +91,7 @@ class _NodeAddViewState extends State<NodeAddView> {
                           controller.price = value! as double;
                         },
                       ),
+                      SizedBox(height: 16),
                       TextFormField(
                         decoration: const InputDecoration(
                           labelText: 'Quantity',
@@ -105,7 +109,7 @@ class _NodeAddViewState extends State<NodeAddView> {
                     widgets.add(
                       TypeAheadField(
                         textFieldConfiguration: const TextFieldConfiguration(
-                          decoration: InputDecoration.collapsed(
+                          decoration: InputDecoration(
                             hintText: 'Items',
                             border: OutlineInputBorder(),
                           ),
@@ -138,7 +142,9 @@ class _NodeAddViewState extends State<NodeAddView> {
                                 FilteringTextInputFormatter.digitsOnly,
                               ],
                               onChanged: (value) {
-                                currentQuantity = int.parse(value);
+                                if (value.isNotEmpty) {
+                                  currentQuantity = int.parse(value);
+                                }
                               },
                             ),
                             onCancel: () {},
@@ -154,6 +160,7 @@ class _NodeAddViewState extends State<NodeAddView> {
                         },
                       ),
                     );
+                    widgets.add(SizedBox(height: 16));
                     widgets.add(DataTable(
                       columns: const [
                         DataColumn(label: Text('Name')),
@@ -181,6 +188,7 @@ class _NodeAddViewState extends State<NodeAddView> {
                   }
                   return widgets;
                 }(),
+                SizedBox(height: 16),
                 TextButton.icon(
                   onPressed: _takePicture,
                   icon: const Icon(Icons.camera),

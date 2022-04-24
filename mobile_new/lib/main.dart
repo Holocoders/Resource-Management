@@ -3,11 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:mobile_new/app/services/theme/app_themes.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import 'app/routes/app_pages.dart';
-import 'app/services/theme/theme_manager.dart';
 import 'app/services/user_service.dart';
 
 void main() async {
@@ -27,7 +26,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HttpLink httpLink = HttpLink('http://10.0.2.2:3000/graphql');
     return PreferenceBuilder(
         preference: preferences.getString('user', defaultValue: ''),
         builder: (context, user) {
@@ -36,8 +34,10 @@ class MyApp extends StatelessWidget {
             Get.find<UserService>().setValues(userJson['_id'], userJson['name'],
                 userJson['email'], userJson['token']);
           }
+
           return GetMaterialApp(
-            theme: ThemeManager.theme.theme,
+            theme: AppThemes.lightThemeData,
+            darkTheme: AppThemes.darkThemeData,
             title: "RMS",
             initialRoute: user != '' ? Routes.NODE : Routes.AUTH,
             getPages: AppPages.routes,
