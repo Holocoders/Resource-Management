@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:mobile_new/app/modules/item/providers/item_provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:toggle_switch/toggle_switch.dart';
@@ -222,22 +221,29 @@ class _AvailabilityViewState extends State<AvailabilityView> {
                 onPressed: _currentCount == 0
                     ? null
                     : () async {
-                  Map<String, dynamic> mutObj = {};
-                  try {
-                    if (activityType == 'BUY') {
-                      await _itemProvider.buyItem(widget.item['node']['_id'], _currentCount, _startDate.toString());
-                    } else {
-                      await _itemProvider.rentItem(widget.item['node']['_id'], _currentCount, _startDate.toString(), _endDate.toString());
-                    }
-                    CustomSnackbars.success("Order placed successfully.");
-                    setState(() {
-                      _currentCount = 0;
-                      _maxCount = -1;
-                    });
-                  } catch (e) {
-                    CustomSnackbars.error("Unable to place order!");
-                  }
-                },
+                        Map<String, dynamic> mutObj = {};
+                        try {
+                          if (activityType == 'BUY') {
+                            await _itemProvider.buyItem(
+                                widget.item['node']['_id'],
+                                _currentCount,
+                                _startDate.toString());
+                          } else {
+                            await _itemProvider.rentItem(
+                                widget.item['node']['_id'],
+                                _currentCount,
+                                _startDate.toString(),
+                                _endDate.toString());
+                          }
+                          CustomSnackbars.success("Order placed successfully.");
+                          setState(() {
+                            _currentCount = 0;
+                            _maxCount = -1;
+                          });
+                        } catch (e) {
+                          CustomSnackbars.error("Unable to place order!");
+                        }
+                      },
               ),
               const SizedBox(height: 10),
             ],

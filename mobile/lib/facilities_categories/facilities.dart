@@ -1,7 +1,6 @@
 // ! Obsolete file, migrated to facility_category.dart instead.
 
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:resource_management_system/facilities_categories/facility_category_tab_controller.dart';
 import 'package:resource_management_system/facilities_categories/node_controller.dart';
 import 'package:resource_management_system/facilities_categories/permission_users.dart';

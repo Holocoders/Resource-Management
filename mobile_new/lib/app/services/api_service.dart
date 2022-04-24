@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:mobile_new/app/services/user_service.dart';
-import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class ApiService extends GetConnect {
   @override
