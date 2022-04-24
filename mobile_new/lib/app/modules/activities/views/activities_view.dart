@@ -5,9 +5,9 @@ import 'package:mobile_new/app/modules/activities/controllers/activities_control
 import 'package:mobile_new/app/routes/app_pages.dart';
 import 'package:intl/intl.dart';
 
-import '../../../services/activity_utils.dart';
-import '../../../widgets/base_appbar.dart';
-import '../../../widgets/base_drawer.dart';
+import 'package:mobile_new/app/services/activity_utils.dart';
+import 'package:mobile_new/app/widgets/base_appbar.dart';
+import 'package:mobile_new/app/widgets/base_drawer.dart';
 
 class ActivitiesView extends GetView<ActivitiesController> {
   ActivitiesView({Key? key}) : super(key: key);

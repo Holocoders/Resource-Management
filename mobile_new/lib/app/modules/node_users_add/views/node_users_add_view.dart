@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/node_users_add_controller.dart';
+import 'package:mobile_new/app/modules/node_users_add/controllers/node_users_add_controller.dart';
 
 class NodeUsersAddView extends GetView<NodeUsersAddController> {
   final _form = GlobalKey<FormState>();

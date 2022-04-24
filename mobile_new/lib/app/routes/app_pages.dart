@@ -1,25 +1,25 @@
 import 'package:get/get.dart';
 
-import '../modules/activities/bindings/activities_binding.dart';
-import '../modules/activities/views/activities_view.dart';
-import '../modules/activity_details/bindings/activity_details_binding.dart';
-import '../modules/activity_details/views/activity_details_view.dart';
-import '../modules/auth/bindings/auth_binding.dart';
-import '../modules/auth/views/auth_view.dart';
-import '../modules/home/bindings/home_binding.dart';
-import '../modules/home/views/home_view.dart';
-import '../modules/item/bindings/item_binding.dart';
-import '../modules/item/views/item_view.dart';
-import '../modules/node/bindings/node_binding.dart';
-import '../modules/node/views/node_view.dart';
-import '../modules/node_add/bindings/node_add_binding.dart';
-import '../modules/node_add/views/node_add_view.dart';
-import '../modules/node_users_add/bindings/node_users_add_binding.dart';
-import '../modules/node_users_add/views/node_users_add_view.dart';
-import '../modules/pack/bindings/pack_binding.dart';
-import '../modules/pack/views/pack_view.dart';
-import '../modules/searchbar/bindings/searchbar_binding.dart';
-import '../modules/searchbar/views/searchbar_view.dart';
+import 'package:mobile_new/app/modules/activities/bindings/activities_binding.dart';
+import 'package:mobile_new/app/modules/activities/views/activities_view.dart';
+import 'package:mobile_new/app/modules/activity_details/bindings/activity_details_binding.dart';
+import 'package:mobile_new/app/modules/activity_details/views/activity_details_view.dart';
+import 'package:mobile_new/app/modules/auth/bindings/auth_binding.dart';
+import 'package:mobile_new/app/modules/auth/views/auth_view.dart';
+import 'package:mobile_new/app/modules/home/bindings/home_binding.dart';
+import 'package:mobile_new/app/modules/home/views/home_view.dart';
+import 'package:mobile_new/app/modules/item/bindings/item_binding.dart';
+import 'package:mobile_new/app/modules/item/views/item_view.dart';
+import 'package:mobile_new/app/modules/node/bindings/node_binding.dart';
+import 'package:mobile_new/app/modules/node/views/node_view.dart';
+import 'package:mobile_new/app/modules/node_add/bindings/node_add_binding.dart';
+import 'package:mobile_new/app/modules/node_add/views/node_add_view.dart';
+import 'package:mobile_new/app/modules/node_users_add/bindings/node_users_add_binding.dart';
+import 'package:mobile_new/app/modules/node_users_add/views/node_users_add_view.dart';
+import 'package:mobile_new/app/modules/pack/bindings/pack_binding.dart';
+import 'package:mobile_new/app/modules/pack/views/pack_view.dart';
+import 'package:mobile_new/app/modules/searchbar/bindings/searchbar_binding.dart';
+import 'package:mobile_new/app/modules/searchbar/views/searchbar_view.dart';
 
 part 'app_routes.dart';
 

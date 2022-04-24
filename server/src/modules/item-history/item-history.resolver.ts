@@ -10,6 +10,7 @@ import {
   BuyItemInput,
   RentItemInput,
 } from 'src/modules/item-history/dto/transact-item.input';
+import { Item } from 'src/modules/item/entities/item.entity';
 
 @Resolver(() => ItemHistory)
 @UseGuards(JwtAuthGuard)
@@ -42,6 +43,11 @@ export class ItemHistoryResolver {
   ) {
     rentItemInput.user = rentItemInput.user || user._id;
     return this.itemHistoryService.rentItem(rentItemInput);
+  }
+
+  @Query(() => [Item])
+  findRelatedItems(@Args('itemId') itemId: string) {
+    return this.itemHistoryService.findRelatedItems(itemId);
   }
 
   @Query(() => [ItemHistory], { name: 'itemHistory' })

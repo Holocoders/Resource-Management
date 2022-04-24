@@ -7,8 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mobile_new/app/routes/app_pages.dart';
 import 'package:mobile_new/app/widgets/snackbars.dart';
 
-import '../services/camera_image_picker.dart';
-import '../services/user_service.dart';
+import 'package:mobile_new/app/services/camera_image_picker.dart';
+import 'package:mobile_new/app/services/user_service.dart';
 
 class PreviewImage extends StatefulWidget {
   final String? imagePath;

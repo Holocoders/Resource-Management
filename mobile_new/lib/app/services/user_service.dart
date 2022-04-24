@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../modules/auth/models/user_model.dart';
+import 'package:mobile_new/app/modules/auth/models/user_model.dart';
 
 class UserService extends GetxService {
   var user = User().obs;

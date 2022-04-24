@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:mobile_new/app/modules/node/views/node_grid_view.dart';
-import 'package:mobile_new/app/modules/node_add/views/node_add_view.dart';
 import 'package:mobile_new/app/modules/node/views/node_users_view.dart';
 import 'package:mobile_new/app/routes/app_pages.dart';
 import 'package:mobile_new/app/widgets/base_drawer.dart';

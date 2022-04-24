@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_new/app/modules/activity_details/controllers/activity_details_controller.dart';
 import 'package:mobile_new/app/modules/activity_details/providers/activity_details_provider.dart';
-
-import '../../../routes/app_pages.dart';
-import '../../../services/activity_utils.dart';
-import '../../../widgets/base_appbar.dart';
-import '../../../widgets/base_drawer.dart';
-import '../../../widgets/snackbars.dart';
+import 'package:mobile_new/app/routes/app_pages.dart';
+import 'package:mobile_new/app/services/activity_utils.dart';
+import 'package:mobile_new/app/widgets/base_appbar.dart';
+import 'package:mobile_new/app/widgets/base_drawer.dart';
 
 
 class ActivityDetailsView extends GetView<ActivityDetailsController> {

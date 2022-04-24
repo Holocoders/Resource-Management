@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:mobile_new/app/modules/node/bindings/node_binding.dart';
 import 'package:mobile_new/app/routes/app_pages.dart';
 
-import '../../node/views/node_view.dart';
-import '../controllers/searchbar_controller.dart';
+import 'package:mobile_new/app/modules/node/views/node_view.dart';
+import 'package:mobile_new/app/modules/searchbar/controllers/searchbar_controller.dart';
 
 class SearchBarView extends GetView<SearchBarController> {
   const SearchBarView({Key? key}) : super(key: key);

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:mobile_new/app/modules/node_add/controllers/node_add_controller.dart';
-import '../../../widgets/base_drawer.dart';
+import 'package:mobile_new/app/widgets/base_drawer.dart';
 
 class NodeAddView extends StatefulWidget {
   NodeAddView({Key? key}) : super(key: key);

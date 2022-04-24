@@ -1,12 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:mobile_new/app/modules/auth/providers/auth_provider.dart';
 import 'package:mobile_new/app/routes/app_pages.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
-
 import 'package:mobile_new/app/widgets/snackbars.dart';
 
 class SignupForm extends GetView {

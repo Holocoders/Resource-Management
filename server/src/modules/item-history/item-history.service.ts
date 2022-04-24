@@ -244,56 +244,8 @@ export class ItemHistoryService {
       { new: true },
     );
   }
+
+  findRelatedItems(itemId: string) {
+    // TODO: find related items
+  }
 }
-
-// {
-// ...populateNode,
-// ...populateItem,
-//   $unwind: '$node',
-//   $match: {
-//   itemState: { $ne: ItemState.CANCELLED },
-//   $or: [
-//     {
-//       activityType: ItemActivity.BUY,
-//     },
-//     {
-//       activityType: ItemActivity.RENT,
-//       dueDate: { $gte: issueDate },
-//     },
-//   ],
-// },
-// },
-// { $project: { quantity: 1 } },
-// {
-//   $group: {
-//     _id: '',
-//       bought: { $sum: '$quantity' },
-//   },
-// },
-
-// db.itemhistories.aggregate([ {$project: {item: 1, quantity: 1}} ,{
-//   $lookup: {
-//     from: 'nodes',
-//     localField: 'item',
-//     foreignField: '_id',
-//     as: 'node',
-//     pipeline: [
-//       {$project: {type: 1}},
-//       {$match: {type: 'PACK'}}
-//     ]
-//   },
-// }, {
-//   $lookup: {
-//     from: 'items',
-//     localField: 'item',
-//     foreignField: '_id',
-//     as: 'item',
-//     pipeline: [
-//       {$project: {packItems: 1}},
-//       {$unwind: '$packItems'},
-//       {$match: {'packItems.item': ObjectId('621c8b65d851aa458827e176')} }
-//     ]
-//   },
-// },
-//   { $unwind: '$node' },
-//   {$set: {quantity: { $multiply: ["$quantity", {$getField: {field: 'quantity', input: {$arrayElemAt: ["$item.packItems", 0]}}}]}}}])

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:mobile_new/app/modules/node/controllers/node_controller.dart';
 
 import '../../../services/theme/theme_manager.dart';
 import 'node_view.dart';
