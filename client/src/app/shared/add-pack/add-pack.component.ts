@@ -24,7 +24,6 @@ export class AddPackComponent implements OnChanges, OnInit {
   allItems: any[] = [];
   curItems: any[] = [];
   originalPackPrice: number;
-  maxQty: number = Number.MAX_SAFE_INTEGER;
   addPackForm = this.formBuilder.group({
     name: new FormControl('', [Validators.required]),
     description: new FormControl(''),
@@ -40,24 +39,6 @@ export class AddPackComponent implements OnChanges, OnInit {
   ) {}
 
   ngOnInit() {
-    this.addPackForm.get('packItems')?.valueChanges.subscribe((items: any) => {
-      this.maxQty = Number.MAX_SAFE_INTEGER;
-      this.originalPackPrice = 0;
-      if (!items) {
-        return;
-      }
-      for (const item of items) {
-        this.originalPackPrice += item.price * item.packQty;
-        const maxItemQty = item.totQty / item.packQty;
-        if (maxItemQty < this.maxQty) {
-          this.maxQty = maxItemQty;
-        }
-      }
-      const curQty = this.addPackForm.get('quantity')?.value;
-      if (curQty > this.maxQty) {
-        this.addPackForm.patchValue({ quantity: this.maxQty });
-      }
-    });
     this.itemService.getAllItems().subscribe((response) => {
       const items = (response?.data as any).items;
       this.curItems = this.curItems.map(({ item, quantity }: any) => {

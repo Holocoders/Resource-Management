@@ -95,15 +95,20 @@ export class NavbarComponent implements OnInit {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this.searchResults = results;
-      console.log(results);
     });
   }
 
   selectedNode() {
     this.closeMobileSearch();
     const name = this.searchData.name;
-    const id = this.searchData._id['_id'];
+    const id = this.searchData.node['_id'];
+    const nodeType = this.searchData.node['type'];
+    let fragment = 'node';
+    if (nodeType === 'ITEM' || nodeType === 'PACK') {
+      fragment = 'item';
+    }
+    this.searchData = null;
     this.service.header.next(name);
-    this.router.navigate(['/node'], { queryParams: { id } });
+    this.router.navigate([`/${fragment}`], { queryParams: { id } });
   }
 }
