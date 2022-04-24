@@ -43,12 +43,16 @@ class NodeView extends GetView<NodeController> {
         body: TabBarView(
           controller: _tabx.controller,
           children: [
-            NodeGridView(
-                data: value['data'],
-                onDelete: (id) {
-                  controller.delNode(id);
-                }),
-            NodeUsersView(value['users']),
+            value['data'].length > 0
+                ? NodeGridView(
+                    data: value['data'],
+                    onDelete: (id) {
+                      controller.delNode(id);
+                    })
+                : const Center(child: Text("No data")),
+            value['users'].length > 0
+                ? NodeUsersView(value['users'])
+                : const Center(child: Text("No data")),
           ],
         ),
         floatingActionButton: FloatingActionButton(

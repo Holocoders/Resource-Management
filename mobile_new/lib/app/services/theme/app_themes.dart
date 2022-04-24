@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 class AppThemes {
   static ThemeData lightThemeData = FlexThemeData.light(
     colors: const FlexSchemeColor(
-      primary: Color(0xff065808),
+      primary: Color(0xff0b800d),
       primaryContainer: Color(0xff9bbc9c),
-      secondary: Color(0xff365b37),
+      secondary: Color(0xff588559),
       secondaryContainer: Color(0xffaebdaf),
       tertiary: Color(0xff2c7e2e),
       tertiaryContainer: Color(0xffb8e6b9),
