@@ -43,6 +43,21 @@ class ItemProvider extends ApiService {
     return res.body['itemAvailability'];
   }
 
+  Future<dynamic> getRecentlyBoughtItems(String item) async {
+    String doc = """
+    query relatedItems (\$itemId: String!) {
+      relatedItems (itemId: \$itemId) {
+        node {
+            _id
+        }
+        name
+      }
+    }
+    """;
+    var res = await query(doc, variables: {'itemId': item});
+    return res.body['relatedItems'];
+  }
+
   Future<dynamic> buyItem(String? item, int quantity, String? issueDate) async {
     String doc = """
     mutation buyItem (\$buyItemInput: BuyItemInput!) {

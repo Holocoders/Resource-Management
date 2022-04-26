@@ -228,7 +228,6 @@ type Query {
   facilities: [Facility!]!
   facility(id: String!): Facility!
   facilitySearch(name: String!): [Facility!]!
-  findRelatedItems(itemId: String!): [Item!]!
   getHello: String!
   getUsersWithPermission(
     """Node ID"""
@@ -245,7 +244,7 @@ type Query {
   itemSearch(name: String!): [Item!]!
   items: [Item!]!
   nodeSearch(name: String!): Node!
-  relatedItem(itemId: String!): [Item!]!
+  relatedItems(itemId: String!): [Item!]!
   user(_id: String!): User!
   users: [User!]!
 }

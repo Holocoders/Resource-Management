@@ -18,7 +18,7 @@ import {
 } from 'src/modules/item-history/dto/transact-item.input';
 import { NodeType } from 'src/modules/node/entities/node.entity';
 import { Item } from 'src/modules/item/entities/item.entity';
-import { uniq } from 'lodash';
+import { uniqBy } from 'lodash';
 
 @Injectable()
 export class ItemHistoryService {
@@ -246,12 +246,39 @@ export class ItemHistoryService {
     );
   }
 
+  addDays(date: Date, days: number) {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
+
   async findRelatedItems(itemId: string) {
     // find all users who bought this item
+    const allItems = [];
     const histories = await this.itemHistoryModel.find({
       item: itemId,
       itemState: { $ne: ItemState.CANCELLED },
     } as any);
-    const users = uniq(histories.map((h) => h.user));
+    const transactionInfo = histories.map((h) => ({
+      user: h.user['_id'].toString(),
+      issueDate: h.issueDate,
+    }));
+    for (const t of transactionInfo) {
+      const startDate = this.addDays(t.issueDate, -3);
+      const endDate = this.addDays(t.issueDate, 3);
+      const relatedItems = await this.itemHistoryModel.find(
+        {
+          user: t.user,
+          item: { $ne: itemId },
+          itemState: { $ne: ItemState.CANCELLED },
+          issueDate: { $gte: startDate, $lte: endDate },
+        } as any,
+        { item: 1 },
+      );
+      allItems.push(...relatedItems.map((r) => r.item));
+    }
+    return uniqBy(allItems, (item) => {
+      return item['node']['_id'].toString();
+    }).slice(0, 6);
   }
 }

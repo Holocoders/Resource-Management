@@ -3,10 +3,12 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'package:get/get.dart';
 import 'package:mobile_new/app/modules/node/bindings/node_binding.dart';
-import 'package:mobile_new/app/routes/app_pages.dart';
 
 import 'package:mobile_new/app/modules/node/views/node_view.dart';
 import 'package:mobile_new/app/modules/searchbar/controllers/searchbar_controller.dart';
+
+import 'package:mobile_new/app/modules/item/bindings/item_binding.dart';
+import 'package:mobile_new/app/modules/item/views/item_view.dart';
 
 class SearchBarView extends GetView<SearchBarController> {
   const SearchBarView({Key? key}) : super(key: key);
@@ -48,7 +50,10 @@ class SearchBarView extends GetView<SearchBarController> {
                       },
                       binding: NodeBinding(tag: node['_id']));
                 } else {
-                  Get.offNamed(Routes.ITEM, arguments: node['_id']);
+                  Get.off(() => ItemView(),
+                      arguments: node['_id'],
+                      preventDuplicates: false,
+                      binding: ItemBinding(tag: node['_id']));
                 }
                 // Get.offNamed(FacilityCategory.route, arguments: suggestion);
               },

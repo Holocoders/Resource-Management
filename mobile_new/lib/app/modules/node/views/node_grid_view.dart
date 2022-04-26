@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:mobile_new/app/modules/item/bindings/item_binding.dart';
+import 'package:mobile_new/app/modules/item/views/item_view.dart';
 import 'package:mobile_new/app/modules/node/bindings/node_binding.dart';
 import 'package:mobile_new/app/modules/node/views/node_view.dart';
 import 'package:mobile_new/app/modules/node/views/single_node_view.dart';
-import 'package:mobile_new/app/routes/app_pages.dart';
+import 'package:mobile_new/app/modules/pack/bindings/pack_binding.dart';
+import 'package:mobile_new/app/modules/pack/views/pack_view.dart';
 
 class NodeGridView extends GetView {
   final data;
@@ -30,11 +33,19 @@ class NodeGridView extends GetView {
           onTap: () {
             var nodeType = data[index]['node']['type'];
             if (nodeType == 'ITEM') {
-              Get.toNamed(Routes.ITEM,
-                  arguments: data[index]['node']['_id']);
+              Get.to(
+                  () => ItemView(),
+                  arguments: data[index]['node']['_id'],
+                  preventDuplicates: false,
+                  binding: ItemBinding(tag: data[index]['node']['_id'])
+              );
               return;
             } else if (nodeType == 'PACK') {
-              Get.toNamed(Routes.PACK, arguments: data[index]['node']['_id']);
+              Get.to(() => PackView(),
+                  arguments: data[index]['node']['_id'],
+                  preventDuplicates: false,
+                  binding: PackBinding(tag: data[index]['node']['_id'])
+              );
               return;
             } else {
               Get.to(

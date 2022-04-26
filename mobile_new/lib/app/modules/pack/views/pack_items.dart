@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
-
-import '../../../routes/app_pages.dart';
+import 'package:mobile_new/app/modules/item/bindings/item_binding.dart';
+import 'package:mobile_new/app/modules/item/views/item_view.dart';
 
 class PackItems extends StatelessWidget {
   final Map<String, dynamic> item;
@@ -40,8 +40,11 @@ class PackItems extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
-                  Get.toNamed(Routes.ITEM,
-                      arguments: packItems[index]['item']['node']['_id']);
+                  Get.to(() => ItemView(),
+                      arguments: packItems[index]['node']['_id'],
+                      preventDuplicates: false,
+                      binding: ItemBinding(tag: packItems[index]['node']['_id'])
+                  );
                 },
                 child: Card(
                   elevation: 2,
