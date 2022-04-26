@@ -56,7 +56,6 @@ class LoginForm extends GetView {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   filled: true,
-                  fillColor: Colors.white70,
                 ),
               ),
               const SizedBox(height: 20),
@@ -71,7 +70,6 @@ class LoginForm extends GetView {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   filled: true,
-                  fillColor: Colors.white70,
                 ),
                 obscureText: true,
                 enableSuggestions: false,
@@ -81,16 +79,7 @@ class LoginForm extends GetView {
               ElevatedButton(
                 child: const Text('Sign In'),
                 style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.green),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Colors.green))),
-                  minimumSize:
-                      MaterialStateProperty.all<Size>(const Size(200, 40)),
+                  minimumSize: MaterialStateProperty.all<Size>(const Size(200, 40)),
                 ),
                 onPressed: () async {
                   if (formGroup.valid) {
@@ -120,16 +109,7 @@ class LoginForm extends GetView {
                   style: TextStyle(fontSize: 14),
                 ),
                 style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.black),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Colors.green))),
-                  minimumSize:
-                      MaterialStateProperty.all<Size>(const Size(200, 40)),
+                  minimumSize: MaterialStateProperty.all<Size>(const Size(200, 40)),
                 ),
                 onPressed: () => {Get.back(result: 'flip')},
               ),

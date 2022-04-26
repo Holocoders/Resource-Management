@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
           }
 
           return GetMaterialApp(
+            themeMode: ThemeMode.dark,
             theme: AppThemes.lightThemeData,
             darkTheme: AppThemes.darkThemeData,
             title: "RMS",

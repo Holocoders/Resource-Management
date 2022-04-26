@@ -69,7 +69,7 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
                     arguments: activity['item']['node']['_id']),
                 child: Card(
                   shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: Colors.grey, width: 1),
+                    side: const BorderSide(width: 1),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Padding(
@@ -127,7 +127,7 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
                   Expanded(
                     child: Card(
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(color: Colors.grey, width: 1),
+                        side: const BorderSide(width: 1),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: ListTile(
@@ -141,7 +141,7 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
                     child: Card(
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(color: Colors.grey, width: 1),
+                        side: const BorderSide(width: 1),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: ListTile(

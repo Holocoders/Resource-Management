@@ -74,10 +74,8 @@ class _AvailabilityViewState extends State<AvailabilityView> {
       CounterCallback onPressed, bool disabled) {
     return ElevatedButton(
         onPressed: disabled ? null : onPressed,
-        child: Icon(icon, color: Colors.black),
+        child: Icon(icon),
         style: ButtonStyle(
-            backgroundColor:
-                disabled ? null : MaterialStateProperty.all<Color>(fillColor),
             shape:
                 MaterialStateProperty.all<CircleBorder>(const CircleBorder())));
   }
@@ -166,7 +164,6 @@ class _AvailabilityViewState extends State<AvailabilityView> {
         ),
         const SizedBox(height: 10),
         Card(
-          color: Colors.white60,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(16)),
           ),

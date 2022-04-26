@@ -50,7 +50,6 @@ class PackItems extends StatelessWidget {
                   elevation: 2,
                   shape: RoundedRectangleBorder(
                     side: const BorderSide(
-                      color: Colors.grey,
                       width: 0.2,
                     ),
                     borderRadius: BorderRadius.circular(15),
@@ -74,7 +73,6 @@ class PackItems extends StatelessWidget {
                       ),
                       trailing: const IconButton(
                         icon: Icon(Icons.keyboard_arrow_right),
-                        splashColor: Colors.transparent,
                         onPressed: null,
                       ),
                       subtitle: Column(

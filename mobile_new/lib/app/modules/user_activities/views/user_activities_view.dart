@@ -45,11 +45,7 @@ class UserActivitiesView extends GetView<UserActivitiesController> {
                                     onPressed: () {
                                       Get.back();
                                     },
-                                    child: const Text(
-                                      'Close',
-                                      style:
-                                          TextStyle(color: Colors.blueAccent),
-                                    ),
+                                    child: const Text('Close'),
                                   ),
                                 ),
                                 const Divider(),
@@ -86,8 +82,6 @@ class UserActivitiesView extends GetView<UserActivitiesController> {
                                           _controller.itemStateFilters.contains(
                                         ItemStateUtil.itemStates[index],
                                       ),
-                                      checkmarkColor: Colors.black,
-                                      selectedColor: Colors.lightGreen,
                                     ),
                                   ),
                                 ),
@@ -121,9 +115,7 @@ class UserActivitiesView extends GetView<UserActivitiesController> {
                                         selected: _controller
                                             .activityTypeFilters
                                             .contains(
-                                                ActivityUtil.activities[index]),
-                                        checkmarkColor: Colors.black,
-                                        selectedColor: Colors.lightGreen),
+                                                ActivityUtil.activities[index])),
                                   ),
                                 ),
                                 const Divider(height: 2),
@@ -142,7 +134,6 @@ class UserActivitiesView extends GetView<UserActivitiesController> {
                             );
                           },
                         ),
-                        backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),

@@ -8,7 +8,6 @@ class DetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.white60,
       margin: const EdgeInsets.all(8),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(16)),

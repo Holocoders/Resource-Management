@@ -44,14 +44,6 @@ class RecentView extends GetView<RecentController> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 5,
-                        offset: const Offset(0, 3),
-                      ),
-                    ],
                   ),
                   width: MediaQuery.of(context).size.width / 2.2,
                   height: 200,

@@ -17,7 +17,6 @@ class ItemView extends GetView<ItemController> {
   String? get tag => uniqueTag;
 
   ItemView({Key? key}) : super(key: key) {
-    Get.lazyPut<RecentController>(() => RecentController());
     final id = Get.arguments;
     uniqueTag = id.toString();
   }

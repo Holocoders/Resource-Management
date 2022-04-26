@@ -35,10 +35,7 @@ class ActivitiesView extends GetView {
             child: Card(
               elevation: 2,
               shape: RoundedRectangleBorder(
-                side: const BorderSide(
-                  color: Colors.grey,
-                  width: 0.2,
-                ),
+                side: const BorderSide(width: 0.2),
                 borderRadius: BorderRadius.circular(15),
               ),
               margin: const EdgeInsets.symmetric(
@@ -69,7 +66,6 @@ class ActivitiesView extends GetView {
                   ),
                   trailing: const IconButton(
                     icon: Icon(Icons.keyboard_arrow_right),
-                    splashColor: Colors.transparent,
                     onPressed: null,
                   ),
                   subtitle: Column(

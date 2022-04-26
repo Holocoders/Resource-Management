@@ -50,11 +50,7 @@ class AdminActivitiesView extends GetView<AdminActivitiesController> {
                                     onPressed: () {
                                       Get.back();
                                     },
-                                    child: const Text(
-                                      'Close',
-                                      style:
-                                      TextStyle(color: Colors.blueAccent),
-                                    ),
+                                    child: const Text('Close'),
                                   ),
                                 ),
                                 const Divider(),
@@ -117,8 +113,6 @@ class AdminActivitiesView extends GetView<AdminActivitiesController> {
                                       _controller.itemStateFilters.contains(
                                         ItemStateUtil.itemStates[index],
                                       ),
-                                      checkmarkColor: Colors.black,
-                                      selectedColor: Colors.lightGreen,
                                     ),
                                   ),
                                 ),
@@ -152,9 +146,7 @@ class AdminActivitiesView extends GetView<AdminActivitiesController> {
                                         selected: _controller
                                             .activityTypeFilters
                                             .contains(
-                                            ActivityUtil.activities[index]),
-                                        checkmarkColor: Colors.black,
-                                        selectedColor: Colors.lightGreen),
+                                            ActivityUtil.activities[index])),
                                   ),
                                 ),
                                 const Divider(height: 2),
@@ -173,7 +165,6 @@ class AdminActivitiesView extends GetView<AdminActivitiesController> {
                             );
                           },
                         ),
-                        backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
@@ -188,14 +179,10 @@ class AdminActivitiesView extends GetView<AdminActivitiesController> {
                         children: [
                           TextSpan(
                             text: "Filters ",
-                            style: TextStyle(
-                              color: Colors.blueAccent,
-                            ),
                           ),
                           WidgetSpan(
                             child: Icon(
                               Icons.keyboard_arrow_down,
-                              color: Colors.blue,
                             ),
                             alignment: PlaceholderAlignment.middle,
                           ),

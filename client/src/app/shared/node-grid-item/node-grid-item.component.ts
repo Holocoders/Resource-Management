@@ -28,7 +28,7 @@ export class NodeGridItemComponent {
     } else if (type === NodeType.PACK) {
       return 'bg-pink-200';
     }
-    return 'bg-green-200';
+    return 'bg-yellow-200';
   }
 
   closeDialogItem(event: any, obj: any) {

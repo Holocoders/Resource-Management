@@ -180,7 +180,7 @@ class _BaseDrawerState extends State<BaseDrawer> {
         children: [
           DrawerHeader(
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
+              color: Get.theme.appBarTheme.backgroundColor,
             ),
             child: SingleChildScrollView(
               child: Column(
@@ -243,15 +243,12 @@ class _BaseDrawerState extends State<BaseDrawer> {
                         const SizedBox(width: 10),
                         Text(
                           Get.find<UserService>().user.value.name,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                          ),
+                          style: const TextStyle(fontSize: 20),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height:20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const [

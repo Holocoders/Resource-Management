@@ -155,7 +155,6 @@ class _NodeAddViewState extends State<NodeAddView> {
                               });
                               Get.back();
                             },
-                            buttonColor: Colors.green,
                           );
                         },
                       ),
@@ -199,7 +198,6 @@ class _NodeAddViewState extends State<NodeAddView> {
                     padding: const EdgeInsets.all(16.0),
                     width: 150,
                     height: 150,
-                    color: Colors.grey,
                     child: Center(
                       child: _storedImage != null
                           ? Image.file(
