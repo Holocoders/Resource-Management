@@ -9,25 +9,27 @@ class NodeUsersView extends GetView {
 
   @override
   Widget build(BuildContext context) {
-    return DataTable(
-      columns: const [
-        DataColumn(label: Text('Name')),
-        DataColumn(label: Text('Email')),
-      ],
-      rows: List<DataRow>.generate(
-        users.length,
-        (index) {
-          return DataRow(
-            cells: [
-              DataCell(
-                Text(users[index]['userId']['name']),
-              ),
-              DataCell(
-                Text(users[index]['userId']['email']),
-              ),
-            ],
-          );
-        },
+    return Card(
+      child: DataTable(
+        columns: const [
+          DataColumn(label: Text('Name')),
+          DataColumn(label: Text('Email')),
+        ],
+        rows: List<DataRow>.generate(
+          users.length,
+          (index) {
+            return DataRow(
+              cells: [
+                DataCell(
+                  Text(users[index]['userId']['name']),
+                ),
+                DataCell(
+                  Text(users[index]['userId']['email']),
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

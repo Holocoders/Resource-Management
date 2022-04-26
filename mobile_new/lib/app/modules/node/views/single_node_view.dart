@@ -8,7 +8,7 @@ class SingleNodeView extends GetView {
   final data;
   final onDelete;
 
-  const SingleNodeView(this.data, this.index, this.onDelete, {Key? key})
+  SingleNodeView(this.data, this.index, this.onDelete, {Key? key})
       : super(key: key);
 
   @override
@@ -16,6 +16,7 @@ class SingleNodeView extends GetView {
     final _node = data[index];
     return Card(
       elevation: 2,
+      color: Theme.of(context).cardColor,
       margin: const EdgeInsets.only(top: 10, left: 5, right: 5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15),
@@ -101,9 +102,9 @@ class SingleNodeView extends GetView {
               height: 2,
             ),
             IconButton(
-              icon: const Icon(
+              icon: Icon(
                 Icons.delete,
-                color: Colors.red,
+                color: Get.theme.errorColor,
               ),
               onPressed: () => onDelete(_node['node']['_id']),
             )

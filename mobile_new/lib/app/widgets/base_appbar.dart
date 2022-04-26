@@ -10,12 +10,11 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   List<Widget> widgets;
   final PreferredSizeWidget? bottom;
 
-  BaseAppBar(
-      {Key? key,
-      required this.title,
-      required this.appBar,
-      this.bottom,
-      List<Widget>? widgets})
+  BaseAppBar({Key? key,
+    required this.title,
+    required this.appBar,
+    this.bottom,
+    List<Widget>? widgets})
       : widgets = widgets ?? [],
         super(key: key);
 
@@ -32,10 +31,19 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           return PreferenceBuilder(
             preference: prefs.getString('user', defaultValue: ''),
             builder: (context, user) {
+              widgets.add(
+                IconButton(
+                  icon: const Icon(Icons.wb_sunny),
+                  onPressed: () {
+                    Get.changeThemeMode(Get.isDarkMode ? ThemeMode.light
+                        : ThemeMode.dark);
+                  },
+                ),
+              );
               if (user != '') {
                 widgets.add(
                   IconButton(
-                    icon: const Icon(Icons.login),
+                    icon: const Icon(Icons.logout),
                     onPressed: () {
                       prefs.clear();
                       Get.offAllNamed(Routes.AUTH);
