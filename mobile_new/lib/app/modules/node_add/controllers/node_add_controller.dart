@@ -12,12 +12,15 @@ class NodeAddController extends GetxController
   final List<Tab> myTabs = <Tab>[
     const Tab(
       icon: Icon(Icons.auto_awesome_mosaic_outlined),
+      text: 'Category',
     ),
     const Tab(
       icon: Icon(Icons.inbox_outlined),
+      text: 'Item',
     ),
     const Tab(
       icon: Icon(Icons.folder_outlined),
+      text: 'Pack',
     ),
   ];
 
@@ -29,6 +32,7 @@ class NodeAddController extends GetxController
   int quantity = 0;
 
   var nodeType = 'Facility'.obs;
+  var items = [].obs;
 
   final NodeAddProvider _nodeAddProvider = Get.put(NodeAddProvider());
 
@@ -73,12 +77,16 @@ class NodeAddController extends GetxController
             id, name, desc, image, price, quantity);
       } else if (nodeType.value == 'Pack') {
         res = await _nodeAddProvider.addPack(
-            id, name, desc, image, price, quantity);
+            id, name, desc, image, price, quantity, items.value);
       }
 
       Get.toNamed(Routes.NODE, arguments: id, preventDuplicates: false);
     }
 
     CustomSnackbars.success("Added Successfully");
+  }
+
+  getSuggestion(pattern) async {
+    return await _nodeAddProvider.searchItems(pattern);
   }
 }

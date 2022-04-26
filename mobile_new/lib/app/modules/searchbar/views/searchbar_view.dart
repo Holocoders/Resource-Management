@@ -42,7 +42,11 @@ class SearchBarView extends GetView<SearchBarController> {
                 final type = node['type'];
                 if (type == 'FACILITY' || type == 'CATEGORY') {
                   Get.to(() => NodeView(),
-                      arguments: node, binding: NodeBinding(tag: node['_id']));
+                      arguments: {
+                        'name': (suggestion)['name'],
+                        '_id': node['_id']
+                      },
+                      binding: NodeBinding(tag: node['_id']));
                 } else {
                   Get.offNamed(Routes.ITEM, arguments: node['_id']);
                 }

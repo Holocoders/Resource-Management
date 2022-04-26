@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 import 'package:get/get.dart';
 import 'package:mobile_new/app/modules/node_add/controllers/node_add_controller.dart';
@@ -53,6 +55,7 @@ class _NodeAddViewState extends State<NodeAddView> {
             child: Form(
               key: controller.form,
               child: ListView(children: <Widget>[
+                SizedBox(height: 16),
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Name',
@@ -62,6 +65,7 @@ class _NodeAddViewState extends State<NodeAddView> {
                     controller.name = value!;
                   },
                 ),
+                SizedBox(height: 16),
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'Description',
@@ -72,10 +76,12 @@ class _NodeAddViewState extends State<NodeAddView> {
                     controller.desc = value!;
                   },
                 ),
+                SizedBox(height: 16),
                 ...() {
+                  var widgets = [];
                   if (controller.nodeType.value == 'Item' ||
                       controller.nodeType.value == 'Pack') {
-                    return [
+                    widgets = [
                       TextFormField(
                         decoration: const InputDecoration(
                           labelText: 'Price',
@@ -85,6 +91,7 @@ class _NodeAddViewState extends State<NodeAddView> {
                           controller.price = value! as double;
                         },
                       ),
+                      SizedBox(height: 16),
                       TextFormField(
                         decoration: const InputDecoration(
                           labelText: 'Quantity',
@@ -96,12 +103,96 @@ class _NodeAddViewState extends State<NodeAddView> {
                       ),
                     ];
                   }
-                  return [Container()];
+
+                  if (controller.nodeType.value == 'Pack') {
+                    widgets.add(const SizedBox(height: 16));
+                    widgets.add(
+                      TypeAheadField(
+                        textFieldConfiguration: const TextFieldConfiguration(
+                          decoration: InputDecoration(
+                            hintText: 'Items',
+                            border: OutlineInputBorder(),
+                          ),
+                        ),
+                        suggestionsCallback: (pattern) async {
+                          return await controller.getSuggestion(pattern);
+                        },
+                        itemBuilder: (context, suggestion) {
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  "http://10.0.2.2:3000/" +
+                                      (suggestion as Map)['node']['_id']),
+                            ),
+                            title: Text((suggestion)['name']),
+                          );
+                        },
+                        onSuggestionSelected: (suggestion) {
+                          var maxQuantity = (suggestion as Map)['quantity'];
+                          var currentQuantity = 1;
+                          Get.defaultDialog(
+                            title: "Add item",
+                            content: TextFormField(
+                              initialValue: "1",
+                              decoration: InputDecoration(
+                                labelText: 'Quantity (max $maxQuantity)',
+                              ),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                              onChanged: (value) {
+                                if (value.isNotEmpty) {
+                                  currentQuantity = int.parse(value);
+                                }
+                              },
+                            ),
+                            onCancel: () {},
+                            onConfirm: () {
+                              controller.items.add({
+                                ...suggestion,
+                                'quantity': currentQuantity,
+                              });
+                              Get.back();
+                            },
+                            buttonColor: Colors.green,
+                          );
+                        },
+                      ),
+                    );
+                    widgets.add(SizedBox(height: 16));
+                    widgets.add(DataTable(
+                      columns: const [
+                        DataColumn(label: Text('Name')),
+                        DataColumn(label: Text('Quantity')),
+                      ],
+                      rows: List<DataRow>.generate(
+                        controller.items.length,
+                        (index) {
+                          return DataRow(
+                            cells: [
+                              DataCell(
+                                Text(controller.items[index]['name']),
+                              ),
+                              DataCell(
+                                Text(controller.items[index]['quantity']
+                                    .toString()),
+                              ),
+                            ],
+                          );
+                        },
+                      ),
+                    ));
+                  } else {
+                    widgets = [Container()];
+                  }
+                  return widgets;
                 }(),
+                SizedBox(height: 16),
                 TextButton.icon(
                   onPressed: _takePicture,
                   icon: const Icon(Icons.camera),
-                  label: const Text('Take Picture'),
+                  label: const Text('Add Picture'),
                 ),
                 Center(
                   child: Container(
