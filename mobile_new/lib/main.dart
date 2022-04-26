@@ -12,7 +12,7 @@ import 'app/services/user_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  var userService = Get.put(UserService(), permanent: true);
+  Get.put(UserService(), permanent: true);
   final preferences = await StreamingSharedPreferences.instance;
   runApp(MyApp(
     preferences: preferences,
@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HttpLink httpLink = HttpLink('http://10.0.2.2:3000/graphql');
     return PreferenceBuilder(
         preference: preferences.getString('user', defaultValue: ''),
         builder: (context, user) {

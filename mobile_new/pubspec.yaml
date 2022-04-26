@@ -18,6 +18,8 @@ dependencies:
   dio: ^4.0.6
   image_cropper: ^1.5.1
   flutter_typeahead: ^3.2.4
+  qr_flutter: ^4.0.0
+  mobile_scanner: ^1.0.0
   flutter:
     sdk: flutter
 

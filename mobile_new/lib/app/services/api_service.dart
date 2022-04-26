@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:get/get.dart';
 import 'package:mobile_new/app/services/user_service.dart';
+import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class ApiService extends GetConnect {
   @override
@@ -16,6 +17,23 @@ class ApiService extends GetConnect {
         request.headers.addAll(headers);
       }
       return request;
+    });
+
+    httpClient.addResponseModifier((request, response) async {
+      var gqlErrors = (response.body as Map)['errors'];
+      if (gqlErrors != null) {
+        log(gqlErrors.toString());
+        throw gqlErrors;
+      }
+      if (gqlErrors == null) return response;
+      var unauthorized = gqlErrors.any((error) => error['message'] == 'Unauthorized');
+      if (unauthorized) {
+        var _sharedPrefs = await StreamingSharedPreferences.instance;
+        await _sharedPrefs.clear();
+        print('Unauthorized');
+        Get.offAllNamed('/login');
+      }
+      return response;
     });
 
     super.onInit();

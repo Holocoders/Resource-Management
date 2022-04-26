@@ -1,4 +1,4 @@
-import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Field, ID, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { User } from '../../user/entities/user.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Item } from '../../item/entities/item.entity';
@@ -22,6 +22,9 @@ registerEnumType(ItemActivity, { name: 'ItemActivity' });
 @Schema()
 @ObjectType()
 export class ItemHistory {
+  @Field(() => ID)
+  _id?: string;
+
   @Prop({
     type: MongooseSchema.Types.ObjectId,
     ref: Item.name,

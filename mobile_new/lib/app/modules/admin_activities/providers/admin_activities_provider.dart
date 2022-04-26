@@ -1,11 +1,12 @@
 import 'package:mobile_new/app/services/api_service.dart';
 
-class ActivitiesProvider extends ApiService {
+class AdminActivitiesProvider extends ApiService {
 
-  getActivities() async {
-    const String doc = """
-    query itemHistoryByUser {
-      itemHistoryByUser {
+  getAllActivities() async {
+    String doc = """
+    query itemHistory {
+      itemHistory {
+        _id
         item {
           node {
             _id
@@ -21,17 +22,22 @@ class ActivitiesProvider extends ApiService {
           price
           description
         }
+        user {
+          _id
+          email
+          name
+        }
         quantity
         activityDate
         itemState
         activityType
         issueDate
         dueDate
-      }
+      } 
     }
     """;
     var res = await query(doc);
-    return res.body['itemHistoryByUser'];
+    return res.body['itemHistory'];
   }
 
 }

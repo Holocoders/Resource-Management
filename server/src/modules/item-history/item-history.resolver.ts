@@ -45,7 +45,7 @@ export class ItemHistoryResolver {
     return this.itemHistoryService.rentItem(rentItemInput);
   }
 
-  @Query(() => [Item])
+  @Query(() => [Item], { name: 'relatedItem' })
   findRelatedItems(@Args('itemId') itemId: string) {
     return this.itemHistoryService.findRelatedItems(itemId);
   }

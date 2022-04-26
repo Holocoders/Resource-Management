@@ -6,8 +6,10 @@ class ActivityDetailsController extends GetxController with StateMixin {
 
   @override
   void onInit() {
-    activity = Get.arguments as Map<String, dynamic>;
-    change(activity, status: RxStatus.success());
+    var args = Get.arguments as Map<String, dynamic>;
+    activity = args['activity'];
+    var isAdminView = args['isAdminView'];
+    change({'activity': activity, 'isAdminView': isAdminView}, status: RxStatus.success());
   }
 
   void updateActivity(itemState) {

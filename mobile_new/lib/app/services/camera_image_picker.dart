@@ -18,7 +18,6 @@ onImageButtonPressed(ImageSource source,
     capturedImageFile(null);
     return;
   }
-
   val = await ImageCropper().cropImage(
     sourcePath: pickedFile.path,
     aspectRatioPresets: Platform.isAndroid

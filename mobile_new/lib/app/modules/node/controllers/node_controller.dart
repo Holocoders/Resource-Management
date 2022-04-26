@@ -26,7 +26,6 @@ class NodeController extends GetxController with StateMixin {
           });
         });
       }, onError: (error) {
-        print(error);
         change(error, status: RxStatus.error());
       });
     } else {
@@ -57,7 +56,6 @@ class NodeController extends GetxController with StateMixin {
   delNode(id) {
     _nodeProvider.delNode(id).then((value) {
       onInit();
-      Get.back();
     }, onError: (error) {
       print(error);
     });

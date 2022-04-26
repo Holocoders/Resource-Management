@@ -92,9 +92,7 @@ export class NavbarComponent implements OnInit {
 
   search(event: any) {
     this.service.searchQuery(event.query).subscribe((results) => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      this.searchResults = results;
+      this.searchResults = results as any;
     });
   }
 

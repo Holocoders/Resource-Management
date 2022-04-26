@@ -14,6 +14,8 @@ abstract class Routes {
   static const PACK = _Paths.PACK;
   static const ACTIVITY_DETAILS = _Paths.ACTIVITY_DETAILS;
   static const ITEM = _Paths.ITEM;
+  static const ADMIN_ACTIVITIES = _Paths.ADMIN_ACTIVITIES;
+  static const USER_ACTIVITIES = _Paths.USER_ACTIVITIES;
 }
 
 abstract class _Paths {
@@ -29,4 +31,6 @@ abstract class _Paths {
   static const PACK = '/pack';
   static const ACTIVITY_DETAILS = '/activity-details';
   static const ITEM = '/item';
+  static const ADMIN_ACTIVITIES = '/admin-activities';
+  static const USER_ACTIVITIES = '/user-activities';
 }

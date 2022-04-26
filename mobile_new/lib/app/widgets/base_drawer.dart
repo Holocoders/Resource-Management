@@ -273,7 +273,7 @@ class _BaseDrawerState extends State<BaseDrawer> {
                 leading: const Icon(Icons.search),
                 title: const Text('Search'),
                 onTap: () {
-                  Get.offAllNamed(Routes.SEARCH_BAR);
+                  Get.toNamed(Routes.SEARCH_BAR);
                 },
               ),
               ListTile(
@@ -287,9 +287,16 @@ class _BaseDrawerState extends State<BaseDrawer> {
                 leading: const Icon(Icons.calendar_today),
                 title: const Text('My activities'),
                 onTap: () {
-                  Get.toNamed(Routes.ACTIVITIES);
+                  Get.toNamed(Routes.USER_ACTIVITIES);
                 },
               ),
+              ListTile(
+                leading: const Icon(Icons.calendar_month),
+                title: const Text('All activities'),
+                onTap: () {
+                  Get.toNamed(Routes.ADMIN_ACTIVITIES);
+                },
+              )
             ]),
           )
         ],

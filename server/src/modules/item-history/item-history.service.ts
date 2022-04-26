@@ -18,6 +18,7 @@ import {
 } from 'src/modules/item-history/dto/transact-item.input';
 import { NodeType } from 'src/modules/node/entities/node.entity';
 import { Item } from 'src/modules/item/entities/item.entity';
+import { uniq } from 'lodash';
 
 @Injectable()
 export class ItemHistoryService {
@@ -45,7 +46,7 @@ export class ItemHistoryService {
     return itemHistory.save();
   }
 
-  async runPipeline(itemId: string, endPipeline: any[]) {
+  async runOrderPipeline(itemId: string, endPipeline: any[]) {
     const populateNodePipeline = [
       {
         $lookup: {
@@ -134,7 +135,7 @@ export class ItemHistoryService {
         },
       },
     ];
-    return this.runPipeline(itemId, buyPipeline);
+    return this.runOrderPipeline(itemId, buyPipeline);
   }
 
   findItemsRented(itemId: string, issueDate: Date, dueDate: Date) {
@@ -164,7 +165,7 @@ export class ItemHistoryService {
         },
       },
     ];
-    return this.runPipeline(itemId, rentPipeline);
+    return this.runOrderPipeline(itemId, rentPipeline);
   }
 
   async findItemAvailability(
@@ -245,7 +246,12 @@ export class ItemHistoryService {
     );
   }
 
-  findRelatedItems(itemId: string) {
-    // TODO: find related items
+  async findRelatedItems(itemId: string) {
+    // find all users who bought this item
+    const histories = await this.itemHistoryModel.find({
+      item: itemId,
+      itemState: { $ne: ItemState.CANCELLED },
+    } as any);
+    const users = uniq(histories.map((h) => h.user));
   }
 }

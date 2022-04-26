@@ -103,6 +103,7 @@ enum InventoryActivity {
 }
 
 type InventoryHistory {
+  _id: ID
   activityDate: DateTime
   activityType: InventoryActivity!
   item: Item!
@@ -131,6 +132,7 @@ enum ItemActivity {
 }
 
 type ItemHistory {
+  _id: ID
   activityDate: DateTime
   activityType: ItemActivity!
   dueDate: DateTime
@@ -242,6 +244,7 @@ type Query {
   itemSearch(name: String!): [Item!]!
   items: [Item!]!
   nodeSearch(name: String!): Node!
+  relatedItem(itemId: String!): [Item!]!
   user(_id: String!): User!
   users: [User!]!
 }

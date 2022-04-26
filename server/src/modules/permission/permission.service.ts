@@ -29,6 +29,9 @@ export class PermissionService {
     if (isSuperAdmin) {
       return true;
     }
+    if (nodeId === '-1') {
+      return false;
+    }
     const parents = await this.nodeService.getParentIDs(nodeId);
     const permissions = await this.permissionModel.find({
       userId: userId as any,
