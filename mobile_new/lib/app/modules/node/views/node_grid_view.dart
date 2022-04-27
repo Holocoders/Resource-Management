@@ -33,20 +33,15 @@ class NodeGridView extends GetView {
           onTap: () {
             var nodeType = data[index]['node']['type'];
             if (nodeType == 'ITEM') {
-              Get.to(
-                  () => ItemView(),
+              Get.to(() => ItemView(),
                   arguments: data[index]['node']['_id'],
                   preventDuplicates: false,
-                  binding: ItemBinding(tag: data[index]['node']['_id'])
-              );
-              return;
+                  binding: ItemBinding(tag: data[index]['node']['_id']));
             } else if (nodeType == 'PACK') {
               Get.to(() => PackView(),
                   arguments: data[index]['node']['_id'],
                   preventDuplicates: false,
-                  binding: PackBinding(tag: data[index]['node']['_id'])
-              );
-              return;
+                  binding: PackBinding(tag: data[index]['node']['_id']));
             } else {
               Get.to(
                 () => NodeView(),

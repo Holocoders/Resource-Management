@@ -45,10 +45,7 @@ class NodeView extends GetView<NodeController> {
           children: [
             value['data'].length > 0
                 ? NodeGridView(
-                    data: value['data'],
-                    onDelete: (id) {
-                      controller.delNode(id);
-                    })
+                    data: value['data'], onDelete: controller.delNode)
                 : const Center(child: Text("No data")),
             value['users'].length > 0
                 ? NodeUsersView(value['users'])
@@ -58,10 +55,13 @@ class NodeView extends GetView<NodeController> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             if (_tabx.currentPage.value == 0) {
-              Get.toNamed(
+              final res = Get.toNamed(
                 Routes.NODE_ADD,
                 arguments: {'id': value['id'], 'name': value['name']},
               );
+              res?.then((value) {
+                controller.onInit();
+              });
             } else {
               Get.toNamed(
                 Routes.NODE_USERS_ADD,

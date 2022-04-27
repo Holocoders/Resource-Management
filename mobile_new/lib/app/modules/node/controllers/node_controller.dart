@@ -6,6 +6,7 @@ class NodeController extends GetxController with StateMixin {
 
   @override
   void onInit() {
+    print("NodeController onInit");
     final args = Get.arguments;
     change([], status: RxStatus.loading());
     var value = {};

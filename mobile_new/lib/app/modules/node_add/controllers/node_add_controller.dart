@@ -64,23 +64,27 @@ class NodeAddController extends GetxController
   submitForm(image) async {
     form.currentState?.save();
     var res;
-    if (nodeType.value == 'Facility') {
-      res = await _nodeAddProvider.addFacility(name, desc, image);
-      Get.toNamed(Routes.NODE);
-    } else {
-      final id = Get.arguments['id'];
+    try {
+      if (nodeType.value == 'Facility') {
+        res = await _nodeAddProvider.addFacility(name, desc, image);
+        // Get.toNamed(Routes.NODE);
+      } else {
+        final id = Get.arguments['id'];
 
-      if (nodeType.value == 'Category') {
-        res = await _nodeAddProvider.addCategory(id, name, desc, image);
-      } else if (nodeType.value == 'Item') {
-        res = await _nodeAddProvider.addItem(
-            id, name, desc, image, price, quantity);
-      } else if (nodeType.value == 'Pack') {
-        res = await _nodeAddProvider.addPack(
-            id, name, desc, image, price, quantity, items.value);
+        if (nodeType.value == 'Category') {
+          res = await _nodeAddProvider.addCategory(id, name, desc, image);
+        } else if (nodeType.value == 'Item') {
+          res = await _nodeAddProvider.addItem(
+              id, name, desc, image, price, quantity);
+        } else if (nodeType.value == 'Pack') {
+          res = await _nodeAddProvider.addPack(
+              id, name, desc, image, price, quantity, items.value);
+        }
+        // Get.toNamed(Routes.NODE, arguments: id, preventDuplicates: false);
       }
-
-      Get.toNamed(Routes.NODE, arguments: id, preventDuplicates: false);
+      Get.back(result: true);
+    } catch (e) {
+      print(e);
     }
 
     CustomSnackbars.success("Added Successfully");
