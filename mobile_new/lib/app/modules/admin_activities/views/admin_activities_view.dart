@@ -169,18 +169,22 @@ class AdminActivitiesView extends GetView<AdminActivitiesController> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                         isDismissible: false,
+                        backgroundColor: Get.theme.cardColor,
                       );
                     },
                     style: TextButton.styleFrom(
                       splashFactory: NoSplash.splashFactory,
                     ),
                     child: RichText(
-                      text: const TextSpan(
+                      text: TextSpan(
                         children: [
                           TextSpan(
                             text: "Filters ",
+                            style: TextStyle(
+                              color: Get.theme.primaryColor
+                            ),
                           ),
-                          WidgetSpan(
+                          const WidgetSpan(
                             child: Icon(
                               Icons.keyboard_arrow_down,
                             ),
@@ -200,7 +204,8 @@ class AdminActivitiesView extends GetView<AdminActivitiesController> {
                       () => ActivityDetailsView(),
                       preventDuplicates: false,
                       arguments: {'activity': activity, 'isAdminView': isAdminView},
-                      binding: ActivityDetailsBinding(tag: activity['_id'] + isAdminView.toString()));
+                      binding: ActivityDetailsBinding(tag: activity['_id'] + isAdminView.toString()))
+                      ?.asStream().listen((_) => _controller.onInit());
                 },
               ),
             ],

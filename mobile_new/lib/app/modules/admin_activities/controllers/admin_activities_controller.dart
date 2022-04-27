@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_notifier.dart';
 import 'package:mobile_new/app/modules/admin_activities/providers/admin_activities_provider.dart';
 
 class AdminActivitiesController extends GetxController with StateMixin {
@@ -20,6 +19,7 @@ class AdminActivitiesController extends GetxController with StateMixin {
     } catch (e) {
       change({}, status: RxStatus.error());
     }
+    super.onInit();
   }
 
   get getActivityTypeFilters => activityTypeFilters;

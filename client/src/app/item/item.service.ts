@@ -80,6 +80,24 @@ export class ItemService {
     }).valueChanges;
   }
 
+  getRecentlyBoughtItems(id: string) {
+    return this.apollo.watchQuery({
+      query: gql`
+        query relatedItems($itemId: String!) {
+          relatedItems(itemId: $itemId) {
+            node {
+              _id
+            }
+            name
+          }
+        }
+      `,
+      variables: {
+        itemId: id,
+      },
+    }).valueChanges;
+  }
+
   addItem(createItemInput: any, file: any) {
     const operations = {
       query: `

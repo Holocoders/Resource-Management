@@ -13,8 +13,26 @@ import { ItemService } from 'src/app/item/item.service';
 export class ItemComponent implements OnInit {
   item: Item;
   itemHistory: any[] = [];
+  recentItems: any[] = [];
   isLoading: boolean;
   displayAddDialog: boolean;
+  responsiveOptions = [
+    {
+      breakpoint: '1024px',
+      numVisible: 3,
+      numScroll: 3,
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 2,
+      numScroll: 2,
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1,
+      numScroll: 1,
+    },
+  ];
 
   constructor(
     private readonly itemService: ItemService,
@@ -38,6 +56,15 @@ export class ItemComponent implements OnInit {
         this.itemHistory = result?.data?.inventoryHistoryByItem;
         this.itemHistory = [...this.itemHistory];
       });
+    this.route.queryParams.pipe(map((params) => params.id)).subscribe((id) => {
+      this.itemService.getRecentlyBoughtItems(id).subscribe((result: any) => {
+        this.recentItems = [...result?.data?.relatedItems];
+      });
+    });
+  }
+
+  onRecentItemClick(id: string) {
+    this.router.navigate(['/item'], { queryParams: { id } });
   }
 
   closeDialogItem(event: any) {

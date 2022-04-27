@@ -14,21 +14,9 @@ class HexColor extends Color {
 }
 
 abstract class AppColors {
-  AppColors._() {
-    Get.theme.obs.listen((themeData) {
-      print("listening");
-      print(Get.isDarkMode);
-      if (Get.isDarkMode) {
-        facilityColor = HexColor("cc5a2a");
-      } else {
-        facilityColor = HexColor("FDE4A5");
-      }
-    });
-  }
 
-  static Color facilityColor =
-      Get.isDarkMode ? HexColor("cc5a2a") : HexColor("FDE4A5");
-  static Color categoryColor = HexColor("0018a8");
-  static Color itemColor = HexColor("0169be");
-  static Color packColor = HexColor("ff2e63");
+  static Color facilityColor = HexColor("FDE4A5");
+  static Color categoryColor = HexColor("FDE4A5");
+  static Color itemColor = HexColor("A0D2FA");
+  static Color packColor = HexColor("F69EBC");
 }

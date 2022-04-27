@@ -171,7 +171,8 @@ class UserActivitiesView extends GetView<UserActivitiesController> {
                   Get.to(() => ActivityDetailsView(),
                       preventDuplicates: false,
                       arguments: {'activity': activity, 'isAdminView': isAdminView},
-                      binding: ActivityDetailsBinding(tag: activity['_id'] + isAdminView.toString()));
+                      binding: ActivityDetailsBinding(tag: activity['_id'] + isAdminView.toString()))
+                      ?.asStream().listen((_) => _controller.onInit());
                 },
               ),
             ],

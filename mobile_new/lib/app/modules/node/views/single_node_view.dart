@@ -46,15 +46,16 @@ class SingleNodeView extends GetView {
                     flex: 1,
                   ),
                   Flexible(
-                    flex: 3,
+                    flex: 4,
                     child: Text(
                       _node['name'],
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.headline6,
                     ),
                   ),
                   Flexible(
                     fit: FlexFit.loose,
-                    flex: 1,
+                    flex: 3,
                     child: IconButton(
                       onPressed: () => showDialog(
                           context: context,

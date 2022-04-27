@@ -37,7 +37,9 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              const SizedBox(height: 10),
               Card(
+                elevation: 2,
                 child: Container(
                   decoration: BoxDecoration(
                       color: ItemStateUtil.getColors(activity['itemState']),
@@ -161,7 +163,7 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
                     child: Card(
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        side: const BorderSide(color: Colors.grey, width: 1),
+                        side: const BorderSide(width: 1),
                         borderRadius: BorderRadius.circular(5),
                       ),
                       child: ListTile(
@@ -178,7 +180,7 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
                       child: Card(
                         elevation: 0,
                         shape: RoundedRectangleBorder(
-                          side: const BorderSide(color: Colors.grey, width: 1),
+                          side: const BorderSide(width: 1),
                           borderRadius: BorderRadius.circular(5),
                         ),
                         color: ItemStateUtil.cancelledColor,

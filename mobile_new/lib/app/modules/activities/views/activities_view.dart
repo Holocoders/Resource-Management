@@ -34,6 +34,7 @@ class ActivitiesView extends GetView {
             },
             child: Card(
               elevation: 2,
+              color: ItemStateUtil.getColors(activities[index]['itemState']),
               shape: RoundedRectangleBorder(
                 side: const BorderSide(width: 0.2),
                 borderRadius: BorderRadius.circular(15),

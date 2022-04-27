@@ -31,15 +31,6 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           return PreferenceBuilder(
             preference: prefs.getString('user', defaultValue: ''),
             builder: (context, user) {
-              widgets.add(
-                IconButton(
-                  icon: const Icon(Icons.wb_sunny),
-                  onPressed: () {
-                    Get.changeThemeMode(Get.isDarkMode ? ThemeMode.light
-                        : ThemeMode.dark);
-                  },
-                ),
-              );
               if (user != '') {
                 widgets.add(
                   IconButton(

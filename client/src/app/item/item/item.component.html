@@ -5,60 +5,38 @@
   <div class="col grid ml-3 m-2 overflow-x-auto">
     <div class="col-12 p-0">
       <app-item-history [itemHistory]="itemHistory"></app-item-history>
-      <div class="col-12 grid pl-0 pr-0">
+      <div class="col-12 grid flex justify-content-center pl-0 pr-0">
         <h4 class="h-4rem col-12 flex align-items-end">
           Also got with
         </h4>
-        <div class="col-6 md:col-3 h-15rem">
-          <p-card styleClass="h-full shadow-4 border-round">
-            <div class="grid">
-              <div class="col-12 flex justify-content-center mt-4">
-                <img height="100"
-                     src="https://5.imimg.com/data5/SELLER/Default/2020/9/RO/CL/XV/681044/battery-eliminator-500x500.jpg"
-                     width="100">
-              </div>
-              <div class="col-12 flex justify-content-center mt-4">
-                <h6 class="mb-0">Battery Eliminator</h6>
-              </div>
-            </div>
-          </p-card>
-        </div>
-        <div class="col-6 md:col-3 h-15rem">
-          <p-card styleClass="h-full shadow-4 border-round">
-            <div class="grid">
-              <div class="col-12 flex justify-content-center mt-4">
-                <img height="100" src="https://m.media-amazon.com/images/I/71OSP3jaDPL._SL1500_.jpg" width="100">
-              </div>
-              <div class="col-12 flex justify-content-center mt-4">
-                <h6 class="mb-0">Multimeter</h6>
+        <p-carousel [value]="recentItems" [style]="{'width':'60vw'}" [numVisible]="3" [numScroll]="3" [circular]="false" [responsiveOptions]="responsiveOptions">
+          <ng-template let-recentItem pTemplate="item">
+            <div class="recentItem-item" (click)="onRecentItemClick(recentItem.node._id)">
+              <div class="recentItem-item-content">
+                <div class="mb-3">
+                  <img src="http://localhost:3000/{{recentItem.node._id}}" [alt]="recentItem.name" class="recentItem-image" />
+                </div>
+                <div>
+                  <h4 class="mb-1">{{recentItem.name}}</h4>
+                </div>
               </div>
             </div>
-          </p-card>
-        </div>
-        <div class="col-6 md:col-3 h-15rem">
-          <p-card styleClass="h-full shadow-4 border-round">
-            <div class="grid">
-              <div class="col-12 flex justify-content-center mt-4">
-                <img height="100" src="https://m.media-amazon.com/images/I/51CfdMbnMaL._SL1000_.jpg" width="100">
-              </div>
-              <div class="col-12 flex justify-content-center mt-4">
-                <h6 class="mb-0">Wire cutter</h6>
-              </div>
-            </div>
-          </p-card>
-        </div>
-        <div class="col-6 md:col-3 h-15rem">
-          <p-card styleClass="h-full shadow-4 border-round">
-            <div class="grid">
-              <div class="col-12 flex justify-content-center mt-4">
-                <img height="100" src="http://localhost:3000/61b8a612acdb075194d7290b" width="100">
-              </div>
-              <div class="col-12 flex justify-content-center mt-4">
-                <h6 class="mb-0">Soldering Iron</h6>
-              </div>
-            </div>
-          </p-card>
-        </div>
+          </ng-template>
+        </p-carousel>
+<!--        <div *ngFor="let recentItem of recentItems" class="col-6 md:col-3 h-15rem cursor-pointer">-->
+<!--          <p-card styleClass="h-full shadow-4 border-round">-->
+<!--            <div class="grid">-->
+<!--              <div class="col-12 flex justify-content-center mt-4">-->
+<!--                <img height="100"-->
+<!--                     src="http://localhost:3000/{{recentItem.node._id}}"-->
+<!--                     width="100">-->
+<!--              </div>-->
+<!--              <div class="col-12 flex justify-content-center mt-4">-->
+<!--                <h6 class="mb-0">{{recentItem.name}}</h6>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </p-card>-->
+<!--        </div>-->
       </div>
     </div>
   </div>
