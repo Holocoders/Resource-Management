@@ -50,173 +50,185 @@ class _NodeAddViewState extends State<NodeAddView> {
                   )
                 : null,
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: controller.form,
-              child: ListView(children: <Widget>[
-                SizedBox(height: 16),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
+          body: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: controller.form,
+                child: ListView(children: <Widget>[
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Name',
+                    ),
+                    textInputAction: TextInputAction.next,
+                    onSaved: (value) {
+                      controller.name = value!;
+                    },
                   ),
-                  textInputAction: TextInputAction.next,
-                  onSaved: (value) {
-                    controller.name = value!;
-                  },
-                ),
-                SizedBox(height: 16),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Description',
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      labelText: 'Description',
+                    ),
+                    maxLines: 3,
+                    keyboardType: TextInputType.multiline,
+                    onSaved: (value) {
+                      controller.desc = value!;
+                    },
                   ),
-                  maxLines: 3,
-                  keyboardType: TextInputType.multiline,
-                  onSaved: (value) {
-                    controller.desc = value!;
-                  },
-                ),
-                SizedBox(height: 16),
-                ...() {
-                  var widgets = [];
-                  if (controller.nodeType.value == 'Item' ||
-                      controller.nodeType.value == 'Pack') {
-                    widgets = [
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: 'Price',
-                        ),
-                        keyboardType: TextInputType.number,
-                        onSaved: (value) {
-                          controller.price = value! as double;
-                        },
-                      ),
-                      SizedBox(height: 16),
-                      TextFormField(
-                        decoration: const InputDecoration(
-                          labelText: 'Quantity',
-                        ),
-                        keyboardType: TextInputType.number,
-                        onSaved: (value) {
-                          controller.quantity = value! as int;
-                        },
-                      ),
-                    ];
-                  }
-
-                  if (controller.nodeType.value == 'Pack') {
-                    widgets.add(const SizedBox(height: 16));
-                    widgets.add(
-                      TypeAheadField(
-                        textFieldConfiguration: const TextFieldConfiguration(
-                          decoration: InputDecoration(
-                            hintText: 'Items',
-                            border: OutlineInputBorder(),
+                  const SizedBox(height: 16),
+                  ...() {
+                    var widgets = [];
+                    if (controller.nodeType.value == 'Item' ||
+                        controller.nodeType.value == 'Pack') {
+                      widgets = [
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Price',
                           ),
+                          keyboardType: TextInputType.number,
+                          onSaved: (value) {
+                            controller.price = value! as double;
+                          },
                         ),
-                        suggestionsCallback: (pattern) async {
-                          return await controller.getSuggestion(pattern);
-                        },
-                        itemBuilder: (context, suggestion) {
-                          return ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  "http://10.0.2.2:3000/" +
-                                      (suggestion as Map)['node']['_id']),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'Quantity',
+                          ),
+                          keyboardType: TextInputType.number,
+                          onSaved: (value) {
+                            controller.quantity = value! as int;
+                          },
+                        ),
+                      ];
+                    }
+
+                    if (controller.nodeType.value == 'Pack') {
+                      widgets.add(const SizedBox(height: 16));
+                      widgets.add(
+                        TypeAheadField(
+                          textFieldConfiguration: const TextFieldConfiguration(
+                            decoration: InputDecoration(
+                              hintText: 'Items',
+                              border: OutlineInputBorder(),
                             ),
-                            title: Text((suggestion)['name']),
-                          );
-                        },
-                        onSuggestionSelected: (suggestion) {
-                          var maxQuantity = (suggestion as Map)['quantity'];
-                          var currentQuantity = 1;
-                          Get.defaultDialog(
-                            title: "Add item",
-                            content: TextFormField(
-                              initialValue: "1",
-                              decoration: InputDecoration(
-                                labelText: 'Quantity (max $maxQuantity)',
+                          ),
+                          suggestionsCallback: (pattern) async {
+                            return await controller.getSuggestion(pattern);
+                          },
+                          itemBuilder: (context, suggestion) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                    "http://10.0.2.2:3000/" +
+                                        (suggestion as Map)['node']['_id']),
                               ),
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
-                              onChanged: (value) {
-                                if (value.isNotEmpty) {
-                                  currentQuantity = int.parse(value);
-                                }
+                              title: Text((suggestion)['name']),
+                            );
+                          },
+                          onSuggestionSelected: (suggestion) {
+                            var maxQuantity = (suggestion as Map)['quantity'];
+                            var currentQuantity = 1;
+                            Get.defaultDialog(
+                              title: "Add item",
+                              content: TextFormField(
+                                initialValue: "1",
+                                decoration: InputDecoration(
+                                  labelText: 'Quantity (max $maxQuantity)',
+                                ),
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                onChanged: (value) {
+                                  if (value.isNotEmpty) {
+                                    currentQuantity = int.parse(value);
+                                  }
+                                },
+                              ),
+                              onCancel: () {},
+                              onConfirm: () {
+                                controller.items.add({
+                                  ...suggestion,
+                                  'quantity': currentQuantity,
+                                });
+                                Get.back();
                               },
-                            ),
-                            onCancel: () {},
-                            onConfirm: () {
-                              controller.items.add({
-                                ...suggestion,
-                                'quantity': currentQuantity,
-                              });
-                              Get.back();
-                            },
-                          );
-                        },
+                            );
+                          },
+                        ),
+                      );
+                      widgets.add(const SizedBox(height: 16));
+                      widgets.add(DataTable(
+                        columns: const [
+                          DataColumn(label: Text('Name')),
+                          DataColumn(label: Text('Quantity')),
+                          DataColumn(label: Text('')),
+                        ],
+                        rows: List<DataRow>.generate(
+                          controller.items.length,
+                          (index) {
+                            return DataRow(
+                              cells: [
+                                DataCell(
+                                  Text(controller.items[index]['name']),
+                                ),
+                                DataCell(
+                                  Text(controller.items[index]['quantity']
+                                      .toString()),
+                                ),
+                                DataCell(
+                                  IconButton(
+                                    icon: Icon(
+                                      Icons.delete,
+                                      color: Theme.of(context).errorColor,
+                                    ),
+                                    onPressed: () {
+                                      controller.items.removeAt(index);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                      ));
+                    }
+                    return widgets;
+                  }(),
+                  const SizedBox(height: 32),
+                  TextButton.icon(
+                    onPressed: _takePicture,
+                    icon: const Icon(Icons.camera),
+                    label: const Text('Add Picture'),
+                  ),
+                  Center(
+                    child: Container(
+                      padding: const EdgeInsets.all(16.0),
+                      width: 150,
+                      height: 150,
+                      child: Center(
+                        child: _storedImage != null
+                            ? Image.file(
+                                _storedImage!,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              )
+                            : const Text('No image selected.'),
                       ),
-                    );
-                    widgets.add(SizedBox(height: 16));
-                    widgets.add(DataTable(
-                      columns: const [
-                        DataColumn(label: Text('Name')),
-                        DataColumn(label: Text('Quantity')),
-                      ],
-                      rows: List<DataRow>.generate(
-                        controller.items.length,
-                        (index) {
-                          return DataRow(
-                            cells: [
-                              DataCell(
-                                Text(controller.items[index]['name']),
-                              ),
-                              DataCell(
-                                Text(controller.items[index]['quantity']
-                                    .toString()),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    ));
-                  } else {
-                    widgets = [Container()];
-                  }
-                  return widgets;
-                }(),
-                SizedBox(height: 16),
-                TextButton.icon(
-                  onPressed: _takePicture,
-                  icon: const Icon(Icons.camera),
-                  label: const Text('Add Picture'),
-                ),
-                Center(
-                  child: Container(
-                    padding: const EdgeInsets.all(16.0),
-                    width: 150,
-                    height: 150,
-                    child: Center(
-                      child: _storedImage != null
-                          ? Image.file(
-                              _storedImage!,
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            )
-                          : const Text('No image selected.'),
                     ),
                   ),
-                ),
-                TextButton.icon(
-                  onPressed: () {
-                    controller.submitForm(_storedImage);
-                  },
-                  icon: const Icon(Icons.add),
-                  label: const Text("Submit"),
-                )
-              ]),
+                  TextButton.icon(
+                    onPressed: () {
+                      controller.submitForm(_storedImage);
+                    },
+                    icon: const Icon(Icons.add),
+                    label: const Text("Submit"),
+                  )
+                ]),
+              ),
             ),
           ),
         ));

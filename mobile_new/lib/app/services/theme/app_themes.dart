@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class AppThemes {
   static ThemeData lightThemeData = FlexThemeData.light(
     scheme: FlexScheme.green,
+    background: const Color(0xffccfacc),
     surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
     blendLevel: 20,
     appBarOpacity: 0.95,
