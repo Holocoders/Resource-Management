@@ -14,29 +14,31 @@ class NodeUsersAddView extends GetView<NodeUsersAddController> {
       appBar: AppBar(
         title: const Text('Add User'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _form,
-          child: ListView(children: <Widget>[
-            TextFormField(
-              decoration: const InputDecoration(
-                labelText: 'email',
+      body: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _form,
+            child: ListView(children: <Widget>[
+              TextFormField(
+                decoration: const InputDecoration(
+                  labelText: 'email',
+                ),
+                textInputAction: TextInputAction.next,
+                onSaved: (value) {
+                  email = value!;
+                },
               ),
-              textInputAction: TextInputAction.next,
-              onSaved: (value) {
-                email = value!;
-              },
-            ),
-            TextButton.icon(
-              onPressed: () {
-                _form.currentState?.save();
-                controller.addUser(email!);
-              },
-              icon: const Icon(Icons.add),
-              label: const Text("Submit"),
-            )
-          ]),
+              TextButton.icon(
+                onPressed: () {
+                  _form.currentState?.save();
+                  controller.addUser(email!);
+                },
+                icon: const Icon(Icons.add),
+                label: const Text("Submit"),
+              )
+            ]),
+          ),
         ),
       ),
     );

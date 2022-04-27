@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
@@ -18,25 +19,8 @@ class NodeAddProvider extends ApiService {
   Future<dynamic> addCategory(
       String id, String name, String desc, File image) async {
     final data = FormData({
-      'operations': """
-          mutation createCategory (\$createCategoryInput: CreateCategoryInput!, \$file: Upload!) {
-            createCategory (createCategoryInput: \$createCategoryInput, file: \$file) {
-              node {
-                _id
-                createdBy {
-                  _id
-                  email
-                  name
-                }
-                type
-                itemCount
-                categoryCount
-              }
-              description
-              name
-          }
-      }, "variables": { "file": null, "createFacilityInput": {"parent", "$id", "name": "$name", "description": "$desc"} } }
-          """,
+      'operations':
+          '{ "query": "mutation (\$createCategoryInput: CreateCategoryInput!, \$file: Upload!) { createCategory(file: \$file, createCategoryInput: \$createCategoryInput) { node { _id itemCount categoryCount } name description } }", "variables": { "file": null, "createCategoryInput": {"parent": "$id", "name": "$name", "description": "$desc"} } }',
       "map": '{ "nfile": ["variables.file"] }',
       "nfile": MultipartFile(image, filename: image.path.split('/').last),
     });
@@ -45,33 +29,29 @@ class NodeAddProvider extends ApiService {
   }
 
   Future<dynamic> addItem(String id, String name, String desc, File image,
-      double price, int quantity) {
+      double price, int quantity, String allowedItemActivities) async {
+    // createItemInput
     final data = FormData({
-      'operations': """
-          mutation createItem (\$createItemInput: CreateItemInput!, \$file: Upload!) {
-            createItem (createItemInput: \$createItemInput, file: \$file) {
-              description
-              name
-          }
-      }, "variables": { "file": null, "createItemInput": {"parent", "$id", "name": "$name", "description": "$desc", "price": "$price", "quantity": "$quantity"} } }
-          """,
+      'operations':
+          '{ "query": "mutation (\$createItemInput: CreateItemInput!, \$file: Upload!) { createItem(file: \$file, createItemInput: \$createItemInput) { node { _id } name description } }", "variables": { "file": null, "createItemInput": {"parent": "$id", "name": "$name", "description": "$desc", "quantity": $quantity, "price": $price, "allowedItemActivities": "$allowedItemActivities"} } }',
       "map": '{ "nfile": ["variables.file"] }',
       "nfile": MultipartFile(image, filename: image.path.split('/').last),
     });
     return post('', data);
   }
 
-  Future<dynamic> addPack(String id, String name, String desc, File image,
-      double price, int quantity, items) {
+  Future<dynamic> addPack(
+      String id,
+      String name,
+      String desc,
+      File image,
+      double price,
+      int quantity,
+      List<dynamic> packItems,
+      String allowedPackActivities) async {
     final data = FormData({
-      'operations': """
-          mutation createPack (\$createPackInput: CreatePackInput!, \$file: Upload!) {
-            createPack (createPackInput: \$createPackInput, file: \$file) {
-              description
-              name
-          }
-      }, "variables": { "file": null, "createPackInput": {"parent", "$id", "name": "$name", "description": "$desc", "price": "$price", "quantity": "$quantity", "packItems": $items} } }
-          """,
+      'operations':
+          '{ "query": "mutation (\$createItemInput: CreateItemInput!, \$file: Upload!) { createPack(file: \$file, createItemInput: \$createItemInput) { node { _id } name description } }", "variables": { "file": null, "createItemInput": {"parent": "$id", "name": "$name", "description": "$desc", "quantity": $quantity, "price": $price, "allowedItemActivities": "$allowedPackActivities", "packItems": "$packItems"} } }',
       "map": '{ "nfile": ["variables.file"] }',
       "nfile": MultipartFile(image, filename: image.path.split('/').last),
     });

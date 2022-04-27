@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../routes/app_pages.dart';
 import '../../../widgets/snackbars.dart';
 import '../providers/node_add_provider.dart';
 
@@ -30,6 +31,8 @@ class NodeAddController extends GetxController
   String desc = '';
   double price = 0;
   int quantity = 0;
+  bool buy = false;
+  bool rent = false;
 
   var nodeType = 'Facility'.obs;
   var items = [].obs;
@@ -74,11 +77,29 @@ class NodeAddController extends GetxController
         if (nodeType.value == 'Category') {
           res = await _nodeAddProvider.addCategory(id, name, desc, image);
         } else if (nodeType.value == 'Item') {
+          String allowedItemActvities = 'BOTH';
+          if (buy && !rent) {
+            allowedItemActvities = 'BUY';
+          } else if (rent && !buy) {
+            allowedItemActvities = 'RENT';
+          }
           res = await _nodeAddProvider.addItem(
-              id, name, desc, image, price, quantity);
+              id, name, desc, image, price, quantity, allowedItemActvities);
         } else if (nodeType.value == 'Pack') {
-          res = await _nodeAddProvider.addPack(
-              id, name, desc, image, price, quantity, items.value);
+          String allowedItemActvities = 'BOTH';
+          if (buy && !rent) {
+            allowedItemActvities = 'BUY';
+          } else if (rent && !buy) {
+            allowedItemActvities = 'RENT';
+          }
+          final packItems = items
+              .map((element) => {
+                    'item': element['node']['_id'].toString(),
+                    'quantity': element['quantity']
+                  })
+              .toList();
+          res = await _nodeAddProvider.addPack(id, name, desc, image, price,
+              quantity, packItems, allowedItemActvities);
         }
         // Get.toNamed(Routes.NODE, arguments: id, preventDuplicates: false);
       }

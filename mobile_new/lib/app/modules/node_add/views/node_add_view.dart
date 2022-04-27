@@ -16,6 +16,8 @@ class NodeAddView extends StatefulWidget {
 
 class _NodeAddViewState extends State<NodeAddView> {
   File? _storedImage;
+  bool buy = false;
+  bool rent = false;
 
   Future<void> _takePicture() async {
     Get.defaultDialog(
@@ -89,7 +91,7 @@ class _NodeAddViewState extends State<NodeAddView> {
                           ),
                           keyboardType: TextInputType.number,
                           onSaved: (value) {
-                            controller.price = value! as double;
+                            controller.price = double.parse(value!);
                           },
                         ),
                         const SizedBox(height: 16),
@@ -99,9 +101,28 @@ class _NodeAddViewState extends State<NodeAddView> {
                           ),
                           keyboardType: TextInputType.number,
                           onSaved: (value) {
-                            controller.quantity = value! as int;
+                            controller.quantity = int.parse(value!);
                           },
                         ),
+                        const SizedBox(height: 16),
+                        CheckboxListTile(
+                          value: buy,
+                          onChanged: (value) {
+                            setState(() {
+                              buy = value!;
+                            });
+                          },
+                          title: const Text('Buy'),
+                        ),
+                        CheckboxListTile(
+                          value: rent,
+                          onChanged: (value) {
+                            setState(() {
+                              rent = value!;
+                            });
+                          },
+                          title: const Text('Rent'),
+                        )
                       ];
                     }
 
@@ -222,6 +243,8 @@ class _NodeAddViewState extends State<NodeAddView> {
                   ),
                   TextButton.icon(
                     onPressed: () {
+                      controller.buy = buy;
+                      controller.rent = rent;
                       controller.submitForm(_storedImage);
                     },
                     icon: const Icon(Icons.add),
