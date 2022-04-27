@@ -112,6 +112,7 @@ class NodeAddController extends GetxController
   }
 
   getSuggestion(pattern) async {
-    return await _nodeAddProvider.searchItems(pattern);
+    final id = Get.arguments['id'] ?? '-1';
+    return await _nodeAddProvider.searchItems(pattern, id);
   }
 }

@@ -58,10 +58,10 @@ class NodeAddProvider extends ApiService {
     return post('', data);
   }
 
-  Future<List<dynamic>> searchItems(String pattern) async {
+  Future<List<dynamic>> searchItems(String pattern, String parent) async {
     const itemQuery = """
-    query itemSearch(\$name: String!) {
-        itemSearch(name: \$name) {
+    query itemSearch(\$name: String!, \$parent: String!) {
+        itemSearch(name: \$name, parent: \$parent) {
           name
           quantity
           node {
@@ -74,6 +74,7 @@ class NodeAddProvider extends ApiService {
 
     final variables = {
       'name': pattern,
+      'parent': parent,
     };
 
     final items = await query(itemQuery, variables: variables);

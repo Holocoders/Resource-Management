@@ -82,6 +82,18 @@ export class NodeService {
     return nodes;
   }
 
+  async findAllGenerations(id: string, type: NodeType) {
+    let nodes = await this.nodeModel.find({
+      parent: id,
+      type,
+    } as any);
+    for (const node of nodes) {
+      const children = await this.findAllGenerations(node._id, type);
+      nodes = nodes.concat(children);
+    }
+    return nodes;
+  }
+
   async remove(id: string) {
     const node = await this.nodeModel.findById(id);
     await this.updateCounts(node, node.type, false);

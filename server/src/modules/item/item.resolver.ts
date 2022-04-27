@@ -97,8 +97,11 @@ export class ItemResolver {
   }
 
   @Query(() => [Item], { name: 'itemSearch' })
-  search(@Args('name', { type: () => String }) name: string) {
-    return this.itemService.search(name);
+  search(
+    @Args('name', { type: () => String }) name: string,
+    @Args('parent', { type: () => String, defaultValue: '-1' }) parent: string,
+  ) {
+    return this.itemService.search(name, parent);
   }
 
   @AuthorizeNode('updateItemInput._id')

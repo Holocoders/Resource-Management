@@ -102,7 +102,18 @@ export class ItemService {
     });
   }
 
-  async search(query: string) {
-    return this.itemModel.find({ name: { $regex: query, $options: 'i' } });
+  async search(query: string, parent = '-1') {
+    if (parent == '-1') {
+      return this.itemModel.find({ name: { $regex: query, $options: 'i' } });
+    } else {
+      const nodes = await this.nodeService.findAllGenerations(
+        parent,
+        NodeType.ITEM,
+      );
+      return this.itemModel.find({
+        name: { $regex: query, $options: 'i' },
+        _id: { $in: nodes },
+      });
+    }
   }
 }
