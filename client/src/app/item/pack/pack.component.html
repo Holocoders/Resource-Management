@@ -47,7 +47,7 @@
               </tr>
             </ng-template>
             <ng-template let-item pTemplate="body">
-              <tr>
+              <tr (click)="goToItem(item)" class="cursor-pointer">
                 <td style="min-width:200px">
                   <span class="p-column-title">Item Name</span>
                   <span class="image-text ml-2">{{item.item.name}}</span>

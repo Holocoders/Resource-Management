@@ -29,7 +29,6 @@ export class PackComponent implements OnInit {
         mergeMap((id) => this.itemService.getPackDetails(id)),
         mergeMap((result: any) => {
           this.pack = JSON.parse(JSON.stringify(result?.data?.item));
-          console.log(this.pack);
           return this.itemService.inventoryHistoryByItem(this.pack.node._id);
         }),
       )
@@ -42,6 +41,10 @@ export class PackComponent implements OnInit {
 
   search(dt: any, event: any) {
     dt.filterGlobal(event.target.value, 'contains');
+  }
+
+  goToItem(item: any) {
+    this.router.navigate(['/item'], { queryParams: { id: item.item.node._id } });
   }
 
   closeDialogPack(event: any) {
