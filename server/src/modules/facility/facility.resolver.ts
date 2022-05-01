@@ -10,6 +10,8 @@ import { JwtAuthGuard, RolesGuard } from '../auth/auth.guard';
 import { CurrentUser } from '../../decorators/auth.decorator';
 import { GraphQLError } from 'graphql';
 import { AuthorizeNode } from 'src/decorators/metadata.decorator';
+import { Category } from 'src/modules/category/entities/category.entity';
+import { UpdateCategoryInput } from 'src/modules/category/dto/update-category.input';
 
 @Resolver(() => Facility)
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -37,6 +39,24 @@ export class FacilityResolver {
     return facility;
   }
 
+  @AuthorizeNode('updateFacilityInput._id')
+  @Mutation(() => Category)
+  async updateFacility(
+    @CurrentUser() user,
+    @Args('updateFacilityInput') updateFacilityInput: UpdateFacilityInput,
+    @Args({ name: 'file', type: () => GraphQLUpload })
+    { createReadStream }: FileUpload,
+  ) {
+    if (!user) return new GraphQLError('Unauthorized');
+    const category = await this.facilityService.update(
+      updateFacilityInput._id,
+      updateFacilityInput,
+    );
+    const path = `./uploads/${category.node['_id']}`;
+    await this.sharedService.uploadImage(createReadStream, path);
+    return category;
+  }
+
   @AuthorizeNode('id')
   @Mutation(() => Boolean)
   async uploadFacilityImage(
@@ -61,17 +81,6 @@ export class FacilityResolver {
   @Query(() => [Facility], { name: 'facilitySearch' })
   search(@Args('name', { type: () => String }) name: string) {
     return this.facilityService.search(name);
-  }
-
-  @AuthorizeNode('updateFacilityInput._id')
-  @Mutation(() => Facility)
-  updateFacility(
-    @Args('updateFacilityInput') updateFacilityInput: UpdateFacilityInput,
-  ) {
-    return this.facilityService.update(
-      updateFacilityInput._id,
-      updateFacilityInput,
-    );
   }
 
   @AuthorizeNode('id')

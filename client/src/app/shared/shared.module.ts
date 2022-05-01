@@ -15,6 +15,7 @@ import { NodeGridItemComponent } from './node-grid-item/node-grid-item.component
 import { AddPackComponent } from './add-pack/add-pack.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { EditProfilePicComponent } from 'src/app/shared/sidebar/edit-profile-pic.component';
+import { AddFacilityComponent } from 'src/app/shared/add-facility/add-facility.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { EditProfilePicComponent } from 'src/app/shared/sidebar/edit-profile-pic
     AddCategoryComponent,
     NodeGridItemComponent,
     AddPackComponent,
+    AddFacilityComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +49,7 @@ import { EditProfilePicComponent } from 'src/app/shared/sidebar/edit-profile-pic
     AddCategoryComponent,
     NodeGridItemComponent,
     AddPackComponent,
+    AddFacilityComponent,
   ],
 })
 export class SharedModule {}

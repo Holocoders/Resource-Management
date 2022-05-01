@@ -9,17 +9,17 @@ import {
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'app-add-category',
-  templateUrl: './add-category.component.html',
-  styleUrls: ['./add-category.component.scss'],
+  selector: 'app-add-facility',
+  templateUrl: './add-facility.component.html',
+  styleUrls: ['./add-facility.component.scss'],
 })
-export class AddCategoryComponent implements OnChanges {
+export class AddFacilityComponent implements OnChanges {
   @Output() onDialogClose = new EventEmitter();
   @Input() parent: string | null;
-  @Input() category?: any = null;
+  @Input() facility?: any = null;
 
   file: any;
-  addCategoryForm = this.formBuilder.group({
+  addFacilityForm = this.formBuilder.group({
     name: new FormControl('', [Validators.required]),
     description: new FormControl(''),
   });
@@ -27,11 +27,11 @@ export class AddCategoryComponent implements OnChanges {
   constructor(private formBuilder: FormBuilder) {}
 
   async ngOnChanges(changes: SimpleChanges) {
-    if (changes.category && changes.category.currentValue) {
-      this.addCategoryForm.patchValue(changes.category.currentValue);
+    if (changes.facility && changes.facility.currentValue) {
+      this.addFacilityForm.patchValue(changes.facility.currentValue);
       const response = await (
         await fetch(
-          `http://localhost:3000/${changes.category.currentValue.node._id}`,
+          `http://localhost:3000/${changes.facility.currentValue.node._id}`,
         )
       ).blob();
       this.file = new File([response], 'image.jpg', {
@@ -41,13 +41,13 @@ export class AddCategoryComponent implements OnChanges {
   }
 
   saveCategory() {
-    if (!this.addCategoryForm.valid) {
+    if (!this.addFacilityForm.valid) {
       return;
     }
-    const obj = this.addCategoryForm.value;
+    const obj = this.addFacilityForm.value;
     obj.parent = this.parent;
-    this.addCategoryForm.reset();
-    this.addCategoryForm.clearValidators();
+    this.addFacilityForm.reset();
+    this.addFacilityForm.clearValidators();
     this.onDialogClose.emit({
       submit: true,
       data: obj,

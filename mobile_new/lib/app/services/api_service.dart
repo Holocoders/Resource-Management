@@ -23,15 +23,13 @@ class ApiService extends GetConnect {
       var gqlErrors = (response.body as Map)['errors'];
       if (gqlErrors != null) {
         log(gqlErrors.toString());
+        var unauthorized = gqlErrors.any((error) => error['message'] == 'Unauthorized');
+        if (unauthorized) {
+          var _sharedPrefs = await StreamingSharedPreferences.instance;
+          await _sharedPrefs.clear();
+          Get.offAllNamed('/login');
+        }
         throw gqlErrors;
-      }
-      if (gqlErrors == null) return response;
-      var unauthorized = gqlErrors.any((error) => error['message'] == 'Unauthorized');
-      if (unauthorized) {
-        var _sharedPrefs = await StreamingSharedPreferences.instance;
-        await _sharedPrefs.clear();
-        print('Unauthorized');
-        Get.offAllNamed('/login');
       }
       return response;
     });

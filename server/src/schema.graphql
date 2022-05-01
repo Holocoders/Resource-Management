@@ -167,7 +167,7 @@ type Mutation {
   removeUser(_id: String!): User!
   rentItem(rentItemInput: RentItemInput!): ItemHistory!
   updateCategory(file: Upload!, updateCategoryInput: UpdateCategoryInput!): Category!
-  updateFacility(updateFacilityInput: UpdateFacilityInput!): Facility!
+  updateFacility(file: Upload!, updateFacilityInput: UpdateFacilityInput!): Category!
   updateInventoryHistory(updateInventoryHistoryInput: UpdateInventoryHistoryInput!): InventoryHistory!
   updateItem(file: Upload!, updateItemInput: UpdateItemInput!): Item!
   updateItemHistory(updateItemHistoryInput: UpdateItemHistoryInput!): ItemHistory!

@@ -39,4 +39,39 @@ export class FacilitiesService {
     formData.append('nfile', file);
     return this.http.post(environment.apiUrl, formData);
   }
+
+  updateFacility(updateFacilityInput: any, file: any) {
+    const operations = {
+      query: `
+        mutation updateFacility ($updateFacilityInput: UpdateFacilityInput!, $file: Upload!) {
+          updateFacility (updateFacilityInput: $updateFacilityInput, file: $file) {
+              node {
+                _id
+                createdBy {
+                  _id
+                  email
+                  name
+                }
+                type
+                itemCount
+                categoryCount
+              }
+              description
+              name
+          }
+      }`,
+      variables: {
+        file: file,
+        updateFacilityInput,
+      },
+    };
+    const _map = {
+      file: ['variables.file'],
+    };
+    const formData = new FormData();
+    formData.append('operations', JSON.stringify(operations));
+    formData.append('map', JSON.stringify(_map));
+    formData.append('file', file, file.name);
+    return this.http.post(environment.apiUrl, formData);
+  }
 }

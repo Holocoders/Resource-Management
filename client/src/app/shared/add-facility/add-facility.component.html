@@ -1,0 +1,41 @@
+<form (click)="$event.stopPropagation()" (ngSubmit)="saveCategory()" [formGroup]="addFacilityForm">
+  <div class="w-full grid">
+    <div class="col-12 lg:col-6 p-4">
+      <div class="flex flex-column w-full">
+        <div class="p-field">
+          <label for="item-name">
+            <h6 class="mb-1">Facility name</h6>
+          </label>
+          <input
+            [class]="addFacilityForm.controls['name'].invalid &&
+                      (addFacilityForm.controls['name'].dirty || addFacilityForm.controls['name'].touched)
+                      ? 'ng-invalid ng-dirty w-full' : 'w-full'" formControlName="name" id="item-name"
+            pInputText type="text">
+        </div>
+        <div
+          *ngIf="addFacilityForm.controls['name'].invalid && (addFacilityForm.controls['name'].dirty || addFacilityForm.controls['name'].touched)">
+          <small *ngIf="addFacilityForm.controls['name'].errors?.required" class="p-error">Name is required</small>
+        </div>
+        <div class="p-field mt-4">
+          <label for="item-desc">
+            <h6 class="mb-1">Description</h6>
+          </label>
+          <textarea class="w-full" formControlName="description" id="item-desc" pInputTextarea></textarea>
+        </div>
+        <div class="w-full mt-4 flex justify-content-evenly flex-column sm:flex-row">
+          <button (click)="$event.stopPropagation();" label="{{facility !== null ? 'Update' : 'Create'}} Facility" pButton pRipple
+                  type="submit"></button>
+          <button (click)="closeDialog(); $event.stopPropagation();" class="p-button-warning mt-2 sm:mt-0"
+                  label="Cancel" pButton pRipple
+                  type="button"></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 lg:col-6 p-4">
+      <app-suggest-images (onFileUpload)="file = $event"
+                          [currentFile]="file"
+                          [query]="addFacilityForm.controls['name'].value"></app-suggest-images>
+    </div>
+  </div>
+
+</form>

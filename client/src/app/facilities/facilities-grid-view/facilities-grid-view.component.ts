@@ -53,13 +53,9 @@ export class FacilitiesGridViewComponent implements OnInit {
     });
   }
 
-  addFacility() {
+  addFacility(event: any) {
     this.service
-      .addFacility(
-        this.newFacilityName,
-        this.newFacilityDesc,
-        this.newFacilityImage,
-      )
+      .addFacility(event.data.name, event.data.description, event.file)
       .subscribe((result: any) => {
         const facility = result?.data?.createFacility;
         this.loading = result.loading;

@@ -75,8 +75,15 @@
       </div>
     </ng-template>
     <ng-template #category>
-      <app-add-category (onDialogClose)="closeDialogCategory($event, obj)" [category]="obj"
-                        [parent]="obj?.node.parent._id"></app-add-category>
+      <div *ngIf="obj?.node?.type === 'CATEGORY'; else facility" class="card-header">
+        <app-add-category (onDialogClose)="closeDialogCategory($event, obj)" [category]="obj"
+                          [parent]="obj?.node.parent._id"></app-add-category>
+      </div>
+    </ng-template>
+    <ng-template #facility>
+      <div class="card-header">
+        <app-add-facility (onDialogClose)="closeDialogFacility($event, obj)" [facility]="obj"></app-add-facility>
+      </div>
     </ng-template>
   </div>
 </p-dialog>

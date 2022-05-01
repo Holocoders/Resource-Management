@@ -3,6 +3,7 @@ import { ItemService } from '../../item/item.service';
 import { CategoryService } from '../../category/category.service';
 import { ConfirmationService } from 'primeng/api';
 import { NodeType } from 'src/app/models/node.model';
+import { FacilitiesService } from 'src/app/facilities/facilities.service';
 
 @Component({
   selector: 'app-node-grid-item',
@@ -19,6 +20,7 @@ export class NodeGridItemComponent {
   constructor(
     private itemService: ItemService,
     private categoryService: CategoryService,
+    private facilityService: FacilitiesService,
     private confirmationService: ConfirmationService,
   ) {}
 
@@ -85,6 +87,22 @@ export class NodeGridItemComponent {
     event.data._id = obj.node._id;
     this.categoryService
       .updateCategory(event.data, event.file)
+      .subscribe((res: any) => {
+        obj = { ...obj, ...res.data.updateCategory };
+        obj = JSON.parse(JSON.stringify(obj));
+        this.objChange.emit(obj);
+        this.displayAddDialog = false;
+      });
+  }
+
+  closeDialogFacility(event: any, obj: any) {
+    if (!event.submit) {
+      this.displayAddDialog = false;
+      return;
+    }
+    event.data._id = obj.node._id;
+    this.facilityService
+      .updateFacility(event.data, event.file)
       .subscribe((res: any) => {
         obj = { ...obj, ...res.data.updateCategory };
         obj = JSON.parse(JSON.stringify(obj));
