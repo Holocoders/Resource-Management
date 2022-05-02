@@ -210,4 +210,15 @@ export class NodeService {
     console.log(nodes);
     return nodes;
   }
+
+  async details(id: string) {
+    const node = await this.nodeModel.findById(id);
+    if (node.type == NodeType.FACILITY) {
+      return this.facilityService.findOne(id);
+    } else if (node.type == NodeType.ITEM) {
+      return this.itemService.findById(id);
+    } else if (node.type == NodeType.CATEGORY) {
+      return this.categoryService.findOne(id);
+    }
+  }
 }

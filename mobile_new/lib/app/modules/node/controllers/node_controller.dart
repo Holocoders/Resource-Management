@@ -3,27 +3,32 @@ import 'package:mobile_new/app/modules/node/providers/node_provider.dart';
 
 class NodeController extends GetxController with StateMixin {
   final NodeProvider _nodeProvider = Get.put(NodeProvider());
+  var context = {};
 
   @override
   void onInit() {
-    print("NodeController onInit");
-    final args = Get.arguments;
     change([], status: RxStatus.loading());
-    var value = {};
+    getData();
+    super.onInit();
+  }
+
+  Future<void> getData() async {
+    final args = Get.arguments;
+
     if (args == null) {
-      value['id'] = null;
-      value['name'] = 'Facilities';
+      context['id'] = null;
+      context['name'] = 'Facilities';
       _nodeProvider.getFacilities().then((data) {
-        if (value['data'] == []) {
+        if (context['data'] == []) {
           change([], status: RxStatus.empty());
         }
-        value['data'] = data;
+        context['data'] = data;
         _nodeProvider.getUsers('-1').then((users) {
-          value['users'] = users;
+          context['users'] = users;
           _nodeProvider.permissionCheck('-1').then((permission) {
-            value['permission'] = permission;
+            context['permission'] = permission;
 
-            change(value, status: RxStatus.success());
+            change(context, status: RxStatus.success());
           });
         });
       }, onError: (error) {
@@ -31,27 +36,25 @@ class NodeController extends GetxController with StateMixin {
       });
     } else {
       final id = args['_id'];
-      value['id'] = id;
-      value['name'] = args['name'];
+      context['id'] = id;
+      context['name'] = args['name'];
       _nodeProvider.getAllNodes(id).then((data) {
-        if (value['data'] == []) {
+        if (context['data'] == []) {
           change([], status: RxStatus.empty());
         }
-        value['data'] = data;
-        _nodeProvider.getUsers(id).then((users) => {
-              value['users'] = users,
-              _nodeProvider.permissionCheck(id).then((permission) async {
-                value['permission'] = permission;
-                change(value, status: RxStatus.success());
-              })
-            });
+        context['data'] = data;
+        _nodeProvider.getUsers(id).then((users) =>
+        {
+          context['users'] = users,
+          _nodeProvider.permissionCheck(id).then((permission) async {
+            context['permission'] = permission;
+            change(context, status: RxStatus.success());
+          })
+        });
       }, onError: (error) {
-        print(error);
         change(error, status: RxStatus.error());
       });
     }
-
-    super.onInit();
   }
 
   delNode(id) {

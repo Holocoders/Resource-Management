@@ -26,4 +26,9 @@ export class NodeResolver {
   nodeSearch(@Args('name', { type: () => String }) name: string) {
     return this.nodeService.search(name);
   }
+
+  @Query(() => Node, { name: 'nodeDetails' })
+  nodeDetails(@Args('id', { type: () => String }) id: string) {
+    return this.nodeService.details(id);
+  }
 }

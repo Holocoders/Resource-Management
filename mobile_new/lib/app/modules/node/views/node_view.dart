@@ -45,34 +45,37 @@ class NodeView extends GetView<NodeController> {
           children: [
             value['data'].length > 0
                 ? NodeGridView(
-                    data: value['data'], onDelete: controller.delNode)
+                    controller: controller,
+                  )
                 : const Center(child: Text("No data")),
             value['users'].length > 0
                 ? NodeUsersView(value['users'])
                 : const Center(child: Text("No data")),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            if (_tabx.currentPage.value == 0) {
-              final res = Get.toNamed(
-                Routes.NODE_ADD,
-                arguments: {'id': value['id'], 'name': value['name']},
-              );
-              res?.then((value) {
-                controller.onInit();
-              });
-            } else {
-              Get.toNamed(
-                Routes.NODE_USERS_ADD,
-                arguments: value['id'],
-              );
-            }
-          },
-          child: const Icon(
-            Icons.add,
-          ),
-        ),
+        floatingActionButton: value['permission']
+            ? FloatingActionButton(
+                onPressed: () {
+                  if (_tabx.currentPage.value == 0) {
+                    final res = Get.toNamed(
+                      Routes.NODE_ADD,
+                      arguments: {'id': value['id'], 'name': value['name']},
+                    );
+                    res?.then((value) {
+                      controller.onInit();
+                    });
+                  } else {
+                    Get.toNamed(
+                      Routes.NODE_USERS_ADD,
+                      arguments: value['id'],
+                    );
+                  }
+                },
+                child: const Icon(
+                  Icons.add,
+                ),
+              )
+            : null,
       ),
     );
   }

@@ -243,6 +243,7 @@ type Query {
   itemHistoryByUser: [ItemHistory!]!
   itemSearch(name: String!, parent: String = "-1"): [Item!]!
   items: [Item!]!
+  nodeDetails(id: String!): Node!
   nodeSearch(name: String!): Node!
   relatedItems(itemId: String!): [Item!]!
   user(_id: String!): User!
