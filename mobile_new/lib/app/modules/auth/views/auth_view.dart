@@ -35,7 +35,7 @@ class AuthView extends GetView {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.network('https://bityl.co/B0G8', width: 100, height: 100),
+              Image.asset('assets/rms-logo.png', width: 100, height: 100),
             const SizedBox(height: 20),
             Text('Resource Management System',
                 style: Theme.of(context).textTheme.headline5),
