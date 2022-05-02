@@ -63,6 +63,7 @@ export class ItemHistoryService {
       {
         $match: {
           'node.type': NodeType.ITEM,
+          _id: Mongoose.Types.ObjectId(itemId),
         },
       },
     ];

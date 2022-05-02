@@ -137,6 +137,7 @@ class UserActivitiesView extends GetView<UserActivitiesController> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15),
                         ),
+                        backgroundColor: Colors.white,
                         isDismissible: false,
                       );
                     },
