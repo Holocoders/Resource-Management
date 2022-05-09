@@ -11,8 +11,6 @@ import 'package:mobile_new/app/modules/pack/bindings/pack_binding.dart';
 import 'package:mobile_new/app/modules/pack/views/pack_view.dart';
 
 class NodeGridView extends GetView {
-  // final data;
-  // final onDelete;
   final NodeController controller;
 
   NodeGridView({Key? key, required this.controller}) : super(key: key);
@@ -56,7 +54,7 @@ class NodeGridView extends GetView {
                     binding: PackBinding(tag: data[index]['node']['_id']));
               } else {
                 Get.to(
-                  () => NodeView(),
+                      () => NodeView(),
                   arguments: {
                     'name': data[index]['name'],
                     '_id': data[index]['node']['_id']

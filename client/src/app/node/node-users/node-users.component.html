@@ -1,6 +1,8 @@
 <p-toolbar styleClass="mb-4">
-  <ng-template pTemplate="left" [ngIf]="editable">
-    <button (click)="display=true" class="p-button-success mr-2" icon="pi pi-plus" label="New" pButton pRipple></button>
+  <ng-template [ngIf]="editable">
+    <div class="flex flex-wrap justify-content-end">
+      <p-button (onClick)="display=true" class="mr-2" icon="pi pi-plus" label="Add"></p-button>
+    </div>
   </ng-template>
 </p-toolbar>
 <p-table [value]="users">
@@ -8,12 +10,16 @@
     <tr>
       <th>Name</th>
       <th>Email</th>
+      <th></th>
     </tr>
   </ng-template>
   <ng-template let-user pTemplate="body">
     <tr>
       <td>{{user.userId.name}}</td>
       <td>{{user.userId.email}}</td>
+      <td>
+        <i class="pi pi-minus-circle cursor-pointer"></i>
+      </td>
     </tr>
   </ng-template>
 </p-table>
