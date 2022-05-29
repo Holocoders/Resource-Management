@@ -27,7 +27,7 @@ class ActivityDetailsView extends GetView<ActivityDetailsController> {
   Widget build(BuildContext context) {
     return controller.obx((args) {
       var activity = args['activity'];
-      var isAdminView = args['isAdminView'];
+      var isAdminView = true;
       return Scaffold(
         drawer: BaseDrawer(),
         appBar: BaseAppBar(

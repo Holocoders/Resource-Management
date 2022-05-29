@@ -363,6 +363,44 @@ export class ItemService {
     });
   }
 
+  itemHistoryByItem(id: string) {
+    const query = gql`
+      query itemHistoryByItem($item: String!) {
+        itemHistoryByItem(item: $item) {
+          activityDate
+          activityType
+          item {
+            node {
+              _id
+              createdBy {
+                _id
+                email
+                name
+              }
+              parent {
+                _id
+              }
+              type
+            }
+            description
+            name
+            price
+            quantity
+            allowedItemActivities
+          }
+          quantity
+          user {
+            _id
+            email
+            name
+          }
+        }
+      }
+    `;
+    const variables = { item: id };
+    return this.apollo.watchQuery({ query, variables }).valueChanges;
+  }
+
   inventoryHistoryByItem(item: string) {
     const query = gql`
       query inventoryHistoryByItem($item: String!) {

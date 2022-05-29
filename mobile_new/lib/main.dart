@@ -38,6 +38,7 @@ class MyApp extends StatelessWidget {
           return GetMaterialApp(
             theme: AppThemes.lightThemeData,
             darkTheme: AppThemes.darkThemeData,
+            debugShowCheckedModeBanner: false,
             title: "RMS",
             initialRoute: user != '' ? Routes.NODE : Routes.AUTH,
             getPages: AppPages.routes,

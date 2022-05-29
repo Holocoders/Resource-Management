@@ -52,9 +52,17 @@ export class ItemComponent implements OnInit {
         }),
       )
       .subscribe((result: any) => {
-        this.isLoading = result.loading;
         this.itemHistory = result?.data?.inventoryHistoryByItem;
         this.itemHistory = [...this.itemHistory];
+        this.itemService
+          .itemHistoryByItem(this.item.node._id)
+          .subscribe((result: any) => {
+            this.isLoading = result.loading;
+            this.itemHistory = [
+              ...this.itemHistory,
+              ...result.data.itemHistoryByItem,
+            ];
+          });
       });
     this.route.queryParams.pipe(map((params) => params.id)).subscribe((id) => {
       this.itemService.getRecentlyBoughtItems(id).subscribe((result: any) => {
